@@ -14,6 +14,6 @@ enum class NotificationChannelType(
     SYSTEM(0, "system_channel", R.string.notification_channel_system);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: SYSTEM
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: SYSTEM
     }
 }

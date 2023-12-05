@@ -15,8 +15,8 @@ enum class AcuityTestSymbolsType(
     TRIANGLE(4, R.drawable.ic_triangle_symbol_1, R.string.symbols_triangle);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: LETTERS_RU
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: LETTERS_RU
 
-        fun parseName(string: String?) = values().find { it.toString() == string }
+        fun parseName(string: String?) = entries.find { it.toString() == string }
     }
 }

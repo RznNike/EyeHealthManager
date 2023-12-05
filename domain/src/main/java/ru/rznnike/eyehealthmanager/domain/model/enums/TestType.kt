@@ -17,6 +17,6 @@ enum class TestType(
     CONTRAST(7, R.string.test_contrast, R.drawable.ic_contrast);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: ACUITY
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: ACUITY
     }
 }

@@ -176,7 +176,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
                     )
                     ?.let { folder ->
                         exportFolderUri = folder.uri
-                        TestType.values().forEach { type ->
+                        TestType.entries.forEach { type ->
                             val fileName = type.toString().lowercase()
                             folder.createFile(
                                 "text/tab-separated-values",

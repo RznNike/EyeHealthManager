@@ -184,10 +184,10 @@ class AcuityTestFragment : BaseFragment(R.layout.fragment_acuity_test), AcuityTe
             buttonNext.setText(R.string.continue_string)
 
             val items: MutableList<IItem<*>> = when (symbolsType) {
-                AcuityTestSymbolsType.LETTERS_RU -> AcuitySymbolLetterRu.values()
-                AcuityTestSymbolsType.LETTERS_EN -> AcuitySymbolLetterEn.values()
-                AcuityTestSymbolsType.SQUARE -> AcuitySymbolSquare.values()
-                AcuityTestSymbolsType.TRIANGLE -> AcuitySymbolTriangle.values()
+                AcuityTestSymbolsType.LETTERS_RU -> AcuitySymbolLetterRu.entries
+                AcuityTestSymbolsType.LETTERS_EN -> AcuitySymbolLetterEn.entries
+                AcuityTestSymbolsType.SQUARE -> AcuitySymbolSquare.entries
+                AcuityTestSymbolsType.TRIANGLE -> AcuitySymbolTriangle.entries
             }
                 .map { SymbolItem(it) }
                 .toMutableList()

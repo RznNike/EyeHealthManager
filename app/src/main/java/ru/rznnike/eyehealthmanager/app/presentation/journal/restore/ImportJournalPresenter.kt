@@ -54,7 +54,7 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
                 ?.filter { it.isFile }
                 ?.forEach { file ->
                     val fileName = file.name?.removeSuffix(".tsv")
-                    TestType.values()
+                    TestType.entries
                         .firstOrNull { type ->
                             fileName == type.name.lowercase()
                         }

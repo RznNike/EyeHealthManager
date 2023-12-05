@@ -86,7 +86,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
     private fun showLanguageSelectionBottomDialog(currentLanguage: Language) {
         showBottomDialog(
             header = getString(R.string.choose_language),
-            actions = Language.values().map { language ->
+            actions = Language.entries.map { language ->
                 BottomDialogAction(
                     text = language.localizedName,
                     selected = language == currentLanguage

@@ -13,10 +13,10 @@ enum class MediaType(
     FILE(1, null);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: FILE
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: FILE
 
         fun getByMimeType(mimeType: String?): MediaType =
-            values().firstOrNull {
+            entries.firstOrNull {
                 it.mask?.let { mask ->
                     mimeType?.matches(mask)
                 } ?: false

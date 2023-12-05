@@ -44,7 +44,7 @@ class TestRepositoryImpl(
     override suspend fun getAllLastTests(): List<TestResult> {
         val testEntities = mutableListOf<TestEntity>()
         val converter = TestTypeConverter()
-        TestType.values().forEach { type ->
+        TestType.entries.forEach { type ->
             val entity = box.query()
                 .notNull(TestEntity_.relationId)
                 .orderDesc(TestEntity_.timestamp)

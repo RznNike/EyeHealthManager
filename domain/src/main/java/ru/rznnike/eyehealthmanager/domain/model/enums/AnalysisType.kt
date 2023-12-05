@@ -7,6 +7,6 @@ enum class AnalysisType(
     CONSOLIDATED_REPORT(1);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: ACUITY_ONLY
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: ACUITY_ONLY
     }
 }

@@ -19,8 +19,8 @@ enum class DaltonismAnomalyType(
     PATHOLOGY(9, R.string.rabkin_result_parhology);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: NONE
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: NONE
 
-        fun parseName(string: String?) = values().find { it.toString() == string }
+        fun parseName(string: String?) = entries.find { it.toString() == string }
     }
 }

@@ -114,7 +114,7 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
                 )
             )
         }
-        itemAdapterTestType.setNewList(TestType.values().map { TestTypeSmallItem(it) })
+        itemAdapterTestType.setNewList(TestType.entries.map { TestTypeSmallItem(it) })
     }
 
     private fun initOnClickListeners() = binding.apply {

@@ -12,8 +12,8 @@ enum class TestEyesType(
     RIGHT(3, R.string.eyes_type_right);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: BOTH
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: BOTH
 
-        fun parseName(string: String?) = values().find { it.toString() == string }
+        fun parseName(string: String?) = entries.find { it.toString() == string }
     }
 }

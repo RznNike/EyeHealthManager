@@ -72,7 +72,7 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
                     answersCount = 0
                     correctAnswersCount = 0
                     currentDelta -= if (currentDelta > FIRST_STAGE_BORDER) FIRST_STAGE_STEP else SECOND_STAGE_STEP
-                    currentDirection = Direction.values()[random.nextInt(Direction.values().size)]
+                    currentDirection = Direction.entries[random.nextInt(Direction.entries.size)]
                     showNextImage()
                 }
             }
@@ -80,7 +80,7 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
                 finishTest()
             }
             else -> {
-                currentDirection = Direction.values().random(random)
+                currentDirection = Direction.entries.random(random)
                 showNextImage()
             }
         }

@@ -112,10 +112,10 @@ class AcuityTestPresenter(
 
     private fun selectRandomSymbol() {
         currentSymbol = when (symbolsType) {
-            AcuityTestSymbolsType.LETTERS_RU -> AcuitySymbolLetterRu.values()
-            AcuityTestSymbolsType.LETTERS_EN -> AcuitySymbolLetterEn.values()
-            AcuityTestSymbolsType.SQUARE -> AcuitySymbolSquare.values()
-            AcuityTestSymbolsType.TRIANGLE -> AcuitySymbolTriangle.values()
+            AcuityTestSymbolsType.LETTERS_RU -> AcuitySymbolLetterRu.entries
+            AcuityTestSymbolsType.LETTERS_EN -> AcuitySymbolLetterEn.entries
+            AcuityTestSymbolsType.SQUARE -> AcuitySymbolSquare.entries
+            AcuityTestSymbolsType.TRIANGLE -> AcuitySymbolTriangle.entries
         }
             .filter { it != selectedSymbol }
             .random(random)

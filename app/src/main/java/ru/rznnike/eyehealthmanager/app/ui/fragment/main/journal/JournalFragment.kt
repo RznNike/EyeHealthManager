@@ -230,7 +230,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
 
                 fun updateTestTypes() {
                     itemAdapterTestType.setNewList(
-                        TestType.values().map {
+                        TestType.entries.map {
                             TestTypeSmallItem(it).apply {
                                 isSelected = newFilterParams.selectedTestTypes.contains(it)
                             }

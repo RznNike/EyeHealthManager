@@ -12,8 +12,8 @@ enum class NearFarAnswerType(
     EQUAL(0);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: EQUAL
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: EQUAL
 
-        fun parseName(string: String?) = values().find { it.toString() == string }
+        fun parseName(string: String?) = entries.find { it.toString() == string }
     }
 }

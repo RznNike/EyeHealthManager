@@ -85,7 +85,7 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
                 )
             )
         }
-        itemAdapterBackups.setNewList(TestType.values().map { TestTypeIndicatorItem(it) })
+        itemAdapterBackups.setNewList(TestType.entries.map { TestTypeIndicatorItem(it) })
     }
 
     private fun initOnClickListeners() = binding.apply {

@@ -5,6 +5,6 @@ enum class Language(val tag: String, val localizedName: String) {
     EN("en", "English");
 
     companion object {
-        operator fun get(tag: String) = values().find { it.tag == tag } ?: EN
+        operator fun get(tag: String) = entries.find { it.tag == tag } ?: EN
     }
 }

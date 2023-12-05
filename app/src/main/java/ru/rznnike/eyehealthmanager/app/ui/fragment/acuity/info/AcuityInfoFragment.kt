@@ -152,14 +152,14 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
         eyesType: TestEyesType
     ) {
         itemAdapterSymbolsType.setNewList(
-            AcuityTestSymbolsType.values().map {
+            AcuityTestSymbolsType.entries.map {
                 SymbolsTypeItem(it).also { item ->
                     item.isSelected = item.symbolsType == symbolsType
                 }
             }
         )
         itemAdapterEyesType.setNewList(
-            TestEyesType.values().map {
+            TestEyesType.entries.map {
                 EyesTypeItem(it).also { item ->
                     item.isSelected = item.eyesType == eyesType
                 }

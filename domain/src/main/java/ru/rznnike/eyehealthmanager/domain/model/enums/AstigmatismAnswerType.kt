@@ -11,8 +11,8 @@ enum class AstigmatismAnswerType(
     ANOMALY(2);
 
     companion object {
-        operator fun get(id: Int?) = values().find { it.id == id } ?: OK
+        operator fun get(id: Int?) = entries.find { it.id == id } ?: OK
 
-        fun parseName(string: String?) = values().find { it.toString() == string }
+        fun parseName(string: String?) = entries.find { it.toString() == string }
     }
 }
