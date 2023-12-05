@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="testTypeItem" type="id" />
+    <item name="bottomDialogButtonItem" type="id" />
+    <item name="symbolsTypeItem" type="id" />
+    <item name="eyesTypeItem" type="id" />
+    <item name="symbolItem" type="id" />
+    <item name="cantAnswerItem" type="id" />
+    <item name="testResultItem" type="id" />
+    <item name="testTypeSmallItem" type="id" />
+    <item name="testTypeIndicatorItem" type="id" />
+</resources>

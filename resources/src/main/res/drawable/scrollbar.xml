@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="48dp"
+    android:viewportWidth="32"
+    android:viewportHeight="48">
+    <group
+        android:translateX="28">
+        <path
+            android:pathData="M0,0h4v48h-4z"
+            android:fillColor="@color/colorScrollbar"/>
+    </group>
+</vector>

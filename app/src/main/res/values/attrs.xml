@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressView">
+        <attr name="pv_text" format="string"/>
+        <attr name="pv_text_color" format="reference"/>
+        <attr name="pv_progress_color" format="reference"/>
+        <attr name="pv_background" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ZeroView">
+        <attr name="zv_icon" format="reference"/>
+        <attr name="zv_message_text" format="string"/>
+        <attr name="zv_action_text" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="FixedCircularProgressIndicator">
+        <attr name="fcpi_progress_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressBar">
+        <attr name="cpb_progress" format="float"/>
+        <attr name="cpb_backgroundProgressWidth" format="integer"/>
+        <attr name="cpb_foregroundProgressWidth" format="integer"/>
+        <attr name="cpb_backgroundProgressColor" format="color"/>
+        <attr name="cpb_foregroundProgressColor" format="color"/>
+        <attr name="cpb_roundedCorner" format="boolean"/>
+        <attr name="cpb_touchEnabled" format="boolean"/>
+        <attr name="cpb_clockwise" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="NavbarItemView">
+        <attr name="niv_title" format="string"/>
+        <attr name="niv_icon" format="reference"/>
+        <attr name="niv_selection" format="boolean"/>
+    </declare-styleable>
+</resources>

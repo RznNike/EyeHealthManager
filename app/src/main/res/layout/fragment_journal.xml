@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="88dp"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:clipToPadding="false"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_test_result"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ru.rznnike.eyehealthmanager.app.ui.view.ZeroView
+        android:id="@+id/zeroView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/colorBackground"
+        app:zv_message_text="@string/journal_is_empty"/>
+
+    <ru.rznnike.eyehealthmanager.app.ui.view.ZeroView
+        android:id="@+id/errorView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/colorBackground"
+        app:zv_message_text="@string/journal_is_empty"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/buttonActions"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:padding="16dp"
+        android:layout_gravity="bottom|end"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_fab_menu"
+        android:tint="@color/colorBackgroundLight"
+        android:background="@drawable/bg_rounded_48"
+        android:backgroundTint="@color/colorAccent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewFilterIcon"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginBottom="64dp"
+        android:layout_marginEnd="24dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/bg_circle"
+        android:tint="@color/colorRed"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
+        android:id="@+id/progressView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:pv_background="@color/colorBackground"
+        app:pv_progress_color="@color/colorAccent"
+        app:pv_text_color="@color/colorAccent"
+        app:pv_text="@string/please_wait"/>
+
+</FrameLayout>

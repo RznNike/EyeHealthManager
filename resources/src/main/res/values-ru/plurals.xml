@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <plurals name="errors">
+        <item quantity="one" tools:ignore="ImpliedQuantity">ошибка</item>
+        <item quantity="few">ошибки</item>
+        <item quantity="many">ошибок</item>
+        <item quantity="other">ошибок</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one" tools:ignore="ImpliedQuantity">день</item>
+        <item quantity="few">дня</item>
+        <item quantity="many">дней</item>
+        <item quantity="other">дней</item>
+    </plurals>
+</resources>

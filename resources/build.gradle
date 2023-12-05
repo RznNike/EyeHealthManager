@@ -1,0 +1,26 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'ru.rznnike.eyehealthmanager.resources'
+
+    compileSdkVersion TARGET_SDK
+
+    defaultConfig {
+        minSdkVersion MIN_SDK
+        targetSdkVersion TARGET_SDK
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        staging {
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+}

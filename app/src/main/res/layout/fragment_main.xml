@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/navigation"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/colorBackgroundLight"
+            android:baselineAligned="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ru.rznnike.eyehealthmanager.app.ui.view.NavbarItemView
+                android:id="@+id/navbarItemTests"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:niv_title="@string/tests"
+                app:niv_icon="@drawable/ic_tests"
+                tools:niv_notification="true"
+                tools:niv_selection="true"/>
+
+            <ru.rznnike.eyehealthmanager.app.ui.view.NavbarItemView
+                android:id="@+id/navbarItemJournal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:niv_title="@string/journal"
+                app:niv_icon="@drawable/ic_journal"/>
+
+            <ru.rznnike.eyehealthmanager.app.ui.view.NavbarItemView
+                android:id="@+id/navbarItemSettings"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:niv_title="@string/settings"
+                app:niv_icon="@drawable/ic_settings"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/navigation"
+            android:background="@color/colorBackgroundGray" />
+
+        <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
+            android:id="@+id/progressViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:pv_background="@color/colorBackgroundA50"
+            app:pv_progress_color="@color/colorAccent"
+            app:pv_text_color="@color/colorAccent"
+            app:pv_text="@string/please_wait"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

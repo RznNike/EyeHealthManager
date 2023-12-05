@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:background="@drawable/bg_rounded_4"
+    android:backgroundTint="@color/colorBackground"
+    android:orientation="horizontal">
+    
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewIcon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:adjustViewBounds="true"
+        android:layout_gravity="center"
+        tools:background="@drawable/bg_rounded_4_outline_accent"
+        tools:src="@drawable/ic_letters_ru_sh"/>
+    
+</FrameLayout>

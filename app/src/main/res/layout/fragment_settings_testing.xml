@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+    
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <FrameLayout
+            android:id="@+id/layoutToolbarContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_4_bottom"
+            android:backgroundTint="@color/colorBackgroundLight">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/layout_toolbar"/>
+
+        </FrameLayout>
+    
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+        
+            <LinearLayout
+                android:id="@+id/layoutScrollableContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_4"
+                    android:backgroundTint="@color/colorBackgroundLight"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/AppTheme.TextView.Bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="@string/scaling"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/bg_rounded_4"
+                        android:backgroundTint="@color/colorBackgroundGray"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewCurrentArmsLength"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/current_arms_length"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonEnterArmsLength"
+                        style="@style/AppTheme.Button.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enter_arms_length"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/or_string"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonEnterBodyHeight"
+                        style="@style/AppTheme.Button.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enter_body_height"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/bg_rounded_4"
+                        android:backgroundTint="@color/colorBackgroundGray"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewCurrentScale"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/current_scale_message"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutScalingLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="16dp"
+                            android:background="@color/colorRed" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:background="@color/colorRed" />
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="16dp"
+                            android:background="@color/colorRed" />
+
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonEnterLineLength"
+                        style="@style/AppTheme.Button.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enter_line_length"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonResetScale"
+                        style="@style/AppTheme.Button.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reset_scale"/>
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_4"
+                    android:backgroundTint="@color/colorBackgroundLight"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/AppTheme.TextView.Bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="@string/testing_time"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/bg_rounded_4"
+                        android:backgroundTint="@color/colorBackgroundGray"/>
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/checkBoxReplaceBeginning"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-6dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/replace_beginning_with_morning"
+                        tools:checked="true" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkBoxAutoDayPartSelection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-6dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/day_part_auto_selection"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/layoutTime1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/textViewBeginning"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/beginning"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/from"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/buttonTimeToBeginning1"
+                                style="@style/AppTheme.Button.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="4"
+                                tools:text="06:00"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/to"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/buttonTimeToMiddle1"
+                                style="@style/AppTheme.Button.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="4"
+                                tools:text="12:00"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layoutTime2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@id/layoutTime1"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/textViewMiddle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/middle"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/from"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/buttonTimeToMiddle2"
+                                style="@style/AppTheme.Button.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="4"
+                                tools:text="12:00"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/to"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/buttonTimeToEnd1"
+                                style="@style/AppTheme.Button.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="4"
+                                tools:text="18:00"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layoutTime3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@id/layoutTime2"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/textViewEnd"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/end"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/from"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/buttonTimeToEnd2"
+                                style="@style/AppTheme.Button.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="4"
+                                tools:text="18:00"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/to"/>
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/buttonTimeToBeginning2"
+                                style="@style/AppTheme.Button.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="4"
+                                tools:text="06:00"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/viewTimeControlsDisabler"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@color/colorBackgroundLightA50"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:visibility="gone"
+                            tools:visibility="visible"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+        
+            </LinearLayout>
+    
+        </ScrollView>
+        
+    </LinearLayout>
+
+</FrameLayout>

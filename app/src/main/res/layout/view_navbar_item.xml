@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/AppTheme.Ripple.Primary"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="4dp"
+    android:background="?android:attr/selectableItemBackground"
+    tools:background="@color/colorBackgroundLight">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_tests"
+            android:tint="@color/colorTextDark"
+            tools:tint="@color/colorPrimary"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextDark"
+        android:text="@string/tests"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:lines="1"
+        android:ellipsize="end"
+        app:autoSizeMaxTextSize="10sp"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeTextType="uniform"
+        tools:textColor="@color/colorPrimary"
+        tools:ignore="SmallSp" />
+
+</LinearLayout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootDialogLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/colorBackgroundGray">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutDialogContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_4_top"
+        android:backgroundTint="@color/colorBackgroundLight"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_min="150dp"
+        tools:ignore="UselessParent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewDialogHeader"
+            style="@style/AppTheme.TextView.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/filters"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/buttonDialogClearFilters"
+            style="@style/AppTheme.TextView.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:textAllCaps="true"
+            android:text="@string/clear"
+            app:layout_constraintTop_toTopOf="@id/textViewDialogHeader"
+            app:layout_constraintBottom_toBottomOf="@id/textViewDialogHeader"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkBoxFilterByDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/by_date"
+            tools:checked="true"
+            app:layout_constraintTop_toTopOf="@id/buttonDateFrom"
+            app:layout_constraintBottom_toBottomOf="@id/buttonDateFrom"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonDateFrom"
+            style="@style/AppTheme.Button.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/checkBoxFilterByDate"
+            app:layout_constraintEnd_toStartOf="@id/viewDateSeparator"
+            app:layout_constraintTop_toBottomOf="@id/textViewDialogHeader"
+            tools:text="22.02.2020"/>
+
+        <View
+            android:id="@+id/viewDateSeparator"
+            android:layout_width="16dp"
+            android:layout_height="2dp"
+            android:layout_margin="8dp"
+            android:background="@color/colorBackgroundGray"
+            app:layout_constraintStart_toEndOf="@id/buttonDateFrom"
+            app:layout_constraintEnd_toStartOf="@id/buttonDateTo"
+            app:layout_constraintTop_toTopOf="@id/buttonDateFrom"
+            app:layout_constraintBottom_toBottomOf="@id/buttonDateFrom"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonDateTo"
+            style="@style/AppTheme.Button.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toEndOf="@id/viewDateSeparator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/buttonDateFrom"
+            app:layout_constraintBottom_toBottomOf="@id/buttonDateFrom"
+            tools:text="22.02.2020"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkBoxFilterByType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:text="@string/by_type"
+            tools:checked="true"
+            app:layout_constraintTop_toTopOf="@id/recyclerViewFilterTypes"
+            app:layout_constraintBottom_toBottomOf="@id/recyclerViewFilterTypes"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFilterTypes"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:paddingEnd="16dp"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/buttonDateFrom"
+            app:layout_constraintStart_toEndOf="@id/checkBoxFilterByType"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_test_type_small"
+            tools:itemCount="6"
+            tools:ignore="RtlSymmetry" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonDialogApply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/apply"
+            app:layout_constraintTop_toBottomOf="@id/recyclerViewFilterTypes"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

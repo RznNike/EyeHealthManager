@@ -1,0 +1,226 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2558938161268893051",
+      "lastPropertyId": "2:6498520928818614737",
+      "name": "ContrastTestEntity",
+      "properties": [
+        {
+          "id": "1:8577799383349324510",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6498520928818614737",
+          "name": "recognizedContrast",
+          "type": 5,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:112279480639652479",
+      "lastPropertyId": "5:6758590541335663652",
+      "name": "TestEntity",
+      "properties": [
+        {
+          "id": "1:7534551443766500689",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "3:7391072902127057350",
+          "name": "relationId",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "4:7901822150972218057",
+          "name": "timestamp",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "5:6758590541335663652",
+          "name": "testType",
+          "type": 5,
+          "flags": 2
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:2132029272940020027",
+      "lastPropertyId": "7:7697889136166615077",
+      "name": "AcuityTestEntity",
+      "properties": [
+        {
+          "id": "1:4067843867432882974",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4993507194930238814",
+          "name": "symbolsType",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "3:7831693729166331893",
+          "name": "testEyesType",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "4:1012678870207118346",
+          "name": "dayPart",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "5:1573416461143685170",
+          "name": "resultLeftEye",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "6:5552481709815497800",
+          "name": "resultRightEye",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "7:7697889136166615077",
+          "name": "measuredByDoctor",
+          "type": 1,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:1884798095125385976",
+      "lastPropertyId": "3:851489992438284427",
+      "name": "AstigmatismTestEntity",
+      "properties": [
+        {
+          "id": "1:8792974117618391280",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6651806263269111461",
+          "name": "resultLeftEye",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "3:851489992438284427",
+          "name": "resultRightEye",
+          "type": 5,
+          "flags": 2
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:8752496243499831709",
+      "lastPropertyId": "3:7707309925622286358",
+      "name": "ColorPerceptionTestEntity",
+      "properties": [
+        {
+          "id": "1:2803681919794343127",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1972340800647978375",
+          "name": "recognizedColorsCount",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "3:7707309925622286358",
+          "name": "allColorsCount",
+          "type": 5,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:4515923179459125817",
+      "lastPropertyId": "3:3676506057333400056",
+      "name": "DaltonismTestEntity",
+      "properties": [
+        {
+          "id": "1:8154675111728528936",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7081475566583520565",
+          "name": "errorsCount",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "3:3676506057333400056",
+          "name": "anomalyType",
+          "type": 5,
+          "flags": 2
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:3165940022021246352",
+      "lastPropertyId": "3:3967270379480548017",
+      "name": "NearFarTestEntity",
+      "properties": [
+        {
+          "id": "1:208797672918690223",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1756183916937488218",
+          "name": "resultLeftEye",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "3:3967270379480548017",
+          "name": "resultRightEye",
+          "type": 5,
+          "flags": 2
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "7:3165940022021246352",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    6604695630988530610
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
