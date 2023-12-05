@@ -208,7 +208,7 @@
                         android:background="@drawable/bg_rounded_4"
                         android:backgroundTint="@color/colorBackgroundGray"/>
 
-                    <com.google.android.material.checkbox.MaterialCheckBox
+                    <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/checkBoxReplaceBeginning"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -248,11 +248,6 @@
                                 android:layout_weight="1"
                                 android:text="@string/beginning"/>
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/from"/>
-
                             <Space
                                 android:layout_width="8dp"
                                 android:layout_height="match_parent" />
@@ -272,7 +267,8 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/to"/>
+                                android:text="@string/time_period_separator"
+                                android:textColor="@color/colorTextDark"/>
 
                             <Space
                                 android:layout_width="8dp"
@@ -304,11 +300,6 @@
                                 android:layout_weight="1"
                                 android:text="@string/middle"/>
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/from"/>
-
                             <Space
                                 android:layout_width="8dp"
                                 android:layout_height="match_parent" />
@@ -328,7 +319,8 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/to"/>
+                                android:text="@string/time_period_separator"
+                                android:textColor="@color/colorTextDark"/>
 
                             <Space
                                 android:layout_width="8dp"
@@ -360,11 +352,6 @@
                                 android:layout_weight="1"
                                 android:text="@string/end"/>
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/from"/>
-
                             <Space
                                 android:layout_width="8dp"
                                 android:layout_height="match_parent" />
@@ -384,7 +371,8 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/to"/>
+                                android:text="@string/time_period_separator"
+                                android:textColor="@color/colorTextDark"/>
 
                             <Space
                                 android:layout_width="8dp"

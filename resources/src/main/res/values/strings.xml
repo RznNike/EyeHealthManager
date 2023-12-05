@@ -145,8 +145,6 @@
     <string name="testing_time">Testing time</string>
     <string name="replace_beginning_with_morning">Replace \"beginning/middle/end\" with \"morning/day/evening\"</string>
     <string name="day_part_auto_selection">Automatically select part of activity period</string>
-    <string name="from">from</string>
-    <string name="to">to</string>
     <string name="input_arms_length">Enter your arm\'s length in centimeters</string>
     <string name="input_body_height">Enter your body height in centimeters</string>
     <string name="current_scale_message">Measure the red line below using the ruler and enter the result. Current value</string>
@@ -234,4 +232,5 @@
     <string name="data_added">Data added</string>
     <string name="choose_action">Choose action</string>
     <string name="apply">Apply</string>
+    <string name="time_period_separator" translatable="false">—</string>
 </resources>
