@@ -3,13 +3,13 @@ buildscript {
         VERSION_CODE = 12
         VERSION_NAME = "2.0.2.$VERSION_CODE"
         APK_NAME = 'Eye Health Manager'
-        MIN_SDK = 23
-        TARGET_SDK = 33
+        MIN_SDK = 24
+        TARGET_SDK = 34
 
-        kotlinVersion = "1.7.20"
-        coroutinesVersion = "1.6.4"
-        objectboxVersion = '3.4.0'
-        koinVersion = "3.2.2"
+        kotlinVersion = "1.9.0"
+        coroutinesVersion = "1.7.3"
+        objectboxVersion = '3.7.1'
+        koinVersion = "3.5.0"
     }
 
     repositories {
@@ -18,10 +18,10 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath 'com.android.tools.build:gradle:8.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
-        classpath 'com.google.gms:google-services:4.3.14'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
+        classpath 'com.google.gms:google-services:4.4.0'
         classpath "io.objectbox:objectbox-gradle-plugin:$objectboxVersion"
     }
 }

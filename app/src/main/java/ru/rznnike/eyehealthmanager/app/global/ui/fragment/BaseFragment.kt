@@ -28,7 +28,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : MvpAppCompatFragment(la
     private val flowParent
         get() = this as? FlowFragment ?: getParent(this)
 
-    val navigation: FlowNavigationViewModel by lazy { getViewModel(owner = { flowParent }) }
+    val navigation: FlowNavigationViewModel by lazy { getViewModel(ownerProducer = { flowParent }) }
 
     protected val router by lazy { navigation.router }
 

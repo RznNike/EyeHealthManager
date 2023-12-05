@@ -44,11 +44,11 @@ dependencies {
     implementation project(':resources')
 
     // Desugaring
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
     // Firebase
     api 'com.google.firebase:firebase-core:21.1.1'
-    api 'com.google.firebase:firebase-messaging:23.1.0'
+    api 'com.google.firebase:firebase-messaging:23.3.1'
 
     // Koin
     api "io.insert-koin:koin-android:$koinVersion"
