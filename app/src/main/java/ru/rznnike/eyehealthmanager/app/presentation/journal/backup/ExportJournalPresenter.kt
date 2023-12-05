@@ -36,7 +36,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private val context: Context by inject()
     private val getTestResultsUseCase: GetTestResultsUseCase by inject()
 
-    private val filterParams = TestResultFilterParams()
+    private lateinit var filterParams: TestResultFilterParams
     private val files: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
     private val fileWriters: MutableMap<TestType, BufferedWriter> = EnumMap(TestType::class.java)
     private val entryCounters: MutableMap<TestType, Int> = EnumMap(TestType::class.java)
@@ -48,19 +48,21 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     }
 
     private fun initFilters() {
-        filterParams.dateFrom = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-            add(Calendar.MONTH, -1)
-        }.timeInMillis
-        filterParams.dateTo = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 23)
-            set(Calendar.MINUTE, 59)
-            set(Calendar.SECOND, 59)
-            set(Calendar.MILLISECOND, 999)
-        }.timeInMillis
+        filterParams = TestResultFilterParams(
+            dateFrom = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+                add(Calendar.MONTH, -1)
+            }.timeInMillis,
+            dateTo = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+                set(Calendar.MILLISECOND, 999)
+            }.timeInMillis
+        )
         populateData()
     }
 
