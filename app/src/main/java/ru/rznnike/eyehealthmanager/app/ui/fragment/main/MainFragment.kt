@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.app.ui.fragment.main
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -119,6 +120,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), MainView {
         tabMenus.entries.forEach {
             it.value.setOnClickListener { _ ->
                 openFragmentByTab(it.key)
+                it.value.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             }
         }
     }
