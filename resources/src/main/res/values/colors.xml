@@ -24,4 +24,6 @@
     <color name="colorChartRightEyeExtrapolation">#B4FFB4</color>
     <color name="colorNavigationBackground">#01FFFFFF</color>
     <color name="colorScrollbar">#A0A0A0</color>
+    <color name="colorDuochromeRed">#FF3334</color>
+    <color name="colorDuochromeGreen">#34CC67</color>
 </resources>

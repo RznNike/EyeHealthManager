@@ -31,9 +31,9 @@
     <string name="your_result">Your result</string>
     <string name="close">Close</string>
     <string name="color_perception_description">Test will help you determine how well you can distinguish shades of colors.\n\nThis test is a modified and adapted for mobile devices version of the Diana Derval test. Go to www.dervalresearch.com to find out more.</string>
-    <string name="dichromat_message">Weak color perception. You probably prefer black, beige and blue clothes.\nThis category includes about 25% of people.</string>
-    <string name="trichromat_message">Average color perception. You distinguish many shades of purple/blue, green and red.\nThis category includes about 50% of people.</string>
-    <string name="tetrachromat_message">Good color perception! You distinguish between many shades of purple/blue, green, red, and yellow. Most likely, yellow annoys you and you don’t wear clothes of this color.\nThis category includes about 25% of people.</string>
+    <string name="dichromat_message">Weak color perception. You probably prefer black, beige and blue clothes.\nThis category includes about 25\% of people.</string>
+    <string name="trichromat_message">Average color perception. You distinguish many shades of purple/blue, green and red.\nThis category includes about 50\% of people.</string>
+    <string name="tetrachromat_message">Good color perception! You distinguish between many shades of purple/blue, green, red, and yellow. Most likely, yellow annoys you and you don’t wear clothes of this color.\nThis category includes about 25\% of people.</string>
     <string name="near_far_description">This test will help determine if you have myopia or farsightedness.\n\n<font color="#FF3334"><b>Attention!</b></font>\nTest is run in turn for both eyes. First, close one eye with your hand and look at the image. Then repeat this for the other eye. Answer the relevant questions at the end of the test.</string>
     <string name="two_eyes_test_disclaimer">Close one eye and look at the image. Then close the other eye and repeat the actions.</string>
     <string name="back">Back</string>
@@ -226,7 +226,6 @@
     <string name="yesterday">Yesterday</string>
     <string name="notification_channel_system">System notifications</string>
     <string name="notification_channel_soundless_suffix">soundless</string>
-    <string name="download_start_notification">Download started, check notification in status bar</string>
     <string name="choose_language">Choose language</string>
     <string name="error_no_backup_in_folder">No backup found in selected folder</string>
     <string name="data_added">Data added</string>
