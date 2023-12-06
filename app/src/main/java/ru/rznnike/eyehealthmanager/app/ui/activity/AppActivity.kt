@@ -1,18 +1,13 @@
 package ru.rznnike.eyehealthmanager.app.ui.activity
 
-import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.terrakok.cicerone.Navigator
@@ -34,7 +29,13 @@ import ru.rznnike.eyehealthmanager.app.navigation.AppRouter
 import ru.rznnike.eyehealthmanager.app.navigation.SupportAppNavigation
 import ru.rznnike.eyehealthmanager.app.presentation.app.AppPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.app.AppView
-import ru.rznnike.eyehealthmanager.app.utils.extensions.*
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getParcelableExtraCompat
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getString
+import ru.rznnike.eyehealthmanager.app.utils.extensions.hideKeyboard
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setBackgroundTint
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setGone
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.ActivityBinding
 import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarBottomBinding
 import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarTopBinding

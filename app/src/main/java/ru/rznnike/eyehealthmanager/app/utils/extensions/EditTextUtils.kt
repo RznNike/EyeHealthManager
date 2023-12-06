@@ -1,13 +1,7 @@
 package ru.rznnike.eyehealthmanager.app.utils.extensions
 
-import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.text.style.UnderlineSpan
 import android.widget.EditText
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import java.lang.reflect.Field
 
 fun EditText.syncWithValue(value: String?) {
     val notNullValue = value.orEmpty()

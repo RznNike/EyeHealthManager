@@ -81,14 +81,13 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 }
             }
         }
-        adapter.onClickListener = object : ClickListener<IItem<*>> {
-            override fun invoke(v: View?, adapter: IAdapter<IItem<*>>, item: IItem<*>, position: Int): Boolean {
-                return if (item is TestResultItem) {
+        adapter.onClickListener = { _, _, item, _ ->
+            when (item) {
+                is TestResultItem -> {
                     showTestResultContextMenu(item.testResult)
                     true
-                } else {
-                    false
                 }
+                else -> false
             }
         }
     }
