@@ -16,17 +16,6 @@ import androidx.core.widget.TextViewCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.rznnike.eyehealthmanager.R
 
-fun getColorState(@ColorInt color: Int): ColorStateList {
-    val states = arrayOf(
-        intArrayOf(android.R.attr.state_enabled),
-        intArrayOf(-android.R.attr.state_enabled),
-        intArrayOf(-android.R.attr.state_checked),
-        intArrayOf(android.R.attr.state_pressed)
-    )
-    val colors = intArrayOf(color, color, color, color)
-    return ColorStateList(states, colors)
-}
-
 fun View?.setVisible() {
     this?.visibility = View.VISIBLE
 }

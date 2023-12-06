@@ -3,17 +3,17 @@ package ru.rznnike.eyehealthmanager.app.dispatcher.event
 import android.net.Uri
 
 sealed class AppEvent {
-    class JournalExported(
+    data class JournalExported(
         val uri: Uri
     ) : AppEvent()
 
-    class JournalImported(
+    data class JournalImported(
         val uri: Uri
     ) : AppEvent()
 
-    object JournalDuplicatesDeletionRequested : AppEvent()
+    data object JournalDuplicatesDeletionRequested : AppEvent()
 
-    object JournalTotalDeletionRequested : AppEvent()
+    data object JournalTotalDeletionRequested : AppEvent()
 
-    object JournalChanged : AppEvent()
+    data object JournalChanged : AppEvent()
 }

@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.utils.extensions
 
+import android.app.Activity
 import android.app.DownloadManager
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -47,57 +48,9 @@ fun Context.convertSpToPx(value: Float) = TypedValue.applyDimension(
 )
 
 val Fragment.deviceSize: Rect
-    get() {
-        return WindowMetricsCalculator.getOrCreate()
-            .computeCurrentWindowMetrics(requireActivity())
-            .bounds
-    }
+    get() = requireActivity().deviceSize
 
-val Context.isNightModeEnabled: Boolean
-    get() {
-        val uiModeFlag = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return uiModeFlag == Configuration.UI_MODE_NIGHT_YES
-    }
-
-@Suppress("DEPRECATION")
-fun Context.openFile(
-    remoteFile: RemoteFile,
-    notifier: Notifier
-) {
-    if (remoteFile.filePath.startsWith("http")) {
-        val request = DownloadManager.Request(Uri.parse(remoteFile.filePath))
-            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-            .setAllowedOverRoaming(false)
-            .setVisibleInDownloadsUi(true)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setDestinationInExternalPublicDir(
-                Environment.DIRECTORY_DOWNLOADS,
-                "%s/%s".format(
-                    getString(R.string.app_name),
-                    remoteFile.fileName?.replace("[\\\\|/:*?\"<>]".toRegex(), "_")
-                )
-            )
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            request.allowScanningByMediaScanner()
-        }
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        downloadManager.enqueue(request)
-        notifier.sendMessage(getString(R.string.download_start_notification))
-    } else {
-        val mimeType = MimeTypeMap.getSingleton()
-            .getMimeTypeFromExtension(remoteFile.filePath.substringAfterLast("."))
-        val newIntent = Intent(Intent.ACTION_VIEW)
-        val uri = FileProvider.getUriForFile(
-            this,
-            BuildConfig.APPLICATION_ID + ".file_provider",
-            File(remoteFile.filePath)
-        )
-        newIntent.setDataAndType(uri, mimeType)
-        newIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
-        try {
-            startActivity(newIntent)
-        } catch (e: ActivityNotFoundException) {
-            Intent.createChooser(newIntent, remoteFile.fileName ?: "")
-        }
-    }
-}
+val Activity.deviceSize: Rect
+    get() = WindowMetricsCalculator.getOrCreate()
+        .computeCurrentWindowMetrics(this)
+        .bounds

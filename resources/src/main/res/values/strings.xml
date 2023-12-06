@@ -233,4 +233,5 @@
     <string name="choose_action">Choose action</string>
     <string name="apply">Apply</string>
     <string name="time_period_separator" translatable="false">—</string>
+    <string name="ok">OK</string>
 </resources>

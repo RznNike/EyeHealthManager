@@ -33,11 +33,7 @@ abstract class BaseActivity(@LayoutRes layoutRes: Int) : MvpAppCompatActivity(la
 
     private fun setLanguage() {
         if (!preferences.language.isSet()) {
-            val defaultLanguage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Resources.getSystem().configuration.locales[0].language
-            } else {
-                Locale.getDefault().language
-            }
+            val defaultLanguage = Resources.getSystem().configuration.locales[0].language
             preferences.language.set(Language[defaultLanguage].tag)
         }
 
