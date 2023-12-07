@@ -60,7 +60,7 @@ class AnalysisGatewayImpl(
             TestEyesType.RIGHT
         )
         syncDynamicCorrections(leftEyeDynamicCorrections, rightEyeDynamicCorrections)
-        if (params.applyDynamicCorrectionsInAnalysis) {
+        if (params.applyDynamicCorrections) {
             applyDynamicCorrections(
                 sortedResults,
                 leftEyeDynamicCorrections,
@@ -528,7 +528,7 @@ class AnalysisGatewayImpl(
             visionDynamicType = visionDynamicType,
             visionDynamicValue = visionDynamicValue,
             visionAverageValue = chartData.lastOrNull()?.value ?: 0,
-            visionAnalysisPeriod = visionAnalysisPeriod
+            analysisPeriod = visionAnalysisPeriod
         )
     }
 

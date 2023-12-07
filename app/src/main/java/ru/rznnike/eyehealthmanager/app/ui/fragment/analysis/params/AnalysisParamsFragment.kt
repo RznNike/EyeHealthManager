@@ -58,7 +58,7 @@ class AnalysisParamsFragment : BaseFragment(R.layout.fragment_analysis_params), 
         binding.apply {
             radioButtonAcuityOnly.isChecked = params.analysisType == AnalysisType.ACUITY_ONLY
             radioButtonConsolidatedReport.isChecked = params.analysisType == AnalysisType.CONSOLIDATED_REPORT
-            checkBoxApplyDynamicCorrections.isChecked = params.applyDynamicCorrectionsInAnalysis
+            checkBoxApplyDynamicCorrections.isChecked = params.applyDynamicCorrections
 
             buttonDateFrom.text = params.dateFrom.toDate()
             buttonDateTo.text = params.dateTo.toDate()

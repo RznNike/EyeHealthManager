@@ -6,5 +6,5 @@ data class AnalysisStatistics(
     var visionDynamicType: VisionDynamicType,
     var visionDynamicValue: Int,
     var visionAverageValue: Int,
-    var visionAnalysisPeriod: Long
+    var analysisPeriod: Long
 )

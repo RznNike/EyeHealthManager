@@ -185,18 +185,10 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
                                 "${fileName}.tsv"
                             )?.let { file ->
                                 try {
-                                    val header = when (type) {
-                                        TestType.ACUITY -> AcuityTestResult.EXPORT_HEADER
-                                        TestType.ASTIGMATISM -> AstigmatismTestResult.EXPORT_HEADER
-                                        TestType.NEAR_FAR -> NearFarTestResult.EXPORT_HEADER
-                                        TestType.COLOR_PERCEPTION -> ColorPerceptionTestResult.EXPORT_HEADER
-                                        TestType.DALTONISM -> DaltonismTestResult.EXPORT_HEADER
-                                        TestType.CONTRAST -> ContrastTestResult.EXPORT_HEADER
-                                    }
                                     context.contentResolver.openOutputStream(file.uri)?.let { outputStream ->
                                         outputStream.bufferedWriter().let {
                                             fileWriters[type] = it
-                                            it.appendLine(header)
+                                            it.appendLine(type.exportHeader)
                                         }
                                     }
                                 } catch (e: IOException) {

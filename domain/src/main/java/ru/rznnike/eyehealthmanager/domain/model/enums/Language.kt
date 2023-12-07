@@ -1,6 +1,9 @@
 package ru.rznnike.eyehealthmanager.domain.model.enums
 
-enum class Language(val tag: String, val localizedName: String) {
+enum class Language(
+    val tag: String,
+    val localizedName: String
+) {
     RU("ru", "Русский"),
     EN("en", "English");
 

@@ -1,7 +1,5 @@
 package ru.rznnike.eyehealthmanager.domain.utils
 
-import android.content.Context
-import ru.rznnike.eyehealthmanager.domain.R
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -10,23 +8,12 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalQueries
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 fun Long.toDate(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE): String =
     SimpleDateFormat(pattern, Locale.getDefault()).format(this)
-
-fun Long.toSmartDate(
-    context: Context,
-    pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE
-): String {
-    return when (ChronoUnit.DAYS.between(System.currentTimeMillis().toLocalDate(), this.toLocalDate())) {
-        0L -> context.getString(R.string.today)
-        -1L -> context.getString(R.string.yesterday)
-        else -> SimpleDateFormat(pattern, Locale.getDefault()).format(this)
-    }
-}
 
 fun Long.toLocalDate(): LocalDate = Instant.ofEpochMilli(this)
     .atZone(ZoneId.systemDefault())

@@ -9,5 +9,5 @@ data class AnalysisParams(
     var dateFrom: Long = 0,
     var dateTo: Long = 0,
     var analysisType: AnalysisType = AnalysisType.CONSOLIDATED_REPORT,
-    var applyDynamicCorrectionsInAnalysis: Boolean = false
+    var applyDynamicCorrections: Boolean = false
 ) : Parcelable

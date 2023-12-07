@@ -12,20 +12,18 @@ class NearFarTestResult(
     val resultLeftEye: NearFarAnswerType? = null,
     val resultRightEye: NearFarAnswerType? = null
 ) : TestResult(id, timestamp) {
-    override fun exportToString(): String {
-        return "%s\t%s\t%s".format(
+    override fun exportToString() =
+        "%s\t%s\t%s".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),
             resultLeftEye.toString(),
             resultRightEye.toString()
         )
-    }
 
-    override fun contentEquals(other: TestResult?): Boolean {
-        return (other is NearFarTestResult)
-                && (this.timestamp == other.timestamp)
-                && (this.resultLeftEye == other.resultLeftEye)
-                && (this.resultRightEye == other.resultRightEye)
-    }
+    override fun contentEquals(other: TestResult?) =
+        (other is NearFarTestResult)
+                && (timestamp == other.timestamp)
+                && (resultLeftEye == other.resultLeftEye)
+                && (resultRightEye == other.resultRightEye)
 
     companion object {
         const val EXPORT_HEADER = "timestamp\tresultLeftEye\tresultRightEye"
@@ -35,24 +33,21 @@ class NearFarTestResult(
             return if (stringParts.size < 3) {
                 null
             } else {
-                val timestamp = try {
-                    stringParts[0].toTimeStamp(GlobalConstants.DATE_PATTERN_FULL)
+                try {
+                    val timestamp = stringParts[0].toTimeStamp(GlobalConstants.DATE_PATTERN_FULL)
+                    val resultLeftEye = NearFarAnswerType[stringParts[1]]
+                    val resultRightEye = NearFarAnswerType[stringParts[2]]
+                    if ((resultLeftEye == null) || (resultRightEye == null)) {
+                        null
+                    } else {
+                        NearFarTestResult(
+                            timestamp = timestamp,
+                            resultLeftEye = resultLeftEye,
+                            resultRightEye = resultRightEye
+                        )
+                    }
                 } catch (e: ParseException) {
                     null
-                }
-                val resultLeftEye = NearFarAnswerType.parseName(stringParts[1])
-                val resultRightEye = NearFarAnswerType.parseName(stringParts[2])
-                if ((timestamp == null)
-                    || (resultLeftEye == null)
-                    || (resultRightEye == null)
-                ) {
-                    null
-                } else {
-                    NearFarTestResult(
-                        timestamp = timestamp,
-                        resultLeftEye = resultLeftEye,
-                        resultRightEye = resultRightEye
-                    )
                 }
             }
         }

@@ -128,7 +128,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
             )
             statisticStringBuilder.appendLine()
 
-            val daysCount = ((analysisResult.leftEyeAnalysisResult.statistics?.visionAnalysisPeriod ?: 0) / 1000 / 86400).toInt()
+            val daysCount = ((analysisResult.leftEyeAnalysisResult.statistics?.analysisPeriod ?: 0) / 1000 / 86400).toInt()
             statisticStringBuilder.appendLine(
                 getString(R.string.delta_vision_for_eye).format(
                     daysCount, // ms to days

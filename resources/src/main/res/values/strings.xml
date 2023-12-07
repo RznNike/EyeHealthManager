@@ -56,29 +56,29 @@
     <string name="contrast_perfect_result">Perfect result!\n<i>You cannot distinguish 0\% contrast - then there would be no difference between the image and the background.</i></string>
     <string name="daltonism_description">This test will help you identify the presence of various types of color perception anomalies.\nThe well-known tables of prof. Rabkin E.B. are used in this test.\n\n<font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, then you may not pass the last steps of the test, even with perfect vision.</string>
     <string name="daltonism_message">What do you see in the image?</string>
-    <string name="rabkin_2">2</string>
-    <string name="rabkin_3">3</string>
-    <string name="rabkin_4">4</string>
-    <string name="rabkin_5">5</string>
-    <string name="rabkin_6">6</string>
-    <string name="rabkin_8">8</string>
-    <string name="rabkin_9">9</string>
-    <string name="rabkin_12">12</string>
-    <string name="rabkin_13">13</string>
-    <string name="rabkin_14">14</string>
-    <string name="rabkin_16">16</string>
-    <string name="rabkin_18">18</string>
-    <string name="rabkin_30">30</string>
-    <string name="rabkin_36">36</string>
-    <string name="rabkin_66">66</string>
-    <string name="rabkin_68">68</string>
-    <string name="rabkin_69">69</string>
-    <string name="rabkin_80">80</string>
-    <string name="rabkin_86">86</string>
-    <string name="rabkin_95">95</string>
-    <string name="rabkin_96">96</string>
-    <string name="rabkin_106">106</string>
-    <string name="rabkin_136">136</string>
+    <string name="rabkin_2" translatable="false">2</string>
+    <string name="rabkin_3" translatable="false">3</string>
+    <string name="rabkin_4" translatable="false">4</string>
+    <string name="rabkin_5" translatable="false">5</string>
+    <string name="rabkin_6" translatable="false">6</string>
+    <string name="rabkin_8" translatable="false">8</string>
+    <string name="rabkin_9" translatable="false">9</string>
+    <string name="rabkin_12" translatable="false">12</string>
+    <string name="rabkin_13" translatable="false">13</string>
+    <string name="rabkin_14" translatable="false">14</string>
+    <string name="rabkin_16" translatable="false">16</string>
+    <string name="rabkin_18" translatable="false">18</string>
+    <string name="rabkin_30" translatable="false">30</string>
+    <string name="rabkin_36" translatable="false">36</string>
+    <string name="rabkin_66" translatable="false">66</string>
+    <string name="rabkin_68" translatable="false">68</string>
+    <string name="rabkin_69" translatable="false">69</string>
+    <string name="rabkin_80" translatable="false">80</string>
+    <string name="rabkin_86" translatable="false">86</string>
+    <string name="rabkin_95" translatable="false">95</string>
+    <string name="rabkin_96" translatable="false">96</string>
+    <string name="rabkin_106" translatable="false">106</string>
+    <string name="rabkin_136" translatable="false">136</string>
     <string name="rabkin_circle_and_triangle">Circle and triangle</string>
     <string name="rabkin_circle">Circle</string>
     <string name="rabkin_triangle">Triangle</string>
@@ -222,8 +222,6 @@
     <string name="changelog">Changelog</string>
     <string name="changelog_text"><b>2.0.2</b>\n<ul><li>Bug fixes.</li></ul>\n\n<b>2.0.1</b>\n<ul><li>Default language fixed.</li></ul>\n\n<b>2.0.0</b>\n<ul><li>Optimization for Android 11-13.</li>\n<li>Redesign and UI improvements.</li>\n<li>Bug fixes.</li></ul>\n\n<b>1.0.2</b>\n<ul><li>Bug fixes.</li>\n<li>Graphics optimization.</li>\n<li>Added changelog window.</li></ul>\n\n<b>1.0.1</b>\n<ul><li>First release</li></ul></string>
     <string name="error_file_not_found">File not found</string>
-    <string name="today">Today</string>
-    <string name="yesterday">Yesterday</string>
     <string name="notification_channel_system">System notifications</string>
     <string name="notification_channel_soundless_suffix">soundless</string>
     <string name="choose_language">Choose language</string>

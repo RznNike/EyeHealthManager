@@ -52,7 +52,7 @@ class AcuityResultPresenter(
                         set(Calendar.MILLISECOND, 999)
                     }
                     .timeInMillis,
-                applyDynamicCorrectionsInAnalysis = preferences.applyDynamicCorrectionsInAnalysis.get(),
+                applyDynamicCorrections = preferences.applyDynamicCorrectionsInAnalysis.get(),
                 analysisType = AnalysisType.ACUITY_ONLY
             )
             getAnalysisResultUseCase(params).process(

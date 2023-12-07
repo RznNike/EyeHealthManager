@@ -13,6 +13,6 @@ enum class AstigmatismAnswerType(
     companion object {
         operator fun get(id: Int?) = entries.find { it.id == id } ?: OK
 
-        fun parseName(string: String?) = entries.find { it.toString() == string }
+        operator fun get(name: String?) = entries.find { it.toString() == name }
     }
 }

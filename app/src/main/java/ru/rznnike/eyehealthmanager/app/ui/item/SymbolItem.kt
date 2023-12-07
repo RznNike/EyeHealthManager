@@ -10,7 +10,7 @@ import ru.rznnike.eyehealthmanager.domain.model.IAcuitySymbol
 class SymbolItem(
     val symbol: IAcuitySymbol
 ) : BaseBindingItem<ItemSymbolBinding>() {
-    override var identifier = symbol.getTag().hashCode().toLong()
+    override var identifier = symbol.getId()
 
     override val type: Int = R.id.symbolItem
 

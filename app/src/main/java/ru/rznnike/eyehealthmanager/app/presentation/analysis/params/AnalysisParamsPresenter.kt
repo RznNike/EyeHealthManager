@@ -42,7 +42,7 @@ class AnalysisParamsPresenter : BasePresenter<AnalysisParamsView>() {
                 set(Calendar.MILLISECOND, 999)
             }
             .timeInMillis
-        params.applyDynamicCorrectionsInAnalysis = preferences.applyDynamicCorrectionsInAnalysis.get()
+        params.applyDynamicCorrections = preferences.applyDynamicCorrectionsInAnalysis.get()
     }
 
     fun onDateFromValueChanged(timestamp: Long) {
@@ -87,7 +87,7 @@ class AnalysisParamsPresenter : BasePresenter<AnalysisParamsView>() {
     }
 
     fun onCheckBoxApplyDynamicCorrectionsClicked(checked: Boolean) {
-        params.applyDynamicCorrectionsInAnalysis = checked
+        params.applyDynamicCorrections = checked
         preferences.applyDynamicCorrectionsInAnalysis.set(checked)
         viewState.populateData(params)
     }
