@@ -7,7 +7,6 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 class UserGatewayImpl(
     private val preferences: PreferencesWrapper
 ) : UserGateway {
-    override suspend fun changeLanguage(language: Language) {
+    override suspend fun changeLanguage(language: Language) =
         preferences.language.set(language.tag)
-    }
 }

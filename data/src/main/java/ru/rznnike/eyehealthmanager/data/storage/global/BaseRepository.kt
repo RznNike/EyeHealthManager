@@ -7,6 +7,6 @@ abstract class BaseRepository<T>(boxStore: BoxStore, typeParameterClass: Class<T
     protected val box: Box<T> = boxStore.boxFor(typeParameterClass)
 
     protected fun finalize() {
-        this.box.closeThreadResources()
+        box.closeThreadResources()
     }
 }
