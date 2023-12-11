@@ -12,7 +12,6 @@ import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Screen
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import moxy.presenter.InjectPresenter
@@ -68,7 +67,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
 
         if (savedInstanceState == null) {
             presenter.processNotificationIntent(getNotificationFromIntent(intent))
-            routerNewRootFlow(Screens.Flow.splash())
+            router.newRootScreen(Screens.Flow.splash())
         } else {
             window.setBackgroundDrawableResource(R.color.colorBackground)
         }
@@ -273,8 +272,4 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
             snackBar.show()
         }
     }
-
-    override fun routerNewRootFlow(flow: Screen) = router.newRootScreen(flow)
-
-    override fun routerStartSingle(flow: Screen) = router.startSingle(flow)
 }
