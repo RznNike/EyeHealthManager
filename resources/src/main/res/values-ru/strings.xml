@@ -119,7 +119,7 @@
     <string name="enter_body_height">Ввести рост</string>
     <string name="testing_time">Время тестирования</string>
     <string name="replace_beginning_with_morning">Заменить \"начало/середина/конец\" на \"утро/день/вечер\"</string>
-    <string name="day_part_auto_selection">Автоматически выбирать часть периода активности</string>
+    <string name="day_part_auto_selection">Автоматически выбирать период активности</string>
     <string name="input_arms_length">Введите длину вашей руки в сантиметрах</string>
     <string name="input_body_height">Введите ваш рост в сантиметрах</string>
     <string name="current_scale_message">Измерьте красную линию ниже линейкой и введите полученный результат. Установленное значение</string>

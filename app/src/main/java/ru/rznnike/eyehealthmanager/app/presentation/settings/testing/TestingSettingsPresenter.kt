@@ -1,160 +1,172 @@
 package ru.rznnike.eyehealthmanager.app.presentation.settings.testing
 
-import com.fredporciuncula.flow.preferences.Preference
+import kotlinx.coroutines.launch
 import moxy.InjectViewState
+import moxy.presenterScope
 import org.koin.core.component.inject
+import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
+import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
+import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
-import java.util.*
+import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
 
 private const val MIN_DELTA_IN_MS = 60 * 1000L // 1m
 private const val DAY_LENGTH_IN_MS = 24 * 60 * 60 * 1000L // 24h
 
 @InjectViewState
 class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
-    private val preferences: PreferencesWrapper by inject()
+    private val errorHandler: ErrorHandler by inject()
+    private val notifier: Notifier by inject()
+    private val coroutineProvider: CoroutineProvider by inject()
+    private val eventDispatcher: EventDispatcher by inject()
+    private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
+    private val setTestingSettingsUseCase: SetTestingSettingsUseCase by inject()
+
+    private var settings: TestingSettings = TestingSettings()
 
     override fun onFirstViewAttach() {
-        populateData()
+        loadData()
     }
 
-    private fun populateData() {
-        viewState.populateData(
-            preferences.armsLength.get(),
-            preferences.dotsPerMillimeter.get(),
-            preferences.replaceBeginningWithMorning.get(),
-            preferences.enableAutoDayPart.get(),
-            preferences.timeToDayBeginning.get(),
-            preferences.timeToDayMiddle.get(),
-            preferences.timeToDayEnd.get()
-        )
+    fun onPause() {
+        coroutineProvider.scopeIo.launch {
+            setTestingSettingsUseCase(settings).process(
+                {
+                    eventDispatcher.sendEvent(AppEvent.TestingSettingsChanged)
+                }
+            )
+        }
     }
+
+    private fun loadData() {
+        presenterScope.launch {
+            getTestingSettingsUseCase().process(
+                { result ->
+                    settings = result
+                    populateData()
+                }, { error ->
+                    errorHandler.proceed(error) {
+                        notifier.sendMessage(it)
+                        viewState.routerExit()
+                    }
+                }
+            )
+        }
+    }
+
+    private fun populateData() = viewState.populateData(settings)
 
     fun onCheckBoxReplaceBeginningClicked(checked: Boolean) {
-        preferences.replaceBeginningWithMorning.set(checked)
+        settings.replaceBeginningWithMorning = checked
         populateData()
     }
 
     fun onCheckBoxAutoDayPartSelectionClicked(checked: Boolean) {
-        preferences.enableAutoDayPart.set(checked)
+        settings.enableAutoDayPart = checked
         populateData()
     }
 
     fun onTimeToDayBeginningValueChanged(timestamp: Long) {
-        preferences.timeToDayBeginning.set(timestampToDayTime(timestamp))
-
-        syncTime(preferences.timeToDayBeginning, preferences.timeToDayMiddle)
-        syncTime(preferences.timeToDayBeginning, preferences.timeToDayEnd)
-        syncTime(preferences.timeToDayMiddle, preferences.timeToDayEnd)
-        fixTimesOrder(TimeCheckBase.BEGINNING)
-
+        settings.timeToDayBeginning = timestamp.getDayTime()
+        fixTimeSelection(settings, TimePeriod.MIDDLE) {
+            fixTimeSelection(settings, TimePeriod.END)
+        }
         populateData()
     }
 
     fun onTimeToDayMiddleValueChanged(timestamp: Long) {
-        preferences.timeToDayMiddle.set(timestampToDayTime(timestamp))
-
-        syncTime(preferences.timeToDayBeginning, preferences.timeToDayMiddle)
-        syncTime(preferences.timeToDayMiddle, preferences.timeToDayEnd)
-        fixTimesOrder(TimeCheckBase.MIDDLE)
-
+        settings.timeToDayMiddle = timestamp.getDayTime()
+        fixTimeSelection(settings, TimePeriod.END) {
+            fixTimeSelection(settings, TimePeriod.BEGINNING)
+        }
         populateData()
     }
 
     fun onTimeToDayEndValueChanged(timestamp: Long) {
-        preferences.timeToDayEnd.set(timestampToDayTime(timestamp))
-
-        syncTime(preferences.timeToDayEnd, preferences.timeToDayBeginning)
-        syncTime(preferences.timeToDayMiddle, preferences.timeToDayEnd)
-        fixTimesOrder(TimeCheckBase.END)
-
+        settings.timeToDayEnd = timestamp.getDayTime()
+        fixTimeSelection(settings, TimePeriod.BEGINNING) {
+            fixTimeSelection(settings, TimePeriod.MIDDLE)
+        }
         populateData()
     }
 
-    private fun timestampToDayTime(timestamp: Long): Long {
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = timestamp
-        }
-        return (calendar.get(Calendar.HOUR_OF_DAY) * 60 * 60 + calendar.get(Calendar.MINUTE) * 60 + calendar.get(Calendar.SECOND)) * 1000L
-    }
-
-    private fun syncTime(basePreference: Preference<Long>, syncPreference: Preference<Long>) {
-        var timeToSync = syncPreference.get()
-        if (timeToSync == basePreference.get()) {
-            timeToSync += MIN_DELTA_IN_MS
-            if (timeToSync >= DAY_LENGTH_IN_MS) {
-                timeToSync -= DAY_LENGTH_IN_MS
+    private fun fixTimeSelection(
+        settings: TestingSettings,
+        period: TimePeriod,
+        onFixAppliedCallback: (() -> Unit)? = null
+    ) {
+        fun isTimeOrderCorrect(settings: TestingSettings): Boolean {
+            val middle = if (settings.timeToDayMiddle >= settings.timeToDayBeginning) {
+                settings.timeToDayMiddle
+            } else {
+                settings.timeToDayMiddle + DAY_LENGTH_IN_MS
             }
-        }
-        if (timeToSync != syncPreference.get()) {
-            syncPreference.set(timeToSync)
-        }
-    }
+            val end = if (settings.timeToDayEnd >= settings.timeToDayBeginning) {
+                settings.timeToDayEnd
+            } else {
+                settings.timeToDayEnd + DAY_LENGTH_IN_MS
+            }
 
-    private fun fixTimesOrder(timeCheckBase: TimeCheckBase) {
-        val timeToDayBeginning = preferences.timeToDayBeginning.get()
-        var timeToDayMiddle = preferences.timeToDayMiddle.get()
-        var timeToDayEnd = preferences.timeToDayEnd.get()
-
-        if (timeToDayMiddle < timeToDayBeginning) {
-            timeToDayMiddle += DAY_LENGTH_IN_MS
-        }
-        if (timeToDayEnd < timeToDayBeginning) {
-            timeToDayEnd += DAY_LENGTH_IN_MS
+            return (middle > settings.timeToDayBeginning) && (end > middle)
         }
 
-        if (timeToDayEnd < timeToDayMiddle) {
-            when (timeCheckBase) {
-                TimeCheckBase.BEGINNING -> {
-                    val temp = preferences.timeToDayMiddle.get()
-                    preferences.timeToDayMiddle.set(preferences.timeToDayEnd.get())
-                    preferences.timeToDayEnd.set(temp)
+        if (!isTimeOrderCorrect(settings)) {
+            when(period) {
+                TimePeriod.BEGINNING -> {
+                    settings.timeToDayBeginning = settings.timeToDayEnd + MIN_DELTA_IN_MS
+                    if (settings.timeToDayBeginning >= DAY_LENGTH_IN_MS) {
+                        settings.timeToDayBeginning -= DAY_LENGTH_IN_MS
+                    }
                 }
-                TimeCheckBase.MIDDLE -> {
-                    val temp = preferences.timeToDayBeginning.get()
-                    preferences.timeToDayBeginning.set(preferences.timeToDayEnd.get())
-                    preferences.timeToDayEnd.set(temp)
+                TimePeriod.MIDDLE -> {
+                    settings.timeToDayMiddle = settings.timeToDayBeginning + MIN_DELTA_IN_MS
+                    if (settings.timeToDayMiddle >= DAY_LENGTH_IN_MS) {
+                        settings.timeToDayMiddle -= DAY_LENGTH_IN_MS
+                    }
                 }
-                TimeCheckBase.END -> {
-                    val temp = preferences.timeToDayMiddle.get()
-                    preferences.timeToDayMiddle.set(preferences.timeToDayBeginning.get())
-                    preferences.timeToDayBeginning.set(temp)
+                TimePeriod.END -> {
+                    settings.timeToDayEnd = settings.timeToDayMiddle + MIN_DELTA_IN_MS
+                    if (settings.timeToDayEnd >= DAY_LENGTH_IN_MS) {
+                        settings.timeToDayEnd -= DAY_LENGTH_IN_MS
+                    }
                 }
             }
+            onFixAppliedCallback?.invoke()
         }
     }
 
     fun onArmsLengthValueChanged(value: String) {
         value.toIntOrNull()?.let { centimeters ->
-            val millimeters = centimeters * 10
-            preferences.armsLength.set(millimeters)
+            settings.armsLength = centimeters * 10
         }
         populateData()
     }
 
     fun onBodyHeightValueChanged(value: String) {
         value.toIntOrNull()?.let { centimeters ->
-            val millimeters = (centimeters * 10 * 0.9 / 2).toInt()   // arm = (height - 10%) / 2
-            preferences.armsLength.set(millimeters)
+            settings.armsLength = (centimeters * 10 * 0.9 / 2).toInt()   // arm = (height - 10%) / 2
         }
         populateData()
     }
 
     fun onScalingLineLengthValueChanged(value: String, lineWidthPx: Int) {
         value.toFloatOrNull()?.let { centimeters ->
-            val millimeters = centimeters * 10
-            val dpmm = lineWidthPx / millimeters
-            preferences.dotsPerMillimeter.set(dpmm)
+            settings.dpmm = lineWidthPx / centimeters / 10
         }
         populateData()
     }
 
     fun resetScale() {
-        preferences.dotsPerMillimeter.delete()
+        settings.dpmm = -1f
         populateData()
     }
 
-    private enum class TimeCheckBase {
+    private enum class TimePeriod {
         BEGINNING,
         MIDDLE,
         END

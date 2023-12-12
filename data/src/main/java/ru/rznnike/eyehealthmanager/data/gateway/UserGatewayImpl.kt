@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.data.gateway
 
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 import ru.rznnike.eyehealthmanager.domain.gateway.UserGateway
+import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
 class UserGatewayImpl(
@@ -24,4 +25,29 @@ class UserGatewayImpl(
 
     override suspend fun setLanguage(newValue: Language) =
         preferences.language.set(newValue.tag)
+
+    override suspend fun getTestingSettings() =
+        preferences.run {
+            TestingSettings(
+                armsLength = armsLength.get(),
+                dpmm = dotsPerMillimeter.get(),
+                replaceBeginningWithMorning = replaceBeginningWithMorning.get(),
+                enableAutoDayPart = enableAutoDayPart.get(),
+                timeToDayBeginning = timeToDayBeginning.get(),
+                timeToDayMiddle = timeToDayMiddle.get(),
+                timeToDayEnd = timeToDayEnd.get()
+            )
+        }
+
+    override suspend fun setTestingSettings(newValue: TestingSettings) {
+        preferences.apply {
+            armsLength.set(newValue.armsLength)
+            dotsPerMillimeter.set(newValue.dpmm)
+            replaceBeginningWithMorning.set(newValue.replaceBeginningWithMorning)
+            enableAutoDayPart.set(newValue.enableAutoDayPart)
+            timeToDayBeginning.set(newValue.timeToDayBeginning)
+            timeToDayMiddle.set(newValue.timeToDayMiddle)
+            timeToDayEnd.set(newValue.timeToDayEnd)
+        }
+    }
 }

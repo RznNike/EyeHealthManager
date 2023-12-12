@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.domain.gateway
 
+import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
 interface UserGateway {
@@ -14,4 +15,8 @@ interface UserGateway {
     suspend fun getLanguage(): Language
 
     suspend fun setLanguage(newValue: Language)
+
+    suspend fun getTestingSettings(): TestingSettings
+
+    suspend fun setTestingSettings(newValue: TestingSettings)
 }

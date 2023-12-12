@@ -16,4 +16,6 @@ sealed class AppEvent {
     data object JournalTotalDeletionRequested : AppEvent()
 
     data object JournalChanged : AppEvent()
+
+    data object TestingSettingsChanged : AppEvent()
 }

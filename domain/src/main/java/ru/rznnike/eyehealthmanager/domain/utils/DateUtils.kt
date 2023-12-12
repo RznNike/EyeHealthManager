@@ -48,6 +48,10 @@ fun Long.toCalendar(): Calendar = Calendar.getInstance().apply {
     timeInMillis = this@toCalendar
 }
 
+fun Long.getDayTime(): Long = toCalendar().run {
+    (get(Calendar.HOUR_OF_DAY) * 60 * 60 + get(Calendar.MINUTE) * 60 + get(Calendar.SECOND)) * 1000L
+}
+
 fun getTodayCalendar(): Calendar = Calendar.getInstance().atStartOfDay()
 
 fun Calendar.atStartOfDay() = apply {

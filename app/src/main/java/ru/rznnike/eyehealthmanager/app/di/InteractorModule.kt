@@ -8,9 +8,11 @@ import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveShowNot
 import ru.rznnike.eyehealthmanager.domain.interactor.test.*
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetDisplayedChangelogVersionUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetWelcomeDialogShowedUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetDisplayedChangelogVersionUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetWelcomeDialogShowedUseCase
 
 val interactorModule = module {
@@ -20,6 +22,8 @@ val interactorModule = module {
     single { SetDisplayedChangelogVersionUseCase(get(), get()) }
     single { GetUserLanguageUseCase(get(), get()) }
     single { SetUserLanguageUseCase(get(), get()) }
+    single { GetTestingSettingsUseCase(get(), get()) }
+    single { SetTestingSettingsUseCase(get(), get()) }
 
     single { GetTestResultsUseCase(get(), get()) }
     single { AddTestResultUseCase(get(), get()) }
