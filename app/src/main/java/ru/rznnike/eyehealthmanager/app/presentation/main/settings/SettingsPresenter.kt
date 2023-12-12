@@ -11,8 +11,8 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
-import ru.rznnike.eyehealthmanager.domain.interactor.user.ChangeUserLanguageUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetUserLanguageUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
 @InjectViewState
@@ -20,19 +20,23 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
-    private val preferences: PreferencesWrapper by inject()
-    private val changeUserLanguageUseCase: ChangeUserLanguageUseCase by inject()
+    private val getUserLanguageUseCase: GetUserLanguageUseCase by inject()
+    private val setUserLanguageUseCase: SetUserLanguageUseCase by inject()
 
     fun onResume() {
-        viewState.populateData(
-            currentLanguage = Language[preferences.language.get()]
-        )
+        presenterScope.launch {
+            getUserLanguageUseCase().process(
+                {
+                    viewState.populateData(it)
+                }
+            )
+        }
     }
 
     fun changeLanguage(language: Language) {
         presenterScope.launch {
             viewState.setProgress(true)
-            changeUserLanguageUseCase(language).process(
+            setUserLanguageUseCase(language).process(
                 {
                     delay(500)
                     viewState.updateUiLanguage()

@@ -1,6 +1,5 @@
 package ru.rznnike.eyehealthmanager.app.ui.fragment.main.settings
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -19,7 +18,6 @@ import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsPresen
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.restartApp
-import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
@@ -124,13 +122,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
                 .setCancelable(true)
                 .create()
 
-            @SuppressLint("SetTextI18n")
-            textViewDialogMessage.text = "<b>%s</b><br><i>%s</i><br><br>%s".format(
-                getString(R.string.app_name),
-                BuildConfig.VERSION_NAME,
-                getString(R.string.developer_name)
-            ).toHtmlSpanned()
-
+            textViewDialogVersion.text = BuildConfig.VERSION_NAME
             buttonDialogEmail.setOnClickListener {
                 dialog.dismiss()
                 routerStartFlow(
@@ -138,6 +130,12 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
                         email = getString(R.string.feedback_email_address),
                         subject = getString(R.string.app_name)
                     )
+                )
+            }
+            buttonDialogSourceCode.setOnClickListener {
+                dialog.dismiss()
+                routerStartFlow(
+                    Screens.Common.actionOpenLink(getString(R.string.repository_link))
                 )
             }
 

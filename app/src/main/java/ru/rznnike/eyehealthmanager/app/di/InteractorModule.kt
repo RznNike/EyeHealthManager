@@ -6,8 +6,9 @@ import ru.rznnike.eyehealthmanager.domain.interactor.notification.EmitShowNotifi
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveCancelNotificationUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveShowNotificationUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.*
-import ru.rznnike.eyehealthmanager.domain.interactor.user.ChangeUserLanguageUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetDisplayedChangelogVersionUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetWelcomeDialogShowedUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetDisplayedChangelogVersionUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetWelcomeDialogShowedUseCase
@@ -17,7 +18,8 @@ val interactorModule = module {
     single { SetWelcomeDialogShowedUseCase(get(), get()) }
     single { GetDisplayedChangelogVersionUseCase(get(), get()) }
     single { SetDisplayedChangelogVersionUseCase(get(), get()) }
-    single { ChangeUserLanguageUseCase(get(), get()) }
+    single { GetUserLanguageUseCase(get(), get()) }
+    single { SetUserLanguageUseCase(get(), get()) }
 
     single { GetTestResultsUseCase(get(), get()) }
     single { AddTestResultUseCase(get(), get()) }

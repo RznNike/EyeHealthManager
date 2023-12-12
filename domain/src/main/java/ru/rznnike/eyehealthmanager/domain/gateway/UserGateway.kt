@@ -11,5 +11,7 @@ interface UserGateway {
 
     suspend fun setDisplayedChangelogVersion(newValue: Int)
 
-    suspend fun changeLanguage(language: Language)
+    suspend fun getLanguage(): Language
+
+    suspend fun setLanguage(newValue: Language)
 }

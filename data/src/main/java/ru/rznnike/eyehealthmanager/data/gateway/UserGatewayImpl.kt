@@ -19,6 +19,9 @@ class UserGatewayImpl(
     override suspend fun setDisplayedChangelogVersion(newValue: Int) =
         preferences.displayedChangelogVersion.set(newValue)
 
-    override suspend fun changeLanguage(language: Language) =
-        preferences.language.set(language.tag)
+    override suspend fun getLanguage() =
+        Language[preferences.language.get()]
+
+    override suspend fun setLanguage(newValue: Language) =
+        preferences.language.set(newValue.tag)
 }

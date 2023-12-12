@@ -2,6 +2,7 @@
     <string name="app_name" tools:override="true">Eye Health Manager</string>
 
     <string name="feedback_email_address" translatable="false">rznnike@yandex.ru</string>
+    <string name="repository_link" translatable="false">https://github.com/RznNike/EyeHealthManager</string>
 
     <string name="security_error">Required permissions not granted</string>
     <string name="unknown_error">Unknown error occurred</string>
@@ -218,7 +219,7 @@
     <string name="noise_detected_message">The test result is very similar to erroneous, it is recommended to try passing the test again</string>
     <string name="redo_test">Redo test</string>
     <string name="welcome_header">Hello</string>
-    <string name="welcome_message">You have installed the \"Eye Health Manager\" app for eye health monitoring. This application is a private project written by one person at no cost. You can write about all the problems and wishes to the mail specified in the settings in the \"About app\" section.</string>
+    <string name="welcome_message">This application is an open source project written by one person for free. You can write about all problems and wishes to the email specified in the settings in the \"About app\" section. There you will also find a link to the source code repository.</string>
     <string name="changelog">Changelog</string>
     <string name="changelog_text"><b>2.0.2</b>\n<ul><li>Bug fixes.</li></ul>\n\n<b>2.0.1</b>\n<ul><li>Default language fixed.</li></ul>\n\n<b>2.0.0</b>\n<ul><li>Optimization for Android 11-13.</li>\n<li>Redesign and UI improvements.</li>\n<li>Bug fixes.</li></ul>\n\n<b>1.0.2</b>\n<ul><li>Bug fixes.</li>\n<li>Graphics optimization.</li>\n<li>Added changelog window.</li></ul>\n\n<b>1.0.1</b>\n<ul><li>First release</li></ul></string>
     <string name="error_file_not_found">File not found</string>
@@ -231,4 +232,6 @@
     <string name="apply">Apply</string>
     <string name="time_period_separator" translatable="false">—</string>
     <string name="ok">OK</string>
+    <string name="source_code">Source code</string>
+    <string name="about_app_message">This application is an open source project written by one person at no cost. You can write about all problems and wishes by email. Below is a link to the source code repository.</string>
 </resources>
