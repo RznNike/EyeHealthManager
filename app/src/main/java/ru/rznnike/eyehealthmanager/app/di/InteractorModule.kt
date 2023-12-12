@@ -31,6 +31,7 @@ val interactorModule = module {
     single { DeleteTestResultUseCase(get(), get()) }
     single { DeleteAllTestResultsUseCase(get(), get()) }
     single { DeleteDuplicatesUseCase(get(), get()) }
+    single { ExportJournalUseCase(get(), get()) }
 
     single { GetAnalysisResultUseCase(get(), get()) }
 

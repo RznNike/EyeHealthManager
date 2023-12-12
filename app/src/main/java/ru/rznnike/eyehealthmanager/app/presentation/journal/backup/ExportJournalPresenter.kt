@@ -16,17 +16,15 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.domain.interactor.test.GetTestResultsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
-import ru.rznnike.eyehealthmanager.domain.utils.toDate
-import java.io.BufferedWriter
-import java.io.IOException
+import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
+import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
+import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
+import ru.rznnike.eyehealthmanager.domain.utils.toCalendar
 import java.util.*
-
-private const val EXPORT_PAGE_SIZE = 100
-private const val EXPORT_DIR = "export"
 
 @InjectViewState
 class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
@@ -34,13 +32,9 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
     private val context: Context by inject()
-    private val getTestResultsUseCase: GetTestResultsUseCase by inject()
+    private val exportJournalUseCase: ExportJournalUseCase by inject()
 
     private lateinit var filterParams: TestResultFilterParams
-    private val files: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
-    private val fileWriters: MutableMap<TestType, BufferedWriter> = EnumMap(TestType::class.java)
-    private val entryCounters: MutableMap<TestType, Int> = EnumMap(TestType::class.java)
-    private var exportFolderUri: Uri? = null
     private var startExportAutomatically = false
 
     override fun onFirstViewAttach() {
@@ -49,19 +43,10 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
 
     private fun initFilters() {
         filterParams = TestResultFilterParams(
-            dateFrom = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
+            dateFrom = getTodayCalendar().apply {
                 add(Calendar.MONTH, -1)
             }.timeInMillis,
-            dateTo = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 23)
-                set(Calendar.MINUTE, 59)
-                set(Calendar.SECOND, 59)
-                set(Calendar.MILLISECOND, 999)
-            }.timeInMillis
+            dateTo = Calendar.getInstance().atEndOfDay().timeInMillis
         )
         populateData()
     }
@@ -92,38 +77,18 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     }
 
     fun onFilterDateFromSelected(timestamp: Long) {
-        filterParams.dateFrom = timestamp
+        filterParams.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
         if (filterParams.dateTo <= filterParams.dateFrom) {
-            val calendar = Calendar.getInstance().apply {
-                timeInMillis = timestamp
-                set(Calendar.HOUR_OF_DAY, 23)
-                set(Calendar.MINUTE, 59)
-                set(Calendar.SECOND, 59)
-                set(Calendar.MILLISECOND, 999)
-            }
-            filterParams.dateTo = calendar.timeInMillis
+            filterParams.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
         }
         filterParams.filterByDate = true
         populateData()
     }
 
     fun onFilterDateToSelected(timestamp: Long) {
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = timestamp
-            set(Calendar.HOUR_OF_DAY, 23)
-            set(Calendar.MINUTE, 59)
-            set(Calendar.SECOND, 59)
-            set(Calendar.MILLISECOND, 999)
-        }
-        filterParams.dateTo = calendar.timeInMillis
+        filterParams.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
         if (filterParams.dateTo <= filterParams.dateFrom) {
-            calendar.apply {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-            filterParams.dateFrom = calendar.timeInMillis
+            filterParams.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
         }
         filterParams.filterByDate = true
         populateData()
@@ -132,7 +97,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private fun populateData() {
         val savedUri = getSavedExportFolder()
         val folderPath = savedUri?.let {
-            "${savedUri.lastPathSegment}/${context.resources.getString(R.string.app_name)}/$EXPORT_DIR"
+            "${savedUri.lastPathSegment}/${context.resources.getString(R.string.app_name)}/${GlobalConstants.EXPORT_DIR}"
         }
         viewState.populateData(filterParams, folderPath)
     }
@@ -168,110 +133,32 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     @SuppressLint("Recycle")
     private fun exportDatabase() {
         presenterScope.launch {
-            getSavedExportFolder()?.let { uri ->
-                viewState.setProgress(true)
-                DocumentFile.fromTreeUri(context, uri)
-                    ?.findOrCreateDocumentFolder(context.getString(R.string.app_name))
-                    ?.findOrCreateDocumentFolder(EXPORT_DIR)
-                    ?.findOrCreateDocumentFolder(
-                        System.currentTimeMillis().toDate(GlobalConstants.DATE_PATTERN_FULL_FOR_PATH)
-                    )
-                    ?.let { folder ->
-                        exportFolderUri = folder.uri
-                        TestType.entries.forEach { type ->
-                            val fileName = type.toString().lowercase()
-                            folder.createFile(
-                                "text/tab-separated-values",
-                                "${fileName}.tsv"
-                            )?.let { file ->
-                                try {
-                                    context.contentResolver.openOutputStream(file.uri)?.let { outputStream ->
-                                        outputStream.bufferedWriter().let {
-                                            fileWriters[type] = it
-                                            it.appendLine(type.exportHeader)
-                                        }
-                                    }
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
-
-                                files[type] = file
-                                entryCounters[type] = 0
-                            }
-                        }
-                        exportDatabasePageToFiles(0)
+            viewState.setProgress(true)
+            exportJournalUseCase(filterParams).process(
+                { result ->
+                    result.exportFolderUri?.let {
+                        eventDispatcher.sendEvent(
+                            AppEvent.JournalExported(it)
+                        )
                     }
-            }
-        }
-    }
-
-    private fun DocumentFile.findOrCreateDocumentFolder(name: String) =
-        findFile(name) ?: createDirectory(name)
-
-    private fun exportDatabasePageToFiles(pageOffset: Int) {
-        presenterScope.launch {
-            getTestResultsUseCase(TestResultPagingParams(EXPORT_PAGE_SIZE, pageOffset, filterParams)).process(
-                { results ->
-                    results.forEach { testResult ->
-                        when (testResult) {
-                            is AcuityTestResult -> TestType.ACUITY
-                            is AstigmatismTestResult -> TestType.ASTIGMATISM
-                            is ColorPerceptionTestResult -> TestType.COLOR_PERCEPTION
-                            is ContrastTestResult -> TestType.CONTRAST
-                            is DaltonismTestResult -> TestType.DALTONISM
-                            is NearFarTestResult -> TestType.NEAR_FAR
-                            else -> null
-                        }?.let { type ->
-                            val exportString = testResult.exportToString()
-                            fileWriters[type]?.appendLine(exportString)
-                            entryCounters[type] = (entryCounters[type] ?: 0) + 1
-                        }
-                    }
-                    fileWriters.values.forEach {
-                        it.flush()
-                    }
-                    if (results.size < EXPORT_PAGE_SIZE) {
-                        finishExport()
-                    } else {
-                        exportDatabasePageToFiles(pageOffset + EXPORT_PAGE_SIZE)
-                    }
+                    viewState.routerExit()
                 }, { error ->
                     errorHandler.proceed(error) {
                         notifier.sendMessage(it)
                     }
-                    finishExport(isError = true)
                 }
             )
-        }
-    }
-
-    private fun finishExport(isError: Boolean = false) {
-        fileWriters.forEach {
-            try {
-                it.value.close()
-                if (entryCounters[it.key] == 0) {
-                    files[it.key]?.delete()
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        viewState.setProgress(false)
-        if (!isError) {
-            exportFolderUri?.let {
-                eventDispatcher.sendEvent(
-                    AppEvent.JournalExported(it)
-                )
-            }
-            viewState.routerExit()
+            viewState.setProgress(false)
         }
     }
 
     fun openExportFolder() {
+        fun DocumentFile.findOrCreateDocumentFolder(name: String) = findFile(name) ?: createDirectory(name)
+
         getSavedExportFolder()?.let { uri ->
             DocumentFile.fromTreeUri(context, uri)
                 ?.findOrCreateDocumentFolder(context.getString(R.string.app_name))
-                ?.findOrCreateDocumentFolder(EXPORT_DIR)
+                ?.findOrCreateDocumentFolder(GlobalConstants.EXPORT_DIR)
                 ?.let { exportFolder ->
                     viewState.routerStartFlow(Screens.Common.actionOpenFolder(exportFolder.uri))
                 }

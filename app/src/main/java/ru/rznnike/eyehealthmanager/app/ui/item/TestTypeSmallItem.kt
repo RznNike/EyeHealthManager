@@ -8,7 +8,8 @@ import ru.rznnike.eyehealthmanager.databinding.ItemTestTypeSmallBinding
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 
 class TestTypeSmallItem(
-    val testType: TestType
+    val testType: TestType,
+    val selection: Boolean
 ) : BaseBindingItem<ItemTestTypeSmallBinding>() {
     override var identifier = testType.id.toLong()
 
@@ -19,11 +20,8 @@ class TestTypeSmallItem(
 
     override fun ItemTestTypeSmallBinding.bindView() {
         imageViewIcon.setImageResource(testType.iconResId)
-        val background = if (isSelected) {
-            R.drawable.bg_rounded_4_outline_accent
-        } else {
-            R.color.colorTransparent
-        }
-        imageViewIcon.setBackgroundResource(background)
+        imageViewIcon.setBackgroundResource(
+            if (selection) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
+        )
     }
 }

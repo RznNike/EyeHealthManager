@@ -142,7 +142,7 @@ dependencies {
 
     // Firebase
     implementation("com.google.firebase:firebase-crashlytics-ktx:18.6.0")
-    implementation("com.google.firebase:firebase-messaging:23.3.1")
+    implementation("com.google.firebase:firebase-messaging:23.4.0")
 
     // Koin
     // https://github.com/InsertKoinIO/koin

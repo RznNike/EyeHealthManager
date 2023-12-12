@@ -1,6 +1,8 @@
 package ru.rznnike.eyehealthmanager.domain.gateway
 
+import android.net.Uri
 import ru.rznnike.eyehealthmanager.domain.model.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
 import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParams
 
 interface TestGateway {
@@ -15,4 +17,6 @@ interface TestGateway {
     suspend fun deleteAllTestResults()
 
     suspend fun deleteDuplicates()
+
+    suspend fun exportJournal(filterParams: TestResultFilterParams): Uri?
 }

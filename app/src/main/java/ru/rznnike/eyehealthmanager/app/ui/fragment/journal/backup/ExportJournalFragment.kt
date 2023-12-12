@@ -114,7 +114,6 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
                 )
             )
         }
-        itemAdapterTestType.setNewList(TestType.entries.map { TestTypeSmallItem(it) })
     }
 
     private fun initOnClickListeners() = binding.apply {
@@ -157,12 +156,14 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
             }
 
             checkBoxFilterByType.isChecked = filterParams.filterByType
-            itemAdapterTestType.adapterItems.forEach {
-                if (it is TestTypeSmallItem) {
-                    it.isSelected = filterParams.selectedTestTypes.contains(it.testType)
+            itemAdapterTestType.setNewList(
+                TestType.entries.map {
+                    TestTypeSmallItem(
+                        testType = it,
+                        selection = filterParams.selectedTestTypes.contains(it)
+                    )
                 }
-            }
-            adapterTestType.notifyAdapterDataSetChanged()
+            )
 
             textViewBackupFolderPath.text = folderPath
             textViewBackupFolderPath.setVisible(!folderPath.isNullOrBlank())
@@ -170,7 +171,5 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
         }
     }
 
-    override fun selectExportFolder() {
-        folderPicker.launch()
-    }
+    override fun selectExportFolder() = folderPicker.launch()
 }

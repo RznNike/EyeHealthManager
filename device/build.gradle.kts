@@ -45,7 +45,7 @@ dependencies {
 
     // Firebase
     api("com.google.firebase:firebase-core:21.1.1")
-    api("com.google.firebase:firebase-messaging:23.3.1")
+    api("com.google.firebase:firebase-messaging:23.4.0")
 
     // Koin
     api("io.insert-koin:koin-android:" + rootProject.extra["koinVersion"])

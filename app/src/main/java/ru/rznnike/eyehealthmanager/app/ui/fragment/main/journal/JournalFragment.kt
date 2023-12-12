@@ -230,9 +230,10 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 fun updateTestTypes() {
                     itemAdapterTestType.setNewList(
                         TestType.entries.map {
-                            TestTypeSmallItem(it).apply {
-                                isSelected = newFilterParams.selectedTestTypes.contains(it)
-                            }
+                            TestTypeSmallItem(
+                                testType = it,
+                                selection = newFilterParams.selectedTestTypes.contains(it)
+                            )
                         }
                     )
                     checkBoxFilterByType.isChecked = newFilterParams.filterByType
