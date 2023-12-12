@@ -4,8 +4,6 @@ import kotlinx.coroutines.launch
 import moxy.InjectViewState
 import moxy.presenterScope
 import org.koin.core.component.inject
-import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
-import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
@@ -23,7 +21,6 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val coroutineProvider: CoroutineProvider by inject()
-    private val eventDispatcher: EventDispatcher by inject()
     private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
     private val setTestingSettingsUseCase: SetTestingSettingsUseCase by inject()
 
@@ -35,11 +32,7 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
 
     fun onPause() {
         coroutineProvider.scopeIo.launch {
-            setTestingSettingsUseCase(settings).process(
-                {
-                    eventDispatcher.sendEvent(AppEvent.TestingSettingsChanged)
-                }
-            )
+            setTestingSettingsUseCase(settings)
         }
     }
 
