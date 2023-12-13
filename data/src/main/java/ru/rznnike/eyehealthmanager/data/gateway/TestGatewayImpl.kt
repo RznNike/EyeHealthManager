@@ -18,6 +18,7 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParams
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
+import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.IOException
 import java.util.EnumMap
@@ -32,9 +33,6 @@ class TestGatewayImpl(
 
     override suspend fun getTestResults(params: TestResultPagingParams) =
         testRepository.getTests(params)
-
-    override suspend fun addTestResults(items: List<TestResult>) =
-        testRepository.addTests(items)
 
     override suspend fun addTestResult(item: TestResult) =
         testRepository.addTest(item)
@@ -137,5 +135,111 @@ class TestGatewayImpl(
             it.flush()
         }
         return data.size
+    }
+
+    override suspend fun getAvailableImportTypes(importFolderUri: Uri) =
+        DocumentFile.fromTreeUri(context, importFolderUri)
+            ?.listFiles()
+            ?.filter { it.isFile }
+            ?.mapNotNull { file ->
+                val fileName = file.name?.removeSuffix(".tsv")
+                TestType.entries.firstOrNull { fileName == it.name.lowercase() }
+            }
+            ?.distinct()
+            ?: emptyList()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private val files: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
+    private var importFolderUri: Uri? = null
+    private var importFilesQueue: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
+    private var currentFileType: TestType = TestType.ACUITY
+    private var currentFileReader: BufferedReader? = null
+
+    override suspend fun importJournal(importFolderUri: Uri) {
+        // отфильтровать файлы, соотнести с типами
+        // цикл по файлам
+            // цикл по страницам
+
+        DocumentFile.fromTreeUri(context, importFolderUri)
+            ?.listFiles()
+            ?.filter { it.isFile }
+            ?.mapNotNull { file ->
+                val fileName = file.name?.removeSuffix(".tsv")
+                TestType.entries.firstOrNull { fileName == it.name.lowercase() }
+            }
+
+
+
+
+
+
+        importFilesQueue.putAll(files)
+        importFilePageToDatabase()
+    }
+
+    @SuppressLint("Recycle")
+    private suspend fun importFilePageToDatabase() {
+        if (currentFileReader == null) {
+            importFilesQueue.entries.firstOrNull()?.let { entry ->
+                val type = entry.key
+                val file = entry.value
+                context.contentResolver.openInputStream(file.uri)?.let { inputStream ->
+                    currentFileReader = inputStream.bufferedReader()
+                    currentFileType = type
+                    importFilesQueue.remove(type)
+                }
+            }
+            if (currentFileReader == null) {
+                finishImport()
+            }
+        }
+        currentFileReader?.let { fileReader ->
+            val lines = mutableListOf<String>()
+            while (lines.size < GlobalConstants.IMPORT_PAGE_SIZE) {
+                val line = fileReader.readLine()
+                if (line == null) {
+                    fileReader.close()
+                    currentFileReader = null
+                    break
+                } else {
+                    lines.add(line)
+                }
+            }
+            if (lines.isEmpty()) {
+                importFilePageToDatabase()
+            } else {
+                val testResults = lines.mapNotNull {
+                    when (currentFileType) {
+                        TestType.ACUITY -> AcuityTestResult.importFromString(it)
+                        TestType.ASTIGMATISM -> AstigmatismTestResult.importFromString(it)
+                        TestType.NEAR_FAR -> NearFarTestResult.importFromString(it)
+                        TestType.COLOR_PERCEPTION -> ColorPerceptionTestResult.importFromString(it)
+                        TestType.DALTONISM -> DaltonismTestResult.importFromString(it)
+                        TestType.CONTRAST -> ContrastTestResult.importFromString(it)
+                    }
+                }
+                if (testResults.isEmpty()) {
+                    importFilePageToDatabase()
+                } else {
+                    testRepository.addTests(testResults)
+                    importFilePageToDatabase()
+                }
+            }
+        }
     }
 }

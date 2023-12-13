@@ -17,13 +17,13 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.test.GetAvailableImportTypesUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.test.ImportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import java.io.BufferedReader
 import java.util.*
-
-private const val IMPORT_PAGE_SIZE = 100
 
 @InjectViewState
 class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
@@ -31,7 +31,8 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
     private val context: Context by inject()
-    private val addTestResultsUseCase: AddTestResultsUseCase by inject()
+    private val getAvailableImportTypesUseCase: GetAvailableImportTypesUseCase by inject()
+    private val importJournalUseCase: ImportJournalUseCase by inject()
 
     private val files: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
     private var importFolderUri: Uri? = null
@@ -43,6 +44,11 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
     override fun onFirstViewAttach() {
         populateData()
     }
+
+    private fun populateData() = viewState.populateData(
+        availableBackups = files.keys.toList(),
+        folderPath = importFolderUri?.lastPathSegment
+    )
 
     fun onFolderSelected(uri: Uri) {
         importFolderUri = uri
@@ -69,13 +75,6 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
             startImportAutomatically = false
             startImport()
         }
-    }
-
-    private fun populateData() {
-        viewState.populateData(
-            availableBackups = files.keys.toList(),
-            folderPath = importFolderUri?.lastPathSegment
-        )
     }
 
     fun startImport() {
@@ -115,7 +114,7 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
         }
         currentFileReader?.let { fileReader ->
             val lines = mutableListOf<String>()
-            while (lines.size < IMPORT_PAGE_SIZE) {
+            while (lines.size < GlobalConstants.IMPORT_PAGE_SIZE) {
                 val line = fileReader.readLine()
                 if (line == null) {
                     fileReader.close()
