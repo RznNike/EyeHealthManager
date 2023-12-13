@@ -13,5 +13,6 @@ object GlobalConstants{
     const val PRELOAD_ITEM_POSITION = 10
 
     const val EXPORT_PAGE_SIZE = 100
+    const val APP_DIR = "Eye Health Manager"
     const val EXPORT_DIR = "export"
 }

@@ -234,4 +234,5 @@
     <string name="ok">OK</string>
     <string name="source_code">Source code</string>
     <string name="about_app_message">This application is an open source project written by one person at no cost. You can write about all problems and wishes by email. Below is a link to the source code repository.</string>
+    <string name="error_export">An error occurred during export</string>
 </resources>

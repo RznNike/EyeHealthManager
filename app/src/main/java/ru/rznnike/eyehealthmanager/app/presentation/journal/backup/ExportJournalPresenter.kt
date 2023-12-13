@@ -1,6 +1,5 @@
 package ru.rznnike.eyehealthmanager.app.presentation.journal.backup
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -17,14 +16,14 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
-import ru.rznnike.eyehealthmanager.domain.model.*
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
 import ru.rznnike.eyehealthmanager.domain.utils.toCalendar
-import java.util.*
+import java.util.Calendar
 
 @InjectViewState
 class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
@@ -130,7 +129,6 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
         }
     }
 
-    @SuppressLint("Recycle")
     private fun exportDatabase() {
         presenterScope.launch {
             viewState.setProgress(true)
@@ -144,7 +142,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
                     viewState.routerExit()
                 }, { error ->
                     errorHandler.proceed(error) {
-                        notifier.sendMessage(it)
+                        notifier.sendMessage(R.string.error_export)
                     }
                 }
             )
@@ -157,7 +155,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
 
         getSavedExportFolder()?.let { uri ->
             DocumentFile.fromTreeUri(context, uri)
-                ?.findOrCreateDocumentFolder(context.getString(R.string.app_name))
+                ?.findOrCreateDocumentFolder(GlobalConstants.APP_DIR)
                 ?.findOrCreateDocumentFolder(GlobalConstants.EXPORT_DIR)
                 ?.let { exportFolder ->
                     viewState.routerStartFlow(Screens.Common.actionOpenFolder(exportFolder.uri))
