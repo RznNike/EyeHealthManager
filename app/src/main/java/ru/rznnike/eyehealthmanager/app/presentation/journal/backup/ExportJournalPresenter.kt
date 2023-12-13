@@ -96,7 +96,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private fun populateData() {
         val savedUri = getSavedExportFolder()
         val folderPath = savedUri?.let {
-            "${savedUri.lastPathSegment}/${context.resources.getString(R.string.app_name)}/${GlobalConstants.EXPORT_DIR}"
+            "${savedUri.lastPathSegment}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}"
         }
         viewState.populateData(filterParams, folderPath)
     }
