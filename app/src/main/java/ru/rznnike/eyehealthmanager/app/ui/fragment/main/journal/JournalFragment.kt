@@ -5,9 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
@@ -36,8 +34,10 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
+import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
+import ru.rznnike.eyehealthmanager.domain.utils.toCalendar
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
-import java.util.*
 
 class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
     @InjectPresenter
@@ -296,16 +296,9 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                     showDatePicker(
                         preselectedDate = newFilterParams.dateFrom
                     ) { timestamp ->
-                        newFilterParams.dateFrom = timestamp
+                        newFilterParams.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
                         if (newFilterParams.dateTo <= newFilterParams.dateFrom) {
-                            val calendar = Calendar.getInstance().apply {
-                                timeInMillis = timestamp
-                                set(Calendar.HOUR_OF_DAY, 23)
-                                set(Calendar.MINUTE, 59)
-                                set(Calendar.SECOND, 59)
-                                set(Calendar.MILLISECOND, 999)
-                            }
-                            newFilterParams.dateTo = calendar.timeInMillis
+                            newFilterParams.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
                         }
                         newFilterParams.filterByDate = true
                         updateDates()
@@ -315,22 +308,9 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                     showDatePicker(
                         preselectedDate = newFilterParams.dateTo
                     ) { timestamp ->
-                        val calendar = Calendar.getInstance().apply {
-                            timeInMillis = timestamp
-                            set(Calendar.HOUR_OF_DAY, 23)
-                            set(Calendar.MINUTE, 59)
-                            set(Calendar.SECOND, 59)
-                            set(Calendar.MILLISECOND, 999)
-                        }
-                        newFilterParams.dateTo = calendar.timeInMillis
+                        newFilterParams.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
                         if (newFilterParams.dateTo <= newFilterParams.dateFrom) {
-                            calendar.apply {
-                                set(Calendar.HOUR_OF_DAY, 0)
-                                set(Calendar.MINUTE, 0)
-                                set(Calendar.SECOND, 0)
-                                set(Calendar.MILLISECOND, 0)
-                            }
-                            newFilterParams.dateFrom = calendar.timeInMillis
+                            newFilterParams.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
                         }
                         newFilterParams.filterByDate = true
                         updateDates()

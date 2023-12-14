@@ -7,8 +7,5 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
 
 interface JournalView : PagerView {
     @AddToEndSingle
-    fun setProgress(show: Boolean, immediately: Boolean = true)
-
-    @AddToEndSingle
     fun populateData(data: List<TestResult>, filterParams: TestResultFilterParams)
 }

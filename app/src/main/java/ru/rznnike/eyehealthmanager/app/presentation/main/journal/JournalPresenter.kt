@@ -15,6 +15,8 @@ import ru.rznnike.eyehealthmanager.app.pagination.Paginator
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.GetTestResultsUseCase
 import ru.rznnike.eyehealthmanager.domain.model.*
+import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
+import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
 import java.util.*
 
 @InjectViewState
@@ -127,7 +129,7 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
 
     fun onDeleteTestResult(testResult: TestResult) {
         presenterScope.launch {
-            viewState.setProgress(true)
+            viewState.showProgress(show = true, isRefresh = true, isDataEmpty = false)
             deleteTestResultUseCase(testResult.id).process(
                 {
                     refresh()
@@ -135,9 +137,9 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
                     errorHandler.proceed(error) {
                         notifier.sendMessage(it)
                     }
+                    viewState.showProgress(show = false, isRefresh = true, isDataEmpty = false)
                 }
             )
-            viewState.setProgress(false)
         }
     }
 
@@ -152,36 +154,17 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
     }
 
     private fun setDefaultFilter() {
-        val dateFrom = Calendar.getInstance()
-            .apply {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-                add(Calendar.MONTH, -1)
-            }.timeInMillis
-        val dateTo = Calendar.getInstance()
-            .apply {
-                set(Calendar.HOUR_OF_DAY, 23)
-                set(Calendar.MINUTE, 59)
-                set(Calendar.SECOND, 59)
-                set(Calendar.MILLISECOND, 999)
-            }.timeInMillis
         filterParams = TestResultFilterParams(
-            dateFrom = dateFrom,
-            dateTo = dateTo
+            dateFrom = getTodayCalendar().apply {
+                add(Calendar.MONTH, -1)
+            }.timeInMillis,
+            dateTo = Calendar.getInstance().atEndOfDay().timeInMillis
         )
     }
 
-    fun exportData() {
-        viewState.routerNavigateTo(Screens.Screen.exportJournal())
-    }
+    fun exportData() = viewState.routerNavigateTo(Screens.Screen.exportJournal())
 
-    fun importData() {
-        viewState.routerNavigateTo(Screens.Screen.importJournal())
-    }
+    fun importData() = viewState.routerNavigateTo(Screens.Screen.importJournal())
 
-    fun analyseData() {
-        viewState.routerStartFlow(Screens.Flow.analysis())
-    }
+    fun analyseData() = viewState.routerStartFlow(Screens.Flow.analysis())
 }
