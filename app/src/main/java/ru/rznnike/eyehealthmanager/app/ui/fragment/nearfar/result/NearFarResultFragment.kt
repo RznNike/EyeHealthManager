@@ -45,42 +45,26 @@ class NearFarResultFragment : BaseFragment(R.layout.fragment_near_far_result), N
 
     private fun initOnClickListeners() = binding.apply {
         buttonClose.setOnClickListener {
-            routerFinishFlow()
+            onBackPressed()
         }
     }
 
     override fun populateData(answerLeftEye: NearFarAnswerType, answerRightEye: NearFarAnswerType) {
         binding.apply {
             val leftEyeStatus = when (answerLeftEye) {
-                NearFarAnswerType.RED_BETTER -> {
-                    "<font color=\"#FE4C3F\">%s</font>".format(
-                        getString(R.string.possible_myopia)
-                    )
-                }
-                NearFarAnswerType.GREEN_BETTER -> {
-                    "<font color=\"#FE4C3F\">%s</font>".format(
-                        getString(R.string.possible_farsightedness)
-                    )
-                }
-                NearFarAnswerType.EQUAL -> {
-                    getString(R.string.normal_condition)
-                }
-            }
-
+                NearFarAnswerType.RED_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
+                NearFarAnswerType.GREEN_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
+                NearFarAnswerType.EQUAL -> "%s"
+            }.format(
+                getString(answerLeftEye.nameResId)
+            )
             val rightEyeStatus = when (answerRightEye) {
-                NearFarAnswerType.RED_BETTER -> {
-                    "<font color=\"#FE4C3F\">%s</font>".format(
-                        getString(R.string.possible_myopia)
-                    )
-                }
-                NearFarAnswerType.GREEN_BETTER -> {
-                    getString(R.string.possible_farsightedness)
-                }
-                NearFarAnswerType.EQUAL -> {
-                    getString(R.string.normal_condition)
-                }
-            }
-
+                NearFarAnswerType.RED_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
+                NearFarAnswerType.GREEN_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
+                NearFarAnswerType.EQUAL -> "%s"
+            }.format(
+                getString(answerRightEye.nameResId)
+            )
             val result = "%s - %s<br>%s - %s".format(
                 getString(R.string.left_eye),
                 leftEyeStatus,

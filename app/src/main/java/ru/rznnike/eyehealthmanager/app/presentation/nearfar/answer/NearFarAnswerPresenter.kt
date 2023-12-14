@@ -34,7 +34,9 @@ class NearFarAnswerPresenter : BasePresenter<NearFarAnswerView>() {
             )
             addTestResultUseCase(testResult).process(
                 {
-                    viewState.routerNewRootScreen(Screens.Screen.nearFarResult(typeLeftEye, typeRightEye))
+                    viewState.routerNewRootScreen(
+                        Screens.Screen.nearFarResult(typeLeftEye, typeRightEye)
+                    )
                 }, { error ->
                     errorHandler.proceed(error) {
                         notifier.sendMessage(it)

@@ -37,7 +37,7 @@ class NearFarInfoFragment : BaseFragment(R.layout.fragment_near_far_info), NearF
 
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
-            presenter.onStart()
+            presenter.startTest()
         }
     }
 }

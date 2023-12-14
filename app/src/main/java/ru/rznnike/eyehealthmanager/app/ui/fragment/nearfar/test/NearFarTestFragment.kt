@@ -44,7 +44,7 @@ class NearFarTestFragment : BaseFragment(R.layout.fragment_near_far_test), NearF
 
     private fun initOnClickListeners() = binding.apply {
         buttonNext.setOnClickListener {
-            presenter.onNext()
+            presenter.openAnswerForm()
         }
     }
 

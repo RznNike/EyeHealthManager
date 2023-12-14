@@ -6,7 +6,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 
 @InjectViewState
 class NearFarTestPresenter : BasePresenter<NearFarTestView>() {
-    fun onNext() {
+    fun openAnswerForm() {
         viewState.routerNavigateTo(Screens.Screen.nearFarAnswer())
     }
 }
