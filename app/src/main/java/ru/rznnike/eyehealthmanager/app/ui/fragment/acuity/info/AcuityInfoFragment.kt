@@ -179,7 +179,7 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
             )
             buttonDialogBeginning.setOnClickListener {
                 dialog.dismiss()
-                presenter.onStart(DayPart.BEGINNING)
+                presenter.onStartTest(DayPart.BEGINNING)
             }
 
             buttonDialogMiddle.setText(
@@ -187,7 +187,7 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
             )
             buttonDialogMiddle.setOnClickListener {
                 dialog.dismiss()
-                presenter.onStart(DayPart.MIDDLE)
+                presenter.onStartTest(DayPart.MIDDLE)
             }
 
             buttonDialogEnd.setText(
@@ -195,7 +195,7 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
             )
             buttonDialogEnd.setOnClickListener {
                 dialog.dismiss()
-                presenter.onStart(DayPart.END)
+                presenter.onStartTest(DayPart.END)
             }
 
             buttonDialogSchedule.setOnClickListener {

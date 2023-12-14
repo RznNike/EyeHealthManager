@@ -2,8 +2,11 @@ package ru.rznnike.eyehealthmanager.data.gateway
 
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 import ru.rznnike.eyehealthmanager.domain.gateway.UserGateway
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
+import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 
 class UserGatewayImpl(
     private val preferences: PreferencesWrapper
@@ -48,6 +51,21 @@ class UserGatewayImpl(
             timeToDayBeginning.set(newValue.timeToDayBeginning)
             timeToDayMiddle.set(newValue.timeToDayMiddle)
             timeToDayEnd.set(newValue.timeToDayEnd)
+        }
+    }
+
+    override suspend fun getAcuityTestingSettings() =
+        preferences.run {
+            AcuityTestingSettings(
+                symbolsType = AcuityTestSymbolsType[acuitySymbolsType.get()],
+                eyesType = TestEyesType[testEyesType.get()]
+            )
+        }
+
+    override suspend fun setAcuityTestingSettings(newValue: AcuityTestingSettings) {
+        preferences.apply {
+            acuitySymbolsType.set(newValue.symbolsType.id)
+            testEyesType.set(newValue.eyesType.id)
         }
     }
 }

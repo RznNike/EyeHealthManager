@@ -158,10 +158,9 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
             checkBoxFilterByType.isChecked = filterParams.filterByType
             itemAdapterTestType.setNewList(
                 TestType.entries.map {
-                    TestTypeSmallItem(
-                        testType = it,
-                        selection = filterParams.selectedTestTypes.contains(it)
-                    )
+                    TestTypeSmallItem(it).also { item ->
+                        item.isSelected = filterParams.selectedTestTypes.contains(it)
+                    }
                 }
             )
 

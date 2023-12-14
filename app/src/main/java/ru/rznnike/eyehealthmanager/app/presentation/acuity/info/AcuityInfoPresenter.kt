@@ -1,71 +1,81 @@
 package ru.rznnike.eyehealthmanager.app.presentation.acuity.info
 
+import kotlinx.coroutines.launch
 import moxy.InjectViewState
+import moxy.presenterScope
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.app.Screens
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAcuityTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
-import java.util.*
+import java.util.Calendar
 
 @InjectViewState
 class AcuityInfoPresenter : BasePresenter<AcuityInfoView>() {
-    private val preferences: PreferencesWrapper by inject()
+    private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
+    private val getAcuityTestingSettingsUseCase: GetAcuityTestingSettingsUseCase by inject()
+    private val setAcuityTestingSettingsUseCase: SetAcuityTestingSettingsUseCase by inject() // TODO save settings on exit
+
+    private var generalSettings = TestingSettings()
+    private var acuitySettings = AcuityTestingSettings()
 
     override fun onFirstViewAttach() {
-        populateData()
+        loadData()
     }
 
-    fun onSymbolsTypeSelected(symbolsType: AcuityTestSymbolsType) {
-        preferences.acuitySymbolsType.set(symbolsType.id)
-        populateData()
-    }
-
-    fun onEyesTypeSelected(eyesType: TestEyesType) {
-        preferences.testEyesType.set(eyesType.id)
-        populateData()
-    }
-
-    fun onScaleSettings() {
-        viewState.routerNavigateTo(Screens.Screen.testingSettings())
-    }
-
-    fun onDayPartAutoSelectionSettings() {
-        viewState.routerNavigateTo(Screens.Screen.testingSettings())
-    }
-
-    fun onStart(dayPart: DayPart) {
-        viewState.routerNavigateTo(Screens.Screen.acuityInstruction(dayPart))
-    }
-
-    private fun populateData() {
-        viewState.populateData(
-            AcuityTestSymbolsType[preferences.acuitySymbolsType.get()],
-            TestEyesType[preferences.testEyesType.get()]
-        )
-    }
-
-    fun onPrepareToStartTest() {
-        if (preferences.enableAutoDayPart.get()) {
-            val dayPart = autoSelectDayPart()
-            onStart(dayPart)
-        } else {
-            viewState.showDayPartSelectionDialog(preferences.replaceBeginningWithMorning.get())
+    private fun loadData() {
+        presenterScope.launch {
+            generalSettings = getTestingSettingsUseCase().data ?: TestingSettings()
+            acuitySettings = getAcuityTestingSettingsUseCase().data ?: AcuityTestingSettings()
+            populateData()
         }
     }
 
-    private fun autoSelectDayPart(): DayPart {
+    private fun populateData() = viewState.populateData(acuitySettings)
+
+    fun onSymbolsTypeSelected(newValue: AcuityTestSymbolsType) {
+        acuitySettings.symbolsType = newValue
+        populateData()
+    }
+
+    fun onEyesTypeSelected(newValue: TestEyesType) {
+        acuitySettings.eyesType = newValue
+        populateData()
+    }
+
+    fun onScaleSettings() = viewState.routerNavigateTo(Screens.Screen.testingSettings())
+
+    fun onDayPartAutoSelectionSettings() =
+        viewState.routerNavigateTo(Screens.Screen.testingSettings())
+
+    fun onStartTest(dayPart: DayPart) =
+        viewState.routerNavigateTo(Screens.Screen.acuityInstruction(dayPart))
+
+    fun onPrepareToStartTest() {
+        if (generalSettings.enableAutoDayPart) {
+            val dayPart = autoSelectDayPart()
+            onStartTest(dayPart)
+        } else {
+            viewState.showDayPartSelectionDialog(generalSettings.replaceBeginningWithMorning)
+        }
+    }
+
+    private fun autoSelectDayPart(): DayPart { // TODO refactor
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis() - calendar.timeZone.rawOffset
         val dayTime = (calendar.get(Calendar.HOUR_OF_DAY) * 60 * 60 +
                 calendar.get(Calendar.MINUTE) * 60 +
                 calendar.get(Calendar.SECOND)) * 1000L
 
-        val timeToBeginning = preferences.timeToDayBeginning.get()
-        val timeToMiddle = preferences.timeToDayMiddle.get()
-        val timeToEnd = preferences.timeToDayEnd.get()
+        val timeToBeginning = generalSettings.timeToDayBeginning
+        val timeToMiddle = generalSettings.timeToDayMiddle
+        val timeToEnd = generalSettings.timeToDayEnd
         return if (((dayTime >= timeToBeginning) && (dayTime < timeToMiddle))
             || ((dayTime >= timeToBeginning) && (timeToBeginning > timeToMiddle))
             || ((dayTime < timeToMiddle) && (timeToBeginning > timeToMiddle))) {
