@@ -19,7 +19,8 @@ class SymbolItem(
 
     override fun ItemSymbolBinding.bindView() {
         imageViewIcon.setImageResource(symbol.getDrawableRes())
-        val background = if (isSelected) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
-        imageViewIcon.setBackgroundResource(background)
+        imageViewIcon.setBackgroundResource(
+            if (isSelected) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
+        )
     }
 }

@@ -8,9 +8,13 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.getString
 import ru.rznnike.eyehealthmanager.app.utils.extensions.resources
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.databinding.ItemTestResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.*
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
+import ru.rznnike.eyehealthmanager.domain.model.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
@@ -77,26 +81,20 @@ class TestResultItem(
             )
         }
         val eyesPart = when (testResult.testEyesType) {
-            TestEyesType.BOTH -> {
-                "%s: %.1f\n%s: %.1f".format(
-                    getString(R.string.left_eye),
-                    (testResult.resultLeftEye ?: 0) / 100f,
-                    getString(R.string.right_eye),
-                    (testResult.resultRightEye ?: 0) / 100f
-                )
-            }
-            TestEyesType.LEFT -> {
-                "%s: %.1f".format(
-                    getString(R.string.left_eye),
-                    (testResult.resultLeftEye ?: 0) / 100f
-                )
-            }
-            TestEyesType.RIGHT -> {
-                "%s: %.1f".format(
-                    getString(R.string.right_eye),
-                    (testResult.resultRightEye ?: 0) / 100f
-                )
-            }
+            TestEyesType.BOTH -> "%s: %.1f\n%s: %.1f".format(
+                getString(R.string.left_eye),
+                (testResult.resultLeftEye ?: 0) / 100f,
+                getString(R.string.right_eye),
+                (testResult.resultRightEye ?: 0) / 100f
+            )
+            TestEyesType.LEFT -> "%s: %.1f".format(
+                getString(R.string.left_eye),
+                (testResult.resultLeftEye ?: 0) / 100f
+            )
+            TestEyesType.RIGHT -> "%s: %.1f".format(
+                getString(R.string.right_eye),
+                (testResult.resultRightEye ?: 0) / 100f
+            )
         }
         return "%s\n%s".format(
             subheader,
@@ -105,16 +103,8 @@ class TestResultItem(
     }
 
     private fun ItemTestResultBinding.getAstigmatismTestDetails(testResult: AstigmatismTestResult): String {
-        val leftEyeStatus = if (testResult.resultLeftEye == AstigmatismAnswerType.OK) {
-            getString(R.string.normal_condition)
-        } else {
-            getString(R.string.possible_astigmatism)
-        }
-        val rightEyeStatus = if (testResult.resultRightEye == AstigmatismAnswerType.OK) {
-            getString(R.string.normal_condition)
-        } else {
-            getString(R.string.possible_astigmatism)
-        }
+        val leftEyeStatus = testResult.resultLeftEye?.nameResId?.let { getString(it) } ?: "-"
+        val rightEyeStatus = testResult.resultRightEye?.nameResId?.let { getString(it) } ?: "-"
         return "%s: %s\n%s: %s".format(
             getString(R.string.left_eye),
             leftEyeStatus,
@@ -124,28 +114,8 @@ class TestResultItem(
     }
 
     private fun ItemTestResultBinding.getNearFarTestDetails(testResult: NearFarTestResult): String {
-        val leftEyeStatus = when (testResult.resultLeftEye) {
-            NearFarAnswerType.RED_BETTER -> {
-                getString(R.string.possible_myopia)
-            }
-            NearFarAnswerType.GREEN_BETTER -> {
-                getString(R.string.possible_farsightedness)
-            }
-            else -> {
-                getString(R.string.normal_condition)
-            }
-        }
-        val rightEyeStatus = when (testResult.resultLeftEye) {
-            NearFarAnswerType.RED_BETTER -> {
-                getString(R.string.possible_myopia)
-            }
-            NearFarAnswerType.GREEN_BETTER -> {
-                getString(R.string.possible_farsightedness)
-            }
-            else -> {
-                getString(R.string.normal_condition)
-            }
-        }
+        val leftEyeStatus = testResult.resultLeftEye?.nameResId?.let { getString(it) } ?: "-"
+        val rightEyeStatus = testResult.resultRightEye?.nameResId?.let { getString(it) } ?: "-"
         return "%s: %s\n%s: %s".format(
             getString(R.string.left_eye),
             leftEyeStatus,
@@ -154,26 +124,23 @@ class TestResultItem(
         )
     }
 
-    private fun ItemTestResultBinding.getColorPerceptionTestDetails(testResult: ColorPerceptionTestResult): String {
-        return "%s: %d/%d".format(
+    private fun ItemTestResultBinding.getColorPerceptionTestDetails(testResult: ColorPerceptionTestResult) =
+        "%s: %d/%d".format(
             getString(R.string.colors_recognized),
             testResult.recognizedColorsCount,
             testResult.allColorsCount
         )
-    }
 
-    private fun ItemTestResultBinding.getDaltonismTestDetails(testResult: DaltonismTestResult): String {
-        return "%s %s\n%s".format(
+    private fun ItemTestResultBinding.getDaltonismTestDetails(testResult: DaltonismTestResult) =
+        "%s %s\n%s".format(
             testResult.errorsCount,
             resources.getQuantityString(R.plurals.errors, testResult.errorsCount),
             getString(testResult.anomalyType.nameResId)
         )
-    }
 
-    private fun ItemTestResultBinding.getContrastTestDetails(testResult: ContrastTestResult): String {
-        return "%s: %d%%".format(
+    private fun ItemTestResultBinding.getContrastTestDetails(testResult: ContrastTestResult) =
+        "%s: %d%%".format(
             getString(R.string.contrast_result_header),
             testResult.recognizedContrast
         )
-    }
 }
