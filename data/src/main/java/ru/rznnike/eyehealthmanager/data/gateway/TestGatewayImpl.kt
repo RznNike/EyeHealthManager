@@ -18,7 +18,6 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParams
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
-import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.IOException
 import java.util.EnumMap
@@ -27,10 +26,6 @@ class TestGatewayImpl(
     private val testRepository: TestRepository,
     private val context: Context
 ) : TestGateway {
-    private val exportFiles: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
-    private val exportFileWriters: MutableMap<TestType, BufferedWriter> = EnumMap(TestType::class.java)
-    private val exportEntryCounters: MutableMap<TestType, Int> = EnumMap(TestType::class.java)
-
     override suspend fun getTestResults(params: TestResultPagingParams) =
         testRepository.getTests(params)
 
@@ -51,6 +46,9 @@ class TestGatewayImpl(
         fun DocumentFile.findOrCreateDocumentFolder(name: String) = findFile(name) ?: createDirectory(name)
 
         var exportFolderUri: Uri? = null
+        val exportFiles: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
+        val exportFileWriters: MutableMap<TestType, BufferedWriter> = EnumMap(TestType::class.java)
+        val exportEntryCounters: MutableMap<TestType, Int> = EnumMap(TestType::class.java)
 
         context.contentResolver
             .persistedUriPermissions
@@ -88,7 +86,9 @@ class TestGatewayImpl(
                     do {
                         val page = writeJournalPageToFiles(
                             filterParams = filterParams,
-                            pageOffset = dataCounter
+                            pageOffset = dataCounter,
+                            exportFileWriters = exportFileWriters,
+                            exportEntryCounters = exportEntryCounters
                         )
                         dataCounter += page
                     } while (page == GlobalConstants.EXPORT_PAGE_SIZE)
@@ -108,7 +108,12 @@ class TestGatewayImpl(
         return exportFolderUri
     }
 
-    private suspend fun writeJournalPageToFiles(filterParams: TestResultFilterParams, pageOffset: Int): Int {
+    private suspend fun writeJournalPageToFiles(
+        filterParams: TestResultFilterParams,
+        pageOffset: Int,
+        exportFileWriters: MutableMap<TestType, BufferedWriter>,
+        exportEntryCounters: MutableMap<TestType, Int>
+    ): Int {
         val data = testRepository.getTests(
             TestResultPagingParams(
                 limit = GlobalConstants.EXPORT_PAGE_SIZE,
@@ -148,98 +153,46 @@ class TestGatewayImpl(
             ?.distinct()
             ?: emptyList()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private val files: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
-    private var importFolderUri: Uri? = null
-    private var importFilesQueue: MutableMap<TestType, DocumentFile> = EnumMap(TestType::class.java)
-    private var currentFileType: TestType = TestType.ACUITY
-    private var currentFileReader: BufferedReader? = null
-
+    @SuppressLint("Recycle")
     override suspend fun importJournal(importFolderUri: Uri) {
-        // отфильтровать файлы, соотнести с типами
-        // цикл по файлам
-            // цикл по страницам
-
         DocumentFile.fromTreeUri(context, importFolderUri)
             ?.listFiles()
             ?.filter { it.isFile }
             ?.mapNotNull { file ->
                 val fileName = file.name?.removeSuffix(".tsv")
-                TestType.entries.firstOrNull { fileName == it.name.lowercase() }
+                val type = TestType.entries.firstOrNull { fileName == it.name.lowercase() }
+                type?.let { type to file }
             }
+            ?.distinctBy { it.first }
+            ?.forEach { mappedFile ->
+                val type = mappedFile.first
+                val file = mappedFile.second
+                val resultsBuffer = mutableListOf<TestResult>()
 
-
-
-
-
-
-        importFilesQueue.putAll(files)
-        importFilePageToDatabase()
-    }
-
-    @SuppressLint("Recycle")
-    private suspend fun importFilePageToDatabase() {
-        if (currentFileReader == null) {
-            importFilesQueue.entries.firstOrNull()?.let { entry ->
-                val type = entry.key
-                val file = entry.value
-                context.contentResolver.openInputStream(file.uri)?.let { inputStream ->
-                    currentFileReader = inputStream.bufferedReader()
-                    currentFileType = type
-                    importFilesQueue.remove(type)
-                }
-            }
-            if (currentFileReader == null) {
-                finishImport()
-            }
-        }
-        currentFileReader?.let { fileReader ->
-            val lines = mutableListOf<String>()
-            while (lines.size < GlobalConstants.IMPORT_PAGE_SIZE) {
-                val line = fileReader.readLine()
-                if (line == null) {
-                    fileReader.close()
-                    currentFileReader = null
-                    break
-                } else {
-                    lines.add(line)
-                }
-            }
-            if (lines.isEmpty()) {
-                importFilePageToDatabase()
-            } else {
-                val testResults = lines.mapNotNull {
-                    when (currentFileType) {
-                        TestType.ACUITY -> AcuityTestResult.importFromString(it)
-                        TestType.ASTIGMATISM -> AstigmatismTestResult.importFromString(it)
-                        TestType.NEAR_FAR -> NearFarTestResult.importFromString(it)
-                        TestType.COLOR_PERCEPTION -> ColorPerceptionTestResult.importFromString(it)
-                        TestType.DALTONISM -> DaltonismTestResult.importFromString(it)
-                        TestType.CONTRAST -> ContrastTestResult.importFromString(it)
+                context.contentResolver
+                    .openInputStream(file.uri)
+                    ?.bufferedReader()
+                    ?.useLines { lines ->
+                        lines
+                            .mapNotNull { line ->
+                                when (type) {
+                                    TestType.ACUITY -> AcuityTestResult.importFromString(line)
+                                    TestType.ASTIGMATISM -> AstigmatismTestResult.importFromString(line)
+                                    TestType.NEAR_FAR -> NearFarTestResult.importFromString(line)
+                                    TestType.COLOR_PERCEPTION -> ColorPerceptionTestResult.importFromString(line)
+                                    TestType.DALTONISM -> DaltonismTestResult.importFromString(line)
+                                    TestType.CONTRAST -> ContrastTestResult.importFromString(line)
+                                }
+                            }
+                            .forEach {
+                                resultsBuffer.add(it)
+                                if (resultsBuffer.size >= GlobalConstants.IMPORT_PAGE_SIZE) {
+                                    testRepository.addTests(resultsBuffer)
+                                    resultsBuffer.clear()
+                                }
+                            }
+                        testRepository.addTests(resultsBuffer)
                     }
-                }
-                if (testResults.isEmpty()) {
-                    importFilePageToDatabase()
-                } else {
-                    testRepository.addTests(testResults)
-                    importFilePageToDatabase()
-                }
             }
-        }
     }
 }
