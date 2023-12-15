@@ -38,7 +38,7 @@ class AcuityTestFragment : BaseFragment(R.layout.fragment_acuity_test), AcuityTe
 
     @ProvidePresenter
     fun providePresenter() = AcuityTestPresenter(
-        dayPart = DayPart[getIntArg(DAY_PART)]
+        dayPart = getParcelableArg(DAY_PART)!!
     )
 
     private val binding by viewBinding(FragmentAcuityTestBinding::bind)

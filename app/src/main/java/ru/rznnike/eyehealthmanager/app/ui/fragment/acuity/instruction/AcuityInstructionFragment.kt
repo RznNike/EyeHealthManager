@@ -11,6 +11,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.acuity.instruction.AcuityIns
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.instruction.AcuityInstructionView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.getIntArg
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getParcelableArg
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityInstructionBinding
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 
@@ -21,7 +22,7 @@ class AcuityInstructionFragment : BaseFragment(R.layout.fragment_acuity_instruct
 
     @ProvidePresenter
     fun providePresenter() = AcuityInstructionPresenter(
-        dayPart = DayPart[getIntArg(DAY_PART)]
+        dayPart = getParcelableArg(DAY_PART)!!
     )
 
     private val binding by viewBinding(FragmentAcuityInstructionBinding::bind)
