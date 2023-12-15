@@ -32,47 +32,47 @@ class AcuityDoctorResultPresenter : BasePresenter<AcuityDoctorResultView>() {
         populateData()
     }
 
-    fun onLeftEyeValueChanged(value: String) {
-        leftEye = value
+    fun onLeftEyeValueChanged(newValue: String) {
+        leftEye = newValue
         populateData()
     }
 
-    fun onRightEyeValueChanged(value: String) {
-        rightEye = value
+    fun onRightEyeValueChanged(newValue: String) {
+        rightEye = newValue
         populateData()
     }
 
-    fun onDateTimeSelected(timestamp: Long) {
-        date = timestamp
+    fun onDateTimeSelected(newValue: Long) {
+        date = newValue
         populateData()
     }
 
     fun onAddResult() {
-        val leftEyeFloat = leftEye.toFloatOrNullSmart()
-        val rightEyeFloat = rightEye.toFloatOrNullSmart()
-        when {
-            date == null -> {
-                notifier.sendMessage(R.string.choose_date_and_time)
-            }
-            (leftEyeFloat == null) && (rightEyeFloat == null) -> {
-                notifier.sendMessage(R.string.error_enter_at_least_one_eye)
-            }
-            else -> {
-                val testResult = AcuityTestResult(
-                    timestamp = date ?: System.currentTimeMillis(),
-                    symbolsType = AcuityTestSymbolsType.LETTERS_RU,
-                    testEyesType = when {
-                        leftEyeFloat == null -> TestEyesType.RIGHT
-                        rightEyeFloat == null -> TestEyesType.LEFT
-                        else -> TestEyesType.BOTH
-                    },
-                    dayPart = DayPart.MIDDLE,
-                    resultLeftEye = leftEyeFloat?.let { (it * 100).toInt() },
-                    resultRightEye = rightEyeFloat?.let { (it * 100).toInt() },
-                    measuredByDoctor = true
-                )
-                presenterScope.launch {
+        presenterScope.launch {
+            val leftEyeFloat = leftEye.toFloatOrNullSmart()
+            val rightEyeFloat = rightEye.toFloatOrNullSmart()
+            when {
+                date == null -> {
+                    notifier.sendMessage(R.string.choose_date_and_time)
+                }
+                (leftEyeFloat == null) && (rightEyeFloat == null) -> {
+                    notifier.sendMessage(R.string.error_enter_at_least_one_eye)
+                }
+                else -> {
                     viewState.setProgress(true)
+                    val testResult = AcuityTestResult(
+                        timestamp = date ?: System.currentTimeMillis(),
+                        symbolsType = AcuityTestSymbolsType.LETTERS_RU,
+                        testEyesType = when {
+                            leftEyeFloat == null -> TestEyesType.RIGHT
+                            rightEyeFloat == null -> TestEyesType.LEFT
+                            else -> TestEyesType.BOTH
+                        },
+                        dayPart = DayPart.MIDDLE,
+                        resultLeftEye = leftEyeFloat?.let { (it * 100).toInt() },
+                        resultRightEye = rightEyeFloat?.let { (it * 100).toInt() },
+                        measuredByDoctor = true
+                    )
                     addTestResultUseCase(testResult).process(
                         {
                             notifier.sendMessage(R.string.data_added)
