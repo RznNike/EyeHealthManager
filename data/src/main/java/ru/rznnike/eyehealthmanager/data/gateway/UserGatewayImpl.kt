@@ -68,4 +68,10 @@ class UserGatewayImpl(
             testEyesType.set(newValue.eyesType.id)
         }
     }
+
+    override suspend fun getApplyDynamicCorrections() =
+        preferences.applyDynamicCorrections.get()
+
+    override suspend fun setApplyDynamicCorrections(newValue: Boolean) =
+        preferences.applyDynamicCorrections.set(newValue)
 }

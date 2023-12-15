@@ -8,51 +8,41 @@ import ru.rznnike.eyehealthmanager.app.Screens
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.*
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetApplyDynamicCorrectionsUseCase
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.AnalysisParams
+import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
-import java.util.*
+import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
+import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
+import java.util.Calendar
 
 @InjectViewState
 class AcuityResultPresenter(
-    private val result: AcuityTestResult
+    private val testResult: AcuityTestResult
 ) : BasePresenter<AcuityResultView>() {
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
-    private val preferences: PreferencesWrapper by inject()
+    private val getApplyDynamicCorrectionsUseCase: GetApplyDynamicCorrectionsUseCase by inject()
     private val getAnalysisResultUseCase: GetAnalysisResultUseCase by inject()
     private val deleteTestResultUseCase: DeleteTestResultUseCase by inject()
 
-    private var testResult = AcuityTestResult()
     private var analysisResult: AnalysisResult? = null
-    private var applyDynamicCorrections = true
+    private var applyDynamicCorrections = false
 
     override fun onFirstViewAttach() {
         presenterScope.launch {
-            testResult = result
             viewState.setProgress(true)
+            applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data ?: false
             val params = AnalysisParams(
-                dateFrom = Calendar.getInstance()
-                    .apply {
-                        set(Calendar.HOUR_OF_DAY, 0)
-                        set(Calendar.MINUTE, 0)
-                        set(Calendar.SECOND, 0)
-                        set(Calendar.MILLISECOND, 0)
-                        add(Calendar.MONTH, -1)
-                    }
-                    .timeInMillis,
-                dateTo = Calendar.getInstance()
-                    .apply {
-                        set(Calendar.HOUR_OF_DAY, 23)
-                        set(Calendar.MINUTE, 59)
-                        set(Calendar.SECOND, 59)
-                        set(Calendar.MILLISECOND, 999)
-                    }
-                    .timeInMillis,
-                applyDynamicCorrections = preferences.applyDynamicCorrectionsInAnalysis.get(),
+                dateFrom = getTodayCalendar().apply {
+                    add(Calendar.MONTH, -1)
+                }.timeInMillis,
+                dateTo = Calendar.getInstance().atEndOfDay().timeInMillis,
+                applyDynamicCorrections = applyDynamicCorrections,
                 analysisType = AnalysisType.ACUITY_ONLY
             )
             getAnalysisResultUseCase(params).process(
@@ -72,12 +62,12 @@ class AcuityResultPresenter(
         }
     }
 
-    fun onCheckBoxApplyDynamicCorrectionsClicked(value: Boolean) {
+    fun onApplyDynamicCorrectionsChanged(value: Boolean) {
         applyDynamicCorrections = value
         populateData()
     }
 
-    fun onRedoTest() {
+    fun redoTest() {
         presenterScope.launch {
             viewState.setProgress(true)
             deleteTestResultUseCase(testResult.id).process(

@@ -24,4 +24,8 @@ interface UserGateway {
     suspend fun getAcuityTestingSettings(): AcuityTestingSettings
 
     suspend fun setAcuityTestingSettings(newValue: AcuityTestingSettings)
+
+    suspend fun getApplyDynamicCorrections(): Boolean
+
+    suspend fun setApplyDynamicCorrections(newValue: Boolean)
 }

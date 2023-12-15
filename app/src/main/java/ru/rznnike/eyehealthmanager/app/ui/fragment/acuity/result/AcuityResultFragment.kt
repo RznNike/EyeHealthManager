@@ -13,6 +13,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityResultBinding
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.SingleEyeAnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 
@@ -22,7 +23,7 @@ class AcuityResultFragment : BaseFragment(R.layout.fragment_acuity_result), Acui
 
     @ProvidePresenter
     fun providePresenter() = AcuityResultPresenter(
-        result = getParcelableArg(TEST_RESULT)!!
+        testResult = getParcelableArg(TEST_RESULT)!!
     )
 
     private val binding by viewBinding(FragmentAcuityResultBinding::bind)
@@ -56,10 +57,10 @@ class AcuityResultFragment : BaseFragment(R.layout.fragment_acuity_result), Acui
             routerFinishFlow()
         }
         buttonRedoTest.setOnClickListener {
-            presenter.onRedoTest()
+            presenter.redoTest()
         }
         checkBoxApplyDynamicCorrections.setOnClickListener {
-            presenter.onCheckBoxApplyDynamicCorrectionsClicked(checkBoxApplyDynamicCorrections.isChecked)
+            presenter.onApplyDynamicCorrectionsChanged(checkBoxApplyDynamicCorrections.isChecked)
         }
     }
 
@@ -69,61 +70,48 @@ class AcuityResultFragment : BaseFragment(R.layout.fragment_acuity_result), Acui
         applyDynamicCorrections: Boolean
     ) {
         binding.apply {
-            var resultLeftEye = (testResult.resultLeftEye ?: 0) / 100.0
-            var resultRightEye = (testResult.resultRightEye ?: 0) / 100.0
-            if (applyDynamicCorrections) {
-                val correctionLeft: Double
-                val correctionRight: Double
-                when (testResult.dayPart) {
-                    DayPart.BEGINNING -> {
-                        correctionLeft = analysisResult?.leftEyeAnalysisResult?.dynamicCorrections?.beginning ?: 0.0
-                        correctionRight = analysisResult?.rightEyeAnalysisResult?.dynamicCorrections?.beginning ?: 0.0
+            fun getResultDisplayValue(rawValue: Int?, analysis: SingleEyeAnalysisResult?): Double {
+                var displayValue = (rawValue ?: 0) / 100.0
+                if (applyDynamicCorrections) {
+                    val correction = when (testResult.dayPart) {
+                        DayPart.BEGINNING -> analysis?.dynamicCorrections?.beginning ?: 0.0
+                        DayPart.MIDDLE -> analysis?.dynamicCorrections?.middle ?: 0.0
+                        DayPart.END -> analysis?.dynamicCorrections?.end ?: 0.0
                     }
-                    DayPart.MIDDLE -> {
-                        correctionLeft = analysisResult?.leftEyeAnalysisResult?.dynamicCorrections?.middle ?: 0.0
-                        correctionRight = analysisResult?.rightEyeAnalysisResult?.dynamicCorrections?.middle ?: 0.0
-                    }
-                    DayPart.END -> {
-                        correctionLeft = analysisResult?.leftEyeAnalysisResult?.dynamicCorrections?.end ?: 0.0
-                        correctionRight = analysisResult?.rightEyeAnalysisResult?.dynamicCorrections?.end ?: 0.0
-                    }
+                    displayValue *= 1 + correction
                 }
-                resultLeftEye *= 1 + correctionLeft
-                resultRightEye *= 1 + correctionRight
-            }
-            val resultText = when (testResult.testEyesType) {
-                TestEyesType.BOTH -> {
-                    "%s - %.1f<br>%s - %.1f".format(
-                        getString(R.string.left_eye),
-                        resultLeftEye,
-                        getString(R.string.right_eye),
-                        resultRightEye
-                    )
-                }
-                TestEyesType.LEFT -> {
-                    "%s - %.1f".format(
-                        getString(R.string.left_eye),
-                        resultLeftEye
-                    )
-                }
-                TestEyesType.RIGHT -> {
-                    "%s - %.1f".format(
-                        getString(R.string.right_eye),
-                        resultRightEye
-                    )
-                }
-            }.toHtmlSpanned()
-            textViewResult.text = resultText
-
-            if (analysisResult?.lastResultRecognizedAsNoise == true) {
-                layoutNoiseProcessing.setVisible()
-            } else {
-                layoutNoiseProcessing.setGone()
+                return displayValue
             }
 
+            val resultLeftEye = getResultDisplayValue(
+                rawValue = testResult.resultLeftEye,
+                analysis = analysisResult?.leftEyeAnalysisResult
+            )
+            val resultRightEye = getResultDisplayValue(
+                rawValue = testResult.resultRightEye,
+                analysis = analysisResult?.rightEyeAnalysisResult
+            )
+
+            textViewResult.text = when (testResult.testEyesType) {
+                TestEyesType.BOTH -> "%s - %.1f\n%s - %.1f".format(
+                    getString(R.string.left_eye),
+                    resultLeftEye,
+                    getString(R.string.right_eye),
+                    resultRightEye
+                )
+                TestEyesType.LEFT -> "%s - %.1f".format(
+                    getString(R.string.left_eye),
+                    resultLeftEye
+                )
+                TestEyesType.RIGHT -> "%s - %.1f".format(
+                    getString(R.string.right_eye),
+                    resultRightEye
+                )
+            }
+
+            layoutNoiseProcessing.setVisible(analysisResult?.lastResultRecognizedAsNoise == true)
             checkBoxApplyDynamicCorrections.isChecked = applyDynamicCorrections
-
-            textViewMessage.setGone()
+            textViewMessage.setVisible(analysisResult?.showWarningAboutVision ?: false)
         }
     }
 
