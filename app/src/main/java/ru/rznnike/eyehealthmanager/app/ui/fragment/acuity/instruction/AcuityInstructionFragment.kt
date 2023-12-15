@@ -10,10 +10,8 @@ import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.instruction.AcuityInstructionPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.instruction.AcuityInstructionView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
-import ru.rznnike.eyehealthmanager.app.utils.extensions.getIntArg
 import ru.rznnike.eyehealthmanager.app.utils.extensions.getParcelableArg
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityInstructionBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 
 class AcuityInstructionFragment : BaseFragment(R.layout.fragment_acuity_instruction),
     AcuityInstructionView {
@@ -47,7 +45,7 @@ class AcuityInstructionFragment : BaseFragment(R.layout.fragment_acuity_instruct
 
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
-            presenter.onStart()
+            presenter.startTest()
         }
     }
 
