@@ -5,6 +5,8 @@ import moxy.InjectViewState
 import moxy.presenterScope
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.app.Screens
+import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
+import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
@@ -14,16 +16,36 @@ import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
-import java.util.Calendar
+import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
 
 @InjectViewState
-class AcuityInfoPresenter : BasePresenter<AcuityInfoView>() {
+class AcuityInfoPresenter : BasePresenter<AcuityInfoView>(), EventDispatcher.EventListener {
+    private val eventDispatcher: EventDispatcher by inject()
     private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
     private val getAcuityTestingSettingsUseCase: GetAcuityTestingSettingsUseCase by inject()
-    private val setAcuityTestingSettingsUseCase: SetAcuityTestingSettingsUseCase by inject() // TODO save settings on exit
+    private val setAcuityTestingSettingsUseCase: SetAcuityTestingSettingsUseCase by inject()
 
     private var generalSettings = TestingSettings()
     private var acuitySettings = AcuityTestingSettings()
+
+    init {
+        subscribeToEvents()
+    }
+
+    override fun onDestroy() {
+        eventDispatcher.removeEventListener(this)
+    }
+
+    private fun subscribeToEvents() {
+        eventDispatcher.addEventListener(AppEvent.TestingSettingsChanged::class, this)
+    }
+
+    override fun onEvent(event: AppEvent) {
+        when (event) {
+            is AppEvent.TestingSettingsChanged -> loadData()
+            else -> Unit
+        }
+    }
 
     override fun onFirstViewAttach() {
         loadData()
@@ -54,42 +76,44 @@ class AcuityInfoPresenter : BasePresenter<AcuityInfoView>() {
     fun onDayPartAutoSelectionSettings() =
         viewState.routerNavigateTo(Screens.Screen.testingSettings())
 
-    fun onStartTest(dayPart: DayPart) =
-        viewState.routerNavigateTo(Screens.Screen.acuityInstruction(dayPart))
+    fun startTest(dayPart: DayPart) {
+        presenterScope.launch {
+            setAcuityTestingSettingsUseCase(acuitySettings)
+            viewState.routerNavigateTo(Screens.Screen.acuityInstruction(dayPart))
+        }
+    }
 
     fun onPrepareToStartTest() {
         if (generalSettings.enableAutoDayPart) {
             val dayPart = autoSelectDayPart()
-            onStartTest(dayPart)
+            startTest(dayPart)
         } else {
             viewState.showDayPartSelectionDialog(generalSettings.replaceBeginningWithMorning)
         }
     }
 
-    private fun autoSelectDayPart(): DayPart { // TODO refactor
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis() - calendar.timeZone.rawOffset
-        val dayTime = (calendar.get(Calendar.HOUR_OF_DAY) * 60 * 60 +
-                calendar.get(Calendar.MINUTE) * 60 +
-                calendar.get(Calendar.SECOND)) * 1000L
+    private fun autoSelectDayPart() =
+        when (val currentDayTime = System.currentTimeMillis().getDayTime()) {
+            generalSettings.timeToDayBeginning -> DayPart.BEGINNING
+            generalSettings.timeToDayMiddle -> DayPart.MIDDLE
+            generalSettings.timeToDayEnd -> DayPart.END
+            else -> {
+                val sortedTimes = listOf(
+                    currentDayTime,
+                    generalSettings.timeToDayBeginning,
+                    generalSettings.timeToDayMiddle,
+                    generalSettings.timeToDayEnd
+                ).sorted()
+                val currentIndex = sortedTimes.indexOf(currentDayTime)
+                val dayPartIndex = if (currentIndex > 0) currentIndex - 1 else sortedTimes.lastIndex
 
-        val timeToBeginning = generalSettings.timeToDayBeginning
-        val timeToMiddle = generalSettings.timeToDayMiddle
-        val timeToEnd = generalSettings.timeToDayEnd
-        return if (((dayTime >= timeToBeginning) && (dayTime < timeToMiddle))
-            || ((dayTime >= timeToBeginning) && (timeToBeginning > timeToMiddle))
-            || ((dayTime < timeToMiddle) && (timeToBeginning > timeToMiddle))) {
-            DayPart.BEGINNING
-        } else if (((dayTime >= timeToMiddle) && (dayTime < timeToEnd))
-            || ((dayTime >= timeToMiddle) && (timeToMiddle > timeToEnd))
-            || ((dayTime < timeToEnd) && (timeToMiddle > timeToEnd))) {
-            DayPart.MIDDLE
-        } else {
-            DayPart.END
+                when (sortedTimes[dayPartIndex]) {
+                    generalSettings.timeToDayMiddle -> DayPart.MIDDLE
+                    generalSettings.timeToDayEnd -> DayPart.END
+                    else -> DayPart.BEGINNING
+                }
+            }
         }
-    }
 
-    fun onAddDoctorResult() {
-        viewState.routerNavigateTo(Screens.Screen.acuityDoctorResult())
-    }
+    fun onAddDoctorResult() = viewState.routerNavigateTo(Screens.Screen.acuityDoctorResult())
 }

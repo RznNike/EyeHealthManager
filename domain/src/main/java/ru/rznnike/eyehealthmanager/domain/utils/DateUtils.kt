@@ -12,14 +12,14 @@ import java.time.temporal.TemporalQueries
 import java.util.Calendar
 import java.util.Locale
 
-fun Long.toDate(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE): String =
+fun Long.toDate(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE) =
     SimpleDateFormat(pattern, Locale.getDefault()).format(this)
 
-fun Long.toLocalDate(): LocalDate = Instant.ofEpochMilli(this)
+fun Long.toLocalDate() = Instant.ofEpochMilli(this)
     .atZone(ZoneId.systemDefault())
     .toLocalDate()
 
-fun LocalDate.toTimestamp(): Long =
+fun LocalDate.toTimestamp() =
     atStartOfDay().atZone(ZoneId.systemDefault()).toEpochSecond() * 1000L
 
 fun Long.toYear() =
@@ -44,15 +44,15 @@ fun String.toTimeStamp(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE_WIT
         }
     } else 0
 
-fun Long.toCalendar(): Calendar = Calendar.getInstance().apply {
+fun Long.toCalendar() = Calendar.getInstance().apply {
     timeInMillis = this@toCalendar
 }
 
-fun Long.getDayTime(): Long = toCalendar().run {
-    (get(Calendar.HOUR_OF_DAY) * 60 * 60 + get(Calendar.MINUTE) * 60 + get(Calendar.SECOND)) * 1000L
+fun Long.getDayTime() = toCalendar().run {
+    (get(Calendar.HOUR_OF_DAY) * 60 * 60 + get(Calendar.MINUTE) * 60 + get(Calendar.SECOND)) * 1000L + get(Calendar.MILLISECOND)
 }
 
-fun getTodayCalendar(): Calendar = Calendar.getInstance().atStartOfDay()
+fun getTodayCalendar() = Calendar.getInstance().atStartOfDay()
 
 fun Calendar.atStartOfDay() = apply {
     set(Calendar.HOUR_OF_DAY, 0)

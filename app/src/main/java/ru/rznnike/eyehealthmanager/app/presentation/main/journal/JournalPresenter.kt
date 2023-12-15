@@ -80,7 +80,6 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
 
     override fun onDestroy() {
         eventDispatcher.removeEventListener(this)
-        super.onDestroy()
     }
 
     private fun subscribeToEvents() {
