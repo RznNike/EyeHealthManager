@@ -84,31 +84,3 @@ fun SwipeRefreshLayout.setupDefaults() {
     setProgressBackgroundColorSchemeResource(R.color.colorBackgroundGray)
     setProgressViewOffset(false, progressViewStartOffset, 50)
 }
-
-@SuppressLint("ClickableViewAccessibility")
-fun View.setScaleOnTouch() {
-    val pressedScale = 0.96f
-    val normalScale = 1f
-    val durationMs = 200L
-    setOnTouchListener { view, event ->
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                view.animate()
-                    .scaleX(pressedScale)
-                    .scaleY(pressedScale)
-                    .setDuration(durationMs)
-                    .setStartDelay(0)
-                    .start()
-            }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                view.animate()
-                    .scaleX(normalScale)
-                    .scaleY(normalScale)
-                    .setDuration(durationMs)
-                    .setStartDelay(0)
-                    .start()
-            }
-        }
-        false
-    }
-}
