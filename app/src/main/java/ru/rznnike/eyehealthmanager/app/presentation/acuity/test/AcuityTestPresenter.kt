@@ -116,14 +116,14 @@ class AcuityTestPresenter(
                     initTestForNewVisionLevel()
                     populateData()
                 }
-            answersCount < MAX_ANSWERS -> {
+            ((answersCount - correctAnswersCount) > (MAX_ANSWERS - MIN_CORRECT_ANSWERS)) -> {
+                visionLevel -= VISION_STEP
+                finishTest()
+            }
+            else -> {
                 stepType = StepType.TEST
                 randomizeCurrentSymbol()
                 populateData()
-            }
-            else -> {
-                visionLevel -= VISION_STEP
-                finishTest()
             }
         }
     }
@@ -186,21 +186,16 @@ class AcuityTestPresenter(
     }
 
     private fun getCurrentProgress(): Int {
-        fun circularTransform(x: Float) = sqrt((10000 - (x - 100).pow(2)))
+        fun circularTransform(x: Double) = sqrt((1 - (x - 1).pow(2)))
 
-        // step
-        var result = (visionLevel - VISION_START + answersCount.toFloat() * VISION_STEP / MAX_ANSWERS) /
-                (VISION_END - VISION_START) * 100
-        // substep
-        result += VISION_STEP / (VISION_END - VISION_START)
-        // transform with non-linear function
-        result = circularTransform(result)
-        // multi-eye case
+        val currentValue = visionLevel - VISION_START + answersCount.toDouble() / MAX_ANSWERS * VISION_STEP
+        val maxValue = VISION_END - VISION_START
+        var progress = circularTransform(currentValue / maxValue)
         if (acuitySettings.eyesType == TestEyesType.BOTH) {
-            result = result / 2 + 50 * eyesTested
+            progress = (progress + eyesTested) / 2
         }
 
-        return result.toInt()
+        return (progress * 100).toInt()
     }
 
     private enum class StepType {

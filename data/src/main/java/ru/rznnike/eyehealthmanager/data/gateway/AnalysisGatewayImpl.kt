@@ -43,7 +43,6 @@ class AnalysisGatewayImpl(
         )
 
         val acuityResults = testRepository.getTests(acuitySearchParams)
-        val allLastResults = testRepository.getAllLastTests()
 
         if (acuityResults.size < MIN_RESULTS_COUNT) {
             throw NotEnoughDataException()
@@ -89,18 +88,21 @@ class AnalysisGatewayImpl(
             dynamicCorrections = rightEyeDynamicCorrections
         }
 
+        val allLastResults = if (params.analysisType == AnalysisType.CONSOLIDATED_REPORT) {
+            testRepository.getAllLastTests().filter { it !is AcuityTestResult }
+        } else {
+            emptyList()
+        }
+        val showWarningAboutVision = checkShowWarningAboutVision(
+            leftEyeData = leftEyeAnalysisResult.statistics,
+            rightEyeData = rightEyeAnalysisResult.statistics
+        )
+
         return AnalysisResult(
-            testResults = if (params.analysisType == AnalysisType.CONSOLIDATED_REPORT) {
-                allLastResults.filter { it !is AcuityTestResult }
-            } else {
-                listOf()
-            },
+            testResults = allLastResults,
             leftEyeAnalysisResult = leftEyeAnalysisResult,
             rightEyeAnalysisResult = rightEyeAnalysisResult,
-            showWarningAboutVision = checkShowWarningAboutVision(
-                leftEyeData = leftEyeAnalysisResult.statistics,
-                rightEyeData = rightEyeAnalysisResult.statistics
-            ),
+            showWarningAboutVision = showWarningAboutVision,
             lastResultRecognizedAsNoise = lastResultRecognizedAsNoise
         )
     }

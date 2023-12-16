@@ -32,6 +32,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setGone
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.app.utils.extensions.withDelay
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityTestBinding
+import ru.rznnike.eyehealthmanager.domain.model.EmptyAcuitySymbol
 import ru.rznnike.eyehealthmanager.domain.model.IAcuitySymbol
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterEn
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterRu
@@ -203,7 +204,11 @@ class AcuityTestFragment : BaseFragment(R.layout.fragment_acuity_test), AcuityTe
                         it.isSelected = symbol == selectedSymbol
                     }
                 }
-                .plus(CantAnswerItem())
+                .plus(
+                    CantAnswerItem().also {
+                        it.isSelected = selectedSymbol == EmptyAcuitySymbol
+                    }
+                )
             itemAdapter.setNewList(items)
             buttonNext.setText(R.string.continue_string)
             buttonNext.isEnabled = selectedSymbol != null
