@@ -1,23 +1,24 @@
 package ru.rznnike.eyehealthmanager.app.presentation.astigmatism.test
 
+import kotlinx.coroutines.launch
 import moxy.InjectViewState
+import moxy.presenterScope
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.app.Screens
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 
 @InjectViewState
 class AstigmatismTestPresenter : BasePresenter<AstigmatismTestView>() {
-    private val preferences: PreferencesWrapper by inject()
+    private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
 
     override fun onFirstViewAttach() {
-        viewState.setScale(
-            dpmm = preferences.dotsPerMillimeter.get(),
-            distance = preferences.armsLength.get()
-        )
+        presenterScope.launch {
+            val settings = getTestingSettingsUseCase().data ?: TestingSettings()
+            viewState.setScale(settings)
+        }
     }
 
-    fun onNext() {
-        viewState.routerNavigateTo(Screens.Screen.astigmatismAnswer())
-    }
+    fun openAnswer() = viewState.routerNavigateTo(Screens.Screen.astigmatismAnswer())
 }

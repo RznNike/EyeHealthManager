@@ -6,7 +6,5 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 
 @InjectViewState
 class AstigmatismInfoPresenter : BasePresenter<AstigmatismInfoView>() {
-    fun onStart() {
-        viewState.routerNewRootScreen(Screens.Screen.astigmatismTest())
-    }
+    fun startTest() = viewState.routerNewRootScreen(Screens.Screen.astigmatismTest())
 }

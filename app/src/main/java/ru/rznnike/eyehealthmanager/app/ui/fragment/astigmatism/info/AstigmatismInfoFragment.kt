@@ -38,7 +38,7 @@ class AstigmatismInfoFragment : BaseFragment(R.layout.fragment_astigmatism_info)
 
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
-            presenter.onStart()
+            presenter.startTest()
         }
     }
 }

@@ -13,11 +13,13 @@ import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.astigmatism.test.AstigmatismTestPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.astigmatism.test.AstigmatismTestView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
+import ru.rznnike.eyehealthmanager.app.utils.extensions.context
 import ru.rznnike.eyehealthmanager.app.utils.extensions.convertMmToPx
 import ru.rznnike.eyehealthmanager.databinding.FragmentAstigmatismTestBinding
+import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 
-private const val DEFAULT_HEIGHT_MM = 100f
-private const val DEFAULT_DISTANCE_MM = 5000f
+private const val BASIC_HEIGHT_MM = 100f
+private const val BASIC_DISTANCE_MM = 5000f
 
 class AstigmatismTestFragment : BaseFragment(R.layout.fragment_astigmatism_test), AstigmatismTestView {
     @InjectPresenter
@@ -49,14 +51,14 @@ class AstigmatismTestFragment : BaseFragment(R.layout.fragment_astigmatism_test)
 
     private fun initOnClickListeners() = binding.apply {
         buttonNext.setOnClickListener {
-            presenter.onNext()
+            presenter.openAnswer()
         }
     }
 
-    override fun setScale(dpmm: Float, distance: Int) {
+    override fun setScale(settings: TestingSettings) {
         binding.apply {
-            val finalDpmm = if (dpmm > 0) dpmm else requireContext().convertMmToPx(1f)
-            val heightMm = DEFAULT_HEIGHT_MM * distance / DEFAULT_DISTANCE_MM
+            val finalDpmm = if (settings.dpmm > 0) settings.dpmm else context.convertMmToPx(1f)
+            val heightMm = BASIC_HEIGHT_MM * settings.armsLength / BASIC_DISTANCE_MM
             val heightPx = heightMm * finalDpmm
             imageViewTest.updateLayoutParams {
                 height = heightPx.toInt()

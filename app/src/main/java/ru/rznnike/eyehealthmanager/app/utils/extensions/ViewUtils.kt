@@ -1,11 +1,10 @@
 package ru.rznnike.eyehealthmanager.app.utils.extensions
 
-import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -84,3 +83,6 @@ fun SwipeRefreshLayout.setupDefaults() {
     setProgressBackgroundColorSchemeResource(R.color.colorBackgroundGray)
     setProgressViewOffset(false, progressViewStartOffset, 50)
 }
+
+val RadioGroup.selectionIndex: Int
+    get() = indexOfChild(findViewById(checkedRadioButtonId))
