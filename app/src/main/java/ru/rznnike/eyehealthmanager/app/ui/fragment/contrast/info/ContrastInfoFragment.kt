@@ -37,7 +37,7 @@ class ContrastInfoFragment : BaseFragment(R.layout.fragment_contrast_info), Cont
 
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
-            presenter.onStart()
+            presenter.startTest()
         }
     }
 }

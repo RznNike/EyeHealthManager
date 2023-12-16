@@ -47,17 +47,19 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
 
     override fun onStart() {
         super.onStart()
-
-        val attributes = requireActivity().window.attributes
-        attributes.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
-        requireActivity().window.attributes = attributes
+        activity?.window?.apply {
+            attributes = attributes.apply {
+                screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
+            }
+        }
     }
 
     override fun onStop() {
-        val attributes = requireActivity().window.attributes
-        attributes.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
-        requireActivity().window.attributes = attributes
-
+        activity?.window?.apply {
+            attributes = attributes.apply {
+                screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+            }
+        }
         super.onStop()
     }
 
@@ -93,10 +95,16 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
         binding.apply {
             percentProgressView.progress = progress
 
-            buttonUp.isEnabled = false
-            buttonDown.isEnabled = false
-            buttonLeft.isEnabled = false
-            buttonRight.isEnabled = false
+            val answerButtons = listOf(
+                buttonUp,
+                buttonDown,
+                buttonLeft,
+                buttonRight
+            )
+
+            answerButtons.forEach {
+                it.isEnabled = false
+            }
 
             layoutTest.animate()
                 .alpha(0f)
@@ -121,10 +129,9 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
                             .setDuration(FADE_ANIMATION_MS)
                             .withEndAction {
                                 view?.post {
-                                    buttonUp.isEnabled = true
-                                    buttonDown.isEnabled = true
-                                    buttonLeft.isEnabled = true
-                                    buttonRight.isEnabled = true
+                                    answerButtons.forEach {
+                                        it.isEnabled = true
+                                    }
                                 }
                             }
                             .start()
