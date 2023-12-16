@@ -6,7 +6,5 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 
 @InjectViewState
 class DaltonismInfoPresenter : BasePresenter<DaltonismInfoView>() {
-    fun onStart() {
-        viewState.routerNewRootScreen(Screens.Screen.daltonismTest())
-    }
+    fun startTest() = viewState.routerNewRootScreen(Screens.Screen.daltonismTest())
 }

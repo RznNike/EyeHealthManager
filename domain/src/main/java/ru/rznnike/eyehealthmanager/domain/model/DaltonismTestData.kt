@@ -3,9 +3,9 @@ package ru.rznnike.eyehealthmanager.domain.model
 import ru.rznnike.eyehealthmanager.domain.R
 import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
 
-object DaltonismTestQuestionsMap {
-    val questions: Map<Int, DaltonismTestQuestion> = mapOf(
-        0 to DaltonismTestQuestion(
+object DaltonismTestData {
+    val questions: List<DaltonismTestQuestion> = listOf(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_1,
             answerResIds = listOf(
                 R.string.rabkin_96,
@@ -27,7 +27,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to true
             )
         ),
-        1 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_2,
             answerResIds = listOf(
                 R.string.rabkin_circle_and_triangle,
@@ -49,7 +49,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to true
             )
         ),
-        2 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_3,
             answerResIds = listOf(
                 R.string.rabkin_9,
@@ -71,7 +71,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to true
             )
         ),
-        3 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_4,
             answerResIds = listOf(
                 R.string.rabkin_triangle,
@@ -93,7 +93,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        4 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_5,
             answerResIds = listOf(
                 R.string.rabkin_13,
@@ -115,7 +115,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        5 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_6,
             answerResIds = listOf(
                 R.string.rabkin_circle_and_triangle,
@@ -137,7 +137,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        6 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_7,
             answerResIds = listOf(
                 R.string.rabkin_96,
@@ -159,7 +159,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        7 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_8,
             answerResIds = listOf(
                 R.string.rabkin_5,
@@ -181,7 +181,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        8 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_9,
             answerResIds = listOf(
                 R.string.rabkin_9,
@@ -203,7 +203,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to true
             )
         ),
-        9 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_10,
             answerResIds = listOf(
                 R.string.rabkin_136,
@@ -225,7 +225,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        10 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_11,
             answerResIds = listOf(
                 R.string.rabkin_circle_and_triangle,
@@ -247,7 +247,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to true
             )
         ),
-        11 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_12,
             answerResIds = listOf(
                 R.string.rabkin_12,
@@ -269,7 +269,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        12 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_13,
             answerResIds = listOf(
                 R.string.rabkin_circle_and_triangle,
@@ -291,7 +291,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to true
             )
         ),
-        13 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_14,
             answerResIds = listOf(
                 R.string.rabkin_30,
@@ -313,7 +313,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        14 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_15,
             answerResIds = listOf(
                 R.string.rabkin_circle_and_triangle,
@@ -335,7 +335,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        15 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_16,
             answerResIds = listOf(
                 R.string.rabkin_96,
@@ -357,7 +357,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        16 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_17,
             answerResIds = listOf(
                 R.string.rabkin_circle_and_triangle,
@@ -379,7 +379,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        17 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_18,
             answerResIds = listOf(
                 R.string.rabkin_horizontal_lines,
@@ -401,7 +401,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to true
             )
         ),
-        18 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_19,
             answerResIds = listOf(
                 R.string.rabkin_95,
@@ -423,7 +423,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to true
             )
         ),
-        19 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_20,
             answerResIds = listOf(
                 R.string.rabkin_circle_and_triangle,
@@ -445,7 +445,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        20 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_21,
             answerResIds = listOf(
                 R.string.rabkin_vertical_lines,
@@ -467,7 +467,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        21 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_22,
             answerResIds = listOf(
                 R.string.rabkin_66,
@@ -489,7 +489,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        22 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_23,
             answerResIds = listOf(
                 R.string.rabkin_36,
@@ -511,7 +511,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        23 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_24,
             answerResIds = listOf(
                 R.string.rabkin_14,
@@ -533,7 +533,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        24 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_25,
             answerResIds = listOf(
                 R.string.rabkin_9,
@@ -555,7 +555,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        25 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_26,
             answerResIds = listOf(
                 R.string.rabkin_4,
@@ -577,7 +577,7 @@ object DaltonismTestQuestionsMap {
                 DaltonismAnomalyType.PATHOLOGY to false
             )
         ),
-        26 to DaltonismTestQuestion(
+        DaltonismTestQuestion(
             testImageResId = R.drawable.rabkin_27,
             answerResIds = listOf(
                 R.string.rabkin_13,

@@ -13,6 +13,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.colorperception.test.ColorPe
 import ru.rznnike.eyehealthmanager.app.presentation.colorperception.test.ColorPerceptionTestView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
+import ru.rznnike.eyehealthmanager.app.utils.extensions.withEndActionSafe
 import ru.rznnike.eyehealthmanager.databinding.FragmentColorPerceptionTestBinding
 
 private const val FADE_ANIMATION_MS = 500L
@@ -72,24 +73,20 @@ class ColorPerceptionTestFragment : BaseFragment(R.layout.fragment_color_percept
                 .alpha(0f)
                 .setStartDelay(0)
                 .setDuration(FADE_ANIMATION_MS)
-                .withEndAction {
-                    view?.post {
-                        imageViewLeftColor.setBackgroundColor(color1)
-                        imageViewRightColor.setBackgroundColor(color2)
+                .withEndActionSafe(this@ColorPerceptionTestFragment) {
+                    imageViewLeftColor.setBackgroundColor(color1)
+                    imageViewRightColor.setBackgroundColor(color2)
 
-                        layoutColors.setVisible()
-                        layoutColors.animate()
-                            .alpha(1f)
-                            .setStartDelay(0)
-                            .setDuration(FADE_ANIMATION_MS)
-                            .withEndAction {
-                                view?.post {
-                                    buttonYes.isEnabled = true
-                                    buttonNo.isEnabled = true
-                                }
-                            }
-                            .start()
-                    }
+                    layoutColors.setVisible()
+                    layoutColors.animate()
+                        .alpha(1f)
+                        .setStartDelay(0)
+                        .setDuration(FADE_ANIMATION_MS)
+                        .withEndActionSafe(this@ColorPerceptionTestFragment) {
+                            buttonYes.isEnabled = true
+                            buttonNo.isEnabled = true
+                        }
+                        .start()
                 }
                 .start()
         }

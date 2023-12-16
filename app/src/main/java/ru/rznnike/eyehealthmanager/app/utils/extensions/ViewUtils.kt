@@ -3,6 +3,7 @@ package ru.rznnike.eyehealthmanager.app.utils.extensions
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
 import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -10,6 +11,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.rznnike.eyehealthmanager.R
 
@@ -86,3 +88,11 @@ fun SwipeRefreshLayout.setupDefaults() {
 
 val RadioGroup.selectionIndex: Int
     get() = indexOfChild(findViewById(checkedRadioButtonId))
+
+fun ViewPropertyAnimator.withStartActionSafe(fragment: Fragment, action: () -> Unit) = withStartAction {
+    fragment.view?.let { action() }
+}
+
+fun ViewPropertyAnimator.withEndActionSafe(fragment: Fragment, action: () -> Unit) = withEndAction {
+    fragment.view?.let { action() }
+}

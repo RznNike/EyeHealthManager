@@ -22,10 +22,9 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash), SplashView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startFirstAnimation()
-        view.postDelayed(
-            { activity?.window?.setBackgroundDrawableResource(R.color.colorBackground) },
-            PAUSE_DURATION_MS / 2
-        )
+        binding.withDelay(PAUSE_DURATION_MS / 2) {
+            activity?.window?.setBackgroundDrawableResource(R.color.colorBackground)
+        }
     }
 
     private fun startFirstAnimation() = binding.apply {

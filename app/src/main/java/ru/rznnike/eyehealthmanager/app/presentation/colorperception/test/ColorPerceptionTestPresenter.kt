@@ -11,8 +11,8 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
+import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestData
 import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 
 @InjectViewState
 class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
@@ -37,10 +37,10 @@ class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
         // stub
         currentLevelPairs.add(Pair(0, 0))
         // start value
-        currentLevelPairs.add(Pair(0, GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.lastIndex))
+        currentLevelPairs.add(Pair(0, ColorPerceptionTestData.colors.lastIndex))
         // data for progress counting
         pairDismissStepValues[2] = 1
-        for (size in 3..GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.size) {
+        for (size in 3..ColorPerceptionTestData.colors.size) {
             val firstPairSize = size / 2 + 1
             val secondPairSize = size - firstPairSize + 1
             pairDismissStepValues[size] = (pairDismissStepValues[firstPairSize] ?: 0) + (pairDismissStepValues[secondPairSize] ?: 0) + 1
@@ -94,13 +94,13 @@ class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
 
     private fun showNextColorsPair() =
         viewState.populateData(
-            GlobalConstants.COLOR_PERCEPTION_TEST_COLORS[currentLevelPairs[0].first],
-            GlobalConstants.COLOR_PERCEPTION_TEST_COLORS[currentLevelPairs[0].second],
+            ColorPerceptionTestData.colors[currentLevelPairs[0].first],
+            ColorPerceptionTestData.colors[currentLevelPairs[0].second],
             getCurrentProgress()
         )
 
     private fun getCurrentProgress(): Int =
-        currentStep * 100 / (pairDismissStepValues[GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.size] ?: 0)
+        currentStep * 100 / (pairDismissStepValues[ColorPerceptionTestData.colors.size] ?: 0)
 
     private fun finishTest() {
         presenterScope.launch {
@@ -124,14 +124,14 @@ class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
             val testResult = ColorPerceptionTestResult(
                 timestamp = System.currentTimeMillis(),
                 recognizedColorsCount = recognizedColorsCount,
-                allColorsCount = GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.size
+                allColorsCount = ColorPerceptionTestData.colors.size
             )
             addTestResultUseCase(testResult).process(
                 {
                     viewState.routerNewRootScreen(
                         Screens.Screen.colorPerceptionResult(
                             recognizedCount = recognizedColorsCount,
-                            allCount = GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.size
+                            allCount = ColorPerceptionTestData.colors.size
                         )
                     )
                 }, { error ->

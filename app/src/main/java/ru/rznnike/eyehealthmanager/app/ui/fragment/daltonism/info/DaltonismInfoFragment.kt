@@ -37,7 +37,7 @@ class DaltonismInfoFragment : BaseFragment(R.layout.fragment_daltonism_info), Da
 
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
-            presenter.onStart()
+            presenter.startTest()
         }
     }
 }

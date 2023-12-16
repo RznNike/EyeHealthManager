@@ -3,7 +3,6 @@ package ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.result
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -63,10 +62,10 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
             )
             if (resultType == DaltonismAnomalyType.NONE) {
                 textViewMessage.setInvisible()
-                textViewResult.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+                textViewResult.setTextColorRes(R.color.colorAccent)
             } else {
                 textViewMessage.setVisible()
-                textViewResult.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorRed))
+                textViewResult.setTextColorRes(R.color.colorRed)
             }
         }
     }
