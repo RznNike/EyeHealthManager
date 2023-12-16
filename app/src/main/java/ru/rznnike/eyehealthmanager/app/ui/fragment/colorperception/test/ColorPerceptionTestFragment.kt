@@ -54,10 +54,10 @@ class ColorPerceptionTestFragment : BaseFragment(R.layout.fragment_color_percept
 
     private fun initOnClickListeners() = binding.apply {
         buttonYes.setOnClickListener {
-            presenter.onYes()
+            presenter.answer(true)
         }
         buttonNo.setOnClickListener {
-            presenter.onNo()
+            presenter.answer(false)
         }
     }
 

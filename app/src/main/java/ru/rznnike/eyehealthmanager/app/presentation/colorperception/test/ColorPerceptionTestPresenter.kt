@@ -1,6 +1,5 @@
 package ru.rznnike.eyehealthmanager.app.presentation.colorperception.test
 
-import android.graphics.Color
 import kotlinx.coroutines.launch
 import moxy.InjectViewState
 import moxy.presenterScope
@@ -13,6 +12,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 
 @InjectViewState
 class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
@@ -28,78 +28,36 @@ class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
     private var pairDismissStepValues = hashMapOf<Int, Int>()
     private var currentStep = 0
 
-    private val testColors: Array<Int> = arrayOf(
-        Color.rgb(155, 92, 203),
-        Color.rgb(165, 95, 217),
-        Color.rgb(172, 99, 230),
-        Color.rgb(202, 113, 246),
-        Color.rgb(247, 131, 254),
-        Color.rgb(150, 113, 246),
-        Color.rgb(118, 113, 246),
-        Color.rgb(113, 118, 246),
-        Color.rgb(113, 125, 246),
-        Color.rgb(113, 133, 246),
-        Color.rgb(113, 158, 246),
-        Color.rgb(113, 173, 246),
-        Color.rgb(113, 184, 246),
-        Color.rgb(113, 195, 246),
-        Color.rgb(113, 210, 246),
-        Color.rgb(113, 221, 246),
-        Color.rgb(113, 239, 246),
-        Color.rgb(113, 246, 243),
-        Color.rgb(113, 246, 213),
-        Color.rgb(113, 246, 188),
-        Color.rgb(113, 246, 152),
-        Color.rgb(113, 246, 135),
-        Color.rgb(113, 246, 113),
-        Color.rgb(146, 246, 113),
-        Color.rgb(184, 246, 113),
-        Color.rgb(208, 246, 113),
-        Color.rgb(225, 255, 99),
-        Color.rgb(255, 255, 85),
-        Color.rgb(255, 250, 72),
-        Color.rgb(246, 229, 112),
-        Color.rgb(246, 219, 112),
-        Color.rgb(246, 207, 112),
-        Color.rgb(246, 182, 112),
-        Color.rgb(246, 157, 112),
-        Color.rgb(246, 141, 112),
-        Color.rgb(246, 119, 112),
-        Color.rgb(246, 112, 112),
-        Color.rgb(215, 91, 91),
-        Color.rgb(150, 73, 73)
-    )
-
     override fun onFirstViewAttach() {
         initData()
-        goToNextStep()
+        nextStep()
     }
 
     private fun initData() {
         // stub
         currentLevelPairs.add(Pair(0, 0))
         // start value
-        currentLevelPairs.add(Pair(0, testColors.size - 1))
+        currentLevelPairs.add(Pair(0, GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.lastIndex))
         // data for progress counting
         pairDismissStepValues[2] = 1
-        for (size in 3..testColors.size) {
+        for (size in 3..GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.size) {
             val firstPairSize = size / 2 + 1
             val secondPairSize = size - firstPairSize + 1
             pairDismissStepValues[size] = (pairDismissStepValues[firstPairSize] ?: 0) + (pairDismissStepValues[secondPairSize] ?: 0) + 1
         }
     }
 
-    fun onYes() {
-        currentStep++
-        currentLevelRecognizedPairs.add(currentLevelPairs.first())
-        generateChildPairs()
-        goToNextStep()
-    }
-
-    fun onNo() {
-        val pairSize = currentLevelPairs.first().second - currentLevelPairs.first().first
-        currentStep += pairDismissStepValues[pairSize] ?: 1
-        goToNextStep()
+    fun answer(canRecognize: Boolean) {
+        if (canRecognize) {
+            currentStep++
+            currentLevelRecognizedPairs.add(currentLevelPairs.first())
+            generateChildPairs()
+            nextStep()
+        } else {
+            val pairSize = currentLevelPairs.first().second - currentLevelPairs.first().first
+            currentStep += pairDismissStepValues[pairSize] ?: 1
+            nextStep()
+        }
     }
 
     private fun generateChildPairs() {
@@ -112,7 +70,7 @@ class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
         }
     }
 
-    private fun goToNextStep() {
+    private fun nextStep() {
         currentLevelPairs.removeAt(0)
         if (currentLevelPairs.size > 0) {
             showNextColorsPair()
@@ -134,20 +92,19 @@ class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
         }
     }
 
-    private fun showNextColorsPair() {
+    private fun showNextColorsPair() =
         viewState.populateData(
-            testColors[currentLevelPairs[0].first],
-            testColors[currentLevelPairs[0].second],
+            GlobalConstants.COLOR_PERCEPTION_TEST_COLORS[currentLevelPairs[0].first],
+            GlobalConstants.COLOR_PERCEPTION_TEST_COLORS[currentLevelPairs[0].second],
             getCurrentProgress()
         )
-    }
 
-    private fun getCurrentProgress(): Int {
-        return currentStep * 100 / (pairDismissStepValues[testColors.size] ?: 0)
-    }
+    private fun getCurrentProgress(): Int =
+        currentStep * 100 / (pairDismissStepValues[GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.size] ?: 0)
 
     private fun finishTest() {
         presenterScope.launch {
+            viewState.setProgress(true)
             for (level in 1 until allRecognizedPairs.size) {
                 // remove parent intervals
                 for (step in 0..(allRecognizedPairs[level].size - 2)) {
@@ -164,15 +121,19 @@ class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
 
             val recognizedColorsCount = 1 + allRecognizedPairs.sumOf { it.size }
 
-            viewState.setProgress(true)
             val testResult = ColorPerceptionTestResult(
                 timestamp = System.currentTimeMillis(),
                 recognizedColorsCount = recognizedColorsCount,
-                allColorsCount = testColors.size
+                allColorsCount = GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.size
             )
             addTestResultUseCase(testResult).process(
                 {
-                    viewState.routerNewRootScreen(Screens.Screen.colorPerceptionResult(recognizedColorsCount, testColors.size))
+                    viewState.routerNewRootScreen(
+                        Screens.Screen.colorPerceptionResult(
+                            recognizedCount = recognizedColorsCount,
+                            allCount = GlobalConstants.COLOR_PERCEPTION_TEST_COLORS.size
+                        )
+                    )
                 }, { error ->
                     errorHandler.proceed(error) {
                         notifier.sendMessage(it)
