@@ -1,7 +1,7 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
-data class TestResultPagingParams(
+data class TestResultPagingParameters(
     val limit: Int,
     val offset: Int,
-    val filterParams: TestResultFilterParams?
+    val filter: TestResultFilter?
 )

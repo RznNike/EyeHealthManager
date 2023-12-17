@@ -13,8 +13,8 @@ import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
 import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
 import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
 import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParams
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
@@ -26,8 +26,8 @@ class TestGatewayImpl(
     private val testRepository: TestRepository,
     private val context: Context
 ) : TestGateway {
-    override suspend fun getTestResults(params: TestResultPagingParams) =
-        testRepository.getTests(params)
+    override suspend fun getTestResults(parameters: TestResultPagingParameters) =
+        testRepository.getTests(parameters)
 
     override suspend fun addTestResult(item: TestResult) =
         testRepository.addTest(item)
@@ -42,7 +42,7 @@ class TestGatewayImpl(
         testRepository.deleteDuplicates()
 
     @SuppressLint("Recycle")
-    override suspend fun exportJournal(filterParams: TestResultFilterParams): Uri? {
+    override suspend fun exportJournal(filter: TestResultFilter): Uri? {
         fun DocumentFile.findOrCreateDocumentFolder(name: String) = findFile(name) ?: createDirectory(name)
 
         var exportFolderUri: Uri? = null
@@ -85,7 +85,7 @@ class TestGatewayImpl(
                     var dataCounter = 0
                     do {
                         val page = writeJournalPageToFiles(
-                            filterParams = filterParams,
+                            filter = filter,
                             pageOffset = dataCounter,
                             exportFileWriters = exportFileWriters,
                             exportEntryCounters = exportEntryCounters
@@ -109,16 +109,16 @@ class TestGatewayImpl(
     }
 
     private suspend fun writeJournalPageToFiles(
-        filterParams: TestResultFilterParams,
+        filter: TestResultFilter,
         pageOffset: Int,
         exportFileWriters: MutableMap<TestType, BufferedWriter>,
         exportEntryCounters: MutableMap<TestType, Int>
     ): Int {
         val data = testRepository.getTests(
-            TestResultPagingParams(
+            TestResultPagingParameters(
                 limit = GlobalConstants.EXPORT_PAGE_SIZE,
                 offset = pageOffset,
-                filterParams = filterParams
+                filter = filter
             )
         )
         data.forEach { testResult ->

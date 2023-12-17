@@ -16,7 +16,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
@@ -33,7 +33,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private val context: Context by inject()
     private val exportJournalUseCase: ExportJournalUseCase by inject()
 
-    private lateinit var filterParams: TestResultFilterParams
+    private lateinit var filter: TestResultFilter
     private var startExportAutomatically = false
 
     override fun onFirstViewAttach() {
@@ -41,7 +41,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     }
 
     private fun initFilters() {
-        filterParams = TestResultFilterParams(
+        filter = TestResultFilter(
             dateFrom = getTodayCalendar().apply {
                 add(Calendar.MONTH, -1)
             }.timeInMillis,
@@ -56,40 +56,40 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     }
 
     fun onFilterTestTypeClick(testType: TestType) {
-        if (filterParams.selectedTestTypes.contains(testType)) {
-            filterParams.selectedTestTypes.remove(testType)
+        if (filter.selectedTestTypes.contains(testType)) {
+            filter.selectedTestTypes.remove(testType)
         } else {
-            filterParams.selectedTestTypes.add(testType)
+            filter.selectedTestTypes.add(testType)
         }
-        filterParams.filterByType = filterParams.selectedTestTypes.isNotEmpty()
+        filter.filterByType = filter.selectedTestTypes.isNotEmpty()
         populateData()
     }
 
     fun onFilterByDateValueChanged(value: Boolean) {
-        filterParams.filterByDate = value
+        filter.filterByDate = value
         populateData()
     }
 
     fun onFilterByTypeValueChanged(value: Boolean) {
-        filterParams.filterByType = value
+        filter.filterByType = value
         populateData()
     }
 
     fun onFilterDateFromSelected(timestamp: Long) {
-        filterParams.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
-        if (filterParams.dateTo <= filterParams.dateFrom) {
-            filterParams.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+        filter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+        if (filter.dateTo <= filter.dateFrom) {
+            filter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
         }
-        filterParams.filterByDate = true
+        filter.filterByDate = true
         populateData()
     }
 
     fun onFilterDateToSelected(timestamp: Long) {
-        filterParams.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
-        if (filterParams.dateTo <= filterParams.dateFrom) {
-            filterParams.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+        filter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+        if (filter.dateTo <= filter.dateFrom) {
+            filter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
         }
-        filterParams.filterByDate = true
+        filter.filterByDate = true
         populateData()
     }
 
@@ -98,7 +98,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
         val folderPath = savedUri?.let {
             "${savedUri.lastPathSegment}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}"
         }
-        viewState.populateData(filterParams, folderPath)
+        viewState.populateData(filter, folderPath)
     }
 
     private fun getSavedExportFolder() =
@@ -132,7 +132,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private fun exportDatabase() {
         presenterScope.launch {
             viewState.setProgress(true)
-            exportJournalUseCase(filterParams).process(
+            exportJournalUseCase(filter).process(
                 { result ->
                     result.exportFolderUri?.let {
                         eventDispatcher.sendEvent(

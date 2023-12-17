@@ -29,7 +29,7 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
 
     private lateinit var paginator: Paginator<TestResult>
 
-    private var filterParams = TestResultFilterParams()
+    private var filter = TestResultFilter()
 
     init {
         subscribeToEvents()
@@ -40,7 +40,7 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
     private fun initPaginator() {
         val viewController = object : Paginator.ViewController<TestResult> {
             override fun showData(data: List<TestResult>) {
-                viewState.populateData(data, filterParams)
+                viewState.populateData(data, filter)
             }
 
             override fun showProgress(show: Boolean, isRefresh: Boolean, isDataEmpty: Boolean) =
@@ -101,10 +101,10 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
 
     private suspend fun loadNext(offset: Int, limit: Int): List<TestResult> {
         val result = getTestResultsUseCase(
-            TestResultPagingParams(
+            TestResultPagingParameters(
                 limit = limit,
                 offset = offset,
-                filterParams = filterParams
+                filter = filter
             )
         )
         return result.data ?: throw result.error ?: Exception()
@@ -142,8 +142,8 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
         }
     }
 
-    fun onFilterChanged(newFilterParams: TestResultFilterParams) {
-        filterParams = newFilterParams
+    fun onFilterChanged(newValue: TestResultFilter) {
+        filter = newValue
         refresh()
     }
 
@@ -153,7 +153,7 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
     }
 
     private fun setDefaultFilter() {
-        filterParams = TestResultFilterParams(
+        filter = TestResultFilter(
             dateFrom = getTodayCalendar().apply {
                 add(Calendar.MONTH, -1)
             }.timeInMillis,

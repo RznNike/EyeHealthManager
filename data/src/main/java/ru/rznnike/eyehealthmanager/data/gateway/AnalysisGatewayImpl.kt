@@ -29,20 +29,20 @@ private const val MIN_RESULTS_COUNT = GROUPING_MIN_SIZE * MIN_GROUPS_COUNT
 class AnalysisGatewayImpl(
     private val testRepository: TestRepository
 ) : AnalysisGateway {
-    override suspend fun getAnalysisResult(params: AnalysisParams): AnalysisResult {
-        val acuitySearchParams = TestResultPagingParams(
+    override suspend fun getAnalysisResult(parameters: AnalysisParameters): AnalysisResult {
+        val acuitySearchParameters = TestResultPagingParameters(
             offset = 0,
             limit = Int.MAX_VALUE,
-            filterParams = TestResultFilterParams(
+            filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = true,
-                dateFrom = params.dateFrom,
-                dateTo = params.dateTo,
+                dateFrom = parameters.dateFrom,
+                dateTo = parameters.dateTo,
                 selectedTestTypes = mutableListOf(TestType.ACUITY)
             )
         )
 
-        val acuityResults = testRepository.getTests(acuitySearchParams)
+        val acuityResults = testRepository.getTests(acuitySearchParameters)
 
         if (acuityResults.size < MIN_RESULTS_COUNT) {
             throw NotEnoughDataException()
@@ -62,7 +62,7 @@ class AnalysisGatewayImpl(
             TestEyesType.RIGHT
         )
         syncDynamicCorrections(leftEyeDynamicCorrections, rightEyeDynamicCorrections)
-        if (params.applyDynamicCorrections) {
+        if (parameters.applyDynamicCorrections) {
             applyDynamicCorrections(
                 sortedResults,
                 leftEyeDynamicCorrections,
@@ -88,7 +88,7 @@ class AnalysisGatewayImpl(
             dynamicCorrections = rightEyeDynamicCorrections
         }
 
-        val allLastResults = if (params.analysisType == AnalysisType.CONSOLIDATED_REPORT) {
+        val allLastResults = if (parameters.analysisType == AnalysisType.CONSOLIDATED_REPORT) {
             testRepository.getAllLastTests().filter { it !is AcuityTestResult }
         } else {
             emptyList()

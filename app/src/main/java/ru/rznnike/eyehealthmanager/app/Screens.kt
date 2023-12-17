@@ -13,7 +13,7 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.instruction.AcuityInst
 import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.result.AcuityResultFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.test.AcuityTestFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.AnalysisFlowFragment
-import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.params.AnalysisParamsFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.parameters.AnalysisParametersFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.result.AnalysisResultFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.AstigmatismFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.answer.AstigmatismAnswerFragment
@@ -45,7 +45,7 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.settings.testing.TestingSetti
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFragment
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisParams
+import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
@@ -166,12 +166,12 @@ object Screens {
 
         fun importJournal() = ImportJournalFragment::class.getFragmentScreen()
 
-        fun analysisParams() = AnalysisParamsFragment::class.getFragmentScreen()
+        fun analysisParameters() = AnalysisParametersFragment::class.getFragmentScreen()
 
         fun analysisResult(
-            params: AnalysisParams
+            parameters: AnalysisParameters
         ) = AnalysisResultFragment::class.getFragmentScreen(
-            AnalysisResultFragment.PARAMS to params
+            AnalysisResultFragment.PARAMETERS to parameters
         )
     }
 

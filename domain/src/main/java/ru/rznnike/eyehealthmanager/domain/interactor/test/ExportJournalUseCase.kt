@@ -4,13 +4,13 @@ import android.net.Uri
 import ru.rznnike.eyehealthmanager.domain.gateway.TestGateway
 import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseWithParams
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 
 class ExportJournalUseCase(
     private val testGateway: TestGateway,
     dispatcherProvider: DispatcherProvider
-) : UseCaseWithParams<TestResultFilterParams, ExportJournalUseCase.Result>(dispatcherProvider.io) {
-    override suspend fun execute(parameters: TestResultFilterParams) =
+) : UseCaseWithParams<TestResultFilter, ExportJournalUseCase.Result>(dispatcherProvider.io) {
+    override suspend fun execute(parameters: TestResultFilter) =
         Result(
             exportFolderUri = testGateway.exportJournal(parameters)
         )

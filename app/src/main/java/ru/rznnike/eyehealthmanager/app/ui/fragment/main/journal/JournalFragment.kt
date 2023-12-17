@@ -31,7 +31,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.BottomDialogJournalFiltersBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentJournalBinding
 import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
@@ -106,15 +106,15 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
         }
     }
 
-    override fun populateData(data: List<TestResult>, filterParams: TestResultFilterParams) {
+    override fun populateData(data: List<TestResult>, filter: TestResultFilter) {
         binding.apply {
             itemAdapter.setNewList(data.map { TestResultItem(it) })
             zeroView.setVisible(data.isEmpty())
             buttonActions.setOnClickListener {
-                showActionsDialog(filterParams)
+                showActionsDialog(filter)
             }
             imageViewFilterIcon.setVisible(
-                filterParams.filterByDate || filterParams.filterByType
+                filter.filterByDate || filter.filterByType
             )
         }
     }
@@ -185,7 +185,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
         )
     }
 
-    private fun showActionsDialog(filterParams: TestResultFilterParams) {
+    private fun showActionsDialog(filter: TestResultFilter) {
         showBottomDialog(
             header = getString(R.string.choose_action),
             actions = listOf(
@@ -203,16 +203,16 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 },
                 BottomDialogAction(
                     text = getString(R.string.filters),
-                    selected = filterParams.filterByDate || filterParams.filterByType
+                    selected = filter.filterByDate || filter.filterByType
                 ) {
                     it.dismiss()
-                    showFilterDialog(filterParams)
+                    showFilterDialog(filter)
                 }
             )
         )
     }
 
-    private fun showFilterDialog(filterParams: TestResultFilterParams) {
+    private fun showFilterDialog(filter: TestResultFilter) {
         BottomDialogJournalFiltersBinding.inflate(layoutInflater).apply {
             showCustomBottomDialog(
                 rootView = root,
@@ -221,7 +221,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             ) { dialog ->
                 layoutDialogContent.addSystemWindowInsetToPadding(bottom = true)
 
-                val newFilterParams = filterParams.deepCopy()
+                val newFilter = filter.deepCopy()
 
                 val itemAdapterTestType: ItemAdapter<IItem<*>> = ItemAdapter()
                 val adapterTestType: FastAdapter<IItem<*>> = createFastAdapter(itemAdapterTestType)
@@ -231,20 +231,20 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                     itemAdapterTestType.setNewList(
                         TestType.entries.map {
                             TestTypeSmallItem(it).also { item ->
-                                item.isSelected = newFilterParams.selectedTestTypes.contains(it)
+                                item.isSelected = newFilter.selectedTestTypes.contains(it)
                             }
                         }
                     )
-                    checkBoxFilterByType.isChecked = newFilterParams.filterByType
+                    checkBoxFilterByType.isChecked = newFilter.filterByType
                 }
 
                 fun onFilterTestTypeClick(testType: TestType) {
-                    if (newFilterParams.selectedTestTypes.contains(testType)) {
-                        newFilterParams.selectedTestTypes.remove(testType)
+                    if (newFilter.selectedTestTypes.contains(testType)) {
+                        newFilter.selectedTestTypes.remove(testType)
                     } else {
-                        newFilterParams.selectedTestTypes.add(testType)
+                        newFilter.selectedTestTypes.add(testType)
                     }
-                    newFilterParams.filterByType = newFilterParams.selectedTestTypes.isNotEmpty()
+                    newFilter.filterByType = newFilter.selectedTestTypes.isNotEmpty()
                     updateTestTypes()
                 }
 
@@ -278,46 +278,46 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                     dialog.dismiss()
                 }
                 checkBoxFilterByDate.setOnClickListener {
-                    newFilterParams.filterByDate = checkBoxFilterByDate.isChecked
+                    newFilter.filterByDate = checkBoxFilterByDate.isChecked
                 }
                 checkBoxFilterByType.setOnClickListener {
-                    newFilterParams.filterByType = checkBoxFilterByType.isChecked
+                    newFilter.filterByType = checkBoxFilterByType.isChecked
                 }
 
                 fun updateDates() {
-                    checkBoxFilterByDate.isChecked = newFilterParams.filterByDate
-                    buttonDateFrom.text = newFilterParams.dateFrom.toDate()
-                    buttonDateTo.text = newFilterParams.dateTo.toDate()
+                    checkBoxFilterByDate.isChecked = newFilter.filterByDate
+                    buttonDateFrom.text = newFilter.dateFrom.toDate()
+                    buttonDateTo.text = newFilter.dateTo.toDate()
                 }
                 updateDates()
 
                 buttonDateFrom.setOnClickListener {
                     showDatePicker(
-                        preselectedDate = newFilterParams.dateFrom
+                        preselectedDate = newFilter.dateFrom
                     ) { timestamp ->
-                        newFilterParams.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
-                        if (newFilterParams.dateTo <= newFilterParams.dateFrom) {
-                            newFilterParams.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+                        newFilter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+                        if (newFilter.dateTo <= newFilter.dateFrom) {
+                            newFilter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
                         }
-                        newFilterParams.filterByDate = true
+                        newFilter.filterByDate = true
                         updateDates()
                     }
                 }
                 buttonDateTo.setOnClickListener {
                     showDatePicker(
-                        preselectedDate = newFilterParams.dateTo
+                        preselectedDate = newFilter.dateTo
                     ) { timestamp ->
-                        newFilterParams.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
-                        if (newFilterParams.dateTo <= newFilterParams.dateFrom) {
-                            newFilterParams.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+                        newFilter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+                        if (newFilter.dateTo <= newFilter.dateFrom) {
+                            newFilter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
                         }
-                        newFilterParams.filterByDate = true
+                        newFilter.filterByDate = true
                         updateDates()
                     }
                 }
 
                 buttonDialogApply.setOnClickListener {
-                    presenter.onFilterChanged(newFilterParams)
+                    presenter.onFilterChanged(newFilter)
                     dialog.dismiss()
                 }
             }

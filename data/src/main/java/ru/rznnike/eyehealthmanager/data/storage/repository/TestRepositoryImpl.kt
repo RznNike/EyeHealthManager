@@ -10,22 +10,22 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 class TestRepositoryImpl(
     boxStore: BoxStore
 ) : BaseRepository<TestEntity>(boxStore, TestEntity::class.java), TestRepository {
-    override suspend fun getTests(params: TestResultPagingParams): List<TestResult> {
+    override suspend fun getTests(parameters: TestResultPagingParameters): List<TestResult> {
         val queryBuilder = box.query()
             .notNull(TestEntity_.relationId)
             .orderDesc(TestEntity_.timestamp)
 
-        params.filterParams?.let { filterParams ->
-            if (filterParams.filterByDate) {
+        parameters.filter?.let { filter ->
+            if (filter.filterByDate) {
                 queryBuilder
-                    .between(TestEntity_.timestamp, filterParams.dateFrom, filterParams.dateTo)
+                    .between(TestEntity_.timestamp, filter.dateFrom, filter.dateTo)
             }
-            if (filterParams.filterByType && (filterParams.selectedTestTypes.isNotEmpty())) {
+            if (filter.filterByType && (filter.selectedTestTypes.isNotEmpty())) {
                 val converter = TestTypeConverter()
                 queryBuilder
                     .`in`(
                         TestEntity_.testType,
-                        filterParams.selectedTestTypes
+                        filter.selectedTestTypes
                             .map { converter.convertToDatabaseValue(it) }
                             .toIntArray()
                     )
@@ -34,7 +34,7 @@ class TestRepositoryImpl(
 
         val testEntities = queryBuilder
             .build()
-            .find(params.offset.toLong(), params.limit.toLong())
+            .find(parameters.offset.toLong(), parameters.limit.toLong())
 
         return testEntities.map { mapTestEntityToTestResult(it) }
     }

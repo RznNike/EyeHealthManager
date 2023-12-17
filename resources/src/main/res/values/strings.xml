@@ -193,7 +193,7 @@
     <string name="report_acuity_only">Acuity only</string>
     <string name="report_consolidated">Consolidated report</string>
     <string name="time_interval">Time interval</string>
-    <string name="other_params">Other parameters</string>
+    <string name="other_parameters">Other parameters</string>
     <string name="apply_dynamic_corrections">Apply dynamic result corrections</string>
     <string name="start_analysis">Start analysis</string>
     <string name="start_export">Start export</string>

@@ -24,6 +24,7 @@ import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentAnalysisResultBinding
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.AnalysisStatistics
 import ru.rznnike.eyehealthmanager.domain.model.SingleEyeAnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
@@ -37,7 +38,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
 
     @ProvidePresenter
     fun providePresenter() = AnalysisResultPresenter(
-        params = getParcelableArg(PARAMS)!!
+        parameters = getParcelableArg(PARAMETERS)!!
     )
 
     private val binding by viewBinding(FragmentAnalysisResultBinding::bind)
@@ -86,11 +87,17 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
     }
 
     private fun initRecyclerView() = binding.apply {
-        recyclerViewTestResults .apply {
+        recyclerViewTestResults.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = this@AnalysisResultFragment.adapter
             itemAnimator = null
-            addItemDecoration(EmptyDividerDecoration(requireContext(), R.dimen.baseline_grid_16, false))
+            addItemDecoration(
+                EmptyDividerDecoration(
+                    context = requireContext(),
+                    cardInsets = R.dimen.baseline_grid_16,
+                    applyOutsideDecoration = false
+                )
+            )
         }
     }
 
@@ -128,21 +135,19 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
             )
             statisticStringBuilder.appendLine()
 
+            fun getVisionDeltaPercent(statistics: AnalysisStatistics?) = statistics?.let {
+                if (it.visionAverageValue > 0) {
+                    it.visionDynamicValue.toFloat() / it.visionAverageValue * 100
+                } else null
+            } ?: 0f
+
             val daysCount = ((analysisResult.leftEyeAnalysisResult.statistics?.analysisPeriod ?: 0) / 1000 / 86400).toInt()
             statisticStringBuilder.appendLine(
                 getString(R.string.delta_vision_for_eye).format(
                     daysCount, // ms to days
                     resources.getQuantityString(R.plurals.days, daysCount),
-                    analysisResult.leftEyeAnalysisResult.statistics?.let {
-                        if (it.visionAverageValue > 0) {
-                            it.visionDynamicValue.toFloat() / it.visionAverageValue * 100
-                        } else null
-                    } ?: 0f,
-                    analysisResult.rightEyeAnalysisResult.statistics?.let {
-                        if (it.visionAverageValue > 0) {
-                            it.visionDynamicValue.toFloat() / it.visionAverageValue * 100
-                        } else null
-                    } ?: 0f
+                    getVisionDeltaPercent(analysisResult.leftEyeAnalysisResult.statistics),
+                    getVisionDeltaPercent(analysisResult.rightEyeAnalysisResult.statistics)
                 )
             )
             statisticStringBuilder.appendLine()
@@ -154,115 +159,115 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
                 )
             )
 
-            val statistic = statisticStringBuilder.toString()
+            textViewStatistic.text = statisticStringBuilder.toString()
                 .replace("\n", "<br>")
                 .toHtmlSpanned()
 
-            textViewStatistic.text = statistic
-
-            itemAdapter.setNewList(analysisResult.testResults.map { TestResultItem(it) })
+            itemAdapter.setNewList(
+                analysisResult.testResults.map { TestResultItem(it) }
+            )
         }
     }
 
-    private fun initChart() {
-        binding.apply {
-            chartVisionDynamic.data = LineData()
-            chartVisionDynamic.description = Description().apply {
-                text = ""
-            }
-            chartVisionDynamic.setTouchEnabled(false)
+    private fun initChart() = binding.apply {
+        chartVisionDynamic.data = LineData()
+        chartVisionDynamic.description = Description().apply {
+            text = ""
         }
+        chartVisionDynamic.setTouchEnabled(false)
     }
 
-    private fun addChartLine(eyeAnalysisResult: SingleEyeAnalysisResult, eye: TestEyesType) {
-        binding.apply {
-            val entries = eyeAnalysisResult.chartData
-                .sortedBy { it.timestamp }
-                .map {
-                    Entry(
-                        it.timestamp.toFloat(),
-                        it.value / 100f
-                    )
-                }
-
-            val baseHeaderResId: Int
-            val extrapolationHeaderResId: Int
-            val baseColorResId: Int
-            val extrapolationColorResId: Int
-            if (eye == TestEyesType.LEFT) {
-                baseHeaderResId = R.string.left_eye
-                extrapolationHeaderResId = R.string.left_eye_extrapolation
-                baseColorResId = R.color.colorChartLeftEye
-                extrapolationColorResId = R.color.colorChartLeftEyeExtrapolation
-            } else {
-                baseHeaderResId = R.string.right_eye
-                extrapolationHeaderResId = R.string.right_eye_extrapolation
-                baseColorResId = R.color.colorChartRightEye
-                extrapolationColorResId = R.color.colorChartRightEyeExtrapolation
-            }
-
-            val baseDataSet = LineDataSet(entries, getString(baseHeaderResId))
-            baseDataSet.color = getColor(baseColorResId)
-            baseDataSet.setCircleColor(getColor(R.color.colorTransparent))
-            baseDataSet.circleHoleColor = getColor(baseColorResId)
-            chartVisionDynamic.data.addDataSet(baseDataSet)
-
-            var yMaximum = entries.maxOfOrNull { it.y } ?: 0f
-            val xValues = entries.map { it.x }
-            var xMinimum = xValues.minOrNull() ?: 0f
-            var xMaximum = xValues.maxOrNull() ?: 0f
-
-            eyeAnalysisResult.extrapolatedResult?.let { extrapolationResult ->
-                val extrapolationEntries = listOf(
-                    entries.last(),
-                    Entry(
-                        extrapolationResult.timestamp.toFloat(),
-                        extrapolationResult.value / 100f
-                    )
+    private fun addChartLine(eyeAnalysisResult: SingleEyeAnalysisResult, eye: TestEyesType) = binding.apply {
+        val entries = eyeAnalysisResult.chartData
+            .sortedBy { it.timestamp }
+            .map {
+                Entry(
+                    it.timestamp.toFloat(),
+                    it.value / 100f
                 )
-                val extrapolationDataSet = LineDataSet(extrapolationEntries, getString(extrapolationHeaderResId))
-                extrapolationDataSet.color = getColor(extrapolationColorResId)
-                extrapolationDataSet.setCircleColor(getColor(R.color.colorTransparent))
-                extrapolationDataSet.circleHoleColor = getColor(extrapolationColorResId)
-                chartVisionDynamic.data.addDataSet(extrapolationDataSet)
-
-                yMaximum = max(yMaximum, extrapolationEntries.last().y)
-                xMinimum = min(xMinimum, extrapolationEntries.last().x)
-                xMaximum = max(xMaximum, extrapolationEntries.last().x)
             }
 
-            yAxisMaximum = max(yAxisMaximum, yMaximum)
-            xAxisMinimum = min(xAxisMinimum, xMinimum)
-            xAxisMaximum = max(xAxisMaximum, xMaximum)
+        val baseHeaderResId: Int
+        val extrapolationHeaderResId: Int
+        val baseColorResId: Int
+        val extrapolationColorResId: Int
+        if (eye == TestEyesType.LEFT) {
+            baseHeaderResId = R.string.left_eye
+            extrapolationHeaderResId = R.string.left_eye_extrapolation
+            baseColorResId = R.color.colorChartLeftEye
+            extrapolationColorResId = R.color.colorChartLeftEyeExtrapolation
+        } else {
+            baseHeaderResId = R.string.right_eye
+            extrapolationHeaderResId = R.string.right_eye_extrapolation
+            baseColorResId = R.color.colorChartRightEye
+            extrapolationColorResId = R.color.colorChartRightEyeExtrapolation
         }
+
+        val baseDataSet = LineDataSet(
+            entries,
+            getString(baseHeaderResId)
+        ).apply {
+            color = getColor(baseColorResId)
+            setCircleColor(getColor(R.color.colorTransparent))
+            circleHoleColor = getColor(baseColorResId)
+        }
+        chartVisionDynamic.data.addDataSet(baseDataSet)
+
+        var yMaximum = entries.maxOfOrNull { it.y } ?: 0f
+        val xValues = entries.map { it.x }
+        var xMinimum = xValues.minOrNull() ?: 0f
+        var xMaximum = xValues.maxOrNull() ?: 0f
+
+        eyeAnalysisResult.extrapolatedResult?.let { extrapolationResult ->
+            val extrapolationEntries = listOf(
+                entries.last(),
+                Entry(
+                    extrapolationResult.timestamp.toFloat(),
+                    extrapolationResult.value / 100f
+                )
+            )
+            val extrapolationDataSet = LineDataSet(
+                extrapolationEntries,
+                getString(extrapolationHeaderResId)
+            ).apply {
+                color = getColor(extrapolationColorResId)
+                setCircleColor(getColor(R.color.colorTransparent))
+                circleHoleColor = getColor(extrapolationColorResId)
+            }
+            chartVisionDynamic.data.addDataSet(extrapolationDataSet)
+
+            yMaximum = max(yMaximum, extrapolationEntries.last().y)
+            xMinimum = min(xMinimum, extrapolationEntries.last().x)
+            xMaximum = max(xMaximum, extrapolationEntries.last().x)
+        }
+
+        yAxisMaximum = max(yAxisMaximum, yMaximum)
+        xAxisMinimum = min(xAxisMinimum, xMinimum)
+        xAxisMaximum = max(xAxisMaximum, xMaximum)
     }
 
-    private fun configureChartAxis() {
-        binding.apply {
-            chartVisionDynamic.axisRight.isEnabled = false
-            chartVisionDynamic.axisLeft.apply {
-                axisMinimum = 0f
-                axisMaximum = yAxisMaximum + 0.05f
-            }
-            chartVisionDynamic.xAxis.apply {
-                axisMinimum = xAxisMinimum
-                axisMaximum = xAxisMaximum
-                setDrawGridLines(true)
-                position = XAxis.XAxisPosition.BOTTOM
-                labelRotationAngle = -60f
-            }
-            chartVisionDynamic.xAxis.valueFormatter = object : ValueFormatter() {
+    private fun configureChartAxis() = binding.chartVisionDynamic.apply {
+        axisRight.isEnabled = false
+        axisLeft.apply {
+            axisMinimum = 0f
+            axisMaximum = yAxisMaximum + 0.05f
+        }
+        xAxis.apply {
+            axisMinimum = xAxisMinimum
+            axisMaximum = xAxisMaximum
+            setDrawGridLines(true)
+            position = XAxis.XAxisPosition.BOTTOM
+            labelRotationAngle = -60f
+            valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return value.toLong().toDate()
                 }
             }
-            chartVisionDynamic.legend.apply {
-                isWordWrapEnabled = true
-            }
         }
+        legend.isWordWrapEnabled = true
     }
 
     companion object {
-        const val PARAMS = "PARAMS"
+        const val PARAMETERS = "PARAMETERS"
     }
 }

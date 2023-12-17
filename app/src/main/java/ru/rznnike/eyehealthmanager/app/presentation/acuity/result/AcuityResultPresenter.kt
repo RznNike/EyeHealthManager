@@ -12,7 +12,7 @@ import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultU
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetApplyDynamicCorrectionsUseCase
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisParams
+import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
@@ -37,7 +37,7 @@ class AcuityResultPresenter(
         presenterScope.launch {
             viewState.setProgress(true)
             applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data ?: false
-            val params = AnalysisParams(
+            val parameters = AnalysisParameters(
                 dateFrom = getTodayCalendar().apply {
                     add(Calendar.MONTH, -1)
                 }.timeInMillis,
@@ -45,7 +45,7 @@ class AcuityResultPresenter(
                 applyDynamicCorrections = applyDynamicCorrections,
                 analysisType = AnalysisType.ACUITY_ONLY
             )
-            getAnalysisResultUseCase(params).process(
+            getAnalysisResultUseCase(parameters).process(
                 {
                     analysisResult = it
                     populateData()

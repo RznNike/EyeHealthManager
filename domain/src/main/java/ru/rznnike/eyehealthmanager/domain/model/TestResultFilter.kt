@@ -2,7 +2,7 @@ package ru.rznnike.eyehealthmanager.domain.model
 
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 
-data class TestResultFilterParams(
+data class TestResultFilter(
     var filterByDate: Boolean = false,
     var filterByType: Boolean = false,
     var dateFrom: Long = 0,
