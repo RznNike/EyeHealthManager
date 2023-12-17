@@ -11,7 +11,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestQuestionsMap
+import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestData
 import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
 
@@ -30,17 +30,17 @@ class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
     private val answerDeltas: MutableMap<DaltonismAnomalyType, Int> = mutableMapOf()
 
     init {
-        goToNextStep()
+        nextStep()
     }
 
     fun onAnswer(selection: Int) {
         userAnswers.add(answersOrder[selection])
-        goToNextStep()
+        nextStep()
     }
 
-    private fun goToNextStep() {
+    private fun nextStep() {
         currentStep++
-        if (currentStep >= DaltonismTestQuestionsMap.questions.size) {
+        if (currentStep > DaltonismTestData.questions.lastIndex) {
             finishTest()
         } else {
             answersOrder.shuffle()
@@ -49,63 +49,58 @@ class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
     }
 
     private fun showTestQuestion() {
+        val currentQuestion = DaltonismTestData.questions[currentStep]
         viewState.populateData(
-            DaltonismTestQuestionsMap.questions.getValue(currentStep).testImageResId,
-            listOf(
-                DaltonismTestQuestionsMap.questions.getValue(currentStep).answerResIds[answersOrder[0]],
-                DaltonismTestQuestionsMap.questions.getValue(currentStep).answerResIds[answersOrder[1]],
-                DaltonismTestQuestionsMap.questions.getValue(currentStep).answerResIds[answersOrder[2]],
-                DaltonismTestQuestionsMap.questions.getValue(currentStep).answerResIds[answersOrder[3]]
-            ),
-            getCurrentProgress()
+            imageResId = currentQuestion.testImageResId,
+            variants = answersOrder.map { currentQuestion.answerResIds[it] },
+            progress = getCurrentProgress()
         )
     }
 
-    private fun getCurrentProgress(): Int {
-        return currentStep * 100 / DaltonismTestQuestionsMap.questions.size
-    }
+    private fun getCurrentProgress() = currentStep * 100 / DaltonismTestData.questions.size
 
     private fun finishTest() {
         presenterScope.launch {
             viewState.setProgress(true)
-            for (i in DaltonismTestQuestionsMap.questions.keys.first()..DaltonismTestQuestionsMap.questions.keys.last()) {
-                if (userAnswers[i] > 0) {
-                    answerDeltas[DaltonismAnomalyType.NONE] = (answerDeltas[DaltonismAnomalyType.NONE] ?: 0) + 1
+            DaltonismTestData.questions.forEachIndexed { index, question ->
+                if (userAnswers[index] > 0) {
+                    answerDeltas[DaltonismAnomalyType.NONE] = answerDeltas.getOrDefault(DaltonismAnomalyType.NONE, 0) + 1
                 }
-                val variantAnswers = DaltonismTestQuestionsMap.questions[i]?.answerVariantsMap ?: mapOf()
-                val booleanAnswers = DaltonismTestQuestionsMap.questions[i]?.answerBooleanMap ?: mapOf()
-                for (answersMapKey in variantAnswers.keys) {
-                    if (variantAnswers[answersMapKey]?.contains(userAnswers[i]) != true) {
-                        answerDeltas[answersMapKey] = (answerDeltas[answersMapKey] ?: 0) + 1
+                question.answerVariantsMap.forEach { (type, variants) ->
+                    if (!variants.contains(userAnswers[index])) {
+                        answerDeltas[type] = answerDeltas.getOrDefault(type, 0) + 1
                     }
                 }
-                for (answersMapKey in booleanAnswers.keys) {
-                    if (booleanAnswers[answersMapKey] != (userAnswers[i] == 0)) {
-                        answerDeltas[answersMapKey] = (answerDeltas[answersMapKey] ?: 0) + 1
+                question.answerBooleanMap.forEach { (type, value) ->
+                    if (value != (userAnswers[index] == 0)) {
+                        answerDeltas[type] = answerDeltas.getOrDefault(type, 0) + 1
                     }
                 }
             }
 
-            val resultValue = answerDeltas[DaltonismAnomalyType.NONE] ?: 0
-            val resultType = if ((answerDeltas[DaltonismAnomalyType.NONE] ?: 0) <= NORMAL_BORDER) {
+            val errorsCount = answerDeltas.getOrDefault(DaltonismAnomalyType.NONE, 0)
+            val anomalyType = if (errorsCount <= NORMAL_BORDER) {
                 DaltonismAnomalyType.NONE
             } else {
-                val sortedResults = answerDeltas.toList().sortedBy { (_, value) -> value }
-                if (sortedResults[0].first == DaltonismAnomalyType.NONE) {
-                    sortedResults[1].first
-                } else {
-                    sortedResults[0].first
-                }
+                answerDeltas.toList()
+                    .filter { (type, _) -> type != DaltonismAnomalyType.NONE }
+                    .minBy { (_, value) -> value }
+                    .first
             }
 
             val testResult = DaltonismTestResult(
                 timestamp = System.currentTimeMillis(),
-                errorsCount = resultValue,
-                anomalyType = resultType
+                errorsCount = errorsCount,
+                anomalyType = anomalyType
             )
             addTestResultUseCase(testResult).process(
                 {
-                    viewState.routerNewRootScreen(Screens.Screen.daltonismResult(resultValue, resultType.toString()))
+                    viewState.routerNewRootScreen(
+                        Screens.Screen.daltonismResult(
+                            errorsCount = errorsCount,
+                            resultType = anomalyType.toString()
+                        )
+                    )
                 }, { error ->
                     errorHandler.proceed(error) {
                         notifier.sendMessage(it)

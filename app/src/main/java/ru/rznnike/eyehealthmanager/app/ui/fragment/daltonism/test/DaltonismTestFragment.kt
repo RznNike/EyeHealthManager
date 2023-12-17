@@ -17,6 +17,8 @@ import ru.rznnike.eyehealthmanager.app.presentation.daltonism.test.DaltonismTest
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.test.DaltonismTestView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
+import ru.rznnike.eyehealthmanager.app.utils.extensions.withEndActionSafe
+import ru.rznnike.eyehealthmanager.app.utils.extensions.withStartActionSafe
 import ru.rznnike.eyehealthmanager.databinding.FragmentDaltonismTestBinding
 
 private const val FADE_ANIMATION_MS = 500L
@@ -57,17 +59,15 @@ class DaltonismTestFragment : BaseFragment(R.layout.fragment_daltonism_test), Da
     }
 
     private fun initOnClickListeners() = binding.apply {
-        buttonVariant1.setOnClickListener {
-            presenter.onAnswer(0)
-        }
-        buttonVariant2.setOnClickListener {
-            presenter.onAnswer(1)
-        }
-        buttonVariant3.setOnClickListener {
-            presenter.onAnswer(2)
-        }
-        buttonVariant4.setOnClickListener {
-            presenter.onAnswer(3)
+        listOf(
+            buttonVariant1,
+            buttonVariant2,
+            buttonVariant3,
+            buttonVariant4
+        ).forEachIndexed { index, button ->
+            button.setOnClickListener {
+                presenter.onAnswer(index)
+            }
         }
     }
 
@@ -75,70 +75,75 @@ class DaltonismTestFragment : BaseFragment(R.layout.fragment_daltonism_test), Da
         binding.apply {
             percentProgressView.progress = progress
 
-            buttonVariant1.isEnabled = false
-            buttonVariant2.isEnabled = false
-            buttonVariant3.isEnabled = false
-            buttonVariant4.isEnabled = false
+            val answerButtons = listOf(
+                buttonVariant1,
+                buttonVariant2,
+                buttonVariant3,
+                buttonVariant4
+            )
+            answerButtons.forEach {
+                it.isEnabled = false
+            }
 
             layoutTest.animate()
                 .alpha(0f)
                 .setStartDelay(0)
                 .setDuration(FADE_ANIMATION_MS)
-                .withStartAction {
-                    view?.post {
-                        layoutControls.animate()
-                            ?.alpha(0f)
-                            ?.setStartDelay(0)
-                            ?.setDuration(FADE_ANIMATION_MS)
-                            ?.start()
-                    }
+                .withStartActionSafe(this@DaltonismTestFragment) {
+                    layoutControls.animate()
+                        .alpha(0f)
+                        .setStartDelay(0)
+                        .setDuration(FADE_ANIMATION_MS)
+                        .start()
                 }
-                .withEndAction {
-                    view?.post {
-                        buttonVariant1.setText(variants[0])
-                        buttonVariant2.setText(variants[1])
-                        buttonVariant3.setText(variants[2])
-                        buttonVariant4.setText(variants[3])
-
-                        val cornersPx = TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            IMAGE_CORNERS_DP,
-                            resources.displayMetrics)
-
-                        val width = imageViewTest.width
-                        val height = imageViewTest.height
-                        if ((width > 0) && (height > 0)) {
-                            imageViewTest.load(imageResId) {
-                                size(imageViewTest.width, imageViewTest.height)
-                                transformations(RoundedCornersTransformation(cornersPx, cornersPx, cornersPx, cornersPx))
-                            }
-                        }
-
-                        layoutControls.setVisible()
-                        layoutTest.setVisible()
-                        layoutTest.animate()
-                            .alpha(1f)
-                            .setStartDelay(0)
-                            .setDuration(FADE_ANIMATION_MS)
-                            .withEndAction {
-                                view?.post {
-                                    layoutControls.animate()
-                                        .alpha(1f)
-                                        .setStartDelay(0)
-                                        .setDuration(FADE_ANIMATION_MS)
-                                        .withEndAction {
-                                            view?.post {
-                                                buttonVariant1.isEnabled = true
-                                                buttonVariant2.isEnabled = true
-                                                buttonVariant3.isEnabled = true
-                                                buttonVariant4.isEnabled = true
-                                            }
-                                        }
-                                        .start()
-                                }
-                            }
-                            .start()
+                .withEndActionSafe(this@DaltonismTestFragment) {
+                    answerButtons.forEachIndexed { index, button ->
+                        button.setText(variants[index])
                     }
+
+                    val cornersPx = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        IMAGE_CORNERS_DP,
+                        resources.displayMetrics
+                    )
+                    val width = imageViewTest.width
+                    val height = imageViewTest.height
+                    if ((width > 0) && (height > 0)) {
+                        imageViewTest.load(imageResId) {
+                            size(
+                                width = imageViewTest.width,
+                                height = imageViewTest.height
+                            )
+                            transformations(
+                                RoundedCornersTransformation(
+                                    topLeft = cornersPx,
+                                    topRight = cornersPx,
+                                    bottomLeft = cornersPx,
+                                    bottomRight = cornersPx
+                                )
+                            )
+                        }
+                    }
+
+                    layoutControls.setVisible()
+                    layoutTest.setVisible()
+                    layoutTest.animate()
+                        .alpha(1f)
+                        .setStartDelay(0)
+                        .setDuration(FADE_ANIMATION_MS)
+                        .withEndActionSafe(this@DaltonismTestFragment) {
+                            layoutControls.animate()
+                                .alpha(1f)
+                                .setStartDelay(0)
+                                .setDuration(FADE_ANIMATION_MS)
+                                .withEndActionSafe(this@DaltonismTestFragment) {
+                                    answerButtons.forEach {
+                                        it.isEnabled = true
+                                    }
+                                }
+                                .start()
+                        }
+                        .start()
                 }
                 .start()
         }

@@ -38,10 +38,10 @@ class ColorPerceptionInfoFragment : BaseFragment(R.layout.fragment_color_percept
 
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
-            presenter.onStart()
+            presenter.startTest()
         }
         buttonDaltonismTest.setOnClickListener {
-            presenter.onDaltonismTest()
+            presenter.openDaltonismTest()
         }
     }
 }

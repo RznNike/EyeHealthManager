@@ -13,9 +13,9 @@ class ColorPerceptionResultPresenter(
     private val allCount: Int
 ) : BasePresenter<ColorPerceptionResultView>() {
     override fun onFirstViewAttach() {
-        val messageResId = when (recognizedCount) {
-            in 0 until DICHROMAT_BORDER -> R.string.dichromat_message
-            in DICHROMAT_BORDER until TRICHROMAT_BORDER -> R.string.trichromat_message
+        val messageResId = when {
+            recognizedCount < DICHROMAT_BORDER -> R.string.dichromat_message
+            recognizedCount < TRICHROMAT_BORDER -> R.string.trichromat_message
             else -> R.string.tetrachromat_message
         }
         viewState.populateData(

@@ -40,7 +40,4 @@ interface NavigationMvpView : MvpView {
 
     @OneExecution
     fun routerStartSingle(flow: Screen)
-
-    @OneExecution
-    fun routerToTop(flow: Screen)
 }

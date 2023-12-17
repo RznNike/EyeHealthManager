@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.app.presentation.main
 
 import kotlinx.coroutines.launch
 import moxy.InjectViewState
+import moxy.presenterScope
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.BuildConfig
 import ru.rznnike.eyehealthmanager.R
@@ -10,10 +11,13 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteAllTestResultsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteDuplicatesUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetDisplayedChangelogVersionUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetWelcomeDialogShowedUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetDisplayedChangelogVersionUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetWelcomeDialogShowedUseCase
 
 @InjectViewState
 class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
@@ -21,7 +25,10 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
     private val notifier: Notifier by inject()
     private val errorHandler: ErrorHandler by inject()
     private val coroutineProvider: CoroutineProvider by inject()
-    private val preferences: PreferencesWrapper by inject()
+    private val getWelcomeDialogShowedUseCase: GetWelcomeDialogShowedUseCase by inject()
+    private val setWelcomeDialogShowedUseCase: SetWelcomeDialogShowedUseCase by inject()
+    private val getDisplayedChangelogVersionUseCase: GetDisplayedChangelogVersionUseCase by inject()
+    private val setDisplayedChangelogVersionUseCase: SetDisplayedChangelogVersionUseCase by inject()
     private val deleteDuplicatesUseCase: DeleteDuplicatesUseCase by inject()
     private val deleteAllTestResultsUseCase: DeleteAllTestResultsUseCase by inject()
 
@@ -45,12 +52,8 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
 
     override fun onEvent(event: AppEvent) {
         when (event) {
-            is AppEvent.JournalExported -> {
-                viewState.showSuccessfulExportDialog(event.uri)
-            }
-            is AppEvent.JournalImported -> {
-                viewState.showSuccessfulImportDialog(event.uri)
-            }
+            is AppEvent.JournalExported -> viewState.showSuccessfulExportDialog(event.uri)
+            is AppEvent.JournalImported -> viewState.showSuccessfulImportDialog(event.uri)
             is AppEvent.JournalDuplicatesDeletionRequested -> deleteDuplicatesInJournal()
             is AppEvent.JournalTotalDeletionRequested -> deleteJournal()
             else -> Unit
@@ -63,22 +66,24 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
     }
 
     private fun checkWelcomeDialog() {
-        if (!preferences.welcomeDialogShowed.get()) {
-            viewState.showWelcomeDialog()
-            preferences.welcomeDialogShowed.set(true)
+        presenterScope.launch {
+            val showed = getWelcomeDialogShowedUseCase().data ?: false
+            if (!showed) {
+                viewState.showWelcomeDialog()
+                setWelcomeDialogShowedUseCase(true)
+            }
         }
     }
 
     private fun checkChangelog() {
-        val currentVersionCode = BuildConfig.VERSION_CODE
-        val displayedVersionCode = preferences.displayedChangelogVersion.get()
-        when {
-            displayedVersionCode < 0 -> {
-                preferences.displayedChangelogVersion.set(currentVersionCode)
-            }
-            displayedVersionCode != currentVersionCode -> {
-                viewState.showChangelogDialog()
-                preferences.displayedChangelogVersion.set(currentVersionCode)
+        presenterScope.launch {
+            val currentVersionCode = BuildConfig.VERSION_CODE
+            val displayedVersionCode = getDisplayedChangelogVersionUseCase().data ?: currentVersionCode
+            if (displayedVersionCode != currentVersionCode) {
+                setDisplayedChangelogVersionUseCase(currentVersionCode)
+                if (displayedVersionCode > 0) {
+                    viewState.showChangelogDialog()
+                }
             }
         }
     }
@@ -89,11 +94,7 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
             deleteDuplicatesUseCase().process(
                 {
                     notifier.sendAlert(R.string.duplicates_successfully_deleted)
-                }, { error ->
-                    errorHandler.proceed(error) {
-                        notifier.sendMessage(it)
-                    }
-                }
+                }, ::onError
             )
 
             eventDispatcher.sendEvent(AppEvent.JournalChanged)
@@ -107,15 +108,16 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
             deleteAllTestResultsUseCase().process(
                 {
                     notifier.sendMessage(R.string.clear_journal_success)
-                }, { error ->
-                    errorHandler.proceed(error) {
-                        notifier.sendMessage(it)
-                    }
-                }
+                }, ::onError
             )
 
             eventDispatcher.sendEvent(AppEvent.JournalChanged)
             viewState.setProgress(false)
         }
     }
+
+    private fun onError(error: Throwable) =
+        errorHandler.proceed(error) {
+            notifier.sendMessage(it)
+        }
 }

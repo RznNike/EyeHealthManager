@@ -6,11 +6,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 
 @InjectViewState
 class ColorPerceptionInfoPresenter : BasePresenter<ColorPerceptionInfoView>() {
-    fun onStart() {
-        viewState.routerNewRootScreen(Screens.Screen.colorPerceptionTest())
-    }
+    fun startTest() = viewState.routerNewRootScreen(Screens.Screen.colorPerceptionTest())
 
-    fun onDaltonismTest() {
-        viewState.routerReplaceFlow(Screens.Flow.daltonism())
-    }
+    fun openDaltonismTest() = viewState.routerReplaceFlow(Screens.Flow.daltonism())
 }

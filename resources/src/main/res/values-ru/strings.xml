@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name" tools:override="true">Eye Health Manager</string>
+    <string name="app_name" tools:override="true">Менеджер Здоровья Глаз</string>
 
     <string name="security_error">Отсутствуют необходимые разрешения</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
@@ -29,9 +29,9 @@
     <string name="your_result">Ваш результат</string>
     <string name="close">Закрыть</string>
     <string name="color_perception_description">Тест поможет вам определить, насколько хорошо вы различаете оттенки цветов.\n\nЭтот тест является измененной и адаптированной для мобильных устройств версией теста Дианы Дервал. Перейдите по адресу www.dervalresearch.com, чтобы узнать больше.</string>
-    <string name="dichromat_message">Слабое различение цветов. Вероятно, вы предпочитаете черную, бежевую и синюю одежду.\nК данной категории относится около 25% людей.</string>
-    <string name="trichromat_message">Среднее различение цветов. Вы различаете многие оттенки фиолетового/синего, зеленого и красного.\nК данной категории относится около 50% людей.</string>
-    <string name="tetrachromat_message">Хорошее различение цветов! Вы различаете многие оттенки фиолетового/синего, зеленого, красного и желтого. Скорее всего вас раздражает желтый и вы не носите одежду этого цвета.\nК данной категории относится около 25% людей.</string>
+    <string name="dichromat_message">Слабое различение цветов. Вероятно, вы предпочитаете черную, бежевую и синюю одежду.\nК данной категории относится около 25\% людей.</string>
+    <string name="trichromat_message">Среднее различение цветов. Вы различаете многие оттенки фиолетового/синего, зеленого и красного.\nК данной категории относится около 50\% людей.</string>
+    <string name="tetrachromat_message">Хорошее различение цветов! Вы различаете многие оттенки фиолетового/синего, зеленого, красного и желтого. Скорее всего вас раздражает желтый и вы не носите одежду этого цвета.\nК данной категории относится около 25\% людей.</string>
     <string name="near_far_description">Этот тест поможет определить наличие у вас близорукости или дальнозоркости.\n\n<font color="#FF3334"><b>Внимание!</b></font>\nТест проходится по очереди для обоих глаз. Сначала закройте рукой один глаз и посмотрите на изображение. Затем повторите это для другого глаза. Ответьте на соответствующие вопросы в конце теста.</string>
     <string name="two_eyes_test_disclaimer">Закройте один глаз и посмотрите на изображение. Затем закройте другой глаз и повторите действия.</string>
     <string name="back">Назад</string>
@@ -54,29 +54,6 @@
     <string name="contrast_perfect_result">Идеальный результат!\n<i>Нельзя различить контраст в 0\% - тогда между изображением и фоном не было бы разницы.</i></string>
     <string name="daltonism_description">Этот тест поможет выявить наличие у вас различных видов аномалий цветовосприятия.\nДля проведения теста использутся широко известные таблицы проф. Рабкина Е.Б.\n\n<font color="#FF3334"><b>Внимание!</b></font> Точность теста существенно зависит от качества экрана вашего устройства. Если у него низкая яркость/цветопередача, то вы можете не пройти последние этапы теста, даже имея идеальное зрение.</string>
     <string name="daltonism_message">Что вы видите на изображении?</string>
-    <string name="rabkin_2">2</string>
-    <string name="rabkin_3">3</string>
-    <string name="rabkin_4">4</string>
-    <string name="rabkin_5">5</string>
-    <string name="rabkin_6">6</string>
-    <string name="rabkin_8">8</string>
-    <string name="rabkin_9">9</string>
-    <string name="rabkin_12">12</string>
-    <string name="rabkin_13">13</string>
-    <string name="rabkin_14">14</string>
-    <string name="rabkin_16">16</string>
-    <string name="rabkin_18">18</string>
-    <string name="rabkin_30">30</string>
-    <string name="rabkin_36">36</string>
-    <string name="rabkin_66">66</string>
-    <string name="rabkin_68">68</string>
-    <string name="rabkin_69">69</string>
-    <string name="rabkin_80">80</string>
-    <string name="rabkin_86">86</string>
-    <string name="rabkin_95">95</string>
-    <string name="rabkin_96">96</string>
-    <string name="rabkin_106">106</string>
-    <string name="rabkin_136">136</string>
     <string name="rabkin_circle_and_triangle">Круг и треугольник</string>
     <string name="rabkin_circle">Круг</string>
     <string name="rabkin_triangle">Треугольник</string>
@@ -142,9 +119,7 @@
     <string name="enter_body_height">Ввести рост</string>
     <string name="testing_time">Время тестирования</string>
     <string name="replace_beginning_with_morning">Заменить \"начало/середина/конец\" на \"утро/день/вечер\"</string>
-    <string name="day_part_auto_selection">Автоматически выбирать часть периода активности</string>
-    <string name="from">от</string>
-    <string name="to">до</string>
+    <string name="day_part_auto_selection">Автоматически выбирать период активности</string>
     <string name="input_arms_length">Введите длину вашей руки в сантиметрах</string>
     <string name="input_body_height">Введите ваш рост в сантиметрах</string>
     <string name="current_scale_message">Измерьте красную линию ниже линейкой и введите полученный результат. Установленное значение</string>
@@ -192,7 +167,7 @@
     <string name="report_acuity_only">Только острота зрения</string>
     <string name="report_consolidated">Сводный отчет</string>
     <string name="time_interval">Интервал времени</string>
-    <string name="other_params">Другие параметры</string>
+    <string name="other_parameters">Другие параметры</string>
     <string name="apply_dynamic_corrections">Применять динамические поправки результатов</string>
     <string name="start_analysis">Начать анализ</string>
     <string name="start_export">Начать экспорт</string>
@@ -218,18 +193,19 @@
     <string name="noise_detected_message">Результат теста очень похож на ошибочный, рекомендуется попробовать пройти тест заново</string>
     <string name="redo_test">Перепройти тест</string>
     <string name="welcome_header">Здравствуйте</string>
-    <string name="welcome_message">Вы установили приложение для контроля здоровья глаз \"Eye Health Manager\". Это приложение - частный проект, написанный одним человеком на безвозмездной основе. Обо всех проблемах и пожеланиях вы можете писать на почту, указанную в настройках в разделе \"О программе\".</string>
+    <string name="welcome_message">Это приложение - проект с открытым исходным кодом, написанный одним человеком на безвозмездной основе. Обо всех проблемах и пожеланиях вы можете писать на почту, указанную в настройках в разделе \"О программе\". Там же вы найдете ссылку на репозиторий с исходным кодом.</string>
     <string name="changelog">Список изменений</string>
-    <string name="changelog_text"><b>2.0.2</b>\n<ul><li>Исправление ошибок.</li></ul>\n\n<b>2.0.1</b>\n<ul><li>Исправлен язык по умолчанию.</li></ul>\n\n<b>2.0.0</b>\n<ul><li>Оптимизация для Android 11-13.</li>\n<li>Редизайн и улучшение UI.</li>\n<li>Исправление ошибок.</li></ul>\n\n<b>1.0.2</b>\n<ul><li>Исправление ошибок.</li>\n<li>Оптимизация графики.</li>\n<li>Добавлено окно со списком изменений.</li></ul>\n\n<b>1.0.1</b>\n<ul><li>Первый релиз</li></ul></string>
+    <string name="changelog_text"><b>2.1.0</b>\n• Оптимизация для Android 14.\n• Редизайн и улучшение UI.\n• Улучшен тест цветовосприятия.\n• Исправление ошибок.\n\n<b>2.0.2</b>\n• Исправление ошибок.\n\n<b>2.0.1</b>\n• Исправлен язык по умолчанию.\n\n<b>2.0.0</b>\n• Оптимизация для Android 11–13.\n• Редизайн и улучшение UI.\n• Исправление ошибок.</string>
     <string name="error_file_not_found">Файл не найден</string>
-    <string name="today">Сегодня</string>
-    <string name="yesterday">Вчера</string>
     <string name="notification_channel_system">Системные уведомления</string>
     <string name="notification_channel_soundless_suffix">без звука</string>
-    <string name="download_start_notification">Загрузка началась, проверьте уведомления в строке состояния</string>
     <string name="choose_language">Выберите язык</string>
     <string name="error_no_backup_in_folder">В выбранной папке не найдена резервная копия</string>
     <string name="data_added">Данные добавлены</string>
     <string name="choose_action">Выберите действие</string>
     <string name="apply">Применить</string>
+    <string name="ok">ОК</string>
+    <string name="source_code">Исходный код</string>
+    <string name="about_app_message">Это приложение - проект с открытым исходным кодом, написанный одним человеком на безвозмездной основе. Обо всех проблемах и пожеланиях вы можете писать на почту. Ниже расположена ссылка на репозиторий с исходным кодом.</string>
+    <string name="error_export">Во время экспорта произошла ошибка</string>
 </resources>

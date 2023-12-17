@@ -85,7 +85,6 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
                 )
             )
         }
-        itemAdapterBackups.setNewList(TestType.entries.map { TestTypeIndicatorItem(it) })
     }
 
     private fun initOnClickListeners() = binding.apply {
@@ -96,25 +95,25 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
             presenter.openImportFolder()
         }
         buttonStartImport.setOnClickListener {
-            presenter.startImport()
+            presenter.importFiles()
         }
     }
 
-    override fun populateData(availableBackups: List<TestType>, folderPath: String?) {
+    override fun populateData(folderPath: String?, availableImportTypes: List<TestType>) {
         binding.apply {
-            itemAdapterBackups.adapterItems
-                .filterIsInstance<TestTypeIndicatorItem>()
-                .forEach {
-                    it.available = availableBackups.contains(it.testType)
+            itemAdapterBackups.setNewList(
+                TestType.entries.map {
+                    TestTypeIndicatorItem(
+                        testType = it,
+                        available = availableImportTypes.contains(it)
+                    )
                 }
-            adapterBackups.notifyAdapterDataSetChanged()
+            )
             textViewBackupFolderPath.text = folderPath
             textViewBackupFolderPath.setVisible(!folderPath.isNullOrBlank())
             buttonOpenImportFolder.setVisible(!folderPath.isNullOrBlank())
         }
     }
 
-    override fun selectImportFolder() {
-        folderPicker.launch(null)
-    }
+    override fun selectImportFolder() = folderPicker.launch(null)
 }

@@ -8,15 +8,13 @@ data class SystemMessage(
     @StringRes val actionTextRes: Int? = null,
     var actionText: String? = null,
     val actionCallback: (() -> Unit)? = null,
-    val onClickCallback: (() -> Unit)? = null,
     val type: Type,
     val showOnTop: Boolean,
     val level: Level = Level.NORMAL
 ) {
     enum class Type {
         ALERT,
-        BAR,
-        BAR_ACTION
+        BAR
     }
 
     enum class Level {

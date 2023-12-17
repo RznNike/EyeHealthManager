@@ -5,5 +5,5 @@ import androidx.annotation.DrawableRes
 interface IAcuitySymbol {
     @DrawableRes fun getDrawableRes(): Int
 
-    fun getTag(): String
+    fun getId(): Long
 }

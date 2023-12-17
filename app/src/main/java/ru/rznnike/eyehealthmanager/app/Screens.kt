@@ -6,16 +6,16 @@ import android.provider.Settings
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.navigation.getFragmentScreen
-import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.*
-import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.info.AcuityInfoFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.AcuityFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.doctor.AcuityDoctorResultFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.info.AcuityInfoFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.instruction.AcuityInstructionFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.result.AcuityResultFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.test.AcuityTestFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.AnalysisFlowFragment
-import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.params.AnalysisParamsFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.parameters.AnalysisParametersFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.result.AnalysisResultFragment
-import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.*
+import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.AstigmatismFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.answer.AstigmatismAnswerFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.info.AstigmatismInfoFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.result.AstigmatismResultFragment
@@ -32,12 +32,11 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.DaltonismFlowFragme
 import ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.info.DaltonismInfoFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.result.DaltonismResultFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.test.DaltonismTestFragment
-import ru.rznnike.eyehealthmanager.app.ui.fragment.develop.DevelopmentFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.journal.backup.ExportJournalFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.journal.restore.ImportJournalFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.main.MainFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.main.MainFragment
-import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.*
+import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.NearFarFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.answer.NearFarAnswerFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.info.NearFarInfoFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.result.NearFarResultFragment
@@ -45,7 +44,8 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.test.NearFarTestFragm
 import ru.rznnike.eyehealthmanager.app.ui.fragment.settings.testing.TestingSettingsFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFragment
-import ru.rznnike.eyehealthmanager.domain.model.*
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
@@ -72,11 +72,6 @@ object Screens {
     }
 
     object Screen {
-        @Suppress("unused")
-        fun develop() = DevelopmentFragment::class.getFragmentScreen(
-            DevelopmentFragment.SHOW_BACK_BUTTON to true
-        )
-
         fun splash() = SplashFragment::class.getFragmentScreen()
 
         fun main() = MainFragment::class.getFragmentScreen()
@@ -171,12 +166,12 @@ object Screens {
 
         fun importJournal() = ImportJournalFragment::class.getFragmentScreen()
 
-        fun analysisParams() = AnalysisParamsFragment::class.getFragmentScreen()
+        fun analysisParameters() = AnalysisParametersFragment::class.getFragmentScreen()
 
         fun analysisResult(
-            params: AnalysisParams
+            parameters: AnalysisParameters
         ) = AnalysisResultFragment::class.getFragmentScreen(
-            AnalysisResultFragment.PARAMS to params
+            AnalysisResultFragment.PARAMETERS to parameters
         )
     }
 

@@ -10,7 +10,7 @@ interface ImportJournalView : NavigationMvpView {
     fun setProgress(show: Boolean, immediately: Boolean = true)
 
     @AddToEndSingle
-    fun populateData(availableBackups: List<TestType>, folderPath: String?)
+    fun populateData(folderPath: String?, availableImportTypes: List<TestType>)
 
     @OneExecution
     fun selectImportFolder()

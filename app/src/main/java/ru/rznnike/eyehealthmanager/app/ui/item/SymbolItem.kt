@@ -10,7 +10,7 @@ import ru.rznnike.eyehealthmanager.domain.model.IAcuitySymbol
 class SymbolItem(
     val symbol: IAcuitySymbol
 ) : BaseBindingItem<ItemSymbolBinding>() {
-    override var identifier = symbol.getTag().hashCode().toLong()
+    override var identifier = symbol.getId()
 
     override val type: Int = R.id.symbolItem
 
@@ -19,7 +19,8 @@ class SymbolItem(
 
     override fun ItemSymbolBinding.bindView() {
         imageViewIcon.setImageResource(symbol.getDrawableRes())
-        val background = if (isSelected) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
-        imageViewIcon.setBackgroundResource(background)
+        imageViewIcon.setBackgroundResource(
+            if (isSelected) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
+        )
     }
 }

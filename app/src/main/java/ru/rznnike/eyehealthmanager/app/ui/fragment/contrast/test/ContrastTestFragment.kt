@@ -14,6 +14,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.contrast.test.ContrastTestPr
 import ru.rznnike.eyehealthmanager.app.presentation.contrast.test.ContrastTestView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
+import ru.rznnike.eyehealthmanager.app.utils.extensions.withEndActionSafe
 import ru.rznnike.eyehealthmanager.databinding.FragmentContrastTestBinding
 import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
 
@@ -47,17 +48,19 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
 
     override fun onStart() {
         super.onStart()
-
-        val attributes = requireActivity().window.attributes
-        attributes.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
-        requireActivity().window.attributes = attributes
+        activity?.window?.apply {
+            attributes = attributes.apply {
+                screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
+            }
+        }
     }
 
     override fun onStop() {
-        val attributes = requireActivity().window.attributes
-        attributes.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
-        requireActivity().window.attributes = attributes
-
+        activity?.window?.apply {
+            attributes = attributes.apply {
+                screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+            }
+        }
         super.onStop()
     }
 
@@ -93,42 +96,43 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
         binding.apply {
             percentProgressView.progress = progress
 
-            buttonUp.isEnabled = false
-            buttonDown.isEnabled = false
-            buttonLeft.isEnabled = false
-            buttonRight.isEnabled = false
+            val answerButtons = listOf(
+                buttonUp,
+                buttonDown,
+                buttonLeft,
+                buttonRight
+            )
+
+            answerButtons.forEach {
+                it.isEnabled = false
+            }
 
             layoutTest.animate()
                 .alpha(0f)
                 .setStartDelay(0)
                 .setDuration(FADE_ANIMATION_MS)
-                .withEndAction {
-                    view?.post {
-                        imageViewBackground.alpha = backgroundAlpha
-                        imageViewForeground.alpha = foregroundDelta
-                        val imageRes = when (direction) {
-                            Direction.UP -> R.drawable.ic_circle_with_cutout_top
-                            Direction.DOWN -> R.drawable.ic_circle_with_cutout_bottom
-                            Direction.LEFT -> R.drawable.ic_circle_with_cutout_left
-                            Direction.RIGHT -> R.drawable.ic_circle_with_cutout_right
-                        }
-                        imageViewForeground.setImageResource(imageRes)
-
-                        layoutTest.setVisible()
-                        layoutTest.animate()
-                            .alpha(1f)
-                            .setStartDelay(0)
-                            .setDuration(FADE_ANIMATION_MS)
-                            .withEndAction {
-                                view?.post {
-                                    buttonUp.isEnabled = true
-                                    buttonDown.isEnabled = true
-                                    buttonLeft.isEnabled = true
-                                    buttonRight.isEnabled = true
-                                }
-                            }
-                            .start()
+                .withEndActionSafe(this@ContrastTestFragment) {
+                    imageViewBackground.alpha = backgroundAlpha
+                    imageViewForeground.alpha = foregroundDelta
+                    val imageRes = when (direction) {
+                        Direction.UP -> R.drawable.ic_circle_with_cutout_top
+                        Direction.DOWN -> R.drawable.ic_circle_with_cutout_bottom
+                        Direction.LEFT -> R.drawable.ic_circle_with_cutout_left
+                        Direction.RIGHT -> R.drawable.ic_circle_with_cutout_right
                     }
+                    imageViewForeground.setImageResource(imageRes)
+
+                    layoutTest.setVisible()
+                    layoutTest.animate()
+                        .alpha(1f)
+                        .setStartDelay(0)
+                        .setDuration(FADE_ANIMATION_MS)
+                        .withEndActionSafe(this@ContrastTestFragment) {
+                            answerButtons.forEach {
+                                it.isEnabled = true
+                            }
+                        }
+                        .start()
                 }
                 .start()
         }

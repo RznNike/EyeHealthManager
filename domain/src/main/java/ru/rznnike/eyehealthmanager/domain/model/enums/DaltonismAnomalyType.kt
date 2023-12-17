@@ -21,6 +21,6 @@ enum class DaltonismAnomalyType(
     companion object {
         operator fun get(id: Int?) = entries.find { it.id == id } ?: NONE
 
-        fun parseName(string: String?) = entries.find { it.toString() == string }
+        operator fun get(name: String?) = entries.find { it.toString() == name }
     }
 }

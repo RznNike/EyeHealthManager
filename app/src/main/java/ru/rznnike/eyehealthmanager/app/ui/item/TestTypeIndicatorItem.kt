@@ -9,8 +9,8 @@ import ru.rznnike.eyehealthmanager.databinding.ItemTestTypeIndicatorBinding
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 
 class TestTypeIndicatorItem(
-    val testType: TestType,
-    var available: Boolean = false
+    private val testType: TestType,
+    private val available: Boolean = false
 ) : BaseBindingItem<ItemTestTypeIndicatorBinding>() {
     override var identifier = testType.id.toLong()
 

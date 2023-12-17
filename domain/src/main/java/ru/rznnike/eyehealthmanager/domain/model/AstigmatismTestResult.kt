@@ -12,20 +12,18 @@ class AstigmatismTestResult(
     val resultLeftEye: AstigmatismAnswerType? = null,
     val resultRightEye: AstigmatismAnswerType? = null
 ) : TestResult(id, timestamp) {
-    override fun exportToString(): String {
-        return "%s\t%s\t%s".format(
+    override fun exportToString() =
+        "%s\t%s\t%s".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),
             resultLeftEye.toString(),
             resultRightEye.toString()
         )
-    }
 
-    override fun contentEquals(other: TestResult?): Boolean {
-        return (other is AstigmatismTestResult)
-                && (this.timestamp == other.timestamp)
-                && (this.resultLeftEye == other.resultLeftEye)
-                && (this.resultRightEye == other.resultRightEye)
-    }
+    override fun contentEquals(other: TestResult?) =
+        (other is AstigmatismTestResult)
+                && (timestamp == other.timestamp)
+                && (resultLeftEye == other.resultLeftEye)
+                && (resultRightEye == other.resultRightEye)
 
     companion object {
         const val EXPORT_HEADER = "timestamp\tresultLeftEye\tresultRightEye"
@@ -35,22 +33,19 @@ class AstigmatismTestResult(
             return if (stringParts.size < 3) {
                 null
             } else {
-                val timestamp = try {
-                    stringParts[0].toTimeStamp(GlobalConstants.DATE_PATTERN_FULL)
-                } catch (e: ParseException) {
-                    null
-                }
-                val resultLeftEye = AstigmatismAnswerType.parseName(stringParts[1])
-                val resultRightEye = AstigmatismAnswerType.parseName(stringParts[2])
-                if ((timestamp == null)) {
-                    null
-                } else {
+                try {
+                    val timestamp = stringParts[0].toTimeStamp(GlobalConstants.DATE_PATTERN_FULL)
+                    val resultLeftEye = AstigmatismAnswerType[stringParts[1]]
+                    val resultRightEye = AstigmatismAnswerType[stringParts[2]]
                     AstigmatismTestResult(
                         timestamp = timestamp,
                         resultLeftEye = resultLeftEye,
                         resultRightEye = resultRightEye
                     )
+                } catch (e: ParseException) {
+                    null
                 }
+
             }
         }
     }

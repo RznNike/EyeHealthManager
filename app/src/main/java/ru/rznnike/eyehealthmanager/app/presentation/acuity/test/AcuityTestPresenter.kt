@@ -10,13 +10,13 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.*
 import kotlin.math.pow
 import kotlin.math.sqrt
-import kotlin.random.Random
 
 private const val VISION_START = 10
 private const val VISION_END = 200
@@ -28,77 +28,57 @@ private const val MAX_ANSWERS = 3
 class AcuityTestPresenter(
     private var dayPart: DayPart
 ) : BasePresenter<AcuityTestView>() {
-    private val preferences: PreferencesWrapper by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
+    private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
+    private val getAcuityTestingSettingsUseCase: GetAcuityTestingSettingsUseCase by inject()
     private val addTestResultUseCase: AddTestResultUseCase by inject()
 
-    private var testCount = 0
-    private var requiredTestCount = 0
-    private val testResult = AcuityTestResult()
+    private var generalSettings = TestingSettings()
+    private var acuitySettings = AcuityTestingSettings()
+    private var eyesCount = 0
+    private var eyesTested = 0
     private var currentEye: TestEyesType = TestEyesType.LEFT
+    private var resultLeftEye: Int? = null
+    private var resultRightEye: Int? = null
     private var stepType: StepType = StepType.INFO
-    private var symbolsType: AcuityTestSymbolsType = AcuityTestSymbolsType.LETTERS_RU
-    private var dpmm: Float = 0f
-    private var distance: Int = 0
     private var currentSymbol: IAcuitySymbol = EmptyAcuitySymbol
-    private var selectedSymbol: IAcuitySymbol? = EmptyAcuitySymbol
-    private var vision = VISION_START
+    private var selectedSymbol: IAcuitySymbol? = null
+    private var visionLevel = VISION_START
     private var answersCount: Int = 0
     private var correctAnswersCount: Int = 0
-    private val random = Random(System.currentTimeMillis())
 
     override fun onFirstViewAttach() {
         presenterScope.launch {
-            val testType = TestEyesType[preferences.testEyesType.get()]
-            when (testType) {
-                TestEyesType.BOTH -> {
-                    currentEye = TestEyesType.LEFT
-                    requiredTestCount = 2
-                }
-                TestEyesType.LEFT -> {
-                    currentEye = TestEyesType.LEFT
-                    requiredTestCount = 1
-                }
-                TestEyesType.RIGHT -> {
-                    currentEye = TestEyesType.RIGHT
-                    requiredTestCount = 1
-                }
-            }
-            symbolsType = AcuityTestSymbolsType[preferences.acuitySymbolsType.get()]
-            dpmm = preferences.dotsPerMillimeter.get()
-            distance = preferences.armsLength.get()
-
-            testResult.testEyesType = testType
-            testResult.symbolsType = symbolsType
-            showCurrentStep()
+            viewState.setProgress(true)
+            generalSettings = getTestingSettingsUseCase().data ?: TestingSettings()
+            acuitySettings = getAcuityTestingSettingsUseCase().data ?: AcuityTestingSettings()
+            eyesCount = if (acuitySettings.eyesType == TestEyesType.BOTH) 2 else 1
+            currentEye = if (acuitySettings.eyesType == TestEyesType.RIGHT) TestEyesType.RIGHT else TestEyesType.LEFT
+            populateData()
+            viewState.setProgress(false)
         }
     }
 
-    fun onSymbolSelected(symbol: IAcuitySymbol) {
-        selectedSymbol = symbol
+    fun onSymbolSelected(symbol: IAcuitySymbol?) {
+        selectedSymbol = symbol ?: EmptyAcuitySymbol
+        populateData()
     }
 
-    fun onSymbolUnrecognized() {
-        selectedSymbol = EmptyAcuitySymbol
-    }
-
-    fun onNextStep() {
-        when (stepType) {
-            StepType.INFO -> {
-                vision = VISION_START
-                initTestForNewVisionLevel()
-                showCurrentStep()
-            }
-            StepType.TEST -> {
-                stepType = StepType.ANSWER
-                showCurrentStep()
-            }
-            StepType.ANSWER -> {
-                selectedSymbol?.let {
-                    processAnswer()
-                }
+    fun onNextStep() = when (stepType) {
+        StepType.INFO -> {
+            visionLevel = VISION_START
+            initTestForNewVisionLevel()
+            populateData()
+        }
+        StepType.TEST -> {
+            stepType = StepType.ANSWER
+            populateData()
+        }
+        StepType.ANSWER -> {
+            selectedSymbol?.let {
+                processAnswer()
             }
         }
     }
@@ -107,18 +87,18 @@ class AcuityTestPresenter(
         stepType = StepType.TEST
         answersCount = 0
         correctAnswersCount = 0
-        selectRandomSymbol()
+        randomizeCurrentSymbol()
     }
 
-    private fun selectRandomSymbol() {
-        currentSymbol = when (symbolsType) {
+    private fun randomizeCurrentSymbol() {
+        currentSymbol = when (acuitySettings.symbolsType) {
             AcuityTestSymbolsType.LETTERS_RU -> AcuitySymbolLetterRu.entries
             AcuityTestSymbolsType.LETTERS_EN -> AcuitySymbolLetterEn.entries
             AcuityTestSymbolsType.SQUARE -> AcuitySymbolSquare.entries
             AcuityTestSymbolsType.TRIANGLE -> AcuitySymbolTriangle.entries
         }
             .filter { it != selectedSymbol }
-            .random(random)
+            .random()
         selectedSymbol = null
     }
 
@@ -128,23 +108,22 @@ class AcuityTestPresenter(
             correctAnswersCount++
         }
         when {
-            correctAnswersCount >= MIN_CORRECT_ANSWERS -> {
-                if (vision >= VISION_END) {
+            correctAnswersCount >= MIN_CORRECT_ANSWERS ->
+                if (visionLevel >= VISION_END) {
                     finishTest()
                 } else {
-                    vision += VISION_STEP
+                    visionLevel += VISION_STEP
                     initTestForNewVisionLevel()
-                    showCurrentStep()
+                    populateData()
                 }
-            }
             ((answersCount - correctAnswersCount) > (MAX_ANSWERS - MIN_CORRECT_ANSWERS)) -> {
-                vision -= VISION_STEP
+                visionLevel -= VISION_STEP
                 finishTest()
             }
             else -> {
                 stepType = StepType.TEST
-                selectRandomSymbol()
-                showCurrentStep()
+                randomizeCurrentSymbol()
+                populateData()
             }
         }
     }
@@ -152,26 +131,26 @@ class AcuityTestPresenter(
     private fun finishTest() {
         presenterScope.launch {
             if (currentEye == TestEyesType.LEFT) {
-                testResult.resultLeftEye = vision
+                resultLeftEye = visionLevel
             } else {
-                testResult.resultRightEye = vision
+                resultRightEye = visionLevel
             }
-            testCount++
-            if (testCount < requiredTestCount) {
+            eyesTested++
+            if (eyesTested < eyesCount) {
                 currentEye = if (currentEye == TestEyesType.LEFT) TestEyesType.RIGHT else TestEyesType.LEFT
                 stepType = StepType.INFO
                 answersCount = 0
-                vision = VISION_START
-                showCurrentStep()
+                visionLevel = VISION_START
+                populateData()
             } else {
                 viewState.setProgress(true)
                 val testResult = AcuityTestResult(
                     timestamp = System.currentTimeMillis(),
-                    symbolsType = symbolsType,
-                    testEyesType = TestEyesType[preferences.testEyesType.get()],
+                    symbolsType = acuitySettings.symbolsType,
+                    testEyesType = acuitySettings.eyesType,
                     dayPart = dayPart,
-                    resultLeftEye = testResult.resultLeftEye,
-                    resultRightEye = testResult.resultRightEye
+                    resultLeftEye = resultLeftEye,
+                    resultRightEye = resultRightEye
                 )
                 addTestResultUseCase(testResult).process(
                     { id ->
@@ -189,48 +168,34 @@ class AcuityTestPresenter(
         }
     }
 
-    private fun showCurrentStep() {
+    private fun populateData() {
+        viewState.showTestProgress(getCurrentProgress())
         when (stepType) {
-            StepType.INFO -> {
-                viewState.showInfo(
-                    currentEye,
-                    getCurrentProgress()
-                )
-            }
-            StepType.TEST -> {
-                viewState.showTestStep(
-                    currentSymbol.getDrawableRes(),
-                    vision,
-                    dpmm,
-                    distance,
-                    getCurrentProgress()
-                )
-            }
-            StepType.ANSWER -> {
-                viewState.showAnswerVariants(
-                    symbolsType,
-                    getCurrentProgress()
-                )
-            }
+            StepType.INFO -> viewState.showInfo(currentEye)
+            StepType.TEST -> viewState.showTestStep(
+                imageResId = currentSymbol.getDrawableRes(),
+                vision = visionLevel,
+                dpmm = generalSettings.dpmm,
+                distance = generalSettings.armsLength
+            )
+            StepType.ANSWER -> viewState.showAnswerVariants(
+                symbolsType = acuitySettings.symbolsType,
+                selectedSymbol = selectedSymbol
+            )
         }
     }
 
     private fun getCurrentProgress(): Int {
-        fun circularTransform(x: Float) = sqrt((10000 - (x - 100).pow(2)))
+        fun circularTransform(x: Double) = sqrt((1 - (x - 1).pow(2)))
 
-        // step
-        var result = (vision - VISION_START + answersCount.toFloat() * VISION_STEP / MAX_ANSWERS) /
-                (VISION_END - VISION_START) * 100
-        // substep
-        result += VISION_STEP / (VISION_END - VISION_START)
-        // transform with non-linear function
-        result = circularTransform(result)
-        // multi-eye case
-        if (requiredTestCount == 2) {
-            result = result / 2 + 50 * testCount
+        val currentValue = visionLevel - VISION_START + answersCount.toDouble() / MAX_ANSWERS * VISION_STEP
+        val maxValue = VISION_END - VISION_START
+        var progress = circularTransform(currentValue / maxValue)
+        if (acuitySettings.eyesType == TestEyesType.BOTH) {
+            progress = (progress + eyesTested) / 2
         }
 
-        return result.toInt()
+        return (progress * 100).toInt()
     }
 
     private enum class StepType {

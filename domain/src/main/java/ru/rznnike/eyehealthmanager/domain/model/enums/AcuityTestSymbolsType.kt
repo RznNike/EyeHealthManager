@@ -17,6 +17,6 @@ enum class AcuityTestSymbolsType(
     companion object {
         operator fun get(id: Int?) = entries.find { it.id == id } ?: LETTERS_RU
 
-        fun parseName(string: String?) = entries.find { it.toString() == string }
+        operator fun get(name: String?) = entries.find { it.toString() == name }
     }
 }

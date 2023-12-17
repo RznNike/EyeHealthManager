@@ -10,18 +10,16 @@ class ContrastTestResult(
     timestamp: Long,
     val recognizedContrast: Int
 ) : TestResult(id, timestamp) {
-    override fun exportToString(): String {
-        return "%s\t%d".format(
+    override fun exportToString() =
+        "%s\t%d".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),
             recognizedContrast
         )
-    }
 
-    override fun contentEquals(other: TestResult?): Boolean {
-        return (other is ContrastTestResult)
-                && (this.timestamp == other.timestamp)
-                && (this.recognizedContrast == other.recognizedContrast)
-    }
+    override fun contentEquals(other: TestResult?) =
+        (other is ContrastTestResult)
+                && (timestamp == other.timestamp)
+                && (recognizedContrast == other.recognizedContrast)
 
     companion object {
         const val EXPORT_HEADER = "timestamp\trecognizedContrast"
@@ -31,21 +29,17 @@ class ContrastTestResult(
             return if (stringParts.size < 2) {
                 null
             } else {
-                val timestamp = try {
-                    stringParts[0].toTimeStamp(GlobalConstants.DATE_PATTERN_FULL)
+                try {
+                    val timestamp = stringParts[0].toTimeStamp(GlobalConstants.DATE_PATTERN_FULL)
+                    val recognizedContrast = stringParts[1].toIntOrNull()
+                    recognizedContrast?.let {
+                        ContrastTestResult(
+                            timestamp = timestamp,
+                            recognizedContrast = recognizedContrast
+                        )
+                    }
                 } catch (e: ParseException) {
                     null
-                }
-                val recognizedContrast = stringParts[1].toIntOrNull()
-                if ((timestamp == null)
-                    || (recognizedContrast == null)
-                ) {
-                    null
-                } else {
-                    ContrastTestResult(
-                        timestamp = timestamp,
-                        recognizedContrast = recognizedContrast
-                    )
                 }
             }
         }

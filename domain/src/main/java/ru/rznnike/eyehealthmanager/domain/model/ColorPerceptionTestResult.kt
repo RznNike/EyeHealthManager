@@ -11,20 +11,18 @@ class ColorPerceptionTestResult(
     val recognizedColorsCount: Int,
     val allColorsCount: Int
 ) : TestResult(id, timestamp) {
-    override fun exportToString(): String {
-        return "%s\t%d\t%d".format(
+    override fun exportToString() =
+        "%s\t%d\t%d".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),
             recognizedColorsCount,
             allColorsCount
         )
-    }
 
-    override fun contentEquals(other: TestResult?): Boolean {
-        return (other is ColorPerceptionTestResult)
-                && (this.timestamp == other.timestamp)
-                && (this.recognizedColorsCount == other.recognizedColorsCount)
-                && (this.allColorsCount == other.allColorsCount)
-    }
+    override fun contentEquals(other: TestResult?) =
+        (other is ColorPerceptionTestResult)
+                && (timestamp == other.timestamp)
+                && (recognizedColorsCount == other.recognizedColorsCount)
+                && (allColorsCount == other.allColorsCount)
 
     companion object {
         const val EXPORT_HEADER = "timestamp\trecognizedColorsCount\tallColorsCount"
@@ -41,10 +39,7 @@ class ColorPerceptionTestResult(
                 }
                 val recognizedColorsCount = stringParts[1].toIntOrNull()
                 val allColorsCount = stringParts[2].toIntOrNull()
-                if ((timestamp == null)
-                    || (recognizedColorsCount == null)
-                    || (allColorsCount == null)
-                ) {
+                if ((timestamp == null) || (recognizedColorsCount == null) || (allColorsCount == null)) {
                     null
                 } else {
                     ColorPerceptionTestResult(

@@ -23,12 +23,26 @@ import ru.rznnike.eyehealthmanager.app.presentation.acuity.test.AcuityTestView
 import ru.rznnike.eyehealthmanager.app.ui.item.CantAnswerItem
 import ru.rznnike.eyehealthmanager.app.ui.item.SymbolItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
-import ru.rznnike.eyehealthmanager.app.utils.extensions.*
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
+import ru.rznnike.eyehealthmanager.app.utils.extensions.context
+import ru.rznnike.eyehealthmanager.app.utils.extensions.convertMmToPx
+import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getParcelableArg
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setGone
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
+import ru.rznnike.eyehealthmanager.app.utils.extensions.withDelay
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityTestBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.*
+import ru.rznnike.eyehealthmanager.domain.model.EmptyAcuitySymbol
+import ru.rznnike.eyehealthmanager.domain.model.IAcuitySymbol
+import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterEn
+import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterRu
+import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolSquare
+import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolTriangle
+import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 
 private const val BASIC_HEIGHT_MM = 7f
-private const val DEFAULT_DISTANCE_MM = 5000f
+private const val BASIC_DISTANCE_MM = 5000f
 private const val VISION_MULTIPLIER = 100
 private const val BUTTON_NEXT_ACTIVATION_DELAY = 500L
 
@@ -38,7 +52,7 @@ class AcuityTestFragment : BaseFragment(R.layout.fragment_acuity_test), AcuityTe
 
     @ProvidePresenter
     fun providePresenter() = AcuityTestPresenter(
-        dayPart = DayPart[getIntArg(DAY_PART)]
+        dayPart = getParcelableArg(DAY_PART)!!
     )
 
     private val binding by viewBinding(FragmentAcuityTestBinding::bind)
@@ -89,20 +103,10 @@ class AcuityTestFragment : BaseFragment(R.layout.fragment_acuity_test), AcuityTe
             when (item) {
                 is SymbolItem -> {
                     presenter.onSymbolSelected(item.symbol)
-                    itemAdapter.adapterItems.forEach {
-                        it.isSelected = it == item
-                    }
-                    adapter.notifyAdapterDataSetChanged()
-                    binding.buttonNext.isEnabled = true
                     true
                 }
                 is CantAnswerItem -> {
-                    presenter.onSymbolUnrecognized()
-                    itemAdapter.adapterItems.forEach {
-                        it.isSelected = it == item
-                    }
-                    adapter.notifyAdapterDataSetChanged()
-                    binding.buttonNext.isEnabled = true
+                    presenter.onSymbolSelected(null)
                     true
                 }
                 else -> false
@@ -133,12 +137,18 @@ class AcuityTestFragment : BaseFragment(R.layout.fragment_acuity_test), AcuityTe
         }
     }
 
-    override fun showInfo(eyesType: TestEyesType, progress: Int) {
+    override fun showTestProgress(progress: Int) {
         binding.apply {
             percentProgressView.progress = progress
+        }
+    }
+
+    override fun showInfo(eyesType: TestEyesType) {
+        binding.apply {
             layoutTest.setGone()
             layoutAnswerVariants.setGone()
             layoutInfo.setVisible()
+
             if (eyesType == TestEyesType.LEFT) {
                 textViewInfoMessage.setText(R.string.close_right_eye)
                 toolbar.textViewToolbarHeader.setText(R.string.testing_left_eye)
@@ -154,57 +164,61 @@ class AcuityTestFragment : BaseFragment(R.layout.fragment_acuity_test), AcuityTe
         @DrawableRes imageResId: Int,
         vision: Int,
         dpmm: Float,
-        distance: Int,
-        progress: Int
+        distance: Int
     ) {
         binding.apply {
-            percentProgressView.progress = progress
             layoutInfo.setGone()
             layoutAnswerVariants.setGone()
             layoutTest.setVisible()
-            imageViewTest.setImageResource(imageResId)
-            buttonNext.setText(R.string.answer)
 
-            val finalDpmm = if (dpmm > 0) dpmm else requireContext().convertMmToPx(1f)
-            val heightMm = BASIC_HEIGHT_MM * VISION_MULTIPLIER / vision * distance / DEFAULT_DISTANCE_MM
+            imageViewTest.setImageResource(imageResId)
+            val finalDpmm = if (dpmm > 0) dpmm else context.convertMmToPx(1f)
+            val heightMm = BASIC_HEIGHT_MM * VISION_MULTIPLIER / vision * distance / BASIC_DISTANCE_MM
             val heightPx = heightMm * finalDpmm
             imageViewTest.updateLayoutParams {
                 height = heightPx.toInt()
             }
+
+            buttonNext.setText(R.string.answer)
             disableButtonNextForDelay()
         }
     }
 
-    override fun showAnswerVariants(symbolsType: AcuityTestSymbolsType, progress: Int) {
+    override fun showAnswerVariants(
+        symbolsType: AcuityTestSymbolsType,
+        selectedSymbol: IAcuitySymbol?
+    ) {
         binding.apply {
-            percentProgressView.progress = progress
             layoutInfo.setGone()
             layoutTest.setGone()
             layoutAnswerVariants.setVisible()
-            buttonNext.setText(R.string.continue_string)
 
-            val items: MutableList<IItem<*>> = when (symbolsType) {
+            val items = when (symbolsType) {
                 AcuityTestSymbolsType.LETTERS_RU -> AcuitySymbolLetterRu.entries
                 AcuityTestSymbolsType.LETTERS_EN -> AcuitySymbolLetterEn.entries
                 AcuityTestSymbolsType.SQUARE -> AcuitySymbolSquare.entries
                 AcuityTestSymbolsType.TRIANGLE -> AcuitySymbolTriangle.entries
             }
-                .map { SymbolItem(it) }
-                .toMutableList()
-            items.add(CantAnswerItem())
+                .map { symbol ->
+                    SymbolItem(symbol).also {
+                        it.isSelected = symbol == selectedSymbol
+                    }
+                }
+                .plus(
+                    CantAnswerItem().also {
+                        it.isSelected = selectedSymbol == EmptyAcuitySymbol
+                    }
+                )
             itemAdapter.setNewList(items)
-            buttonNext.isEnabled = false
+            buttonNext.setText(R.string.continue_string)
+            buttonNext.isEnabled = selectedSymbol != null
         }
     }
 
-    private fun disableButtonNextForDelay() {
-        binding.apply {
-            buttonNext.isEnabled = false
-            withDelay(BUTTON_NEXT_ACTIVATION_DELAY) {
-                view?.let {
-                    buttonNext.isEnabled = true
-                }
-            }
+    private fun disableButtonNextForDelay() = binding.apply {
+        buttonNext.isEnabled = false
+        withDelay(BUTTON_NEXT_ACTIVATION_DELAY) {
+            buttonNext.isEnabled = true
         }
     }
 

@@ -23,7 +23,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPa
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.FragmentExportJournalBinding
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
@@ -114,7 +114,6 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
                 )
             )
         }
-        itemAdapterTestType.setNewList(TestType.entries.map { TestTypeSmallItem(it) })
     }
 
     private fun initOnClickListeners() = binding.apply {
@@ -138,31 +137,32 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
         }
     }
 
-    override fun populateData(filterParams: TestResultFilterParams, folderPath: String?) {
+    override fun populateData(filter: TestResultFilter, folderPath: String?) {
         binding.apply {
-            checkBoxFilterByDate.isChecked = filterParams.filterByDate
-            buttonDateFrom.text = filterParams.dateFrom.toDate(GlobalConstants.DATE_PATTERN_SIMPLE)
-            buttonDateTo.text = filterParams.dateTo.toDate(GlobalConstants.DATE_PATTERN_SIMPLE)
+            checkBoxFilterByDate.isChecked = filter.filterByDate
+            buttonDateFrom.text = filter.dateFrom.toDate(GlobalConstants.DATE_PATTERN_SIMPLE)
+            buttonDateTo.text = filter.dateTo.toDate(GlobalConstants.DATE_PATTERN_SIMPLE)
             buttonDateFrom.setOnClickListener {
                 showDatePicker(
-                    preselectedDate = filterParams.dateFrom,
+                    preselectedDate = filter.dateFrom,
                     onSuccess = presenter::onFilterDateFromSelected
                 )
             }
             buttonDateTo.setOnClickListener {
                 showDatePicker(
-                    preselectedDate = filterParams.dateTo,
+                    preselectedDate = filter.dateTo,
                     onSuccess = presenter::onFilterDateToSelected
                 )
             }
 
-            checkBoxFilterByType.isChecked = filterParams.filterByType
-            itemAdapterTestType.adapterItems.forEach {
-                if (it is TestTypeSmallItem) {
-                    it.isSelected = filterParams.selectedTestTypes.contains(it.testType)
+            checkBoxFilterByType.isChecked = filter.filterByType
+            itemAdapterTestType.setNewList(
+                TestType.entries.map {
+                    TestTypeSmallItem(it).also { item ->
+                        item.isSelected = filter.selectedTestTypes.contains(it)
+                    }
                 }
-            }
-            adapterTestType.notifyAdapterDataSetChanged()
+            )
 
             textViewBackupFolderPath.text = folderPath
             textViewBackupFolderPath.setVisible(!folderPath.isNullOrBlank())
@@ -170,7 +170,5 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
         }
     }
 
-    override fun selectExportFolder() {
-        folderPicker.launch()
-    }
+    override fun selectExportFolder() = folderPicker.launch()
 }

@@ -16,15 +16,13 @@ class Notifier(
     fun sendMessage(
         text: String,
         level: SystemMessage.Level = SystemMessage.Level.NORMAL,
-        showOnTop: Boolean = false,
-        onClickCallback: (() -> Unit)? = null
+        showOnTop: Boolean = false
     ) {
         val msg = SystemMessage(
             text = text,
             type = SystemMessage.Type.BAR,
             showOnTop = showOnTop,
-            level = level,
-            onClickCallback = onClickCallback
+            level = level
         )
         coroutineProvider.scopeIo.launch {
             notifierFlow.emit(msg)
@@ -34,15 +32,13 @@ class Notifier(
     fun sendMessage(
         @StringRes textRes: Int,
         level: SystemMessage.Level = SystemMessage.Level.NORMAL,
-        showOnTop: Boolean = false,
-        onClickCallback: (() -> Unit)? = null
+        showOnTop: Boolean = false
     ) {
         val msg = SystemMessage(
             textRes = textRes,
             type = SystemMessage.Type.BAR,
             showOnTop = showOnTop,
-            level = level,
-            onClickCallback = onClickCallback
+            level = level
         )
         coroutineProvider.scopeIo.launch {
             notifierFlow.emit(msg)
@@ -81,7 +77,7 @@ class Notifier(
             textRes = textRes,
             actionTextRes = actionTextRes,
             actionCallback = actionCallback,
-            type = SystemMessage.Type.BAR_ACTION,
+            type = SystemMessage.Type.BAR,
             showOnTop = showOnTop
         )
         coroutineProvider.scopeIo.launch {
@@ -99,7 +95,7 @@ class Notifier(
             text = text,
             actionText = actionText,
             actionCallback = actionCallback,
-            type = SystemMessage.Type.BAR_ACTION,
+            type = SystemMessage.Type.BAR,
             showOnTop = showOnTop
         )
         coroutineProvider.scopeIo.launch {

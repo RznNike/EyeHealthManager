@@ -18,11 +18,12 @@
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorRed">#FE4C3F</color>
     <color name="colorBlack">#000000</color>
-    <color name="colorGalleryPopupBackground">#9A000000</color>
     <color name="colorChartLeftEye">#0000FF</color>
     <color name="colorChartLeftEyeExtrapolation">#B4B4FF</color>
     <color name="colorChartRightEye">#00FF00</color>
     <color name="colorChartRightEyeExtrapolation">#B4FFB4</color>
     <color name="colorNavigationBackground">#01FFFFFF</color>
     <color name="colorScrollbar">#A0A0A0</color>
+    <color name="colorDuochromeRed">#FF3334</color>
+    <color name="colorDuochromeGreen">#34CC67</color>
 </resources>
