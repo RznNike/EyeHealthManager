@@ -1,8 +1,10 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
 import android.graphics.Color
+import androidx.annotation.ColorInt
 
 object ColorPerceptionTestData {
+    @ColorInt
     val colors: Array<Int> = arrayOf(
         Color.rgb(155, 92, 203),
         Color.rgb(165, 95, 217),
