@@ -62,6 +62,18 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="AppTheme.Button.Gray"
+        parent="AppTheme.Button">
+        <item name="backgroundTint">@color/selector_button_gray</item>
+        <item name="android:textColor">@color/selector_button_text_gray</item>
+    </style>
+
+    <style name="AppTheme.Button.Small.Gray"
+        parent="AppTheme.Button.Small">
+        <item name="backgroundTint">@color/selector_button_gray</item>
+        <item name="android:textColor">@color/selector_button_text_gray</item>
+    </style>
+
     <style name="AppTheme.EditText"
         parent="Base.Widget.AppCompat.EditText">
         <item name="android:textSize">16sp</item>

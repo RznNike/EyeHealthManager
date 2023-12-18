@@ -61,9 +61,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonDialogEmail"
+            style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/selector_button_gray"
             android:text="@string/feedback_email" />
 
         <Space
@@ -72,9 +72,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonDialogSourceCode"
+            style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/selector_button_gray"
             android:text="@string/source_code" />
 
     </LinearLayout>
