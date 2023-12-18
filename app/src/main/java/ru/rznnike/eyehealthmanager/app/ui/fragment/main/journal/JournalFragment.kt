@@ -60,6 +60,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             recyclerView.addSystemWindowInsetToPadding(top = true)
         }
         initRecyclerView()
+        initOnClickListeners()
     }
 
     private fun initAdapter() {
@@ -100,9 +101,16 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             addItemDecoration(
                 EmptyDividerDecoration(
                     context = requireContext(),
-                    cardInsets = R.dimen.baseline_grid_16
+                    cardInsets = R.dimen.baseline_grid_16,
+                    applyOutsideDecoration = false
                 )
             )
+        }
+    }
+
+    private fun initOnClickListeners() = binding.apply {
+        buttonTools.setOnClickListener {
+            showToolsDialog()
         }
     }
 
@@ -110,8 +118,8 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
         binding.apply {
             itemAdapter.setNewList(data.map { TestResultItem(it) })
             zeroView.setVisible(data.isEmpty())
-            buttonActions.setOnClickListener {
-                showActionsDialog(filter)
+            buttonFilter.setOnClickListener {
+                showFilterDialog(filter)
             }
             imageViewFilterIcon.setVisible(
                 filter.filterByDate || filter.filterByType
@@ -185,7 +193,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
         )
     }
 
-    private fun showActionsDialog(filter: TestResultFilter) {
+    private fun showToolsDialog() {
         showBottomDialog(
             header = getString(R.string.choose_action),
             actions = listOf(
@@ -200,13 +208,6 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 BottomDialogAction(getString(R.string.import_string)) {
                     it.dismiss()
                     presenter.importData()
-                },
-                BottomDialogAction(
-                    text = getString(R.string.filters),
-                    selected = filter.filterByDate || filter.filterByType
-                ) {
-                    it.dismiss()
-                    showFilterDialog(filter)
                 }
             )
         )
