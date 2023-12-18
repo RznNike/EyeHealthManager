@@ -23,7 +23,7 @@
     <string name="test_astigmatism">Astigmatism test</string>
     <string name="test_nearsightedness_farsightedness">Nearsightedness and farsightedness test</string>
     <string name="test_color_perception">Color perception test</string>
-    <string name="test_daltonism">Daltonism test</string>
+    <string name="test_daltonism">Color blindness test</string>
     <string name="test_contrast">Vision contrast test</string>
     <string name="start">Start</string>
     <string name="yes">Yes</string>
