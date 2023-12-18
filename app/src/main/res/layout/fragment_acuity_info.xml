@@ -17,8 +17,7 @@
             android:id="@+id/layoutToolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_4_bottom"
-            android:backgroundTint="@color/colorBackgroundLight">
+            android:background="@color/colorBackgroundLight">
 
             <include
                 android:id="@+id/toolbar"
@@ -48,7 +47,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="16dp"
-            android:background="@drawable/bg_rounded_4_top"
+            android:background="@drawable/bg_rounded_8_top"
             android:backgroundTint="@color/colorBackgroundLight"
             android:orientation="vertical">
 
@@ -161,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:padding="12dp"
-                        android:background="@drawable/bg_rounded_4"
+                        android:background="@drawable/bg_rounded_8"
                         android:backgroundTint="@color/colorBackground"
                         android:text="@string/settings_scaling"
                         android:gravity="center_vertical"
@@ -178,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:padding="12dp"
-                        android:background="@drawable/bg_rounded_4"
+                        android:background="@drawable/bg_rounded_8"
                         android:backgroundTint="@color/colorBackground"
                         android:text="@string/add_doctor_test_results"
                         android:gravity="center_vertical"

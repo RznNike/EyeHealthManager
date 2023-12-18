@@ -4,7 +4,7 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_4"
+    android:background="@drawable/bg_rounded_8"
     android:backgroundTint="@color/colorBackgroundLight"
     android:padding="16dp">
 

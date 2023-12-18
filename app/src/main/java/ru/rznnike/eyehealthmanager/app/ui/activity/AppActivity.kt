@@ -208,7 +208,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
                 )
                 updatePadding(0, 0, 0, 0)
                 requestApplyInsets()
-                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_4_background)
+                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_8_background)
                 (this as ViewGroup).apply {
                     removeAllViews()
                     addView(root)
@@ -247,7 +247,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
                 )
                 updatePadding(0, 0, 0, 0)
                 requestApplyInsets()
-                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_4_background)
+                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_8_background)
                 (this as ViewGroup).apply {
                     removeAllViews()
                     addView(root)

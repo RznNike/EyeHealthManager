@@ -20,7 +20,7 @@ class TestTypeSmallItem(
     override fun ItemTestTypeSmallBinding.bindView() {
         imageViewIcon.setImageResource(testType.iconResId)
         imageViewIcon.setBackgroundResource(
-            if (isSelected) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
+            if (isSelected) R.drawable.bg_rounded_8_outline_accent else R.color.colorTransparent
         )
     }
 }

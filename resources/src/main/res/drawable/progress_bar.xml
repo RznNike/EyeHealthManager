@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background"
-        android:drawable="@drawable/bg_rounded_4_background">
+        android:drawable="@drawable/bg_rounded_8_background">
     </item>
 
     <item android:id="@android:id/secondaryProgress">
@@ -17,7 +17,7 @@
         android:right="2dp" >
         <scale
             android:scaleWidth="100%"
-            android:drawable="@drawable/bg_rounded_4_accent">
+            android:drawable="@drawable/bg_rounded_8_accent">
         </scale>
     </item>
 

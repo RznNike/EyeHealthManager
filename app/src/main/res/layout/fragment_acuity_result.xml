@@ -16,8 +16,7 @@
             android:id="@+id/layoutToolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_4_bottom"
-            android:backgroundTint="@color/colorBackgroundLight"
+            android:background="@color/colorBackgroundLight"
             app:layout_constraintTop_toTopOf="parent">
 
             <include
@@ -137,7 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:background="@drawable/bg_rounded_4_top"
+            android:background="@drawable/bg_rounded_8_top"
             android:backgroundTint="@color/colorBackgroundLight"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">

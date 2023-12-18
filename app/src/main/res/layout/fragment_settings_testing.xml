@@ -17,8 +17,7 @@
             android:id="@+id/layoutToolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_4_bottom"
-            android:backgroundTint="@color/colorBackgroundLight">
+            android:background="@color/colorBackgroundLight">
 
             <include
                 android:id="@+id/toolbar"
@@ -42,7 +41,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_4"
+                    android:background="@drawable/bg_rounded_8"
                     android:backgroundTint="@color/colorBackgroundLight"
                     android:orientation="vertical"
                     android:padding="16dp">
@@ -61,7 +60,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@drawable/bg_rounded_4"
+                        android:background="@drawable/bg_rounded_8"
                         android:backgroundTint="@color/colorBackgroundGray"/>
 
                     <Space
@@ -113,7 +112,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@drawable/bg_rounded_4"
+                        android:background="@drawable/bg_rounded_8"
                         android:backgroundTint="@color/colorBackgroundGray"/>
 
                     <Space
@@ -186,7 +185,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_4"
+                    android:background="@drawable/bg_rounded_8"
                     android:backgroundTint="@color/colorBackgroundLight"
                     android:orientation="vertical"
                     android:padding="16dp">
@@ -205,7 +204,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@drawable/bg_rounded_4"
+                        android:background="@drawable/bg_rounded_8"
                         android:backgroundTint="@color/colorBackgroundGray"/>
 
                     <androidx.appcompat.widget.AppCompatCheckBox

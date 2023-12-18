@@ -43,14 +43,14 @@
         parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/selector_button_text</item>
-        <item name="cornerRadius">4dp</item>
+        <item name="cornerRadius">8dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0</item>
         <item name="textAllCaps">false</item>
         <item name="android:padding">16dp</item>
-        <item name="android:background">@drawable/bg_rounded_4</item>
+        <item name="android:background">@drawable/bg_rounded_8</item>
         <item name="backgroundTint">@color/selector_button</item>
     </style>
 
