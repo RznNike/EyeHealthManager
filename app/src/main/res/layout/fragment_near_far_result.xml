@@ -16,7 +16,8 @@
             android:id="@+id/layoutToolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorBackgroundLight">
+            android:background="@color/colorBackgroundLight"
+            android:elevation="4dp">
 
             <include
                 android:id="@+id/toolbar"
