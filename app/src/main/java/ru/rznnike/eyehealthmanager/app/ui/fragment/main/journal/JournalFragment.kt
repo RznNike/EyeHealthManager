@@ -101,7 +101,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             addItemDecoration(
                 EmptyDividerDecoration(
                     context = requireContext(),
-                    cardInsets = R.dimen.baseline_grid_16,
+                    cardInsets = R.dimen.baseline_grid_8,
                     applyOutsideDecoration = false
                 )
             )

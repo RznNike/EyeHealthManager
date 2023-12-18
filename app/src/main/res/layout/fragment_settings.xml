@@ -20,257 +20,178 @@
             android:padding="16dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/AppTheme.TextView.Bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/tests"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/buttonTestingSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:drawableEnd="@drawable/ic_arrow_button_right"
+                android:drawableTint="@color/colorTextDark"
+                android:text="@string/settings_testing"
                 android:background="@drawable/bg_rounded_8"
-                android:backgroundTint="@color/colorBackgroundLight"
-                android:orientation="vertical">
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/AppTheme.TextView.Bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:textSize="18sp"
-                    android:text="@string/tests"/>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_rounded_8"
-                    android:backgroundTint="@color/colorBackgroundGray"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/buttonTestingSettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_button_right"
-                    android:drawableTint="@color/colorTextDark"
-                    android:text="@string/settings_testing" />
-
-            </LinearLayout>
+                android:backgroundTint="@color/colorBackgroundLight" />
             
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                android:layout_height="24dp" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/AppTheme.TextView.Bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/settings_data"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/buttonExportData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:drawableEnd="@drawable/ic_arrow_button_right"
+                android:drawableTint="@color/colorTextDark"
+                android:text="@string/export"
                 android:background="@drawable/bg_rounded_8"
-                android:backgroundTint="@color/colorBackgroundLight"
-                android:orientation="vertical">
+                android:backgroundTint="@color/colorBackgroundLight" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/AppTheme.TextView.Bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:textSize="18sp"
-                    android:text="@string/settings_data"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/buttonImportData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:drawableEnd="@drawable/ic_arrow_button_right"
+                android:drawableTint="@color/colorTextDark"
+                android:text="@string/import_string"
+                android:background="@drawable/bg_rounded_8"
+                android:backgroundTint="@color/colorBackgroundLight" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_rounded_8"
-                    android:backgroundTint="@color/colorBackgroundGray"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/buttonDeleteDuplicates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/delete_duplicates"
+                android:background="@drawable/bg_rounded_8"
+                android:backgroundTint="@color/colorBackgroundLight" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/buttonExportData"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_button_right"
-                    android:drawableTint="@color/colorTextDark"
-                    android:text="@string/export" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_rounded_8"
-                    android:backgroundTint="@color/colorBackground"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/buttonImportData"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_button_right"
-                    android:drawableTint="@color/colorTextDark"
-                    android:text="@string/import_string" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_rounded_8"
-                    android:backgroundTint="@color/colorBackground"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/buttonDeleteDuplicates"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_button_right"
-                    android:drawableTint="@color/colorTextDark"
-                    android:text="@string/delete_duplicates" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_rounded_8"
-                    android:backgroundTint="@color/colorBackground"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/buttonClearJournal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_button_right"
-                    android:drawableTint="@color/colorTextDark"
-                    android:text="@string/clear_journal" />
-
-            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/buttonClearJournal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/clear_journal"
+                android:background="@drawable/bg_rounded_8"
+                android:backgroundTint="@color/colorBackgroundLight" />
     
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                android:layout_height="24dp" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/AppTheme.TextView.Bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_rounded_8"
-                android:backgroundTint="@color/colorBackgroundLight"
-                android:orientation="vertical">
+                android:text="@string/settings_other"/>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/AppTheme.TextView.Bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:textSize="18sp"
-                    android:text="@string/settings_other"/>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_rounded_8"
-                    android:backgroundTint="@color/colorBackgroundGray"/>
-
-                <LinearLayout
-                    android:id="@+id/buttonLanguage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:text="@string/language"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/textViewCurrentLanguage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:layout_gravity="center"
-                        android:textColor="@color/colorTextDark"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        tools:text="Русский"
-                        tools:ignore="RtlSymmetry" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/imageViewArrowFavorite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_arrow_button_right"
-                        android:tint="@color/colorTextDark"
-                        tools:ignore="RtlSymmetry" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_rounded_8"
-                    android:backgroundTint="@color/colorBackground"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/buttonAboutApp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_button_right"
-                    android:drawableTint="@color/colorTextDark"
-                    android:text="@string/about_app" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_rounded_8"
-                    android:backgroundTint="@color/colorBackground"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/buttonChangelog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_button_right"
-                    android:drawableTint="@color/colorTextDark"
-                    android:text="@string/changelog" />
-
-            </LinearLayout>
-    
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_height="8dp" />
+
+            <LinearLayout
+                android:id="@+id/buttonLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:padding="16dp"
+                android:background="@drawable/bg_rounded_8"
+                android:backgroundTint="@color/colorBackgroundLight">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/language"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewCurrentLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorTextDark"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Русский"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/buttonAboutApp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/about_app"
+                android:background="@drawable/bg_rounded_8"
+                android:backgroundTint="@color/colorBackgroundLight" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/buttonChangelog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/changelog"
+                android:background="@drawable/bg_rounded_8"
+                android:backgroundTint="@color/colorBackgroundLight" />
             
         </LinearLayout>
     
