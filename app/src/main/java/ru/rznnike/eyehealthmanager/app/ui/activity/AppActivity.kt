@@ -181,7 +181,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
                 parameters = AlertDialogParameters.VERTICAL_1_OPTION_ACCENT,
                 header = systemMessage.text ?: "",
                 actions = listOf(
-                    AlertDialogAction(getString(R.string.yes)) {
+                    AlertDialogAction(getString(R.string.ok)) {
                         it.dismiss()
                     }
                 )

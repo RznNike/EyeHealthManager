@@ -23,26 +23,25 @@
                 style="@style/AppTheme.TextView.Bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginHorizontal="48dp"
-                android:textSize="18sp"
+                android:layout_marginTop="24dp"
                 android:textAlignment="center"
-                tools:text="Header"/>
+                android:textSize="18sp"
+                tools:text="Header" />
 
         </FrameLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="24dp" />
+            android:layout_height="16dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewDialogMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:paddingBottom="24dp"
+            android:paddingBottom="16dp"
             android:textSize="14sp"
-            android:textColor="@color/colorTextDark"
             android:textAlignment="center"
             android:visibility="gone"
             tools:visibility="visible"
