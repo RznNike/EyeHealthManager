@@ -101,7 +101,7 @@
     <string name="rabkin_result_deiteranomaly_b">Deiteranomaly\n(type B)</string>
     <string name="rabkin_result_deiteranomaly_c">Deiteranomaly\n(type C)</string>
     <string name="rabkin_result_parhology">Pathology</string>
-    <string name="you_may_be_interested">You also may be interested in:</string>
+    <string name="see_also">See also</string>
     <string name="acuity_description">This test is designed to evaluate your visual acuity. Such test usually takes place when visiting an ophthalmologist.\n\nTo perform the test correctly, keep your smartphone at arm\'s length.\n\nYou can change the symbol set for the test in the menu at the bottom of the screen.\n\n<font color="#FF3334"><b>Warning!</b></font> Before passing the test, be sure to calibrate the image scale in the application settings and also enter the length of your hand. You can quickly go to the scaling settings from the menu at the bottom of the screen.</string>
     <string name="symbols_set">Symbols set</string>
     <string name="eyes">Eyes</string>
