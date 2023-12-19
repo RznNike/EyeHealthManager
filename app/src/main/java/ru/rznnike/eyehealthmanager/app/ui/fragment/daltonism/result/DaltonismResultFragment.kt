@@ -63,10 +63,10 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
             )
             if (resultType == DaltonismAnomalyType.NONE) {
                 textViewResult.setTextColorRes(R.color.colorAccent)
-                textViewWarning.setGone()
+                textViewMessage.setGone()
             } else {
                 textViewResult.setTextColorRes(R.color.colorRed)
-                textViewWarning.setVisible()
+                textViewMessage.setVisible()
             }
         }
     }
