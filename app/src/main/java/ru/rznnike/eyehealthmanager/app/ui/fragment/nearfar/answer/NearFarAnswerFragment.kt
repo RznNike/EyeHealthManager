@@ -2,7 +2,6 @@ package ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.answer
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.AppCompatRadioButton
 import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.presenter.InjectPresenter
 import ru.rznnike.eyehealthmanager.R
@@ -50,11 +49,10 @@ class NearFarAnswerFragment : BaseFragment(R.layout.fragment_near_far_answer), N
         buttonBackToTest.setOnClickListener {
             onBackPressed()
         }
-        radioGroupLeftEye.setOnCheckedChangeListener { _, _ ->
-            setButtonSaveState()
-        }
-        radioGroupRightEye.setOnCheckedChangeListener { _, _ ->
-            setButtonSaveState()
+        listOf(radioGroupLeftEye, radioGroupRightEye).forEach {
+            it.setOnCheckedChangeListener { _, _ ->
+                setButtonSaveState()
+            }
         }
         buttonSaveAnswer.setOnClickListener {
             presenter.onSaveAnswer(

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -26,97 +26,102 @@
                 layout="@layout/layout_toolbar"/>
 
         </FrameLayout>
-        
-        <androidx.core.widget.NestedScrollView
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@id/layoutToolbarContainer"
-            app:layout_constraintBottom_toTopOf="@id/layoutControls">
-            
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
             <LinearLayout
+                android:id="@+id/layoutScrollableContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:orientation="vertical">
-    
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp"/>
-    
+
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/AppTheme.TextView.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:padding="16dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textSize="20sp"
-                    android:text="@string/question_near_far"/>
-    
+                    android:textSize="18sp"
+                    android:text="@string/question_near_far"
+                    android:background="@drawable/bg_rounded_8"
+                    android:backgroundTint="@color/colorBackgroundLight"/>
+
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"/>
-    
+                    android:layout_height="24dp"/>
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/AppTheme.TextView.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_gravity="center"
                     android:text="@string/left_eye"/>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
-    
+                    android:layout_height="8dp" />
+
                 <RadioGroup
                     android:id="@+id/radioGroupLeftEye"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp">
-        
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:background="@drawable/bg_rounded_8"
+                    android:backgroundTint="@color/colorBackgroundLight">
+
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="-6dp"
                         android:paddingVertical="8dp"
                         android:text="@string/astigmatism_answer_ok"/>
-        
+
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="-6dp"
                         android:paddingVertical="8dp"
                         android:text="@string/astigmatism_answer_all_gray"/>
-                    
+
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="-6dp"
                         android:paddingVertical="8dp"
                         android:text="@string/astigmatism_answer_distortions"/>
-    
+
                 </RadioGroup>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"/>
-    
+                    android:layout_height="24dp"/>
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/AppTheme.TextView.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_gravity="center"
                     android:text="@string/right_eye"/>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
-    
+                    android:layout_height="8dp" />
+
                 <RadioGroup
                     android:id="@+id/radioGroupRightEye"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:background="@drawable/bg_rounded_8"
+                    android:backgroundTint="@color/colorBackgroundLight">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="match_parent"
@@ -138,43 +143,42 @@
                         android:layout_marginStart="-6dp"
                         android:paddingVertical="8dp"
                         android:text="@string/astigmatism_answer_distortions"/>
-    
                 </RadioGroup>
-                
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"/>
+
             </LinearLayout>
-            
-        </androidx.core.widget.NestedScrollView>
-        
-        <LinearLayout
-            android:id="@+id/layoutControls"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:orientation="horizontal"
-            android:background="@drawable/bg_rounded_8_top"
-            android:backgroundTint="@color/colorBackgroundLight"
-            app:layout_constraintBottom_toBottomOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonBackToTest"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/back"/>
-    
-            <Space
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
+        </ScrollView>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonSaveAnswer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/save"
-                android:enabled="false"/>
-            
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonBackToTest"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/back"
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buttonSaveAnswer"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonSaveAnswer"
+            style="@style/AppTheme.Button.Alter"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/save"
+            android:elevation="4dp"
+            android:enabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonBackToTest"/>
 
         <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
             android:id="@+id/progressView"
@@ -187,7 +191,7 @@
             app:pv_text="@string/please_wait"
             app:layout_constraintTop_toBottomOf="@id/layoutToolbarContainer"
             app:layout_constraintBottom_toBottomOf="parent"/>
-        
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
