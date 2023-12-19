@@ -1,7 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.test
 
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DrawableRes
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,13 +15,14 @@ import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.test.DaltonismTestPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.test.DaltonismTestView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
+import ru.rznnike.eyehealthmanager.app.utils.extensions.context
+import ru.rznnike.eyehealthmanager.app.utils.extensions.convertDpToPx
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.app.utils.extensions.withEndActionSafe
-import ru.rznnike.eyehealthmanager.app.utils.extensions.withStartActionSafe
 import ru.rznnike.eyehealthmanager.databinding.FragmentDaltonismTestBinding
 
-private const val FADE_ANIMATION_MS = 500L
-private const val IMAGE_CORNERS_DP = 16f
+private const val FADE_ANIMATION_MS = 250L
+private const val IMAGE_CORNERS_DP = 8f
 
 class DaltonismTestFragment : BaseFragment(R.layout.fragment_daltonism_test), DaltonismTestView {
     @InjectPresenter
@@ -85,27 +85,16 @@ class DaltonismTestFragment : BaseFragment(R.layout.fragment_daltonism_test), Da
                 it.isEnabled = false
             }
 
-            layoutTest.animate()
+            imageViewTest.animate()
                 .alpha(0f)
                 .setStartDelay(0)
                 .setDuration(FADE_ANIMATION_MS)
-                .withStartActionSafe(this@DaltonismTestFragment) {
-                    layoutControls.animate()
-                        .alpha(0f)
-                        .setStartDelay(0)
-                        .setDuration(FADE_ANIMATION_MS)
-                        .start()
-                }
                 .withEndActionSafe(this@DaltonismTestFragment) {
                     answerButtons.forEachIndexed { index, button ->
                         button.setText(variants[index])
                     }
 
-                    val cornersPx = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        IMAGE_CORNERS_DP,
-                        resources.displayMetrics
-                    )
+                    val cornersPx = context.convertDpToPx(IMAGE_CORNERS_DP)
                     val width = imageViewTest.width
                     val height = imageViewTest.height
                     if ((width > 0) && (height > 0)) {
@@ -125,23 +114,15 @@ class DaltonismTestFragment : BaseFragment(R.layout.fragment_daltonism_test), Da
                         }
                     }
 
-                    layoutControls.setVisible()
-                    layoutTest.setVisible()
-                    layoutTest.animate()
+                    imageViewTest.setVisible()
+                    imageViewTest.animate()
                         .alpha(1f)
                         .setStartDelay(0)
                         .setDuration(FADE_ANIMATION_MS)
                         .withEndActionSafe(this@DaltonismTestFragment) {
-                            layoutControls.animate()
-                                .alpha(1f)
-                                .setStartDelay(0)
-                                .setDuration(FADE_ANIMATION_MS)
-                                .withEndActionSafe(this@DaltonismTestFragment) {
-                                    answerButtons.forEach {
-                                        it.isEnabled = true
-                                    }
-                                }
-                                .start()
+                            answerButtons.forEach {
+                                it.isEnabled = true
+                            }
                         }
                         .start()
                 }

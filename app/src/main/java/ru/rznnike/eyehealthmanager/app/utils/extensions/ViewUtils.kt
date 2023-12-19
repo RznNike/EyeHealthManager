@@ -91,10 +91,6 @@ fun SwipeRefreshLayout.setupDefaults() {
 val RadioGroup.selectionIndex: Int
     get() = indexOfChild(findViewById(checkedRadioButtonId))
 
-fun ViewPropertyAnimator.withStartActionSafe(fragment: Fragment, action: () -> Unit) = withStartAction {
-    fragment.view?.let { action() }
-}
-
 fun ViewPropertyAnimator.withEndActionSafe(fragment: Fragment, action: () -> Unit) = withEndAction {
     fragment.view?.let { action() }
 }
