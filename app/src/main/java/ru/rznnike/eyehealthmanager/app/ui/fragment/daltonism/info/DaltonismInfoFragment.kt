@@ -8,6 +8,7 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.info.DaltonismInfoPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.info.DaltonismInfoView
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.databinding.FragmentDaltonismInfoBinding
 
@@ -21,7 +22,8 @@ class DaltonismInfoFragment : BaseFragment(R.layout.fragment_daltonism_info), Da
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartTest.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()

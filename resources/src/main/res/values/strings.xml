@@ -56,7 +56,8 @@
     <string name="contrast_result_header">Minimal distinguishable contrast</string>
     <string name="contrast_good_result">Good result!\n<i>The lower the minimum discernible contrast - the better result.</i></string>
     <string name="contrast_perfect_result">Perfect result!\n<i>You cannot distinguish 0\% contrast - then there would be no difference between the image and the background.</i></string>
-    <string name="daltonism_description">This test will help you identify the presence of various types of color perception anomalies.\nThe well-known tables of prof. Rabkin E.B. are used in this test.\n\n<font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, then you may not pass the last steps of the test, even with perfect vision.</string>
+    <string name="daltonism_description">This test will help you identify the presence of various types of color perception anomalies.\nThe well-known tables of prof. Rabkin E.B. are used in this test.</string>
+    <string name="daltonism_description_warning"><font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, this may introduce inaccuracy into the test results.</string>
     <string name="daltonism_message">What do you see in the image?</string>
     <string name="rabkin_2" translatable="false">2</string>
     <string name="rabkin_3" translatable="false">3</string>
