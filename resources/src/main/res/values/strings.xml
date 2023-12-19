@@ -50,8 +50,9 @@
     <string name="possible_myopia">possible myopia</string>
     <string name="possible_farsightedness">possible farsightedness</string>
     <string name="doctor_warning"><font color="#FF3334"><b>Warning!</b></font> Eye problems detected. Visit your ophthalmologist for a professional eye check.</string>
-    <string name="contrast_description">This test will help you assess whether you can clearly distinguish areas of the image with low contrast.\n\nFor best accuracy of the test, it is advisable to keep your smartphone at arm\'s length.\n\n<font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, then you may not pass the last steps of the test, even with perfect vision.</string>
-    <string name="contrast_message">Click on the arrow of the direction in which there is a cutout at the circle on the screen.</string>
+    <string name="contrast_description">This test will help you assess whether you can clearly distinguish areas of the image with low contrast.\nFor best accuracy of the test, it is advisable to keep your smartphone at arm\'s length.</string>
+    <string name="contrast_description_warning"><font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, then you may not pass the last steps of the test, even with perfect vision.</string>
+    <string name="contrast_message">Click on the arrow of the direction in which there is a cutout at the circle on the screen</string>
     <string name="contrast_result_header">Minimal distinguishable contrast</string>
     <string name="contrast_good_result">Good result!\n<i>The lower the minimum discernible contrast - the better result.</i></string>
     <string name="contrast_perfect_result">Perfect result!\n<i>You cannot distinguish 0\% contrast - then there would be no difference between the image and the background.</i></string>
@@ -234,4 +235,5 @@
     <string name="source_code">Source code</string>
     <string name="about_app_message">This application is an open source project written by one person at no cost. You can write about all problems and wishes by email. Below is a link to the source code repository.</string>
     <string name="error_export">An error occurred during export</string>
+    <string name="description">Description</string>
 </resources>
