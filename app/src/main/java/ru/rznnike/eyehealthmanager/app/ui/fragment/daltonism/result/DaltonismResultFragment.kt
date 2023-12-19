@@ -32,7 +32,8 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonClose.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()
@@ -61,11 +62,11 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
                 getString(resultType.nameResId)
             )
             if (resultType == DaltonismAnomalyType.NONE) {
-                textViewMessage.setInvisible()
                 textViewResult.setTextColorRes(R.color.colorAccent)
+                textViewWarning.setGone()
             } else {
-                textViewMessage.setVisible()
                 textViewResult.setTextColorRes(R.color.colorRed)
+                textViewWarning.setVisible()
             }
         }
     }
