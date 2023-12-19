@@ -39,8 +39,6 @@
     <string name="near_far_description_warning"><font color="#FF3334"><b>Attention!</b></font>\nTest is run in turn for both eyes. First, close one eye with your hand and look at the image. Then repeat this for the other eye. Answer the relevant questions at the end of the test.</string>
     <string name="two_eyes_test_disclaimer">Close one eye and look at the image. Then close the other eye and repeat the actions.</string>
     <string name="back">Back</string>
-    <string name="answer_left_eye">Answer for <b>left</b> eye</string>
-    <string name="answer_right_eye">Answer for <b>right</b> eye</string>
     <string name="question_near_far">What did you see in the image?</string>
     <string name="answer_red_bg_better">Characters on the <font color="#FF3334"><b>red</b></font> background were sharper</string>
     <string name="answer_green_bg_better">Characters on the <font color="#34CC67"><b>green</b></font> background were sharper</string>

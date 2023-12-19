@@ -36,8 +36,6 @@
     <string name="near_far_description_warning"><font color="#FF3334"><b>Внимание!</b></font>\nТест проходится по очереди для обоих глаз. Сначала закройте рукой один глаз и посмотрите на изображение. Затем повторите это для другого глаза. Ответьте на соответствующие вопросы в конце теста.</string>
     <string name="two_eyes_test_disclaimer">Закройте один глаз и посмотрите на изображение. Затем закройте другой глаз и повторите действия.</string>
     <string name="back">Назад</string>
-    <string name="answer_left_eye">Ответ для <b>левого</b> глаза</string>
-    <string name="answer_right_eye">Ответ для <b>правого</b> глаза</string>
     <string name="question_near_far">Что вы увидели на изображении?</string>
     <string name="answer_red_bg_better">Символы на <font color="#FF3334"><b>красном</b></font> фоне были более четкими</string>
     <string name="answer_green_bg_better">Символы на <font color="#34CC67"><b>зеленом</b></font> фоне были более четкими</string>
