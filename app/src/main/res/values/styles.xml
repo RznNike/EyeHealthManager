@@ -50,7 +50,7 @@
         <item name="android:letterSpacing">0</item>
         <item name="textAllCaps">false</item>
         <item name="android:padding">16dp</item>
-        <item name="android:background">@drawable/bg_rounded_8</item>
+        <item name="android:background">@drawable/bg_rounded_8_background</item>
         <item name="backgroundTint">@color/selector_button</item>
     </style>
 
