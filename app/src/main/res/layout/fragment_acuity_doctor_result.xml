@@ -30,9 +30,10 @@
             android:fillViewport="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutToolbarContainer"
-            app:layout_constraintBottom_toTopOf="@id/layoutControls">
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <LinearLayout
+                android:id="@+id/layoutScrollableContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -47,9 +48,12 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textViewHeader"
+                        style="@style/AppTheme.TextView.Bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/doctor_test_results_message"
+                        android:textSize="18sp"
+                        android:gravity="center"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -91,26 +95,23 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp" />
+
             </LinearLayout>
 
         </ScrollView>
 
-        <FrameLayout
-            android:id="@+id/layoutControls"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonAddDoctorResult"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@drawable/bg_rounded_8_top"
-            android:backgroundTint="@color/colorBackgroundLight"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonAddDoctorResult"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add"/>
-
-        </FrameLayout>
+            android:layout_height="56dp"
+            android:layout_margin="16dp"
+            android:text="@string/add"
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
             android:id="@+id/progressView"
