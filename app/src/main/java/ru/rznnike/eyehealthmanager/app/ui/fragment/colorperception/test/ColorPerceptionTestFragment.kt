@@ -95,7 +95,8 @@ class ColorPerceptionTestFragment : BaseFragment(R.layout.fragment_color_percept
     private fun showExitDialog() {
         showAlertDialog(
             parameters = AlertDialogParameters.HORIZONTAL_2_OPTIONS_LEFT_ACCENT,
-            header = getString(R.string.test_cancel_message),
+            header = getString(R.string.test_cancel_header),
+            message = getString(R.string.test_cancel_message),
             cancellable = true,
             actions = listOf(
                 AlertDialogAction(getString(R.string.cancel)) {

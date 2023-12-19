@@ -49,7 +49,7 @@
     <string name="doctor_warning"><font color="#FF3334"><b>Внимание!</b></font> Обнаружены проблемы со зрением. Обратитесь к врачу-офтальмологу для профессиональной проверки зрения.</string>
     <string name="contrast_description">Этот тест поможет оценить, хорошо ли вы различаете области изображения с низким контрастом.\nДля лучшей точности теста желательно держать смартфон на расстоянии вытянутой руки.</string>
     <string name="contrast_description_warning"><font color="#FF3334"><b>Внимание!</b></font> Точность теста существенно зависит от качества экрана вашего устройства. Если у него низкая яркость/цветопередача, то вы можете не пройти последние этапы теста, даже имея идеальное зрение.</string>
-    <string name="contrast_message">Нажмите на стрелку того направления, в котором есть вырез у круга на экране</string>
+    <string name="contrast_message">Нажмите на стрелку того направления, в котором у круга есть вырез</string>
     <string name="contrast_result_header">Минимально различимый контраст</string>
     <string name="contrast_good_result">Неплохой результат!\n<i>Чем меньше минимально различимый контраст - тем лучше.</i></string>
     <string name="contrast_perfect_result">Идеальный результат!\n<i>Нельзя различить контраст в 0\% - тогда между изображением и фоном не было бы разницы.</i></string>
@@ -94,6 +94,7 @@
     <string name="cant_answer">Не могу ответить</string>
     <string name="acuity_info_before_symbol_show">Отдалите смартфон на расстояние вытянутой руки и нажмите на кнопку</string>
     <string name="continue_string">Продолжить</string>
+    <string name="test_cancel_header">Выход из теста</string>
     <string name="test_cancel_message">Вы уверены, что хотите прервать прохождение теста? Текущий прогресс будет потерян.</string>
     <string name="exit">Выйти</string>
     <string name="day_part_dialog_message">Выберите, какая сейчас часть вашего периода активности. Для большинства людей это соответственно утро, день или вечер.</string>

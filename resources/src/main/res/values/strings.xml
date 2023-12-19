@@ -52,7 +52,7 @@
     <string name="doctor_warning"><font color="#FF3334"><b>Warning!</b></font> Eye problems detected. Visit your ophthalmologist for a professional eye check.</string>
     <string name="contrast_description">This test will help you assess whether you can clearly distinguish areas of the image with low contrast.\nFor best accuracy of the test, it is advisable to keep your smartphone at arm\'s length.</string>
     <string name="contrast_description_warning"><font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, then you may not pass the last steps of the test, even with perfect vision.</string>
-    <string name="contrast_message">Click on the arrow of the direction in which there is a cutout at the circle on the screen</string>
+    <string name="contrast_message">Click on the arrow in the direction in which the circle has a cutout</string>
     <string name="contrast_result_header">Minimal distinguishable contrast</string>
     <string name="contrast_good_result">Good result!\n<i>The lower the minimum discernible contrast - the better result.</i></string>
     <string name="contrast_perfect_result">Perfect result!\n<i>You cannot distinguish 0\% contrast - then there would be no difference between the image and the background.</i></string>
@@ -120,6 +120,7 @@
     <string name="cant_answer">Can\'t answer</string>
     <string name="acuity_info_before_symbol_show">Hold your smartphone at arm\'s length and press the button</string>
     <string name="continue_string">Continue</string>
+    <string name="test_cancel_header">Quitting the test</string>
     <string name="test_cancel_message">Are you sure you want to interrupt the test? Current progress will be lost.</string>
     <string name="exit">Exit</string>
     <string name="day_part_dialog_message">Choose which part of your activity period is now. For most people, this is morning, day, or evening, respectively.</string>
