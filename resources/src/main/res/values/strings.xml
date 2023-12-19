@@ -131,7 +131,8 @@
     <string name="day">Day</string>
     <string name="evening">Evening</string>
     <string name="auto_day_part_configure_invitation">Or configure automatic scheduled selection</string>
-    <string name="astigmatism_description">This test will help determine if you have astigmatism.\n\n<font color="#FF3334"><b>Attention!</b></font>\nDuring your test, keep your phone at arm\'s length.\nTest is run in turn for both eyes. First, close one eye with your hand and look at the image. Then repeat this for the other eye. Answer the relevant questions at the end of the test.</string>
+    <string name="astigmatism_description">This test will help determine if you have astigmatism.</string>
+    <string name="astigmatism_description_warning"><font color="#FF3334"><b>Attention!</b></font>\nDuring your test, keep your phone at arm\'s length.\nTest is run in turn for both eyes. First, close one eye with your hand and look at the image. Then repeat this for the other eye. Answer the relevant questions at the end of the test.</string>
     <string name="astigmatism_answer_ok">The rays begin to merge exactly half their length; distortion border perfectly round</string>
     <string name="astigmatism_answer_all_gray">The image merges into a solid gray mass </string>
     <string name="astigmatism_answer_distortions">Rays blur, intersect or become negative; Distortion border is different from round</string>
