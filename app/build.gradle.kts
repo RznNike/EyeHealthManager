@@ -188,10 +188,6 @@ dependencies {
     // https://github.com/kirich1409/ViewBindingPropertyDelegate
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
 
-    // ExpandableLayout
-    // https://github.com/cachapa/ExpandableLayout
-    implementation("com.github.cachapa:ExpandableLayout:2.9.2")
-
     // GestureViews
     // https://github.com/alexvasilkov/GestureViews
     implementation("com.alexvasilkov:gesture-views:2.8.3")

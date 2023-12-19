@@ -9,7 +9,6 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import moxy.presenter.InjectPresenter
-import net.cachapa.expandablelayout.ExpandableLayout
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.info.AcuityInfoPresenter
@@ -17,6 +16,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.acuity.info.AcuityInfoView
 import ru.rznnike.eyehealthmanager.app.ui.item.EyesTypeItem
 import ru.rznnike.eyehealthmanager.app.ui.item.SymbolsTypeItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.databinding.DialogDayPartSelectionBinding
@@ -47,10 +47,10 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartTest.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
-        initViews()
         initRecyclerViews()
         initOnClickListeners()
     }
@@ -123,22 +123,9 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
         }
     }
 
-    private fun initViews() = binding.apply {
-        expandableLayoutSettings.setOnExpansionUpdateListener { _, state ->
-            listOf(imageViewSettingsArrow1, imageViewSettingsArrow2).forEach {
-                it.setImageResource(
-                    if (state == ExpandableLayout.State.EXPANDED) R.drawable.ic_arrow_button_down else R.drawable.ic_arrow_button_up
-                )
-            }
-        }
-    }
-
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
             presenter.onPrepareToStartTest()
-        }
-        buttonTestSettings.setOnClickListener {
-            expandableLayoutSettings.toggle()
         }
         buttonScaleSettings.setOnClickListener {
             presenter.onScaleSettings()
