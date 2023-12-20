@@ -9,6 +9,7 @@ import ru.rznnike.eyehealthmanager.app.dialog.showDatePicker
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.analysis.parameters.AnalysisParametersPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.analysis.parameters.AnalysisParametersView
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.databinding.FragmentAnalysisParametersBinding
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
@@ -25,7 +26,8 @@ class AnalysisParametersFragment : BaseFragment(R.layout.fragment_analysis_param
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartAnalysis.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()
