@@ -52,7 +52,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        android:text="@string/path_to_backup_folder"/>
+                        android:text="@string/backup_folder"/>
 
                     <Space
                         android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/select_folder"/>
+                        android:text="@string/select"/>
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonOpenImportFolder"
@@ -87,7 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@string/open_folder"
+                        android:text="@string/open"
                         android:visibility="gone"
                         tools:visibility="visible"/>
 

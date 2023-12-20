@@ -29,6 +29,7 @@ import ru.rznnike.eyehealthmanager.app.dialog.bottom.BottomDialogParameters
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.deviceSize
+import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import java.util.*
 
 fun Context.showAlertDialog(
@@ -61,7 +62,7 @@ fun Context.showAlertDialog(
                 visibility = View.GONE
             } else {
                 visibility = View.VISIBLE
-                text = message
+                text = message.toHtmlSpanned()
             }
         }
     }

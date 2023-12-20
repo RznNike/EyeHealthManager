@@ -147,13 +147,14 @@ class MainFragment : BaseFragment(R.layout.fragment_main), MainView {
     }
 
     override fun showSuccessfulExportDialog(uri: Uri) {
-        val message = "%s \"%s\"".format(
+        val message = "%s\n<i>%s</i>".format(
             getString(R.string.successful_export),
             uri.lastPathSegment
         )
         showAlertDialog(
             parameters = AlertDialogParameters.VERTICAL_2_OPTIONS_TOP_ACCENT,
-            header = message,
+            header = getString(R.string.export),
+            message = message,
             actions = listOf(
                 AlertDialogAction(getString(R.string.open_folder)) {
                     it.dismiss()

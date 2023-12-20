@@ -39,7 +39,7 @@
             android:textColor="@color/colorAccent"
             android:textSize="12sp"
             android:textAllCaps="true"
-            android:text="@string/clear"
+            android:text="@string/clear_all"
             app:layout_constraintTop_toTopOf="@id/textViewDialogHeader"
             app:layout_constraintBottom_toBottomOf="@id/textViewDialogHeader"
             app:layout_constraintEnd_toEndOf="parent"/>

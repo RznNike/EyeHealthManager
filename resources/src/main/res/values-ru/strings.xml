@@ -147,7 +147,7 @@
     <string name="feedback_email">Email для обратной связи</string>
     <string name="developer_name">Разработчик: Тярт Никита / RznNike</string>
     <string name="write_on_email">Написать на почту</string>
-    <string name="clear">Очистить</string>
+    <string name="clear_all">Очистить всё</string>
     <string name="by_date">По дате</string>
     <string name="by_type">По типу</string>
     <string name="clear_journal">Очистить журнал</string>
@@ -156,12 +156,14 @@
     <string name="clear_journal_dialog_message">ВНИМАНИЕ! Все результаты тестирования будут удалены из журнала. Вы уверены, что хотите продолжить?</string>
     <string name="delete">Удалить</string>
     <string name="clear_journal_success">Журнал успешно очищен</string>
-    <string name="path_to_backups_folder">Путь до папки с резервными копиями</string>
-    <string name="path_to_backup_folder">Путь до папки с резервной копией</string>
+    <string name="backups_folder">Расположение резервных копий</string>
+    <string name="backup_folder">Расположение резервной копии</string>
+    <string name="folder_not_selected">Папка не выбрана</string>
     <string name="open_folder">Открыть папку</string>
     <string name="open_file">Открыть файл</string>
-    <string name="select_folder">Выбрать папку</string>
-    <string name="successful_export">Журнал был успешно экспортирован в папку</string>
+    <string name="select">Выбрать</string>
+    <string name="open">Открыть</string>
+    <string name="successful_export">Журнал был успешно экспортирован в папку:</string>
     <string name="backups_availability">Наличие бекапов в папке</string>
     <string name="successful_import">Журнал был успешно импортирован</string>
     <string name="delete_duplicates">Удалить дубли в журнале</string>

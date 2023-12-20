@@ -8,6 +8,9 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
@@ -19,6 +22,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.journal.backup.ExportJournal
 import ru.rznnike.eyehealthmanager.app.presentation.journal.backup.ExportJournalView
 import ru.rznnike.eyehealthmanager.app.ui.item.TestTypeSmallItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
@@ -70,7 +74,8 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartExport.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initRecyclerView()
@@ -103,13 +108,13 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
 
     private fun initRecyclerView() = binding.apply {
         recyclerViewFilterTypes.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
             adapter = this@ExportJournalFragment.adapterTestType
             itemAnimator = null
             addItemDecoration(
                 EmptyDividerDecoration(
                     context = requireContext(),
-                    cardInsets = R.dimen.baseline_grid_8,
+                    cardInsets = R.dimen.baseline_grid_4,
                     applyOutsideDecoration = false
                 )
             )
@@ -164,9 +169,8 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
                 }
             )
 
-            textViewBackupFolderPath.text = folderPath
-            textViewBackupFolderPath.setVisible(!folderPath.isNullOrBlank())
-            buttonOpenFolder.setVisible(!folderPath.isNullOrBlank())
+            textViewBackupFolderPath.text = (folderPath ?: "").ifBlank { getString(R.string.folder_not_selected) }
+            buttonOpenFolder.isEnabled = !folderPath.isNullOrBlank()
         }
     }
 

@@ -173,7 +173,7 @@
     <string name="feedback_email">Email for feedback</string>
     <string name="developer_name">Developer: Tyart Nikita / RznNike</string>
     <string name="write_on_email">Write on email</string>
-    <string name="clear">Clear</string>
+    <string name="clear_all">Clear all</string>
     <string name="by_date">By date</string>
     <string name="by_type">By type</string>
     <string name="clear_journal">Clear journal</string>
@@ -182,12 +182,14 @@
     <string name="clear_journal_dialog_message">ATTENTION! All test results will be deleted from the journal. Are you sure you want to continue?</string>
     <string name="delete">Delete</string>
     <string name="clear_journal_success">Journal successfully cleared</string>
-    <string name="path_to_backups_folder">Path to backups folder</string>
-    <string name="path_to_backup_folder">Path to backup folder</string>
+    <string name="backups_folder">Backups folder</string>
+    <string name="backup_folder">Backup folder</string>
+    <string name="folder_not_selected">Folder not selected</string>
     <string name="open_folder">Open folder</string>
     <string name="open_file">Open file</string>
-    <string name="select_folder">Select folder</string>
-    <string name="successful_export">Journal was exported successfully into a folder</string>
+    <string name="select">Select</string>
+    <string name="open">Open</string>
+    <string name="successful_export">Journal was exported successfully into a folder:</string>
     <string name="backups_availability">Backups availability in folder</string>
     <string name="successful_import">Journal was imported successfully</string>
     <string name="delete_duplicates">Delete duplicates in journal</string>
