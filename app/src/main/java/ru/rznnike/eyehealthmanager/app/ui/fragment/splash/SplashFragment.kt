@@ -11,7 +11,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.splash.SplashView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.withDelay
 import ru.rznnike.eyehealthmanager.databinding.FragmentSplashBinding
 
-private const val PAUSE_DURATION_MS = 1000L
+private const val PAUSE_DURATION_MS = 500L
 
 class SplashFragment : BaseFragment(R.layout.fragment_splash), SplashView {
     @InjectPresenter

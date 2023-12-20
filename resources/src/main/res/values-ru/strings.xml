@@ -164,7 +164,7 @@
     <string name="select">Выбрать</string>
     <string name="open">Открыть</string>
     <string name="successful_export">Журнал был успешно экспортирован в папку:</string>
-    <string name="backups_availability">Наличие бекапов в папке</string>
+    <string name="backups_availability">Наличие данных в папке</string>
     <string name="successful_import">Журнал был успешно импортирован</string>
     <string name="delete_duplicates">Удалить дубли в журнале</string>
     <string name="duplicates_successfully_deleted">Дубли в журнале успешно удалены</string>

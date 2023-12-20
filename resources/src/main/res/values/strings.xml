@@ -190,7 +190,7 @@
     <string name="select">Select</string>
     <string name="open">Open</string>
     <string name="successful_export">Journal was exported successfully into a folder:</string>
-    <string name="backups_availability">Backups availability in folder</string>
+    <string name="backups_availability">Data availability in folder</string>
     <string name="successful_import">Journal was imported successfully</string>
     <string name="delete_duplicates">Delete duplicates in journal</string>
     <string name="duplicates_successfully_deleted">Duplicates in journal successfully deleted</string>
