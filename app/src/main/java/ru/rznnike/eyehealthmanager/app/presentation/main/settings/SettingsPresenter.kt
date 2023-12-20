@@ -50,23 +50,16 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
         }
     }
 
-    fun openTestingSettings() {
-        viewState.routerNavigateTo(Screens.Screen.testingSettings())
-    }
+    fun openTestingSettings() = viewState.routerNavigateTo(Screens.Screen.testingSettings())
 
-    fun exportData() {
-        viewState.routerNavigateTo(Screens.Screen.exportJournal())
-    }
+    fun openAnalysis() = viewState.routerStartFlow(Screens.Flow.analysis())
 
-    fun importData() {
-        viewState.routerNavigateTo(Screens.Screen.importJournal())
-    }
+    fun exportData() = viewState.routerNavigateTo(Screens.Screen.exportJournal())
 
-    fun clearJournal() {
-        eventDispatcher.sendEvent(AppEvent.JournalTotalDeletionRequested)
-    }
+    fun importData() = viewState.routerNavigateTo(Screens.Screen.importJournal())
 
-    fun deleteDuplicatesInJournal() {
+    fun clearJournal() = eventDispatcher.sendEvent(AppEvent.JournalTotalDeletionRequested)
+
+    fun deleteDuplicatesInJournal() =
         eventDispatcher.sendEvent(AppEvent.JournalDuplicatesDeletionRequested)
-    }
 }

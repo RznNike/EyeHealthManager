@@ -53,6 +53,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
     private fun initViews() = binding.apply {
         listOf(
             buttonTestingSettings,
+            buttonAnalysis,
             buttonExportData,
             buttonImportData,
             buttonDeleteDuplicates,
@@ -68,6 +69,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
     private fun initOnClickListeners() = binding.apply {
         buttonTestingSettings.setOnClickListener {
             presenter.openTestingSettings()
+        }
+        buttonAnalysis.setOnClickListener {
+            presenter.openAnalysis()
         }
         buttonExportData.setOnClickListener {
             presenter.exportData()

@@ -51,7 +51,24 @@
                 style="@style/AppTheme.TextView.Bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_data"/>
+                android:text="@string/journal"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/buttonAnalysis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:drawableEnd="@drawable/ic_arrow_button_right"
+                android:drawableTint="@color/colorTextDark"
+                android:text="@string/analysis"
+                android:background="@drawable/bg_rounded_8"
+                android:backgroundTint="@color/colorBackgroundLight" />
 
             <Space
                 android:layout_width="match_parent"
@@ -69,6 +86,7 @@
                 android:text="@string/export"
                 android:background="@drawable/bg_rounded_8"
                 android:backgroundTint="@color/colorBackgroundLight" />
+
 
             <Space
                 android:layout_width="match_parent"
