@@ -6,11 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
@@ -25,7 +23,6 @@ import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
-import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.FragmentExportJournalBinding
 import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
