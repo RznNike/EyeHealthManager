@@ -9,7 +9,7 @@
     <string name="save">Сохранить</string>
     <string name="settings">Настройки</string>
     <string name="next">Продолжить</string>
-    <string name="in_dev">В разработке</string>
+    <string name="in_dev">Функция в разработке</string>
     <string name="language">Язык</string>
     <string name="share">Поделиться</string>
     <string name="tests">Тесты</string>
@@ -28,9 +28,9 @@
     <string name="your_result">Ваш результат</string>
     <string name="close">Закрыть</string>
     <string name="color_perception_description">Тест поможет вам определить, насколько хорошо вы различаете оттенки цветов.\n\nЭтот тест является измененной и адаптированной для мобильных устройств версией теста Дианы Дервал. Перейдите по адресу www.dervalresearch.com, чтобы узнать больше.</string>
-    <string name="dichromat_message">Слабое различение цветов. Вероятно, вы предпочитаете черную, бежевую и синюю одежду.\nК данной категории относится около 25\% людей.</string>
+    <string name="dichromat_message">Слабое различение цветов. Вероятно, вы предпочитаете черную, бежевую и синюю одежду.\nК данной категории относится около 25\\% людей.</string>
     <string name="trichromat_message">Среднее различение цветов. Вы различаете многие оттенки фиолетового/синего, зеленого и красного.\nК данной категории относится около 50\% людей.</string>
-    <string name="tetrachromat_message">Хорошее различение цветов! Вы различаете многие оттенки фиолетового/синего, зеленого, красного и желтого. Скорее всего вас раздражает желтый и вы не носите одежду этого цвета.\nК данной категории относится около 25\% людей.</string>
+    <string name="tetrachromat_message">Хорошее различение цветов! Вы различаете многие оттенки фиолетового/синего, зеленого, красного и желтого. Скорее всего вас раздражает желтый, и вы не носите одежду этого цвета.\nК данной категории относится около 25\\% людей.</string>
     <string name="near_far_description">Этот тест поможет определить наличие у вас близорукости или дальнозоркости.</string>
     <string name="near_far_description_warning"><font color="#FF3334"><b>Внимание!</b></font>\nТест проходится по очереди для обоих глаз. Сначала закройте рукой один глаз и посмотрите на изображение. Затем повторите это для другого глаза. Ответьте на соответствующие вопросы в конце теста.</string>
     <string name="two_eyes_test_disclaimer">Закройте один глаз и посмотрите на изображение. Затем закройте другой глаз и повторите действия.</string>
@@ -67,12 +67,12 @@
     <string name="rabkin_result_normal">Норма</string>
     <string name="rabkin_result_protanopia">Протанопия</string>
     <string name="rabkin_result_deiteranopia">Дейтеранопия</string>
-    <string name="rabkin_result_protanomaly_a">Протаномалия (тип A)</string>
-    <string name="rabkin_result_protanomaly_b">Протаномалия (тип B)</string>
-    <string name="rabkin_result_protanomaly_c">Протаномалия (тип C)</string>
-    <string name="rabkin_result_deiteranomaly_a">Дейтераномалия (тип A)</string>
-    <string name="rabkin_result_deiteranomaly_b">Дейтераномалия (тип B)</string>
-    <string name="rabkin_result_deiteranomaly_c">Дейтераномалия (тип C)</string>
+    <string name="rabkin_result_protanomaly_a">Протаномалия\n(тип A)</string>
+    <string name="rabkin_result_protanomaly_b">Протаномалия\n(тип B)</string>
+    <string name="rabkin_result_protanomaly_c">Протаномалия\n(тип C)</string>
+    <string name="rabkin_result_deiteranomaly_a">Дейтераномалия\n(тип A)</string>
+    <string name="rabkin_result_deiteranomaly_b">Дейтераномалия\n(тип B)</string>
+    <string name="rabkin_result_deiteranomaly_c">Дейтераномалия\n(тип C)</string>
     <string name="rabkin_result_parhology">Патология</string>
     <string name="see_also">Смотрите также</string>
     <string name="acuity_description">Этот тест предназначен для оценки остроты вашего зрения. Такую проверку обычно проходит каждый при посещении врача-офтальмолога.\n\nДля корректного прохождения теста держите смартфон на расстоянии вытянутой руки.</string>
@@ -114,7 +114,6 @@
     <string name="settings_scaling">Настройки масштабирования</string>
     <string name="settings_testing">Настройки тестирования</string>
     <string name="scaling">Масштабирование</string>
-    <string name="or_string">или</string>
     <string name="current_arms_length">установленное значение длины вашей руки. Измерьте длину своей руки, а затем введите ее, нажав на кнопку ниже. В качестве альтернативы вы можете ввести свой рост, тогда длина руки будет расчитана из него по формуле.</string>
     <string name="centimeters_short">см</string>
     <string name="arms_length">Длина руки</string>
@@ -199,7 +198,7 @@
     <string name="welcome_header">Здравствуйте</string>
     <string name="welcome_message">Это приложение - проект с открытым исходным кодом, написанный одним человеком на безвозмездной основе. Обо всех проблемах и пожеланиях вы можете писать на почту, указанную в настройках в разделе \"О программе\". Там же вы найдете ссылку на репозиторий с исходным кодом.</string>
     <string name="changelog">Список изменений</string>
-    <string name="changelog_text"><b>2.1.0</b>\n• Оптимизация для Android 14.\n• Редизайн и улучшение UI.\n• Улучшен тест цветовосприятия.\n• Исправление ошибок.\n\n<b>2.0.2</b>\n• Исправление ошибок.\n\n<b>2.0.1</b>\n• Исправлен язык по умолчанию.\n\n<b>2.0.0</b>\n• Оптимизация для Android 11–13.\n• Редизайн и улучшение UI.\n• Исправление ошибок.</string>
+    <string name="changelog_text"><b>2.1.0</b>\n• Оптимизация для Android 14.\n• Редизайн и улучшение UI.\n• Улучшен тест цветовосприятия.\n• Исправление ошибок.\n• Улучшение текстов.\n\n<b>2.0.2</b>\n• Исправление ошибок.\n\n<b>2.0.1</b>\n• Исправлен язык по умолчанию.\n\n<b>2.0.0</b>\n• Оптимизация для Android 11–13.\n• Редизайн и улучшение UI.\n• Исправление ошибок.</string>
     <string name="error_file_not_found">Файл не найден</string>
     <string name="notification_channel_system">Системные уведомления</string>
     <string name="notification_channel_soundless_suffix">без звука</string>

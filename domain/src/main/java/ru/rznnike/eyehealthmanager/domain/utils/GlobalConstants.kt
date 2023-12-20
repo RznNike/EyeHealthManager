@@ -16,4 +16,7 @@ object GlobalConstants {
     const val IMPORT_PAGE_SIZE = 100
     const val APP_DIR = "Eye Health Manager"
     const val EXPORT_DIR = "export"
+
+    const val FEEDBACK_EMAIL_ADDRESS = "rznnike@yandex.ru"
+    const val REPOSITORY_LINK = "https://github.com/RznNike/EyeHealthManager"
 }

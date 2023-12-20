@@ -23,6 +23,7 @@ import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView {
     @InjectPresenter
@@ -148,7 +149,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
                 dialog.dismiss()
                 routerStartFlow(
                     Screens.Common.actionMailTo(
-                        email = getString(R.string.feedback_email_address),
+                        email = GlobalConstants.FEEDBACK_EMAIL_ADDRESS,
                         subject = getString(R.string.app_name)
                     )
                 )
@@ -156,7 +157,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             buttonDialogSourceCode.setOnClickListener {
                 dialog.dismiss()
                 routerStartFlow(
-                    Screens.Common.actionOpenLink(getString(R.string.repository_link))
+                    Screens.Common.actionOpenLink(GlobalConstants.REPOSITORY_LINK)
                 )
             }
 
