@@ -20,7 +20,7 @@ class SymbolItem(
     override fun ItemSymbolBinding.bindView() {
         imageViewIcon.setImageResource(symbol.getDrawableRes())
         imageViewIcon.setBackgroundResource(
-            if (isSelected) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
+            if (isSelected) R.drawable.bg_rounded_8_outline_accent else R.color.colorTransparent
         )
     }
 }

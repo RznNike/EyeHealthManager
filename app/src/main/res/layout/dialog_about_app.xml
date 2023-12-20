@@ -5,7 +5,7 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_4"
+    android:background="@drawable/bg_rounded_8"
     android:backgroundTint="@color/colorBackgroundLight"
     android:padding="16dp">
 
@@ -61,20 +61,20 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonDialogEmail"
+            style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/selector_button_gray"
             android:text="@string/feedback_email" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="16dp" />
+            android:layout_height="8dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonDialogSourceCode"
+            style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/selector_button_gray"
             android:text="@string/source_code" />
 
     </LinearLayout>

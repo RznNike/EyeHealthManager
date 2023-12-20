@@ -129,7 +129,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.viewpager2:viewpager2:1.1.0-beta02")
-    implementation("androidx.annotation:annotation:1.7.0")
+    implementation("androidx.annotation:annotation:1.7.1")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("androidx.window:window:1.2.0")
 
@@ -138,7 +138,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:" + rootProject.extra["coroutinesVersion"])
 
     // Material
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.11.0")
 
     // Firebase
     implementation("com.google.firebase:firebase-crashlytics-ktx:18.6.0")
@@ -187,14 +187,6 @@ dependencies {
     // ViewBinding
     // https://github.com/kirich1409/ViewBindingPropertyDelegate
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
-
-    // ExpandableLayout
-    // https://github.com/cachapa/ExpandableLayout
-    implementation("com.github.cachapa:ExpandableLayout:2.9.2")
-
-    // GestureViews
-    // https://github.com/alexvasilkov/GestureViews
-    implementation("com.alexvasilkov:gesture-views:2.8.3")
 
     // FlexboxLayoutManager
     // https://github.com/google/flexbox-layout

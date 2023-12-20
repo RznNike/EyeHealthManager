@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.ui.fragment.colorperception.test
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,7 +17,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.app.utils.extensions.withEndActionSafe
 import ru.rznnike.eyehealthmanager.databinding.FragmentColorPerceptionTestBinding
 
-private const val FADE_ANIMATION_MS = 500L
+private const val FADE_ANIMATION_MS = 250L
 
 class ColorPerceptionTestFragment : BaseFragment(R.layout.fragment_color_perception_test),
     ColorPerceptionTestView {
@@ -74,8 +75,8 @@ class ColorPerceptionTestFragment : BaseFragment(R.layout.fragment_color_percept
                 .setStartDelay(0)
                 .setDuration(FADE_ANIMATION_MS)
                 .withEndActionSafe(this@ColorPerceptionTestFragment) {
-                    imageViewLeftColor.setBackgroundColor(color1)
-                    imageViewRightColor.setBackgroundColor(color2)
+                    imageViewLeftColor.imageTintList = ColorStateList.valueOf(color1)
+                    imageViewRightColor.imageTintList = ColorStateList.valueOf(color2)
 
                     layoutColors.setVisible()
                     layoutColors.animate()
@@ -95,7 +96,8 @@ class ColorPerceptionTestFragment : BaseFragment(R.layout.fragment_color_percept
     private fun showExitDialog() {
         showAlertDialog(
             parameters = AlertDialogParameters.HORIZONTAL_2_OPTIONS_LEFT_ACCENT,
-            header = getString(R.string.test_cancel_message),
+            header = getString(R.string.test_cancel_header),
+            message = getString(R.string.test_cancel_message),
             cancellable = true,
             actions = listOf(
                 AlertDialogAction(getString(R.string.cancel)) {

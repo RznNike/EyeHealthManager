@@ -15,6 +15,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.journal.restore.ImportJourna
 import ru.rznnike.eyehealthmanager.app.presentation.journal.restore.ImportJournalView
 import ru.rznnike.eyehealthmanager.app.ui.item.TestTypeIndicatorItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
@@ -51,7 +52,8 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartImport.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initRecyclerView()
@@ -73,7 +75,7 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
     }
 
     private fun initRecyclerView() = binding.apply {
-        recyclerView.apply {
+        recyclerViewBackupData.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = this@ImportJournalFragment.adapterBackups
             itemAnimator = null
@@ -88,10 +90,10 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
     }
 
     private fun initOnClickListeners() = binding.apply {
-        buttonSelectImportFolder.setOnClickListener {
+        buttonSelectFolder.setOnClickListener {
             selectImportFolder()
         }
-        buttonOpenImportFolder.setOnClickListener {
+        buttonOpenFolder.setOnClickListener {
             presenter.openImportFolder()
         }
         buttonStartImport.setOnClickListener {
@@ -101,6 +103,9 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
 
     override fun populateData(folderPath: String?, availableImportTypes: List<TestType>) {
         binding.apply {
+            textViewBackupFolderPath.text = (folderPath ?: "").ifBlank { getString(R.string.folder_not_selected) }
+            buttonOpenFolder.isEnabled = !folderPath.isNullOrBlank()
+
             itemAdapterBackups.setNewList(
                 TestType.entries.map {
                     TestTypeIndicatorItem(
@@ -109,9 +114,13 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
                     )
                 }
             )
-            textViewBackupFolderPath.text = folderPath
-            textViewBackupFolderPath.setVisible(!folderPath.isNullOrBlank())
-            buttonOpenImportFolder.setVisible(!folderPath.isNullOrBlank())
+
+            listOf(
+                textViewBackupDataHeader,
+                recyclerViewBackupData
+            ).forEach {
+                it.setVisible(!folderPath.isNullOrBlank())
+            }
         }
     }
 

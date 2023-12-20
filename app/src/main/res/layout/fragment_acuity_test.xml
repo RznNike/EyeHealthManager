@@ -59,7 +59,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     tools:text="@string/close_right_eye"/>
 
                 <Space
@@ -100,7 +100,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/press_button_to_answer"/>
 
             </LinearLayout>
@@ -124,7 +124,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/acuity_answer_selection_header"/>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -146,7 +146,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/acuity_info_before_symbol_show"/>
 
             </LinearLayout>

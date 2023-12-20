@@ -30,17 +30,14 @@
             android:padding="16dp"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/two_eyes_test_disclaimer"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="32dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginVertical="16dp">
 
             <View
                 android:id="@+id/viewBackgroundLeft"
@@ -70,10 +67,6 @@
                 app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="32dp" />
 
         <FrameLayout
             android:id="@+id/layoutControls"

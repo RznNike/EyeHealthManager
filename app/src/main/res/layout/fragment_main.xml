@@ -24,9 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center"
             android:background="@color/colorBackgroundLight"
-            android:baselineAligned="false"
+            android:elevation="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -58,14 +57,6 @@
                 app:niv_icon="@drawable/ic_settings"/>
 
         </LinearLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/navigation"
-            android:background="@color/colorBackgroundGray" />
 
         <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
             android:id="@+id/progressViewMain"

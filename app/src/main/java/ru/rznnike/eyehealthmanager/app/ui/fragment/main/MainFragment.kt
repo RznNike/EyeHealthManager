@@ -147,13 +147,14 @@ class MainFragment : BaseFragment(R.layout.fragment_main), MainView {
     }
 
     override fun showSuccessfulExportDialog(uri: Uri) {
-        val message = "%s \"%s\"".format(
+        val message = "%s\n<i>%s</i>".format(
             getString(R.string.successful_export),
             uri.lastPathSegment
         )
         showAlertDialog(
             parameters = AlertDialogParameters.VERTICAL_2_OPTIONS_TOP_ACCENT,
-            header = message,
+            header = getString(R.string.export),
+            message = message,
             actions = listOf(
                 AlertDialogAction(getString(R.string.open_folder)) {
                     it.dismiss()
@@ -168,15 +169,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main), MainView {
 
     override fun showSuccessfulImportDialog(uri: Uri) {
         showAlertDialog(
-            parameters = AlertDialogParameters.VERTICAL_3_OPTIONS_TOP_ACCENT,
-            header = getString(R.string.successful_import),
+            parameters = AlertDialogParameters.VERTICAL_2_OPTIONS_TOP_ACCENT,
+            header = getString(R.string.import_string),
+            message = getString(R.string.successful_import),
             actions = listOf(
                 AlertDialogAction(getString(R.string.close)) {
                     it.dismiss()
-                },
-                AlertDialogAction(getString(R.string.open_folder)) {
-                    it.dismiss()
-                    routerStartFlow(Screens.Common.actionOpenFolder(uri))
                 },
                 AlertDialogAction(getString(R.string.delete_duplicates)) {
                     it.dismiss()

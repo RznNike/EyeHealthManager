@@ -6,6 +6,7 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
 import ru.rznnike.eyehealthmanager.app.utils.extensions.getString
 import ru.rznnike.eyehealthmanager.app.utils.extensions.resources
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.databinding.ItemTestResultBinding
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
@@ -69,6 +70,8 @@ class TestResultItem(
         imageViewIcon.setImageResource(testType.iconResId)
 
         textViewDate.text = testResult.timestamp.toDate(GlobalConstants.DATE_PATTERN_SIMPLE_WITH_TIME)
+
+        root.setScaleOnTouch()
     }
 
     private fun ItemTestResultBinding.getAcuityTestDetails(testResult: AcuityTestResult): String {

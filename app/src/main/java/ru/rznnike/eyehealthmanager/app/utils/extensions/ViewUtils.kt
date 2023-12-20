@@ -1,6 +1,8 @@
 package ru.rznnike.eyehealthmanager.app.utils.extensions
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
@@ -89,10 +91,27 @@ fun SwipeRefreshLayout.setupDefaults() {
 val RadioGroup.selectionIndex: Int
     get() = indexOfChild(findViewById(checkedRadioButtonId))
 
-fun ViewPropertyAnimator.withStartActionSafe(fragment: Fragment, action: () -> Unit) = withStartAction {
+fun ViewPropertyAnimator.withEndActionSafe(fragment: Fragment, action: () -> Unit) = withEndAction {
     fragment.view?.let { action() }
 }
 
-fun ViewPropertyAnimator.withEndActionSafe(fragment: Fragment, action: () -> Unit) = withEndAction {
-    fragment.view?.let { action() }
+@SuppressLint("ClickableViewAccessibility")
+fun View.setScaleOnTouch() {
+    val pressedScale = 0.96f
+    val durationMs = 200L
+
+    fun View.animateScale(scale: Float) = animate()
+        .scaleX(scale)
+        .scaleY(scale)
+        .setDuration(durationMs)
+        .setStartDelay(0)
+        .start()
+
+    setOnTouchListener { view, event ->
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> view.animateScale(pressedScale)
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> view.animateScale(1f)
+        }
+        false
+    }
 }

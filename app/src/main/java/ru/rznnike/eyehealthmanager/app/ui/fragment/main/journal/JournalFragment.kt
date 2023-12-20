@@ -5,6 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
@@ -60,6 +62,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             recyclerView.addSystemWindowInsetToPadding(top = true)
         }
         initRecyclerView()
+        initOnClickListeners()
     }
 
     private fun initAdapter() {
@@ -100,9 +103,16 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             addItemDecoration(
                 EmptyDividerDecoration(
                     context = requireContext(),
-                    cardInsets = R.dimen.baseline_grid_16
+                    cardInsets = R.dimen.baseline_grid_8,
+                    applyOutsideDecoration = false
                 )
             )
+        }
+    }
+
+    private fun initOnClickListeners() = binding.apply {
+        buttonTools.setOnClickListener {
+            showToolsDialog()
         }
     }
 
@@ -110,8 +120,8 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
         binding.apply {
             itemAdapter.setNewList(data.map { TestResultItem(it) })
             zeroView.setVisible(data.isEmpty())
-            buttonActions.setOnClickListener {
-                showActionsDialog(filter)
+            buttonFilter.setOnClickListener {
+                showFilterDialog(filter)
             }
             imageViewFilterIcon.setVisible(
                 filter.filterByDate || filter.filterByType
@@ -185,7 +195,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
         )
     }
 
-    private fun showActionsDialog(filter: TestResultFilter) {
+    private fun showToolsDialog() {
         showBottomDialog(
             header = getString(R.string.choose_action),
             actions = listOf(
@@ -200,13 +210,6 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 BottomDialogAction(getString(R.string.import_string)) {
                     it.dismiss()
                     presenter.importData()
-                },
-                BottomDialogAction(
-                    text = getString(R.string.filters),
-                    selected = filter.filterByDate || filter.filterByType
-                ) {
-                    it.dismiss()
-                    showFilterDialog(filter)
                 }
             )
         )
@@ -259,13 +262,13 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 }
 
                 recyclerViewFilterTypes.apply {
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    layoutManager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
                     adapter = adapterTestType
                     itemAnimator = null
                     addItemDecoration(
                         EmptyDividerDecoration(
                             context = requireContext(),
-                            cardInsets = R.dimen.baseline_grid_8,
+                            cardInsets = R.dimen.baseline_grid_4,
                             applyOutsideDecoration = false
                         )
                     )
@@ -273,10 +276,6 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
 
                 updateTestTypes()
 
-                buttonDialogClearFilters.setOnClickListener {
-                    presenter.clearFilter()
-                    dialog.dismiss()
-                }
                 checkBoxFilterByDate.setOnClickListener {
                     newFilter.filterByDate = checkBoxFilterByDate.isChecked
                 }
@@ -316,7 +315,11 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                     }
                 }
 
-                buttonDialogApply.setOnClickListener {
+                buttonClearFilters.setOnClickListener {
+                    presenter.clearFilter()
+                    dialog.dismiss()
+                }
+                buttonApplyFilters.setOnClickListener {
                     presenter.onFilterChanged(newFilter)
                     dialog.dismiss()
                 }

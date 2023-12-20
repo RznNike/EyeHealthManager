@@ -18,7 +18,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.withEndActionSafe
 import ru.rznnike.eyehealthmanager.databinding.FragmentContrastTestBinding
 import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
 
-private const val FADE_ANIMATION_MS = 500L
+private const val FADE_ANIMATION_MS = 250L
 
 class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), ContrastTestView {
     @InjectPresenter
@@ -141,7 +141,8 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
     private fun showExitDialog() {
         showAlertDialog(
             parameters = AlertDialogParameters.HORIZONTAL_2_OPTIONS_LEFT_ACCENT,
-            header = getString(R.string.test_cancel_message),
+            header = getString(R.string.test_cancel_header),
+            message = getString(R.string.test_cancel_message),
             cancellable = true,
             actions = listOf(
                 AlertDialogAction(getString(R.string.cancel)) {

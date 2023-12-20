@@ -181,7 +181,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
                 parameters = AlertDialogParameters.VERTICAL_1_OPTION_ACCENT,
                 header = systemMessage.text ?: "",
                 actions = listOf(
-                    AlertDialogAction(getString(R.string.yes)) {
+                    AlertDialogAction(getString(R.string.ok)) {
                         it.dismiss()
                     }
                 )
@@ -208,7 +208,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
                 )
                 updatePadding(0, 0, 0, 0)
                 requestApplyInsets()
-                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_4_background)
+                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_8_background)
                 (this as ViewGroup).apply {
                     removeAllViews()
                     addView(root)
@@ -247,7 +247,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
                 )
                 updatePadding(0, 0, 0, 0)
                 requestApplyInsets()
-                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_4_background)
+                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_8_background)
                 (this as ViewGroup).apply {
                     removeAllViews()
                     addView(root)

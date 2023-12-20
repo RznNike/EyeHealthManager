@@ -8,6 +8,7 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.astigmatism.info.AstigmatismInfoPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.astigmatism.info.AstigmatismInfoView
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.databinding.FragmentAstigmatismInfoBinding
 
@@ -22,7 +23,8 @@ class AstigmatismInfoFragment : BaseFragment(R.layout.fragment_astigmatism_info)
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartTest.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()

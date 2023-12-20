@@ -38,7 +38,8 @@ class AcuityResultFragment : BaseFragment(R.layout.fragment_acuity_result), Acui
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonClose.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()

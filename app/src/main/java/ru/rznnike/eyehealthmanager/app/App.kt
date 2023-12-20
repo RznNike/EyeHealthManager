@@ -5,6 +5,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.firebase.FirebaseApp
 import com.yariksoffice.lingver.Lingver
 import io.objectbox.BoxStore
+import io.objectbox.android.Admin
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -13,7 +14,6 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import ru.rznnike.eyehealthmanager.BuildConfig
 import ru.rznnike.eyehealthmanager.app.di.appComponent
-import ru.rznnike.eyehealthmanager.app.global.storage.ObjectBoxBrowserImpl
 import ru.rznnike.eyehealthmanager.app.observer.AppLifeCycleObserver
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 
@@ -57,7 +57,8 @@ class App : Application() {
     }
 
     private fun initObjectBoxBrowser() {
-        val objectBoxBrowser = ObjectBoxBrowserImpl()
-        objectBoxBrowser.init(boxStore, this)
+        if (BuildConfig.DEBUG) {
+            Admin(boxStore).start(this)
+        }
     }
 }

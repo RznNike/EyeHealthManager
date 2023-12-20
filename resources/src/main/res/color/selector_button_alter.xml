@@ -1,0 +1,5 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/colorBackgroundLight" android:state_enabled="false" />
+    <item android:color="@color/colorAccentPressed" android:state_pressed="true" />
+    <item android:color="@color/globalColorAccent" />
+</selector>

@@ -17,13 +17,12 @@
     <string name="share">Share</string>
     <string name="tests">Tests</string>
     <string name="analysis">Analysis</string>
-    <string name="settings_data">Data control</string>
     <string name="about_app">About app</string>
     <string name="test_acuity">Visual acuity test</string>
     <string name="test_astigmatism">Astigmatism test</string>
     <string name="test_nearsightedness_farsightedness">Nearsightedness and farsightedness test</string>
     <string name="test_color_perception">Color perception test</string>
-    <string name="test_daltonism">Daltonism test</string>
+    <string name="test_daltonism">Color blindness test</string>
     <string name="test_contrast">Vision contrast test</string>
     <string name="start">Start</string>
     <string name="yes">Yes</string>
@@ -35,11 +34,10 @@
     <string name="dichromat_message">Weak color perception. You probably prefer black, beige and blue clothes.\nThis category includes about 25\% of people.</string>
     <string name="trichromat_message">Average color perception. You distinguish many shades of purple/blue, green and red.\nThis category includes about 50\% of people.</string>
     <string name="tetrachromat_message">Good color perception! You distinguish between many shades of purple/blue, green, red, and yellow. Most likely, yellow annoys you and you don’t wear clothes of this color.\nThis category includes about 25\% of people.</string>
-    <string name="near_far_description">This test will help determine if you have myopia or farsightedness.\n\n<font color="#FF3334"><b>Attention!</b></font>\nTest is run in turn for both eyes. First, close one eye with your hand and look at the image. Then repeat this for the other eye. Answer the relevant questions at the end of the test.</string>
+    <string name="near_far_description">This test will help determine if you have myopia or farsightedness.</string>
+    <string name="near_far_description_warning"><font color="#FF3334"><b>Attention!</b></font>\nTest is run in turn for both eyes. First, close one eye with your hand and look at the image. Then repeat this for the other eye. Answer the relevant questions at the end of the test.</string>
     <string name="two_eyes_test_disclaimer">Close one eye and look at the image. Then close the other eye and repeat the actions.</string>
     <string name="back">Back</string>
-    <string name="answer_left_eye">Answer for <b>left</b> eye</string>
-    <string name="answer_right_eye">Answer for <b>right</b> eye</string>
     <string name="question_near_far">What did you see in the image?</string>
     <string name="answer_red_bg_better">Characters on the <font color="#FF3334"><b>red</b></font> background were sharper</string>
     <string name="answer_green_bg_better">Characters on the <font color="#34CC67"><b>green</b></font> background were sharper</string>
@@ -50,12 +48,14 @@
     <string name="possible_myopia">possible myopia</string>
     <string name="possible_farsightedness">possible farsightedness</string>
     <string name="doctor_warning"><font color="#FF3334"><b>Warning!</b></font> Eye problems detected. Visit your ophthalmologist for a professional eye check.</string>
-    <string name="contrast_description">This test will help you assess whether you can clearly distinguish areas of the image with low contrast.\n\nFor best accuracy of the test, it is advisable to keep your smartphone at arm\'s length.\n\n<font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, then you may not pass the last steps of the test, even with perfect vision.</string>
-    <string name="contrast_message">Click on the arrow of the direction in which there is a cutout at the circle on the screen.</string>
+    <string name="contrast_description">This test will help you assess whether you can clearly distinguish areas of the image with low contrast.\nFor best accuracy of the test, it is advisable to keep your smartphone at arm\'s length.</string>
+    <string name="contrast_description_warning"><font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, then you may not pass the last steps of the test, even with perfect vision.</string>
+    <string name="contrast_message">Click on the arrow in the direction in which the circle has a cutout</string>
     <string name="contrast_result_header">Minimal distinguishable contrast</string>
     <string name="contrast_good_result">Good result!\n<i>The lower the minimum discernible contrast - the better result.</i></string>
     <string name="contrast_perfect_result">Perfect result!\n<i>You cannot distinguish 0\% contrast - then there would be no difference between the image and the background.</i></string>
-    <string name="daltonism_description">This test will help you identify the presence of various types of color perception anomalies.\nThe well-known tables of prof. Rabkin E.B. are used in this test.\n\n<font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, then you may not pass the last steps of the test, even with perfect vision.</string>
+    <string name="daltonism_description">This test will help you identify the presence of various types of color perception anomalies.\nThe well-known tables of prof. Rabkin E.B. are used in this test.</string>
+    <string name="daltonism_description_warning"><font color="#FF3334"><b>Warning!</b></font> The accuracy of the test substantially depends on the screen quality of your device. If it has low brightness or color reproduction, this may introduce inaccuracy into the test results.</string>
     <string name="daltonism_message">What do you see in the image?</string>
     <string name="rabkin_2" translatable="false">2</string>
     <string name="rabkin_3" translatable="false">3</string>
@@ -100,16 +100,16 @@
     <string name="rabkin_result_deiteranomaly_b">Deiteranomaly\n(type B)</string>
     <string name="rabkin_result_deiteranomaly_c">Deiteranomaly\n(type C)</string>
     <string name="rabkin_result_parhology">Pathology</string>
-    <string name="you_may_be_interested">You also may be interested in:</string>
-    <string name="okay">OK</string>
-    <string name="acuity_description">This test is designed to evaluate your visual acuity. Such test usually takes place when visiting an ophthalmologist.\n\nTo perform the test correctly, keep your smartphone at arm\'s length.\n\nYou can change the symbol set for the test in the menu at the bottom of the screen.\n\n<font color="#FF3334"><b>Warning!</b></font> Before passing the test, be sure to calibrate the image scale in the application settings and also enter the length of your hand. You can quickly go to the scaling settings from the menu at the bottom of the screen.</string>
+    <string name="see_also">See also</string>
+    <string name="acuity_description">This test is designed to evaluate your visual acuity. Such test usually takes place when visiting an ophthalmologist.\n\nTo perform the test correctly, keep your smartphone at arm\'s length.</string>
+    <string name="acuity_description_warning"><font color="#FF3334"><b>Warning!</b></font> Before passing the test, be sure to calibrate the image scale in the application settings and also enter the length of your hand.</string>
     <string name="symbols_set">Symbols set</string>
     <string name="eyes">Eyes</string>
     <string name="eyes_type_both">Both</string>
     <string name="eyes_type_left">Left</string>
     <string name="eyes_type_right">Right</string>
     <string name="instruction">Instruction</string>
-    <string name="acuity_instruction">Before passing the test, be sure to calibrate the image scale in the application settings, and also enter the length of your hand.\n\n1. Take off glasses/lenses if available.\n\n2. Read on the screen which eye to close, and carefully close it with your free hand. Do not press on the eye.\n\n3. Hold the smartphone at arm\'s length and press the \"Start\" button.\n\n4.A symbol will appear on the screen. You need to try to recognize it and remember. When you are ready, click on the \"Answer\" button.\n\n5. Select the symbol seen on the previous screen and click on the \"Continue\" button. If you could not consider the character, select the option \"I can not answer\".\n\n6. Repeat the previous steps until the test completes.\n\n7. You can select the character set as well as the eye to be checked in the previous test description screen.</string>
+    <string name="acuity_instruction">1. Before passing the test, be sure to calibrate the image scale in the application settings, and also enter the length of your hand.\n\n2. Take off glasses/lenses if available.\n\n3. Read on the screen which eye to close, and carefully close it with your free hand. Do not press on the eye.\n\n4. Hold the smartphone at arm\'s length and press the \"Start\" button.\n\n5.A symbol will appear on the screen. You need to try to recognize it and remember. When you are ready, click on the \"Answer\" button.\n\n6. Select the symbol seen on the previous screen and click on the \"Continue\" button. If you could not consider the character, select the option \"I can not answer\".\n\n7. Repeat the previous steps until the test completes.\n\n8. You can select the character set as well as the eye to be checked in the previous test description screen.</string>
     <string name="testing_left_eye">Test of <font color="#FF3334"><b>left</b></font> eye</string>
     <string name="testing_right_eye">Test of <font color="#FF3334"><b>right</b></font> eye</string>
     <string name="close_left_eye">Softly close your\n<font color="#FF3334"><b>left</b></font> eye with hand</string>
@@ -120,6 +120,7 @@
     <string name="cant_answer">Can\'t answer</string>
     <string name="acuity_info_before_symbol_show">Hold your smartphone at arm\'s length and press the button</string>
     <string name="continue_string">Continue</string>
+    <string name="test_cancel_header">Quitting the test</string>
     <string name="test_cancel_message">Are you sure you want to interrupt the test? Current progress will be lost.</string>
     <string name="exit">Exit</string>
     <string name="day_part_dialog_message">Choose which part of your activity period is now. For most people, this is morning, day, or evening, respectively.</string>
@@ -130,7 +131,8 @@
     <string name="day">Day</string>
     <string name="evening">Evening</string>
     <string name="auto_day_part_configure_invitation">Or configure automatic scheduled selection</string>
-    <string name="astigmatism_description">This test will help determine if you have astigmatism.\n\n<font color="#FF3334"><b>Attention!</b></font>\nDuring your test, keep your phone at arm\'s length.\nTest is run in turn for both eyes. First, close one eye with your hand and look at the image. Then repeat this for the other eye. Answer the relevant questions at the end of the test.</string>
+    <string name="astigmatism_description">This test will help determine if you have astigmatism.</string>
+    <string name="astigmatism_description_warning"><font color="#FF3334"><b>Attention!</b></font>\nDuring your test, keep your phone at arm\'s length.\nTest is run in turn for both eyes. First, close one eye with your hand and look at the image. Then repeat this for the other eye. Answer the relevant questions at the end of the test.</string>
     <string name="astigmatism_answer_ok">The rays begin to merge exactly half their length; distortion border perfectly round</string>
     <string name="astigmatism_answer_all_gray">The image merges into a solid gray mass </string>
     <string name="astigmatism_answer_distortions">Rays blur, intersect or become negative; Distortion border is different from round</string>
@@ -139,19 +141,19 @@
     <string name="settings_testing">Testing settings</string>
     <string name="scaling">Scaling</string>
     <string name="or_string">or</string>
-    <string name="current_arms_length">current value of your arm\'s length</string>
+    <string name="current_arms_length">the set value for the length of your arm. Measure your arm length and then enter it by clicking the button below. Alternatively, you can enter your height, then the arm length will be calculated from it using the formula.</string>
     <string name="centimeters_short">cm</string>
-    <string name="enter_arms_length">Enter arm\'s length</string>
-    <string name="enter_body_height">Enter body height</string>
+    <string name="arms_length">Arm\'s length</string>
+    <string name="body_height">Body height</string>
     <string name="testing_time">Testing time</string>
     <string name="replace_beginning_with_morning">Replace \"beginning/middle/end\" with \"morning/day/evening\"</string>
     <string name="day_part_auto_selection">Automatically select activity period</string>
     <string name="input_arms_length">Enter your arm\'s length in centimeters</string>
     <string name="input_body_height">Enter your body height in centimeters</string>
     <string name="current_scale_message">Measure the red line below using the ruler and enter the result. Current value</string>
-    <string name="enter_line_length">Enter line length</string>
+    <string name="change_value">Change value</string>
     <string name="input_line_length">Input red line\'s length in centimeters</string>
-    <string name="reset_scale">Reset scale</string>
+    <string name="reset">Reset</string>
     <string name="journal_is_empty">Journal is empty</string>
     <string name="error">Error</string>
     <string name="symbols_letters_ru">Sivtsev table</string>
@@ -170,7 +172,7 @@
     <string name="feedback_email">Email for feedback</string>
     <string name="developer_name">Developer: Tyart Nikita / RznNike</string>
     <string name="write_on_email">Write on email</string>
-    <string name="clear">Clear</string>
+    <string name="clear_all">Clear all</string>
     <string name="by_date">By date</string>
     <string name="by_type">By type</string>
     <string name="clear_journal">Clear journal</string>
@@ -179,13 +181,15 @@
     <string name="clear_journal_dialog_message">ATTENTION! All test results will be deleted from the journal. Are you sure you want to continue?</string>
     <string name="delete">Delete</string>
     <string name="clear_journal_success">Journal successfully cleared</string>
-    <string name="path_to_backups_folder">Path to backups folder</string>
-    <string name="path_to_backup_folder">Path to backup folder</string>
+    <string name="backups_folder">Backups folder</string>
+    <string name="backup_folder">Backup folder</string>
+    <string name="folder_not_selected">Folder not selected</string>
     <string name="open_folder">Open folder</string>
     <string name="open_file">Open file</string>
-    <string name="select_folder">Select folder</string>
-    <string name="successful_export">Journal was exported successfully into a folder</string>
-    <string name="backups_availability">Backups availability in folder</string>
+    <string name="select">Select</string>
+    <string name="open">Open</string>
+    <string name="successful_export">Journal was exported successfully into a folder:</string>
+    <string name="backups_availability">Data availability in folder</string>
     <string name="successful_import">Journal was imported successfully</string>
     <string name="delete_duplicates">Delete duplicates in journal</string>
     <string name="duplicates_successfully_deleted">Duplicates in journal successfully deleted</string>
@@ -235,4 +239,5 @@
     <string name="source_code">Source code</string>
     <string name="about_app_message">This application is an open source project written by one person at no cost. You can write about all problems and wishes by email. Below is a link to the source code repository.</string>
     <string name="error_export">An error occurred during export</string>
+    <string name="description">Description</string>
 </resources>

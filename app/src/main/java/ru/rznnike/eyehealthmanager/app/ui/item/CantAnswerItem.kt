@@ -16,7 +16,7 @@ class CantAnswerItem : BaseBindingItem<ItemCantAnswerBinding>() {
 
     override fun ItemCantAnswerBinding.bindView() {
         textViewName.setBackgroundResource(
-            if (isSelected) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
+            if (isSelected) R.drawable.bg_rounded_8_outline_accent else R.color.colorTransparent
         )
     }
 }

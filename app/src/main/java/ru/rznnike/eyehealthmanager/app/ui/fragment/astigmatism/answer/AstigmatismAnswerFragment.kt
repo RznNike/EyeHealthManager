@@ -8,12 +8,12 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.astigmatism.answer.AstigmatismAnswerPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.astigmatism.answer.AstigmatismAnswerView
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.selectionIndex
 import ru.rznnike.eyehealthmanager.databinding.FragmentAstigmatismAnswerBinding
 
-class AstigmatismAnswerFragment : BaseFragment(R.layout.fragment_astigmatism_answer),
-    AstigmatismAnswerView {
+class AstigmatismAnswerFragment : BaseFragment(R.layout.fragment_astigmatism_answer), AstigmatismAnswerView {
     @InjectPresenter
     lateinit var presenter: AstigmatismAnswerPresenter
 
@@ -29,7 +29,9 @@ class AstigmatismAnswerFragment : BaseFragment(R.layout.fragment_astigmatism_ans
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonBackToTest.addSystemWindowInsetToMargin(bottom = true)
+            buttonSaveAnswer.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()

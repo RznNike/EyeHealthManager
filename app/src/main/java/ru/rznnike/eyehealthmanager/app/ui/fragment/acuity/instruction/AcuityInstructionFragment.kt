@@ -9,6 +9,7 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.instruction.AcuityInstructionPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.instruction.AcuityInstructionView
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.getParcelableArg
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityInstructionBinding
@@ -29,7 +30,8 @@ class AcuityInstructionFragment : BaseFragment(R.layout.fragment_acuity_instruct
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartTest.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()

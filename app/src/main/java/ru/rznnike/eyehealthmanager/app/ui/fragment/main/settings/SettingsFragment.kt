@@ -18,6 +18,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsPresen
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.restartApp
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
@@ -40,6 +41,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         binding.apply {
             layoutScrollableContent.addSystemWindowInsetToPadding(top = true)
         }
+        initViews()
         initOnClickListeners()
     }
 
@@ -48,15 +50,37 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         presenter.onResume()
     }
 
+    private fun initViews() = binding.apply {
+        listOf(
+            buttonTestingSettings,
+            buttonAnalysis,
+            buttonExportData,
+            buttonImportData,
+            buttonDeleteDuplicates,
+            buttonClearJournal,
+            buttonLanguage,
+            buttonAboutApp,
+            buttonChangelog
+        ).forEach {
+            it.setScaleOnTouch()
+        }
+    }
+
     private fun initOnClickListeners() = binding.apply {
         buttonTestingSettings.setOnClickListener {
             presenter.openTestingSettings()
+        }
+        buttonAnalysis.setOnClickListener {
+            presenter.openAnalysis()
         }
         buttonExportData.setOnClickListener {
             presenter.exportData()
         }
         buttonImportData.setOnClickListener {
             presenter.importData()
+        }
+        buttonDeleteDuplicates.setOnClickListener {
+            presenter.deleteDuplicatesInJournal()
         }
         buttonClearJournal.setOnClickListener {
             showClearJournalDialog()
@@ -66,9 +90,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         }
         buttonChangelog.setOnClickListener {
             showChangelogDialog()
-        }
-        buttonDeleteDuplicates.setOnClickListener {
-            presenter.deleteDuplicatesInJournal()
         }
     }
 

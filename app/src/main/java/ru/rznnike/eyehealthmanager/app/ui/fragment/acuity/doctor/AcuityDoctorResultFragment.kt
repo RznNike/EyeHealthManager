@@ -10,6 +10,7 @@ import ru.rznnike.eyehealthmanager.app.dialog.showDatePicker
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.doctor.AcuityDoctorResultPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.doctor.AcuityDoctorResultView
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.syncWithValue
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityDoctorResultBinding
@@ -33,7 +34,8 @@ class AcuityDoctorResultFragment : BaseFragment(R.layout.fragment_acuity_doctor_
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonAddDoctorResult.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initEditTextListeners()

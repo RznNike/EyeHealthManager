@@ -14,7 +14,6 @@
     <string name="share">Поделиться</string>
     <string name="tests">Тесты</string>
     <string name="analysis">Анализ</string>
-    <string name="settings_data">Управление данными</string>
     <string name="about_app">О программе</string>
     <string name="test_acuity">Тест остроты зрения</string>
     <string name="test_astigmatism">Тест на астигматизм</string>
@@ -32,11 +31,10 @@
     <string name="dichromat_message">Слабое различение цветов. Вероятно, вы предпочитаете черную, бежевую и синюю одежду.\nК данной категории относится около 25\% людей.</string>
     <string name="trichromat_message">Среднее различение цветов. Вы различаете многие оттенки фиолетового/синего, зеленого и красного.\nК данной категории относится около 50\% людей.</string>
     <string name="tetrachromat_message">Хорошее различение цветов! Вы различаете многие оттенки фиолетового/синего, зеленого, красного и желтого. Скорее всего вас раздражает желтый и вы не носите одежду этого цвета.\nК данной категории относится около 25\% людей.</string>
-    <string name="near_far_description">Этот тест поможет определить наличие у вас близорукости или дальнозоркости.\n\n<font color="#FF3334"><b>Внимание!</b></font>\nТест проходится по очереди для обоих глаз. Сначала закройте рукой один глаз и посмотрите на изображение. Затем повторите это для другого глаза. Ответьте на соответствующие вопросы в конце теста.</string>
+    <string name="near_far_description">Этот тест поможет определить наличие у вас близорукости или дальнозоркости.</string>
+    <string name="near_far_description_warning"><font color="#FF3334"><b>Внимание!</b></font>\nТест проходится по очереди для обоих глаз. Сначала закройте рукой один глаз и посмотрите на изображение. Затем повторите это для другого глаза. Ответьте на соответствующие вопросы в конце теста.</string>
     <string name="two_eyes_test_disclaimer">Закройте один глаз и посмотрите на изображение. Затем закройте другой глаз и повторите действия.</string>
     <string name="back">Назад</string>
-    <string name="answer_left_eye">Ответ для <b>левого</b> глаза</string>
-    <string name="answer_right_eye">Ответ для <b>правого</b> глаза</string>
     <string name="question_near_far">Что вы увидели на изображении?</string>
     <string name="answer_red_bg_better">Символы на <font color="#FF3334"><b>красном</b></font> фоне были более четкими</string>
     <string name="answer_green_bg_better">Символы на <font color="#34CC67"><b>зеленом</b></font> фоне были более четкими</string>
@@ -47,12 +45,14 @@
     <string name="possible_myopia">возможна близорукость</string>
     <string name="possible_farsightedness">возможна дальнозоркость</string>
     <string name="doctor_warning"><font color="#FF3334"><b>Внимание!</b></font> Обнаружены проблемы со зрением. Обратитесь к врачу-офтальмологу для профессиональной проверки зрения.</string>
-    <string name="contrast_description">Этот тест поможет оценить, хорошо ли вы различаете области изображения с низким контрастом.\n\nДля лучшей точности теста желательно держать смартфон на расстоянии вытянутой руки.\n\n<font color="#FF3334"><b>Внимание!</b></font> Точность теста существенно зависит от качества экрана вашего устройства. Если у него низкая яркость/цветопередача, то вы можете не пройти последние этапы теста, даже имея идеальное зрение.</string>
-    <string name="contrast_message">Нажмите на стрелку того направления, в котором есть вырез у круга на экране.</string>
+    <string name="contrast_description">Этот тест поможет оценить, хорошо ли вы различаете области изображения с низким контрастом.\nДля лучшей точности теста желательно держать смартфон на расстоянии вытянутой руки.</string>
+    <string name="contrast_description_warning"><font color="#FF3334"><b>Внимание!</b></font> Точность теста существенно зависит от качества экрана вашего устройства. Если у него низкая яркость/цветопередача, то вы можете не пройти последние этапы теста, даже имея идеальное зрение.</string>
+    <string name="contrast_message">Нажмите на стрелку того направления, в котором у круга есть вырез</string>
     <string name="contrast_result_header">Минимально различимый контраст</string>
     <string name="contrast_good_result">Неплохой результат!\n<i>Чем меньше минимально различимый контраст - тем лучше.</i></string>
     <string name="contrast_perfect_result">Идеальный результат!\n<i>Нельзя различить контраст в 0\% - тогда между изображением и фоном не было бы разницы.</i></string>
-    <string name="daltonism_description">Этот тест поможет выявить наличие у вас различных видов аномалий цветовосприятия.\nДля проведения теста использутся широко известные таблицы проф. Рабкина Е.Б.\n\n<font color="#FF3334"><b>Внимание!</b></font> Точность теста существенно зависит от качества экрана вашего устройства. Если у него низкая яркость/цветопередача, то вы можете не пройти последние этапы теста, даже имея идеальное зрение.</string>
+    <string name="daltonism_description">Этот тест поможет выявить наличие у вас различных видов аномалий цветовосприятия.\nДля проведения теста использутся широко известные таблицы проф. Рабкина Е.Б.</string>
+    <string name="daltonism_description_warning"><font color="#FF3334"><b>Внимание!</b></font> Точность теста существенно зависит от качества экрана вашего устройства. Если у него низкая яркость/цветопередача, это может внести погрешность в результаты тестирования.</string>
     <string name="daltonism_message">Что вы видите на изображении?</string>
     <string name="rabkin_circle_and_triangle">Круг и треугольник</string>
     <string name="rabkin_circle">Круг</string>
@@ -74,16 +74,16 @@
     <string name="rabkin_result_deiteranomaly_b">Дейтераномалия (тип B)</string>
     <string name="rabkin_result_deiteranomaly_c">Дейтераномалия (тип C)</string>
     <string name="rabkin_result_parhology">Патология</string>
-    <string name="you_may_be_interested">Вас также может заинтересовать:</string>
-    <string name="okay">OK</string>
-    <string name="acuity_description">Этот тест предназначен для оценки остроты вашего зрения. Такую проверку обычно проходит каждый при посещении врача-офтальмолога.\n\nДля корректного прохождения теста держите смартфон на расстоянии вытянутой руки.\n\nВы можете сменить набор символов для теста в меню в нижней части экрана.\n\n<font color="#FF3334"><b>Внимание!</b></font> Перед прохождением теста обязательно откалибруйте масштаб изображения в настройках приложения, а также введите длину своей руки. Быстро перейти в настройки масштабирования можно из меню в нижней части экрана.</string>
+    <string name="see_also">Смотрите также</string>
+    <string name="acuity_description">Этот тест предназначен для оценки остроты вашего зрения. Такую проверку обычно проходит каждый при посещении врача-офтальмолога.\n\nДля корректного прохождения теста держите смартфон на расстоянии вытянутой руки.</string>
+    <string name="acuity_description_warning"><font color="#FF3334"><b>Внимание!</b></font> Перед прохождением теста обязательно откалибруйте масштаб изображения в настройках приложения, а также введите длину своей руки.</string>
     <string name="symbols_set">Набор символов</string>
     <string name="eyes">Глаза</string>
     <string name="eyes_type_both">Оба</string>
     <string name="eyes_type_left">Левый</string>
     <string name="eyes_type_right">Правый</string>
     <string name="instruction">Инструкция</string>
-    <string name="acuity_instruction">0. Перед прохождением теста обязательно откалибруйте масштаб изображения в настройках приложения, а также введите длину своей руки.\n\n1. Снимите очки/линзы при их наличии.\n\n2. Внимательно прочтите на экране, какой глаз необходимо закрыть, и осторожно закройте его свободной рукой. Не надавливайте рукой на глаз.\n\n3. Держите смартфон на расстоянии вытянутой руки и нажмите на кнопку \"Начать\".\n\n4. На экране появится символ. Вам нужно попытаться узнать его и запомнить. Когда будете готовы, нажмите на кнопку \"Ответить\".\n\n5. Выберите увиденный на предыдущем экране символ и нажмите на кнопку \"Продолжить\". Если вы не смогли рассмотреть символ, выберите вариант \"Не могу ответить\".\n\n6. Повторяйте предыдущие шаги до тех пор, пока тест не завершится.\n\n7. Вы можете выбрать набор символов, а также проверяемый глаз на предыдущем экране описания теста.</string>
+    <string name="acuity_instruction">1. Перед прохождением теста обязательно откалибруйте масштаб изображения в настройках приложения, а также введите длину своей руки.\n\n2. Снимите очки/линзы при их наличии.\n\n3. Внимательно прочтите на экране, какой глаз необходимо закрыть, и осторожно закройте его свободной рукой. Не надавливайте рукой на глаз.\n\n4. Держите смартфон на расстоянии вытянутой руки и нажмите на кнопку \"Начать\".\n\n5. На экране появится символ. Вам нужно попытаться узнать его и запомнить. Когда будете готовы, нажмите на кнопку \"Ответить\".\n\n6. Выберите увиденный на предыдущем экране символ и нажмите на кнопку \"Продолжить\". Если вы не смогли рассмотреть символ, выберите вариант \"Не могу ответить\".\n\n7. Повторяйте предыдущие шаги до тех пор, пока тест не завершится.\n\n8. Вы можете выбрать набор символов, а также проверяемый глаз на предыдущем экране описания теста.</string>
     <string name="testing_left_eye">Тест <font color="#FF3334"><b>левого</b></font> глаза</string>
     <string name="testing_right_eye">Тест <font color="#FF3334"><b>правого</b></font> глаза</string>
     <string name="close_left_eye">Аккуратно закройте рукой\n<font color="#FF3334"><b>левый</b></font> глаз</string>
@@ -94,6 +94,7 @@
     <string name="cant_answer">Не могу ответить</string>
     <string name="acuity_info_before_symbol_show">Отдалите смартфон на расстояние вытянутой руки и нажмите на кнопку</string>
     <string name="continue_string">Продолжить</string>
+    <string name="test_cancel_header">Выход из теста</string>
     <string name="test_cancel_message">Вы уверены, что хотите прервать прохождение теста? Текущий прогресс будет потерян.</string>
     <string name="exit">Выйти</string>
     <string name="day_part_dialog_message">Выберите, какая сейчас часть вашего периода активности. Для большинства людей это соответственно утро, день или вечер.</string>
@@ -104,7 +105,8 @@
     <string name="day">День</string>
     <string name="evening">Вечер</string>
     <string name="auto_day_part_configure_invitation">Или настройте автоматический выбор по расписанию</string>
-    <string name="astigmatism_description">Этот тест поможет определить наличие у вас астигматизма.\n\n<font color="#FF3334"><b>Внимание!</b></font>\nВо время теста держите телефон на расстоянии вытянутой руки.\nТест проходится по очереди для обоих глаз. Сначала закройте рукой один глаз и посмотрите на изображение. Затем повторите это для другого глаза. Ответьте на соответствующие вопросы в конце теста.</string>
+    <string name="astigmatism_description">Этот тест поможет определить наличие у вас астигматизма.</string>
+    <string name="astigmatism_description_warning"><font color="#FF3334"><b>Внимание!</b></font>\nВо время теста держите телефон на расстоянии вытянутой руки.\nТест проходится по очереди для обоих глаз. Сначала закройте рукой один глаз и посмотрите на изображение. Затем повторите это для другого глаза. Ответьте на соответствующие вопросы в конце теста.</string>
     <string name="astigmatism_answer_ok">Лучи начинают сливаться ровно на половине своей длины; граница искажения идеально круглая</string>
     <string name="astigmatism_answer_all_gray">Изображение сливается в сплошную серую массу</string>
     <string name="astigmatism_answer_distortions">Лучи расплываются, пересекаются или переходят в негатив; граница искажения отличается от круглой</string>
@@ -113,19 +115,19 @@
     <string name="settings_testing">Настройки тестирования</string>
     <string name="scaling">Масштабирование</string>
     <string name="or_string">или</string>
-    <string name="current_arms_length">установленное значение длины вашей руки</string>
+    <string name="current_arms_length">установленное значение длины вашей руки. Измерьте длину своей руки, а затем введите ее, нажав на кнопку ниже. В качестве альтернативы вы можете ввести свой рост, тогда длина руки будет расчитана из него по формуле.</string>
     <string name="centimeters_short">см</string>
-    <string name="enter_arms_length">Ввести длину руки</string>
-    <string name="enter_body_height">Ввести рост</string>
+    <string name="arms_length">Длина руки</string>
+    <string name="body_height">Рост</string>
     <string name="testing_time">Время тестирования</string>
     <string name="replace_beginning_with_morning">Заменить \"начало/середина/конец\" на \"утро/день/вечер\"</string>
     <string name="day_part_auto_selection">Автоматически выбирать период активности</string>
     <string name="input_arms_length">Введите длину вашей руки в сантиметрах</string>
     <string name="input_body_height">Введите ваш рост в сантиметрах</string>
-    <string name="current_scale_message">Измерьте красную линию ниже линейкой и введите полученный результат. Установленное значение</string>
-    <string name="enter_line_length">Ввести длину линии</string>
+    <string name="current_scale_message">Измерьте красную линию ниже линейкой и введите полученный результат. Текущее значение</string>
+    <string name="change_value">Изменить</string>
     <string name="input_line_length">Введите длину красной линии в сантиметрах</string>
-    <string name="reset_scale">Сбросить масштаб</string>
+    <string name="reset">Сбросить</string>
     <string name="journal_is_empty">Журнал пуст</string>
     <string name="error">Ошибка</string>
     <string name="symbols_letters_ru">таблица Сивцева</string>
@@ -144,7 +146,7 @@
     <string name="feedback_email">Email для обратной связи</string>
     <string name="developer_name">Разработчик: Тярт Никита / RznNike</string>
     <string name="write_on_email">Написать на почту</string>
-    <string name="clear">Очистить</string>
+    <string name="clear_all">Очистить всё</string>
     <string name="by_date">По дате</string>
     <string name="by_type">По типу</string>
     <string name="clear_journal">Очистить журнал</string>
@@ -153,13 +155,15 @@
     <string name="clear_journal_dialog_message">ВНИМАНИЕ! Все результаты тестирования будут удалены из журнала. Вы уверены, что хотите продолжить?</string>
     <string name="delete">Удалить</string>
     <string name="clear_journal_success">Журнал успешно очищен</string>
-    <string name="path_to_backups_folder">Путь до папки с резервными копиями</string>
-    <string name="path_to_backup_folder">Путь до папки с резервной копией</string>
+    <string name="backups_folder">Расположение резервных копий</string>
+    <string name="backup_folder">Расположение резервной копии</string>
+    <string name="folder_not_selected">Папка не выбрана</string>
     <string name="open_folder">Открыть папку</string>
     <string name="open_file">Открыть файл</string>
-    <string name="select_folder">Выбрать папку</string>
-    <string name="successful_export">Журнал был успешно экспортирован в папку</string>
-    <string name="backups_availability">Наличие бекапов в папке</string>
+    <string name="select">Выбрать</string>
+    <string name="open">Открыть</string>
+    <string name="successful_export">Журнал был успешно экспортирован в папку:</string>
+    <string name="backups_availability">Наличие данных в папке</string>
     <string name="successful_import">Журнал был успешно импортирован</string>
     <string name="delete_duplicates">Удалить дубли в журнале</string>
     <string name="duplicates_successfully_deleted">Дубли в журнале успешно удалены</string>
@@ -208,4 +212,5 @@
     <string name="source_code">Исходный код</string>
     <string name="about_app_message">Это приложение - проект с открытым исходным кодом, написанный одним человеком на безвозмездной основе. Обо всех проблемах и пожеланиях вы можете писать на почту. Ниже расположена ссылка на репозиторий с исходным кодом.</string>
     <string name="error_export">Во время экспорта произошла ошибка</string>
+    <string name="description">Описание</string>
 </resources>
