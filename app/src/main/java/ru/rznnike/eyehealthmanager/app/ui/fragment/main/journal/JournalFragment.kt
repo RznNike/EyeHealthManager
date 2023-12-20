@@ -5,6 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
@@ -260,13 +262,13 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 }
 
                 recyclerViewFilterTypes.apply {
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    layoutManager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
                     adapter = adapterTestType
                     itemAnimator = null
                     addItemDecoration(
                         EmptyDividerDecoration(
                             context = requireContext(),
-                            cardInsets = R.dimen.baseline_grid_8,
+                            cardInsets = R.dimen.baseline_grid_4,
                             applyOutsideDecoration = false
                         )
                     )
@@ -274,10 +276,6 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
 
                 updateTestTypes()
 
-                buttonDialogClearFilters.setOnClickListener {
-                    presenter.clearFilter()
-                    dialog.dismiss()
-                }
                 checkBoxFilterByDate.setOnClickListener {
                     newFilter.filterByDate = checkBoxFilterByDate.isChecked
                 }
@@ -317,7 +315,11 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                     }
                 }
 
-                buttonDialogApply.setOnClickListener {
+                buttonClearFilters.setOnClickListener {
+                    presenter.clearFilter()
+                    dialog.dismiss()
+                }
+                buttonApplyFilters.setOnClickListener {
                     presenter.onFilterChanged(newFilter)
                     dialog.dismiss()
                 }
