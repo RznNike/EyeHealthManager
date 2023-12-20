@@ -9,7 +9,7 @@ buildscript {
         set("kotlinVersion", "1.9.0")
         set("coroutinesVersion", "1.7.3")
         set("objectboxVersion", "3.7.1")
-        set("koinVersion", "3.5.0")
+        set("koinVersion", "3.5.3")
     }
 
     repositories {
