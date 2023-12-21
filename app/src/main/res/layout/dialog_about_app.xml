@@ -31,17 +31,10 @@
             android:text="@string/app_name"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewDialogVersion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            tools:text="1.0.0.1"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewDialogDeveloper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/developer_name"/>
 
         <Space

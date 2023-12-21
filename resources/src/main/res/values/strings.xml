@@ -236,4 +236,5 @@
     <string name="about_app_message">This application is an open source project written by one person for free. You can write about all problems and wishes by email. Below is a link to the source code repository.</string>
     <string name="error_export">An error occurred during export</string>
     <string name="description">Description</string>
+    <string name="dev_menu">Dev menu</string>
 </resources>

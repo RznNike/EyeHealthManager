@@ -19,6 +19,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.restartApp
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
@@ -61,10 +62,13 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             buttonClearJournal,
             buttonLanguage,
             buttonAboutApp,
-            buttonChangelog
+            buttonChangelog,
+            buttonDevMenu
         ).forEach {
             it.setScaleOnTouch()
         }
+        textViewAppVersion.text = BuildConfig.VERSION_NAME
+        buttonDevMenu.setVisible(BuildConfig.DEBUG)
     }
 
     private fun initOnClickListeners() = binding.apply {
@@ -91,6 +95,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         }
         buttonChangelog.setOnClickListener {
             showChangelogDialog()
+        }
+        buttonDevMenu.setOnClickListener {
+            showDevMenuDialog()
         }
     }
 
@@ -144,7 +151,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
                 .setCancelable(true)
                 .create()
 
-            textViewDialogVersion.text = BuildConfig.VERSION_NAME
             buttonDialogEmail.setOnClickListener {
                 dialog.dismiss()
                 routerStartFlow(
@@ -178,5 +184,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
 
             dialog.show()
         }
+    }
+
+    private fun showDevMenuDialog() {
+        // TODO
     }
 }
