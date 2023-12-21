@@ -9,6 +9,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultUseCase
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
+import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 
 @InjectViewState
 class AnalysisResultPresenter(
@@ -25,10 +26,14 @@ class AnalysisResultPresenter(
                 {
                     viewState.populateData(it)
                 }, { error ->
-                    errorHandler.proceed(error) {
-                        notifier.sendMessage(it)
-                        viewState.routerFinishFlow()
+                    if (error is NotEnoughDataException) {
+                        viewState.showNotEnoughDataMessage()
+                    } else {
+                        errorHandler.proceed(error) {
+                            notifier.sendMessage(it)
+                        }
                     }
+                    viewState.routerFinishFlow()
                 }
             )
             viewState.setProgress(false)

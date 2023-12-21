@@ -208,7 +208,6 @@
     <string name="eyes_vision_difference">The difference in visual acuity between eyes is %.2f.</string>
     <string name="left_eye_extrapolation">Left eye (forecast)</string>
     <string name="right_eye_extrapolation">Right eye (forecast)</string>
-    <string name="not_enough_data_exception">Insufficient data</string>
     <string name="add_doctor_test_results">Add doctor\'s test results</string>
     <string name="doctor_test_results">Doctor\'s test results</string>
     <string name="doctor_test_results_message">Enter the results of your visual acuity test by the doctor</string>
@@ -237,4 +236,6 @@
     <string name="error_export">An error occurred during export</string>
     <string name="description">Description</string>
     <string name="dev_menu">Dev menu</string>
+    <string name="not_enough_data_analysis_header">Insufficient data</string>
+    <string name="not_enough_data_analysis_message">To analyze statistical data, it is necessary to take at least 10 measurements of visual acuity. These measurements should be made over a period of 6 to 90 days.</string>
 </resources>

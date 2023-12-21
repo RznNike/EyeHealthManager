@@ -185,7 +185,6 @@
     <string name="eyes_vision_difference">Разница в остроте зрения между глазами равна %.2f.</string>
     <string name="left_eye_extrapolation">Левый глаз (прогноз)</string>
     <string name="right_eye_extrapolation">Правый глаз (прогноз)</string>
-    <string name="not_enough_data_exception">Недостаточно данных</string>
     <string name="add_doctor_test_results">Добавить результаты проверки у врача</string>
     <string name="doctor_test_results">Результаты проверки у врача</string>
     <string name="doctor_test_results_message">Введите результаты проверки остроты зрения у врача</string>
@@ -213,4 +212,6 @@
     <string name="error_export">Во время экспорта произошла ошибка</string>
     <string name="description">Описание</string>
     <string name="dev_menu">Меню разработчика</string>
+    <string name="not_enough_data_analysis_header">Недостаточно данных</string>
+    <string name="not_enough_data_analysis_message">Для проведения анализа статистических данных необходимо сделать как минимум 10 измерений остроты зрения. Эти замеры должны быть сделаны за период от 6 до 90 дней.</string>
 </resources>

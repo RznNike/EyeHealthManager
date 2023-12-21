@@ -16,6 +16,9 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.rznnike.eyehealthmanager.R
+import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogAction
+import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogParameters
+import ru.rznnike.eyehealthmanager.app.dialog.showAlertDialog
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.analysis.result.AnalysisResultPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.analysis.result.AnalysisResultView
@@ -266,6 +269,19 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
             }
         }
         legend.isWordWrapEnabled = true
+    }
+
+    override fun showNotEnoughDataMessage() {
+        showAlertDialog(
+            parameters = AlertDialogParameters.VERTICAL_1_OPTION_ACCENT,
+            header = getString(R.string.not_enough_data_analysis_header),
+            message = getString(R.string.not_enough_data_analysis_message),
+            actions = listOf(
+                AlertDialogAction(getString(R.string.ok)) {
+                    it.dismiss()
+                }
+            )
+        )
     }
 
     companion object {
