@@ -214,4 +214,8 @@
     <string name="dev_menu">Меню разработчика</string>
     <string name="not_enough_data_analysis_header">Недостаточно данных</string>
     <string name="not_enough_data_analysis_message">Для проведения анализа статистических данных необходимо сделать как минимум 10 измерений остроты зрения. Эти замеры должны быть сделаны за период от 6 до 90 дней.</string>
+    <string name="generate_good_vision">Сгенерировать хорошее зрение</string>
+    <string name="generate_average_vision">Сгенерировать среднее зрение</string>
+    <string name="generate_bad_vision">Сгенерировать плохое зрение</string>
+    <string name="generate_other_tests">Сгенерировать другие тесты</string>
 </resources>

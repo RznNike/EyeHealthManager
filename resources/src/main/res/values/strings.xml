@@ -238,4 +238,8 @@
     <string name="dev_menu">Dev menu</string>
     <string name="not_enough_data_analysis_header">Insufficient data</string>
     <string name="not_enough_data_analysis_message">To analyze statistical data, it is necessary to take at least 10 measurements of visual acuity. These measurements should be made over a period of 6 to 90 days.</string>
+    <string name="generate_good_vision">Generate good vision</string>
+    <string name="generate_average_vision">Generate average vision</string>
+    <string name="generate_bad_vision">Generate bad vision</string>
+    <string name="generate_other_tests">Generate other tests</string>
 </resources>

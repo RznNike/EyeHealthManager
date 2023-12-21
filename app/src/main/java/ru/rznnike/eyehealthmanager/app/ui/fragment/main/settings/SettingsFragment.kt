@@ -22,7 +22,9 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
+import ru.rznnike.eyehealthmanager.databinding.DialogDevMenuBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
+import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 
@@ -187,6 +189,30 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
     }
 
     private fun showDevMenuDialog() {
-        // TODO
+        DialogDevMenuBinding.inflate(layoutInflater).apply {
+            val dialog = AlertDialog.Builder(requireContext(), R.style.AppTheme_Dialog_Alert)
+                .setView(root)
+                .setCancelable(true)
+                .create()
+
+            buttonDialogGenerateGoodVision.setOnClickListener {
+                presenter.generateData(DataGenerationType.GOOD_VISION)
+                dialog.dismiss()
+            }
+            buttonDialogGenerateAverageVision.setOnClickListener {
+                presenter.generateData(DataGenerationType.AVERAGE_VISION)
+                dialog.dismiss()
+            }
+            buttonDialogGenerateBadVision.setOnClickListener {
+                presenter.generateData(DataGenerationType.BAD_VISION)
+                dialog.dismiss()
+            }
+            buttonDialogGenerateOtherTests.setOnClickListener {
+                presenter.generateData(DataGenerationType.OTHER_TESTS)
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
     }
 }
