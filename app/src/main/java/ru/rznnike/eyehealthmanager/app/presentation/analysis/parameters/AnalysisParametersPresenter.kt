@@ -5,11 +5,15 @@ import moxy.InjectViewState
 import moxy.presenterScope
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.app.Screens
+import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
+import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetApplyDynamicCorrectionsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetApplyDynamicCorrectionsUseCase
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
+import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
@@ -18,8 +22,11 @@ import java.util.*
 
 @InjectViewState
 class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
+    private val errorHandler: ErrorHandler by inject()
+    private val notifier: Notifier by inject()
     private val getApplyDynamicCorrectionsUseCase: GetApplyDynamicCorrectionsUseCase by inject()
     private val setApplyDynamicCorrectionsUseCase: SetApplyDynamicCorrectionsUseCase by inject()
+    private val getAnalysisResultUseCase: GetAnalysisResultUseCase by inject()
 
     private val parameters = AnalysisParameters()
 
@@ -69,5 +76,26 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
         }
     }
 
-    fun startAnalysis() = viewState.routerNewRootScreen(Screens.Screen.analysisResult(parameters))
+    fun startAnalysis() {
+        presenterScope.launch {
+            viewState.setProgress(true)
+            getAnalysisResultUseCase(parameters).process(
+                { result ->
+                    viewState.routerNewRootScreen(
+                        Screens.Screen.analysisResult(result)
+                    )
+                }, { error ->
+                    if (error is NotEnoughDataException) {
+                        viewState.showNotEnoughDataMessage()
+                    } else {
+                        errorHandler.proceed(error) {
+                            notifier.sendMessage(it)
+                        }
+                    }
+                    viewState.routerFinishFlow()
+                }
+            )
+            viewState.setProgress(false)
+        }
+    }
 }

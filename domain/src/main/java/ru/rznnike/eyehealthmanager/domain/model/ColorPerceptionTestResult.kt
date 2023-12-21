@@ -1,16 +1,19 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import ru.rznnike.eyehealthmanager.domain.utils.toTimeStamp
 import java.text.ParseException
 
+@Parcelize
 class ColorPerceptionTestResult(
-    id: Long = 0,
-    timestamp: Long,
+    override var id: Long = 0,
+    override var timestamp: Long = 0,
     val recognizedColorsCount: Int,
     val allColorsCount: Int
-) : TestResult(id, timestamp) {
+) : TestResult(id, timestamp), Parcelable {
     override fun exportToString() =
         "%s\t%d\t%d".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),

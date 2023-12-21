@@ -1,17 +1,20 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import ru.rznnike.eyehealthmanager.domain.utils.toTimeStamp
 import java.text.ParseException
 
+@Parcelize
 class DaltonismTestResult(
-    id: Long = 0,
-    timestamp: Long,
+    override var id: Long = 0,
+    override var timestamp: Long = 0,
     val errorsCount: Int,
     val anomalyType: DaltonismAnomalyType
-) : TestResult(id, timestamp) {
+) : TestResult(id, timestamp), Parcelable {
     override fun exportToString() =
         "%s\t%d\t%s".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),

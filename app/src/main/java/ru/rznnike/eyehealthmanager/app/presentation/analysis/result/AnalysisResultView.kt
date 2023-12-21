@@ -7,11 +7,5 @@ import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 
 interface AnalysisResultView : NavigationMvpView {
     @AddToEndSingle
-    fun setProgress(show: Boolean, immediately: Boolean = true)
-
-    @AddToEndSingle
     fun populateData(analysisResult: AnalysisResult)
-
-    @OneExecution
-    fun showNotEnoughDataMessage()
 }

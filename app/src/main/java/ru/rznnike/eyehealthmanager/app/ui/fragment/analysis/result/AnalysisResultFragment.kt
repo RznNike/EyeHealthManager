@@ -16,15 +16,18 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.rznnike.eyehealthmanager.R
-import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogAction
-import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogParameters
-import ru.rznnike.eyehealthmanager.app.dialog.showAlertDialog
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.analysis.result.AnalysisResultPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.analysis.result.AnalysisResultView
 import ru.rznnike.eyehealthmanager.app.ui.item.TestResultItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
-import ru.rznnike.eyehealthmanager.app.utils.extensions.*
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
+import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getParcelableArg
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getString
+import ru.rznnike.eyehealthmanager.app.utils.extensions.resources
+import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.databinding.FragmentAnalysisResultBinding
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisStatistics
@@ -41,7 +44,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
 
     @ProvidePresenter
     fun providePresenter() = AnalysisResultPresenter(
-        parameters = getParcelableArg(PARAMETERS)!!
+        result = getParcelableArg(RESULT)!!
     )
 
     private val binding by viewBinding(FragmentAnalysisResultBinding::bind)
@@ -52,12 +55,6 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
     private var xAxisMinimum = Float.MAX_VALUE
     private var xAxisMaximum = Float.MIN_VALUE
     private var yAxisMaximum = Float.MIN_VALUE
-
-    override var progressCallback: ((Boolean) -> Unit)? = { show ->
-        binding.apply {
-            progressView.setProgress(show)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -271,20 +268,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
         legend.isWordWrapEnabled = true
     }
 
-    override fun showNotEnoughDataMessage() {
-        showAlertDialog(
-            parameters = AlertDialogParameters.VERTICAL_1_OPTION_ACCENT,
-            header = getString(R.string.not_enough_data_analysis_header),
-            message = getString(R.string.not_enough_data_analysis_message),
-            actions = listOf(
-                AlertDialogAction(getString(R.string.ok)) {
-                    it.dismiss()
-                }
-            )
-        )
-    }
-
     companion object {
-        const val PARAMETERS = "PARAMETERS"
+        const val RESULT = "RESULT"
     }
 }

@@ -188,6 +188,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
+        <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
+            android:id="@+id/progressView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:elevation="4dp"
+            app:pv_background="@color/colorBackground"
+            app:pv_progress_color="@color/colorAccent"
+            app:pv_text_color="@color/colorAccent"
+            app:pv_text="@string/please_wait"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutToolbarContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

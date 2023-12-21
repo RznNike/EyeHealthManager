@@ -1,42 +1,14 @@
 package ru.rznnike.eyehealthmanager.app.presentation.analysis.result
 
-import kotlinx.coroutines.launch
 import moxy.InjectViewState
-import moxy.presenterScope
-import org.koin.core.component.inject
-import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
-import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
-import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
+import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 
 @InjectViewState
 class AnalysisResultPresenter(
-    private val parameters: AnalysisParameters
+    private val result: AnalysisResult
 ) : BasePresenter<AnalysisResultView>() {
-    private val errorHandler: ErrorHandler by inject()
-    private val notifier: Notifier by inject()
-    private val getAnalysisResultUseCase: GetAnalysisResultUseCase by inject()
-
     override fun onFirstViewAttach() {
-        presenterScope.launch {
-            viewState.setProgress(true)
-            getAnalysisResultUseCase(parameters).process(
-                {
-                    viewState.populateData(it)
-                }, { error ->
-                    if (error is NotEnoughDataException) {
-                        viewState.showNotEnoughDataMessage()
-                    } else {
-                        errorHandler.proceed(error) {
-                            notifier.sendMessage(it)
-                        }
-                    }
-                    viewState.routerFinishFlow()
-                }
-            )
-            viewState.setProgress(false)
-        }
+        viewState.populateData(result)
     }
 }
