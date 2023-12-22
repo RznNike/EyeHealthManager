@@ -35,8 +35,8 @@ class DevGatewayImpl(
                 rightEyeTrend = LinearFunction(0.0, 0.95)
             )
             DataGenerationType.BAD_VISION -> generateAcuityTests(
-                leftEyeTrend = LinearFunction(-0.003, 0.7),
-                rightEyeTrend = LinearFunction(-0.004, 0.7)
+                leftEyeTrend = LinearFunction(-0.002, 0.7),
+                rightEyeTrend = LinearFunction(-0.003, 0.7)
             )
             DataGenerationType.OTHER_TESTS -> generateOtherTests()
         }

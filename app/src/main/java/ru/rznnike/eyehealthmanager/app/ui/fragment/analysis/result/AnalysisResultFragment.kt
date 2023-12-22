@@ -23,6 +23,7 @@ import ru.rznnike.eyehealthmanager.app.ui.item.TestResultItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
+import ru.rznnike.eyehealthmanager.app.utils.extensions.context
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.app.utils.extensions.getParcelableArg
 import ru.rznnike.eyehealthmanager.app.utils.extensions.getString
@@ -95,7 +96,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
             addItemDecoration(
                 EmptyDividerDecoration(
                     context = requireContext(),
-                    cardInsets = R.dimen.baseline_grid_16,
+                    cardInsets = R.dimen.baseline_grid_8,
                     applyOutsideDecoration = false
                 )
             )
@@ -165,7 +166,12 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
                 .toHtmlSpanned()
 
             itemAdapter.setNewList(
-                analysisResult.testResults.map { TestResultItem(it) }
+                analysisResult.testResults.map {
+                    TestResultItem(
+                        testResult = it,
+                        scalable = false
+                    )
+                }
             )
         }
     }
@@ -208,9 +214,9 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
             entries,
             getString(baseHeaderResId)
         ).apply {
-            color = getColor(baseColorResId)
-            setCircleColor(getColor(R.color.colorTransparent))
-            circleHoleColor = getColor(baseColorResId)
+            color = context.getColor(baseColorResId)
+            setCircleColor(context.getColor(R.color.colorTransparent))
+            circleHoleColor = context.getColor(baseColorResId)
         }
         chartVisionDynamic.data.addDataSet(baseDataSet)
 
@@ -231,9 +237,9 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
                 extrapolationEntries,
                 getString(extrapolationHeaderResId)
             ).apply {
-                color = getColor(extrapolationColorResId)
-                setCircleColor(getColor(R.color.colorTransparent))
-                circleHoleColor = getColor(extrapolationColorResId)
+                color = context.getColor(extrapolationColorResId)
+                setCircleColor(context.getColor(R.color.colorTransparent))
+                circleHoleColor = context.getColor(extrapolationColorResId)
             }
             chartVisionDynamic.data.addDataSet(extrapolationDataSet)
 
@@ -258,7 +264,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
             axisMaximum = xAxisMaximum
             setDrawGridLines(true)
             position = XAxis.XAxisPosition.BOTTOM
-            labelRotationAngle = -60f
+            labelRotationAngle = -45f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return value.toLong().toDate()

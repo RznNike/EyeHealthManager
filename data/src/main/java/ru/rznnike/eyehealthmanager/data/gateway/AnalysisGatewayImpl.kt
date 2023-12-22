@@ -304,7 +304,8 @@ class AnalysisGatewayImpl(
             currentGroup = currentGroup ?: AcuityTestResultGroup(
                 dateFrom = item.timestamp,
                 dateTo = item.timestamp
-            ).apply {
+            )
+            currentGroup?.run {
                 values.add(item)
                 val groupIsFilled = ((values.size >= GROUPING_MIN_SIZE) && ((item.timestamp - dateFrom) >= GROUPING_MIN_DATE_MS))
                         || ((item.timestamp - dateFrom) > GROUPING_MAX_DATE_MS)
