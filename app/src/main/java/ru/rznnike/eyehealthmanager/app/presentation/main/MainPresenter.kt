@@ -53,7 +53,7 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
     override fun onEvent(event: AppEvent) {
         when (event) {
             is AppEvent.JournalExported -> viewState.showSuccessfulExportDialog(event.uri)
-            is AppEvent.JournalImported -> viewState.showSuccessfulImportDialog(event.uri)
+            is AppEvent.JournalImported -> viewState.showSuccessfulImportDialog()
             is AppEvent.JournalDuplicatesDeletionRequested -> deleteDuplicatesInJournal()
             is AppEvent.JournalTotalDeletionRequested -> deleteJournal()
             else -> Unit

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,54 +19,51 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textAlignment="center"
-            android:text="@string/about_app"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewDialogAppName"
-            style="@style/AppTheme.TextView.Bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/app_name"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewDialogDeveloper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/developer_name"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewDialogMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/about_app_message"/>
+            android:text="@string/dev_menu"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="16dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonDialogEmail"
+            android:id="@+id/buttonDialogGenerateGoodVision"
             style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/feedback_email" />
+            android:text="@string/generate_good_vision" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="8dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonDialogSourceCode"
+            android:id="@+id/buttonDialogGenerateAverageVision"
             style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/source_code" />
+            android:text="@string/generate_average_vision" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonDialogGenerateBadVision"
+            style="@style/AppTheme.Button.Gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/generate_bad_vision" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonDialogGenerateOtherTests"
+            style="@style/AppTheme.Button.Gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/generate_other_tests" />
 
     </LinearLayout>
 

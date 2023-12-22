@@ -1,17 +1,20 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import ru.rznnike.eyehealthmanager.domain.utils.toTimeStamp
 import java.text.ParseException
 
+@Parcelize
 class NearFarTestResult(
-    id: Long = 0,
-    timestamp: Long,
+    override var id: Long = 0,
+    override var timestamp: Long = 0,
     val resultLeftEye: NearFarAnswerType? = null,
     val resultRightEye: NearFarAnswerType? = null
-) : TestResult(id, timestamp) {
+) : TestResult(id, timestamp), Parcelable {
     override fun exportToString() =
         "%s\t%s\t%s".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),

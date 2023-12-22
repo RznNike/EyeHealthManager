@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.app.di
 
 import org.koin.dsl.module
 import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.dev.GenerateDataUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.EmitShowNotificationUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveCancelNotificationUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveShowNotificationUseCase
@@ -47,4 +48,6 @@ val interactorModule = module {
     single { EmitShowNotificationUseCase(get(), get()) }
     single { ObserveShowNotificationUseCase(get(), get()) }
     single { ObserveCancelNotificationUseCase(get(), get()) }
+
+    single { GenerateDataUseCase(get(), get()) }
 }

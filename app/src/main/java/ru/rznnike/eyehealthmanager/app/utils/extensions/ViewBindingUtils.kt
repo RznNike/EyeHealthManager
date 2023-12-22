@@ -2,8 +2,6 @@ package ru.rznnike.eyehealthmanager.app.utils.extensions
 
 import android.content.Context
 import android.content.res.Resources
-import android.os.Handler
-import android.os.Looper
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

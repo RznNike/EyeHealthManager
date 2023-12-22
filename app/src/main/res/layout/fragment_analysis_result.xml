@@ -26,10 +26,12 @@
 
         </FrameLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
+            android:scrollbars="vertical"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
             app:layout_constraintTop_toBottomOf="@id/layoutToolbarContainer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -57,7 +59,10 @@
                     android:background="@drawable/bg_rounded_8"
                     android:backgroundTint="@color/colorBackgroundLight"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:paddingTop="4dp"
+                    android:paddingBottom="12dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="4dp">
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/chartVisionDynamic"
@@ -109,7 +114,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonClose"
@@ -120,20 +125,6 @@
             android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
-
-        <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
-            android:id="@+id/progressView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:elevation="4dp"
-            app:pv_background="@color/colorBackground"
-            app:pv_progress_color="@color/colorAccent"
-            app:pv_text_color="@color/colorAccent"
-            app:pv_text="@string/please_wait"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutToolbarContainer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

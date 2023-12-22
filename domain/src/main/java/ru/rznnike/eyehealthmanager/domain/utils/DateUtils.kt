@@ -12,10 +12,10 @@ import java.time.temporal.TemporalQueries
 import java.util.Calendar
 import java.util.Locale
 
-fun Long.toDate(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE) =
+fun Long.toDate(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE): String =
     SimpleDateFormat(pattern, Locale.getDefault()).format(this)
 
-fun Long.toLocalDate() = Instant.ofEpochMilli(this)
+fun Long.toLocalDate(): LocalDate = Instant.ofEpochMilli(this)
     .atZone(ZoneId.systemDefault())
     .toLocalDate()
 
@@ -44,7 +44,7 @@ fun String.toTimeStamp(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE_WIT
         }
     } else 0
 
-fun Long.toCalendar() = Calendar.getInstance().apply {
+fun Long.toCalendar(): Calendar = Calendar.getInstance().apply {
     timeInMillis = this@toCalendar
 }
 

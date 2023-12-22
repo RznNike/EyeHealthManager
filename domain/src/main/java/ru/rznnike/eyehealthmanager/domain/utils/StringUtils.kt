@@ -7,7 +7,7 @@ fun String.toBigDecimalOrNullSmart() =
     .replace(",", ".")
     .toBigDecimalOrNull()
 
-fun String.toBigDecimalSmart() = toBigDecimalOrNullSmart() ?: BigDecimal.ZERO
+fun String.toBigDecimalSmart(): BigDecimal = toBigDecimalOrNullSmart() ?: BigDecimal.ZERO
 
 fun String.toFloatOrNullSmart() =
     replace(" ", "")

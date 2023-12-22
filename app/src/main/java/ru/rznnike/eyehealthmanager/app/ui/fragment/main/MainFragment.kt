@@ -167,7 +167,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), MainView {
         )
     }
 
-    override fun showSuccessfulImportDialog(uri: Uri) {
+    override fun showSuccessfulImportDialog() {
         showAlertDialog(
             parameters = AlertDialogParameters.VERTICAL_2_OPTIONS_TOP_ACCENT,
             header = getString(R.string.import_string),

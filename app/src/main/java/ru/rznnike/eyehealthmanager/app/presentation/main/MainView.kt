@@ -13,7 +13,7 @@ interface MainView : NavigationMvpView {
     fun showSuccessfulExportDialog(uri: Uri)
 
     @OneExecution
-    fun showSuccessfulImportDialog(uri: Uri)
+    fun showSuccessfulImportDialog()
 
     @OneExecution
     fun showWelcomeDialog()

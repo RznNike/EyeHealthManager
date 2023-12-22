@@ -22,7 +22,8 @@ import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 
 class TestResultItem(
-    val testResult: TestResult
+    val testResult: TestResult,
+    val scalable: Boolean = true
 ) : BaseBindingItem<ItemTestResultBinding>() {
     override var identifier = testResult.id
 
@@ -71,7 +72,9 @@ class TestResultItem(
 
         textViewDate.text = testResult.timestamp.toDate(GlobalConstants.DATE_PATTERN_SIMPLE_WITH_TIME)
 
-        root.setScaleOnTouch()
+        if (scalable) {
+            root.setScaleOnTouch()
+        }
     }
 
     private fun ItemTestResultBinding.getAcuityTestDetails(testResult: AcuityTestResult): String {

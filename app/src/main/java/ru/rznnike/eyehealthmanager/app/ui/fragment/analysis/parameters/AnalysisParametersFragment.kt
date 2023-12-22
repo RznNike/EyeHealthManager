@@ -5,6 +5,9 @@ import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.presenter.InjectPresenter
 import ru.rznnike.eyehealthmanager.R
+import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogAction
+import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogParameters
+import ru.rznnike.eyehealthmanager.app.dialog.showAlertDialog
 import ru.rznnike.eyehealthmanager.app.dialog.showDatePicker
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.analysis.parameters.AnalysisParametersPresenter
@@ -21,6 +24,12 @@ class AnalysisParametersFragment : BaseFragment(R.layout.fragment_analysis_param
     lateinit var presenter: AnalysisParametersPresenter
 
     private val binding by viewBinding(FragmentAnalysisParametersBinding::bind)
+
+    override var progressCallback: ((Boolean) -> Unit)? = { show ->
+        binding.apply {
+            progressView.setProgress(show)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,5 +87,18 @@ class AnalysisParametersFragment : BaseFragment(R.layout.fragment_analysis_param
                 )
             }
         }
+    }
+
+    override fun showNotEnoughDataMessage() {
+        showAlertDialog(
+            parameters = AlertDialogParameters.VERTICAL_1_OPTION_ACCENT,
+            header = getString(R.string.not_enough_data_analysis_header),
+            message = getString(R.string.not_enough_data_analysis_message),
+            actions = listOf(
+                AlertDialogAction(getString(R.string.ok)) {
+                    it.dismiss()
+                }
+            )
+        )
     }
 }

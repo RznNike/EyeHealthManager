@@ -11,8 +11,10 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.domain.interactor.dev.GenerateDataUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetUserLanguageUseCase
+import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
 @InjectViewState
@@ -22,6 +24,7 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
     private val eventDispatcher: EventDispatcher by inject()
     private val getUserLanguageUseCase: GetUserLanguageUseCase by inject()
     private val setUserLanguageUseCase: SetUserLanguageUseCase by inject()
+    private val generateDataUseCase: GenerateDataUseCase by inject()
 
     fun onResume() {
         presenterScope.launch {
@@ -40,13 +43,8 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
                 {
                     delay(500)
                     viewState.updateUiLanguage()
-                }, { error ->
-                    errorHandler.proceed(error) {
-                        notifier.sendMessage(it)
-                    }
-                }
+                }, ::onError
             )
-            viewState.setProgress(true)
         }
     }
 
@@ -62,4 +60,20 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
 
     fun deleteDuplicatesInJournal() =
         eventDispatcher.sendEvent(AppEvent.JournalDuplicatesDeletionRequested)
+
+    fun generateData(type: DataGenerationType) {
+        presenterScope.launch {
+            viewState.setProgress(true)
+            generateDataUseCase(type).process(
+                { }, ::onError
+            )
+            eventDispatcher.sendEvent(AppEvent.JournalChanged)
+            viewState.setProgress(false)
+        }
+    }
+
+    private fun onError(error: Throwable) =
+        errorHandler.proceed(error) {
+            notifier.sendMessage(it)
+        }
 }

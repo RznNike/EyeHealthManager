@@ -46,6 +46,7 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFragment
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
+import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
@@ -169,9 +170,9 @@ object Screens {
         fun analysisParameters() = AnalysisParametersFragment::class.getFragmentScreen()
 
         fun analysisResult(
-            parameters: AnalysisParameters
+            result: AnalysisResult
         ) = AnalysisResultFragment::class.getFragmentScreen(
-            AnalysisResultFragment.PARAMETERS to parameters
+            AnalysisResultFragment.RESULT to result
         )
     }
 
