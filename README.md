@@ -1,5 +1,5 @@
-# <a name="file_start"></a>Eye Health Manager
-[English](https://github.com/RznNike/TestReadme?tab=readme-ov-file#file_start) | [Русский](/README.ru.md)
+# Eye Health Manager
+[English](https://github.com/RznNike/EyeHealthManager#readme) | [Русский](/README.ru.md)
 
 <img src="/readme_files/icon.png" alt="icon" width="200"/>
 

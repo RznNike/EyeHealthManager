@@ -1,5 +1,5 @@
 # Менеджер Здоровья Глаз
-[English](https://github.com/RznNike/TestReadme?tab=readme-ov-file#file_start) | [Русский](/README.ru.md)
+[English](https://github.com/RznNike/EyeHealthManager#readme) | [Русский](/README.ru.md)
 
 <img src="/readme_files/icon.png" alt="icon" width="200"/>
 
