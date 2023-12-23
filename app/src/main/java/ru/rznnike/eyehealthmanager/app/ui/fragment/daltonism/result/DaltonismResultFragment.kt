@@ -3,7 +3,6 @@ package ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.result
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -24,7 +23,7 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
     @ProvidePresenter
     fun providePresenter() = DaltonismResultPresenter(
         errorsCount = getIntArg(ERRORS_COUNT),
-        resultType = DaltonismAnomalyType.parseName(getStringArg(RESULT_TYPE)) ?: DaltonismAnomalyType.NONE
+        resultType = DaltonismAnomalyType[getStringArg(RESULT_TYPE)] ?: DaltonismAnomalyType.NONE
     )
 
     private val binding by viewBinding(FragmentDaltonismResultBinding::bind)
@@ -33,7 +32,8 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonClose.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()
@@ -62,11 +62,11 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
                 getString(resultType.nameResId)
             )
             if (resultType == DaltonismAnomalyType.NONE) {
-                textViewMessage.setInvisible()
-                textViewResult.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+                textViewResult.setTextColorRes(R.color.colorAccent)
+                textViewMessage.setGone()
             } else {
+                textViewResult.setTextColorRes(R.color.colorRed)
                 textViewMessage.setVisible()
-                textViewResult.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorRed))
             }
         }
     }

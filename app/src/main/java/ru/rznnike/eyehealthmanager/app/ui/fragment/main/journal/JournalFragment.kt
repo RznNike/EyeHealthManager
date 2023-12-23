@@ -5,9 +5,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.mikepenz.fastadapter.ClickListener
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
@@ -33,11 +33,13 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.BottomDialogJournalFiltersBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentJournalBinding
 import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
+import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
+import ru.rznnike.eyehealthmanager.domain.utils.toCalendar
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
-import java.util.*
 
 class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
     @InjectPresenter
@@ -60,6 +62,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             recyclerView.addSystemWindowInsetToPadding(top = true)
         }
         initRecyclerView()
+        initOnClickListeners()
     }
 
     private fun initAdapter() {
@@ -81,14 +84,13 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 }
             }
         }
-        adapter.onClickListener = object : ClickListener<IItem<*>> {
-            override fun invoke(v: View?, adapter: IAdapter<IItem<*>>, item: IItem<*>, position: Int): Boolean {
-                return if (item is TestResultItem) {
+        adapter.onClickListener = { _, _, item, _ ->
+            when (item) {
+                is TestResultItem -> {
                     showTestResultContextMenu(item.testResult)
                     true
-                } else {
-                    false
                 }
+                else -> false
             }
         }
     }
@@ -101,21 +103,28 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             addItemDecoration(
                 EmptyDividerDecoration(
                     context = requireContext(),
-                    cardInsets = R.dimen.baseline_grid_16
+                    cardInsets = R.dimen.baseline_grid_8,
+                    applyOutsideDecoration = false
                 )
             )
         }
     }
 
-    override fun populateData(data: List<TestResult>, filterParams: TestResultFilterParams) {
+    private fun initOnClickListeners() = binding.apply {
+        buttonTools.setOnClickListener {
+            showToolsDialog()
+        }
+    }
+
+    override fun populateData(data: List<TestResult>, filter: TestResultFilter) {
         binding.apply {
             itemAdapter.setNewList(data.map { TestResultItem(it) })
             zeroView.setVisible(data.isEmpty())
-            buttonActions.setOnClickListener {
-                showActionsDialog(filterParams)
+            buttonFilter.setOnClickListener {
+                showFilterDialog(filter)
             }
             imageViewFilterIcon.setVisible(
-                filterParams.filterByDate || filterParams.filterByType
+                filter.filterByDate || filter.filterByType
             )
         }
     }
@@ -186,7 +195,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
         )
     }
 
-    private fun showActionsDialog(filterParams: TestResultFilterParams) {
+    private fun showToolsDialog() {
         showBottomDialog(
             header = getString(R.string.choose_action),
             actions = listOf(
@@ -201,19 +210,12 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 BottomDialogAction(getString(R.string.import_string)) {
                     it.dismiss()
                     presenter.importData()
-                },
-                BottomDialogAction(
-                    text = getString(R.string.filters),
-                    selected = filterParams.filterByDate || filterParams.filterByType
-                ) {
-                    it.dismiss()
-                    showFilterDialog(filterParams)
                 }
             )
         )
     }
 
-    private fun showFilterDialog(filterParams: TestResultFilterParams) {
+    private fun showFilterDialog(filter: TestResultFilter) {
         BottomDialogJournalFiltersBinding.inflate(layoutInflater).apply {
             showCustomBottomDialog(
                 rootView = root,
@@ -222,7 +224,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
             ) { dialog ->
                 layoutDialogContent.addSystemWindowInsetToPadding(bottom = true)
 
-                val newFilterParams = filterParams.deepCopy()
+                val newFilter = filter.deepCopy()
 
                 val itemAdapterTestType: ItemAdapter<IItem<*>> = ItemAdapter()
                 val adapterTestType: FastAdapter<IItem<*>> = createFastAdapter(itemAdapterTestType)
@@ -230,22 +232,22 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
 
                 fun updateTestTypes() {
                     itemAdapterTestType.setNewList(
-                        TestType.values().map {
-                            TestTypeSmallItem(it).apply {
-                                isSelected = newFilterParams.selectedTestTypes.contains(it)
+                        TestType.entries.map {
+                            TestTypeSmallItem(it).also { item ->
+                                item.isSelected = newFilter.selectedTestTypes.contains(it)
                             }
                         }
                     )
-                    checkBoxFilterByType.isChecked = newFilterParams.filterByType
+                    checkBoxFilterByType.isChecked = newFilter.filterByType
                 }
 
                 fun onFilterTestTypeClick(testType: TestType) {
-                    if (newFilterParams.selectedTestTypes.contains(testType)) {
-                        newFilterParams.selectedTestTypes.remove(testType)
+                    if (newFilter.selectedTestTypes.contains(testType)) {
+                        newFilter.selectedTestTypes.remove(testType)
                     } else {
-                        newFilterParams.selectedTestTypes.add(testType)
+                        newFilter.selectedTestTypes.add(testType)
                     }
-                    newFilterParams.filterByType = newFilterParams.selectedTestTypes.isNotEmpty()
+                    newFilter.filterByType = newFilter.selectedTestTypes.isNotEmpty()
                     updateTestTypes()
                 }
 
@@ -260,13 +262,13 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                 }
 
                 recyclerViewFilterTypes.apply {
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    layoutManager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
                     adapter = adapterTestType
                     itemAnimator = null
                     addItemDecoration(
                         EmptyDividerDecoration(
                             context = requireContext(),
-                            cardInsets = R.dimen.baseline_grid_8,
+                            cardInsets = R.dimen.baseline_grid_4,
                             applyOutsideDecoration = false
                         )
                     )
@@ -274,71 +276,51 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
 
                 updateTestTypes()
 
-                buttonDialogClearFilters.setOnClickListener {
-                    presenter.clearFilter()
-                    dialog.dismiss()
-                }
                 checkBoxFilterByDate.setOnClickListener {
-                    newFilterParams.filterByDate = checkBoxFilterByDate.isChecked
+                    newFilter.filterByDate = checkBoxFilterByDate.isChecked
                 }
                 checkBoxFilterByType.setOnClickListener {
-                    newFilterParams.filterByType = checkBoxFilterByType.isChecked
+                    newFilter.filterByType = checkBoxFilterByType.isChecked
                 }
 
                 fun updateDates() {
-                    checkBoxFilterByDate.isChecked = newFilterParams.filterByDate
-                    buttonDateFrom.text = newFilterParams.dateFrom.toDate()
-                    buttonDateTo.text = newFilterParams.dateTo.toDate()
+                    checkBoxFilterByDate.isChecked = newFilter.filterByDate
+                    buttonDateFrom.text = newFilter.dateFrom.toDate()
+                    buttonDateTo.text = newFilter.dateTo.toDate()
                 }
                 updateDates()
 
                 buttonDateFrom.setOnClickListener {
                     showDatePicker(
-                        preselectedDate = newFilterParams.dateFrom
+                        preselectedDate = newFilter.dateFrom
                     ) { timestamp ->
-                        newFilterParams.dateFrom = timestamp
-                        if (newFilterParams.dateTo <= newFilterParams.dateFrom) {
-                            val calendar = Calendar.getInstance().apply {
-                                timeInMillis = timestamp
-                                set(Calendar.HOUR_OF_DAY, 23)
-                                set(Calendar.MINUTE, 59)
-                                set(Calendar.SECOND, 59)
-                                set(Calendar.MILLISECOND, 999)
-                            }
-                            newFilterParams.dateTo = calendar.timeInMillis
+                        newFilter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+                        if (newFilter.dateTo <= newFilter.dateFrom) {
+                            newFilter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
                         }
-                        newFilterParams.filterByDate = true
+                        newFilter.filterByDate = true
                         updateDates()
                     }
                 }
                 buttonDateTo.setOnClickListener {
                     showDatePicker(
-                        preselectedDate = newFilterParams.dateTo
+                        preselectedDate = newFilter.dateTo
                     ) { timestamp ->
-                        val calendar = Calendar.getInstance().apply {
-                            timeInMillis = timestamp
-                            set(Calendar.HOUR_OF_DAY, 23)
-                            set(Calendar.MINUTE, 59)
-                            set(Calendar.SECOND, 59)
-                            set(Calendar.MILLISECOND, 999)
+                        newFilter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+                        if (newFilter.dateTo <= newFilter.dateFrom) {
+                            newFilter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
                         }
-                        newFilterParams.dateTo = calendar.timeInMillis
-                        if (newFilterParams.dateTo <= newFilterParams.dateFrom) {
-                            calendar.apply {
-                                set(Calendar.HOUR_OF_DAY, 0)
-                                set(Calendar.MINUTE, 0)
-                                set(Calendar.SECOND, 0)
-                                set(Calendar.MILLISECOND, 0)
-                            }
-                            newFilterParams.dateFrom = calendar.timeInMillis
-                        }
-                        newFilterParams.filterByDate = true
+                        newFilter.filterByDate = true
                         updateDates()
                     }
                 }
 
-                buttonDialogApply.setOnClickListener {
-                    presenter.onFilterChanged(newFilterParams)
+                buttonClearFilters.setOnClickListener {
+                    presenter.clearFilter()
+                    dialog.dismiss()
+                }
+                buttonApplyFilters.setOnClickListener {
+                    presenter.onFilterChanged(newFilter)
                     dialog.dismiss()
                 }
             }

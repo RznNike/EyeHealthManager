@@ -8,7 +8,9 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.colorperception.info.ColorPerceptionInfoPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.colorperception.info.ColorPerceptionInfoView
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.databinding.FragmentColorPerceptionInfoBinding
 
 class ColorPerceptionInfoFragment : BaseFragment(R.layout.fragment_color_perception_info),
@@ -22,9 +24,11 @@ class ColorPerceptionInfoFragment : BaseFragment(R.layout.fragment_color_percept
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartTest.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
+        initViews()
         initOnClickListeners()
     }
 
@@ -36,12 +40,16 @@ class ColorPerceptionInfoFragment : BaseFragment(R.layout.fragment_color_percept
         }
     }
 
+    private fun initViews() = binding.apply {
+        buttonDaltonismTest.setScaleOnTouch()
+    }
+
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
-            presenter.onStart()
+            presenter.startTest()
         }
         buttonDaltonismTest.setOnClickListener {
-            presenter.onDaltonismTest()
+            presenter.openDaltonismTest()
         }
     }
 }

@@ -1,10 +1,10 @@
 package ru.rznnike.eyehealthmanager.data.storage.repository
 
 import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParams
+import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 
 interface TestRepository {
-    suspend fun getTests(params: TestResultPagingParams): List<TestResult>
+    suspend fun getTests(parameters: TestResultPagingParameters): List<TestResult>
 
     suspend fun getAllLastTests(): List<TestResult>
 

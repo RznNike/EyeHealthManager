@@ -36,7 +36,8 @@
             android:id="@+id/layoutColors"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginVertical="64dp"
+            android:paddingVertical="32dp"
+            android:paddingHorizontal="16dp"
             android:orientation="horizontal"
             android:visibility="invisible"
             tools:visibility="visible"
@@ -49,7 +50,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:src="@color/colorAccent" />
+                android:src="@drawable/bg_rounded_8"
+                tools:tint="@color/colorAccent" />
     
             <Space
                 android:layout_width="8dp"
@@ -60,7 +62,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:src="@color/colorRed"/>
+                android:src="@drawable/bg_rounded_8"
+                tools:tint="@color/colorRed"/>
             
         </LinearLayout>
         
@@ -70,7 +73,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/do_you_see_two_colors"
             app:layout_constraintBottom_toTopOf="@id/layoutControls"/>
         
@@ -90,7 +93,7 @@
                 android:text="@string/no"/>
     
             <Space
-                android:layout_width="16dp"
+                android:layout_width="8dp"
                 android:layout_height="match_parent" />
 
             <androidx.appcompat.widget.AppCompatButton

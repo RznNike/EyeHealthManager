@@ -10,6 +10,9 @@ class AstigmatismResultPresenter(
     private val answerRightEye: AstigmatismAnswerType
 ) : BasePresenter<AstigmatismResultView>() {
     override fun onFirstViewAttach() {
-        viewState.populateData(answerLeftEye, answerRightEye)
+        viewState.populateData(
+            answerLeftEye = answerLeftEye,
+            answerRightEye = answerRightEye
+        )
     }
 }

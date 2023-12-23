@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_4"
+    android:background="@drawable/bg_rounded_8"
     android:backgroundTint="@color/colorBackgroundLight"
     android:padding="16dp">
 
@@ -19,16 +18,34 @@
             style="@style/AppTheme.TextView.Bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
             android:textSize="18sp"
             android:textAlignment="center"
             android:text="@string/about_app"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewDialogAppName"
+            style="@style/AppTheme.TextView.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/app_name"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewDialogDeveloper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/developer_name"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewDialogMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Message"/>
+            android:text="@string/about_app_message"/>
 
         <Space
             android:layout_width="match_parent"
@@ -36,10 +53,21 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonDialogEmail"
+            style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/selector_button_gray"
             android:text="@string/feedback_email" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonDialogSourceCode"
+            style="@style/AppTheme.Button.Gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/source_code" />
 
     </LinearLayout>
 

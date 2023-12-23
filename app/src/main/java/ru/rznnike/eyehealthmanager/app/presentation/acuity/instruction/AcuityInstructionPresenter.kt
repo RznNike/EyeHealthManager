@@ -9,7 +9,5 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 class AcuityInstructionPresenter(
     private val dayPart: DayPart
 ) : BasePresenter<AcuityInstructionView>() {
-    fun onStart() {
-        viewState.routerNewRootScreen(Screens.Screen.acuityTest(dayPart))
-    }
+    fun startTest() = viewState.routerNewRootScreen(Screens.Screen.acuityTest(dayPart))
 }

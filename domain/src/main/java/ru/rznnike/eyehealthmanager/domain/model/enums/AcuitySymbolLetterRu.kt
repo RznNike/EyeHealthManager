@@ -17,5 +17,5 @@ enum class AcuitySymbolLetterRu(
 
     override fun getDrawableRes() = iconResId
 
-    override fun getTag() = toString()
+    override fun getId() = hashCode().toLong()
 }

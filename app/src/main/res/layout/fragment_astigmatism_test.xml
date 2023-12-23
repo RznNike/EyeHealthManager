@@ -30,7 +30,7 @@
             android:padding="16dp"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/two_eyes_test_disclaimer"/>
 
         <Space

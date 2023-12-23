@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_4"
+    android:background="@drawable/bg_rounded_8"
     android:backgroundTint="@color/colorBackgroundLight"
     android:scrollbars="none">
 
@@ -34,16 +33,15 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="24dp" />
+            android:layout_height="16dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewDialogMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:paddingBottom="24dp"
+            android:paddingBottom="16dp"
             android:textSize="14sp"
-            android:textColor="@color/colorTextDark"
             android:textAlignment="center"
             android:visibility="gone"
             tools:visibility="visible"
@@ -58,26 +56,26 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="12dp" />
+            android:layout_height="8dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonDialogSecondAction"
+            style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            app:backgroundTint="@color/selector_button_gray"
             tools:text="Second" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="12dp" />
+            android:layout_height="8dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonDialogThirdAction"
+            style="@style/AppTheme.Button.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            app:backgroundTint="@color/selector_button_gray"
             tools:text="Third" />
 
         <Space

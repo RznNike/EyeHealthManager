@@ -11,7 +11,7 @@ private const val ACUITY_SYMBOLS_TYPE = "ACUITY_SYMBOLS_TYPE_1"
 private const val TEST_EYES_TYPE = "TEST_EYES_TYPE_1"
 private const val DOTS_PER_MILLIMETER = "DOTS_PER_MILLIMETER"
 private const val ARMS_LENGTH = "ARMS_LENGTH"
-private const val ARMS_LENGTH_DEFAULT = 800
+private const val ARMS_LENGTH_DEFAULT = 800 // mm
 private const val REPLACE_BEGINNING_WITH_MORNING = "REPLACE_BEGINNING_WITH_MORNING"
 private const val ENABLE_AUTO_DAY_PART = "ENABLE_AUTO_DAY_PART"
 private const val TIME_TO_DAY_BEGINNING = "TIME_TO_DAY_BEGINNING"
@@ -46,7 +46,7 @@ class PreferencesWrapper(private val preferences: FlowSharedPreferences) {
         get() = preferences.getLong(TIME_TO_DAY_MIDDLE, TIME_TO_DAY_MIDDLE_DEFAULT)
     val timeToDayEnd: Preference<Long>
         get() = preferences.getLong(TIME_TO_DAY_END, TIME_TO_DAY_END_DEFAULT)
-    val applyDynamicCorrectionsInAnalysis: Preference<Boolean>
+    val applyDynamicCorrections: Preference<Boolean>
         get() = preferences.getBoolean(APPLY_DYNAMIC_CORRECTIONS_IN_ANALYSIS, true)
     val welcomeDialogShowed: Preference<Boolean>
         get() = preferences.getBoolean(WELCOME_DIALOG_SHOWED, false)

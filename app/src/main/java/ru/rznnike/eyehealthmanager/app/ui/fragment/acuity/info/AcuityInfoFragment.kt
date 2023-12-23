@@ -9,7 +9,6 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import moxy.presenter.InjectPresenter
-import net.cachapa.expandablelayout.ExpandableLayout
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.info.AcuityInfoPresenter
@@ -17,10 +16,12 @@ import ru.rznnike.eyehealthmanager.app.presentation.acuity.info.AcuityInfoView
 import ru.rznnike.eyehealthmanager.app.ui.item.EyesTypeItem
 import ru.rznnike.eyehealthmanager.app.ui.item.SymbolsTypeItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.databinding.DialogDayPartSelectionBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityInfoBinding
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
@@ -46,10 +47,10 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartTest.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
-        initViews()
         initRecyclerViews()
         initOnClickListeners()
     }
@@ -122,22 +123,9 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
         }
     }
 
-    private fun initViews() = binding.apply {
-        expandableLayoutSettings.setOnExpansionUpdateListener { _, state ->
-            listOf(imageViewSettingsArrow1, imageViewSettingsArrow2).forEach {
-                it.setImageResource(
-                    if (state == ExpandableLayout.State.EXPANDED) R.drawable.ic_arrow_button_down else R.drawable.ic_arrow_button_up
-                )
-            }
-        }
-    }
-
     private fun initOnClickListeners() = binding.apply {
         buttonStartTest.setOnClickListener {
             presenter.onPrepareToStartTest()
-        }
-        buttonTestSettings.setOnClickListener {
-            expandableLayoutSettings.toggle()
         }
         buttonScaleSettings.setOnClickListener {
             presenter.onScaleSettings()
@@ -147,21 +135,18 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
         }
     }
 
-    override fun populateData(
-        symbolsType: AcuityTestSymbolsType,
-        eyesType: TestEyesType
-    ) {
+    override fun populateData(acuitySettings: AcuityTestingSettings) {
         itemAdapterSymbolsType.setNewList(
-            AcuityTestSymbolsType.values().map {
+            AcuityTestSymbolsType.entries.map {
                 SymbolsTypeItem(it).also { item ->
-                    item.isSelected = item.symbolsType == symbolsType
+                    item.isSelected = item.symbolsType == acuitySettings.symbolsType
                 }
             }
         )
         itemAdapterEyesType.setNewList(
-            TestEyesType.values().map {
+            TestEyesType.entries.map {
                 EyesTypeItem(it).also { item ->
-                    item.isSelected = item.eyesType == eyesType
+                    item.isSelected = item.eyesType == acuitySettings.eyesType
                 }
             }
         )
@@ -179,7 +164,7 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
             )
             buttonDialogBeginning.setOnClickListener {
                 dialog.dismiss()
-                presenter.onStart(DayPart.BEGINNING)
+                presenter.startTest(DayPart.BEGINNING)
             }
 
             buttonDialogMiddle.setText(
@@ -187,7 +172,7 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
             )
             buttonDialogMiddle.setOnClickListener {
                 dialog.dismiss()
-                presenter.onStart(DayPart.MIDDLE)
+                presenter.startTest(DayPart.MIDDLE)
             }
 
             buttonDialogEnd.setText(
@@ -195,7 +180,7 @@ class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityIn
             )
             buttonDialogEnd.setOnClickListener {
                 dialog.dismiss()
-                presenter.onStart(DayPart.END)
+                presenter.startTest(DayPart.END)
             }
 
             buttonDialogSchedule.setOnClickListener {

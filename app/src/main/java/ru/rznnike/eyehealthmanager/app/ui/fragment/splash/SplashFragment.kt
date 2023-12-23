@@ -11,7 +11,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.splash.SplashView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.withDelay
 import ru.rznnike.eyehealthmanager.databinding.FragmentSplashBinding
 
-private const val PAUSE_DURATION_MS = 1000L
+private const val PAUSE_DURATION_MS = 500L
 
 class SplashFragment : BaseFragment(R.layout.fragment_splash), SplashView {
     @InjectPresenter
@@ -22,10 +22,9 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash), SplashView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startFirstAnimation()
-        view.postDelayed(
-            { activity?.window?.setBackgroundDrawableResource(R.color.colorBackground) },
-            PAUSE_DURATION_MS / 2
-        )
+        binding.withDelay(PAUSE_DURATION_MS / 2) {
+            activity?.window?.setBackgroundDrawableResource(R.color.colorBackground)
+        }
     }
 
     private fun startFirstAnimation() = binding.apply {

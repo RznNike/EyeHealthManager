@@ -44,7 +44,7 @@ class TestsFragment : BaseFragment(R.layout.fragment_tests), TestsView {
 
     private fun populateData() {
         itemAdapter.setNewList(
-            TestType.values().map { TestTypeItem(it) }
+            TestType.entries.map { TestTypeItem(it) }
         )
     }
 
@@ -72,7 +72,7 @@ class TestsFragment : BaseFragment(R.layout.fragment_tests), TestsView {
             addItemDecoration(
                 EmptyDividerDecoration(
                     context = requireContext(),
-                    cardInsets = R.dimen.baseline_grid_16,
+                    cardInsets = R.dimen.baseline_grid_8,
                     applyOutsideDecoration = false
                 )
             )

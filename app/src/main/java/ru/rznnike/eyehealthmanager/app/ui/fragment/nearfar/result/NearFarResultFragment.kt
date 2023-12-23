@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.result
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -29,7 +30,8 @@ class NearFarResultFragment : BaseFragment(R.layout.fragment_near_far_result), N
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonClose.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()
@@ -45,49 +47,33 @@ class NearFarResultFragment : BaseFragment(R.layout.fragment_near_far_result), N
 
     private fun initOnClickListeners() = binding.apply {
         buttonClose.setOnClickListener {
-            routerFinishFlow()
+            onBackPressed()
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun populateData(answerLeftEye: NearFarAnswerType, answerRightEye: NearFarAnswerType) {
         binding.apply {
             val leftEyeStatus = when (answerLeftEye) {
-                NearFarAnswerType.RED_BETTER -> {
-                    "<font color=\"#FE4C3F\">%s</font>".format(
-                        getString(R.string.possible_myopia)
-                    )
-                }
-                NearFarAnswerType.GREEN_BETTER -> {
-                    "<font color=\"#FE4C3F\">%s</font>".format(
-                        getString(R.string.possible_farsightedness)
-                    )
-                }
-                NearFarAnswerType.EQUAL -> {
-                    getString(R.string.normal_condition)
-                }
-            }
-
+                NearFarAnswerType.RED_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
+                NearFarAnswerType.GREEN_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
+                NearFarAnswerType.EQUAL -> "%s"
+            }.format(
+                getString(answerLeftEye.nameResId)
+            )
             val rightEyeStatus = when (answerRightEye) {
-                NearFarAnswerType.RED_BETTER -> {
-                    "<font color=\"#FE4C3F\">%s</font>".format(
-                        getString(R.string.possible_myopia)
-                    )
-                }
-                NearFarAnswerType.GREEN_BETTER -> {
-                    getString(R.string.possible_farsightedness)
-                }
-                NearFarAnswerType.EQUAL -> {
-                    getString(R.string.normal_condition)
-                }
-            }
-
-            val result = "%s - %s<br>%s - %s".format(
+                NearFarAnswerType.RED_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
+                NearFarAnswerType.GREEN_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
+                NearFarAnswerType.EQUAL -> "%s"
+            }.format(
+                getString(answerRightEye.nameResId)
+            )
+            textViewResult.text = "%s - %s<br>%s - %s".format(
                 getString(R.string.left_eye),
                 leftEyeStatus,
                 getString(R.string.right_eye),
                 rightEyeStatus
             ).toHtmlSpanned()
-            textViewResult.text = result
 
             textViewMessage.setVisible(
                 (answerLeftEye != NearFarAnswerType.EQUAL) || (answerRightEye != NearFarAnswerType.EQUAL)

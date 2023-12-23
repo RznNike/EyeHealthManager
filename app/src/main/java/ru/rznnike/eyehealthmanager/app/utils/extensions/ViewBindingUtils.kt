@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 
 val ViewBinding.context: Context
-    get() = this.root.context
+    get() = root.context
 
 val ViewBinding.resources: Resources
-    get() = this.root.resources
+    get() = root.resources
 
 fun ViewBinding.getColor(@ColorRes color: Int) = ContextCompat.getColor(context, color)
 
@@ -23,3 +23,7 @@ fun ViewBinding.getString(@StringRes stringRes: Int): String = context.getString
 
 fun ViewBinding.getString(@StringRes stringRes: Int, vararg formatArgs: Any): String =
     context.getString(stringRes, *formatArgs)
+
+fun ViewBinding.withDelay(delay: Long, block: () -> Unit) {
+    root.postDelayed(block, delay)
+}

@@ -28,7 +28,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : MvpAppCompatFragment(la
     private val flowParent
         get() = this as? FlowFragment ?: getParent(this)
 
-    val navigation: FlowNavigationViewModel by lazy { getViewModel(owner = { flowParent }) }
+    val navigation: FlowNavigationViewModel by lazy { getViewModel(ownerProducer = { flowParent }) }
 
     protected val router by lazy { navigation.router }
 
@@ -108,11 +108,13 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : MvpAppCompatFragment(la
                 @Suppress("DEPRECATION")
                 activity?.apply {
                     var flags = window.decorView.systemUiVisibility
+
                     flags = if (isLightNavigationBar) {
                         flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
                     } else {
                         flags and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
                     }
+
                     window.decorView.systemUiVisibility = flags
                 }
             }
@@ -166,8 +168,6 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : MvpAppCompatFragment(la
     fun routerForwardTo(flow: Screen) = router.forwardTo(flow)
 
     fun routerStartSingle(flow: Screen) = router.startSingle(flow)
-
-    fun routerToTop(flow: Screen) = router.toTop(flow)
 
     companion object {
         const val DEFAULT_PROGRESS_DELAY_MS = 250L

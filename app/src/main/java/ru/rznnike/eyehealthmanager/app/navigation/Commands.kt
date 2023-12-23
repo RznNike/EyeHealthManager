@@ -12,8 +12,3 @@ class ForwardTo(val screen: Screen) : Command
  * Opens new screen on stack top, replaces similar screen if exists
  */
 class StartSingle(val screen: Screen) : Command
-
-/*
- * Opens new flow on top of current with transparent background
- */
-class ToTop(val screen: Screen) : Command

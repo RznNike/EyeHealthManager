@@ -15,6 +15,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.settings.testing.TestingSett
 import ru.rznnike.eyehealthmanager.app.presentation.settings.testing.TestingSettingsView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsTestingBinding
+import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import java.util.*
@@ -33,6 +34,11 @@ class TestingSettingsFragment : BaseFragment(R.layout.fragment_settings_testing)
         }
         initToolbar()
         initOnClickListeners()
+    }
+
+    override fun onPause() {
+        presenter.onPause()
+        super.onPause()
     }
 
     private fun initToolbar() = binding.toolbar.apply {
@@ -65,23 +71,15 @@ class TestingSettingsFragment : BaseFragment(R.layout.fragment_settings_testing)
     }
 
     @SuppressLint("SetTextI18n")
-    override fun populateData(
-        armsLength: Int,
-        dpmm: Float,
-        replaceBeginningWithMorning: Boolean,
-        enableAutoDayPart: Boolean,
-        timeToDayBeginning: Long,
-        timeToDayMiddle: Long,
-        timeToDayEnd: Long
-    ) {
+    override fun populateData(settings: TestingSettings) {
         binding.apply {
             textViewCurrentArmsLength.text = "<b>%d %s</b> - %s".format(
-                armsLength / 10,
+                settings.armsLength / 10,
                 getString(R.string.centimeters_short),
                 getString(R.string.current_arms_length)
             ).toHtmlSpanned()
 
-            val finalDpmm = if (dpmm > 0) dpmm else requireContext().convertMmToPx(1f)
+            val finalDpmm = if (settings.dpmm > 0) settings.dpmm else requireContext().convertMmToPx(1f)
             layoutScalingLine.post {
                 val widthMm = layoutScalingLine.width / finalDpmm
                 textViewCurrentScale.text = "%s - <b>%.1f %s</b>".format(
@@ -91,29 +89,29 @@ class TestingSettingsFragment : BaseFragment(R.layout.fragment_settings_testing)
                 ).toHtmlSpanned()
             }
 
-            checkBoxReplaceBeginning.isChecked = replaceBeginningWithMorning
-            checkBoxAutoDayPartSelection.isChecked = enableAutoDayPart
+            checkBoxReplaceBeginning.isChecked = settings.replaceBeginningWithMorning
+            checkBoxAutoDayPartSelection.isChecked = settings.enableAutoDayPart
 
             textViewBeginning.setText(
-                if (replaceBeginningWithMorning) R.string.morning else R.string.beginning
+                if (settings.replaceBeginningWithMorning) R.string.morning else R.string.beginning
             )
             textViewMiddle.setText(
-                if (replaceBeginningWithMorning) R.string.day else R.string.middle
+                if (settings.replaceBeginningWithMorning) R.string.day else R.string.middle
             )
             textViewEnd.setText(
-                if (replaceBeginningWithMorning) R.string.evening else R.string.end
+                if (settings.replaceBeginningWithMorning) R.string.evening else R.string.end
             )
 
-            viewTimeControlsDisabler.setVisible(!enableAutoDayPart)
+            viewTimeControlsDisabler.setVisible(!settings.enableAutoDayPart)
 
             val calendar = Calendar.getInstance()
-            val timeToDayBeginningWithOffset = timeToDayBeginning - calendar.timeZone.rawOffset
+            val timeToDayBeginningWithOffset = settings.timeToDayBeginning - calendar.timeZone.rawOffset
             val timeToDayBeginningText = timeToDayBeginningWithOffset.toDate(GlobalConstants.DATE_PATTERN_CLOCK)
 
-            val timeToDayMiddleWithOffset = timeToDayMiddle - calendar.timeZone.rawOffset
+            val timeToDayMiddleWithOffset = settings.timeToDayMiddle - calendar.timeZone.rawOffset
             val timeToDayMiddleText = timeToDayMiddleWithOffset.toDate(GlobalConstants.DATE_PATTERN_CLOCK)
 
-            val timeToDayEndWithOffset = timeToDayEnd - calendar.timeZone.rawOffset
+            val timeToDayEndWithOffset = settings.timeToDayEnd - calendar.timeZone.rawOffset
             val timeToDayEndText = timeToDayEndWithOffset.toDate(GlobalConstants.DATE_PATTERN_CLOCK)
 
             buttonTimeToBeginning1.text = timeToDayBeginningText

@@ -2,7 +2,6 @@ package ru.rznnike.eyehealthmanager.app.global.ui.activity
 
 import android.content.Context
 import android.content.res.Resources
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.annotation.LayoutRes
@@ -14,7 +13,6 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
-import java.util.*
 
 abstract class BaseActivity(@LayoutRes layoutRes: Int) : MvpAppCompatActivity(layoutRes) {
     private val preferences: PreferencesWrapper by inject()
@@ -33,11 +31,7 @@ abstract class BaseActivity(@LayoutRes layoutRes: Int) : MvpAppCompatActivity(la
 
     private fun setLanguage() {
         if (!preferences.language.isSet()) {
-            val defaultLanguage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Resources.getSystem().configuration.locales[0].language
-            } else {
-                Locale.getDefault().language
-            }
+            val defaultLanguage = Resources.getSystem().configuration.locales[0].language
             preferences.language.set(Language[defaultLanguage].tag)
         }
 

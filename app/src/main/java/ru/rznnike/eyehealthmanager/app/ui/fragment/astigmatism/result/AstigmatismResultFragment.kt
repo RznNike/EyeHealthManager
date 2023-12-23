@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.result
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -30,7 +31,8 @@ class AstigmatismResultFragment : BaseFragment(R.layout.fragment_astigmatism_res
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonClose.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initOnClickListeners()
@@ -50,41 +52,25 @@ class AstigmatismResultFragment : BaseFragment(R.layout.fragment_astigmatism_res
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun populateData(
         answerLeftEye: AstigmatismAnswerType,
         answerRightEye: AstigmatismAnswerType
     ) {
         binding.apply {
-            val leftEyeStatus = when (answerLeftEye) {
-                AstigmatismAnswerType.ANOMALY -> {
-                    "<font color=\"#FE4C3F\">%s</font>".format(
-                        getString(R.string.possible_astigmatism)
-                    )
-                }
-                AstigmatismAnswerType.OK -> {
-                    getString(R.string.normal_condition)
-                }
+            fun getStatusString(answer: AstigmatismAnswerType) = when (answer) {
+                AstigmatismAnswerType.OK -> getString(R.string.normal_condition)
+                AstigmatismAnswerType.ANOMALY -> "<font color=\"#FE4C3F\">%s</font>".format(
+                    getString(R.string.possible_astigmatism)
+                )
             }
 
-            val rightEyeStatus = when (answerRightEye) {
-                AstigmatismAnswerType.ANOMALY -> {
-                    "<font color=\"#FE4C3F\">%s</font>".format(
-                        getString(R.string.possible_astigmatism)
-                    )
-                }
-                AstigmatismAnswerType.OK -> {
-                    getString(R.string.normal_condition)
-                }
-            }
-
-            val result = "%s - %s<br>%s - %s".format(
+            textViewResult.text = "%s - %s<br>%s - %s".format(
                 getString(R.string.left_eye),
-                leftEyeStatus,
+                getStatusString(answerLeftEye),
                 getString(R.string.right_eye),
-                rightEyeStatus
+                getStatusString(answerRightEye)
             ).toHtmlSpanned()
-
-            textViewResult.text = result
 
             textViewMessage.setVisible(
                 (answerLeftEye != AstigmatismAnswerType.OK) || (answerRightEye != AstigmatismAnswerType.OK)

@@ -1,85 +1,119 @@
 package ru.rznnike.eyehealthmanager.app.presentation.acuity.info
 
+import kotlinx.coroutines.launch
 import moxy.InjectViewState
+import moxy.presenterScope
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.app.Screens
+import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
+import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAcuityTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
-import java.util.*
+import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
 
 @InjectViewState
-class AcuityInfoPresenter : BasePresenter<AcuityInfoView>() {
-    private val preferences: PreferencesWrapper by inject()
+class AcuityInfoPresenter : BasePresenter<AcuityInfoView>(), EventDispatcher.EventListener {
+    private val eventDispatcher: EventDispatcher by inject()
+    private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
+    private val getAcuityTestingSettingsUseCase: GetAcuityTestingSettingsUseCase by inject()
+    private val setAcuityTestingSettingsUseCase: SetAcuityTestingSettingsUseCase by inject()
+
+    private var generalSettings = TestingSettings()
+    private var acuitySettings = AcuityTestingSettings()
+
+    init {
+        subscribeToEvents()
+    }
+
+    override fun onDestroy() {
+        eventDispatcher.removeEventListener(this)
+    }
+
+    private fun subscribeToEvents() {
+        eventDispatcher.addEventListener(AppEvent.TestingSettingsChanged::class, this)
+    }
+
+    override fun onEvent(event: AppEvent) {
+        when (event) {
+            is AppEvent.TestingSettingsChanged -> loadData()
+            else -> Unit
+        }
+    }
 
     override fun onFirstViewAttach() {
+        loadData()
+    }
+
+    private fun loadData() {
+        presenterScope.launch {
+            generalSettings = getTestingSettingsUseCase().data ?: TestingSettings()
+            acuitySettings = getAcuityTestingSettingsUseCase().data ?: AcuityTestingSettings()
+            populateData()
+        }
+    }
+
+    private fun populateData() = viewState.populateData(acuitySettings)
+
+    fun onSymbolsTypeSelected(newValue: AcuityTestSymbolsType) {
+        acuitySettings.symbolsType = newValue
         populateData()
     }
 
-    fun onSymbolsTypeSelected(symbolsType: AcuityTestSymbolsType) {
-        preferences.acuitySymbolsType.set(symbolsType.id)
+    fun onEyesTypeSelected(newValue: TestEyesType) {
+        acuitySettings.eyesType = newValue
         populateData()
     }
 
-    fun onEyesTypeSelected(eyesType: TestEyesType) {
-        preferences.testEyesType.set(eyesType.id)
-        populateData()
-    }
+    fun onScaleSettings() = viewState.routerNavigateTo(Screens.Screen.testingSettings())
 
-    fun onScaleSettings() {
+    fun onDayPartAutoSelectionSettings() =
         viewState.routerNavigateTo(Screens.Screen.testingSettings())
-    }
 
-    fun onDayPartAutoSelectionSettings() {
-        viewState.routerNavigateTo(Screens.Screen.testingSettings())
-    }
-
-    fun onStart(dayPart: DayPart) {
-        viewState.routerNavigateTo(Screens.Screen.acuityInstruction(dayPart))
-    }
-
-    private fun populateData() {
-        viewState.populateData(
-            AcuityTestSymbolsType[preferences.acuitySymbolsType.get()],
-            TestEyesType[preferences.testEyesType.get()]
-        )
+    fun startTest(dayPart: DayPart) {
+        presenterScope.launch {
+            setAcuityTestingSettingsUseCase(acuitySettings)
+            viewState.routerNavigateTo(Screens.Screen.acuityInstruction(dayPart))
+        }
     }
 
     fun onPrepareToStartTest() {
-        if (preferences.enableAutoDayPart.get()) {
+        if (generalSettings.enableAutoDayPart) {
             val dayPart = autoSelectDayPart()
-            onStart(dayPart)
+            startTest(dayPart)
         } else {
-            viewState.showDayPartSelectionDialog(preferences.replaceBeginningWithMorning.get())
+            viewState.showDayPartSelectionDialog(generalSettings.replaceBeginningWithMorning)
         }
     }
 
-    private fun autoSelectDayPart(): DayPart {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis() - calendar.timeZone.rawOffset
-        val dayTime = (calendar.get(Calendar.HOUR_OF_DAY) * 60 * 60 +
-                calendar.get(Calendar.MINUTE) * 60 +
-                calendar.get(Calendar.SECOND)) * 1000L
+    private fun autoSelectDayPart() =
+        when (val currentDayTime = System.currentTimeMillis().getDayTime()) {
+            generalSettings.timeToDayBeginning -> DayPart.BEGINNING
+            generalSettings.timeToDayMiddle -> DayPart.MIDDLE
+            generalSettings.timeToDayEnd -> DayPart.END
+            else -> {
+                val sortedTimes = listOf(
+                    currentDayTime,
+                    generalSettings.timeToDayBeginning,
+                    generalSettings.timeToDayMiddle,
+                    generalSettings.timeToDayEnd
+                ).sorted()
+                val currentIndex = sortedTimes.indexOf(currentDayTime)
+                val dayPartIndex = if (currentIndex > 0) currentIndex - 1 else sortedTimes.lastIndex
 
-        val timeToBeginning = preferences.timeToDayBeginning.get()
-        val timeToMiddle = preferences.timeToDayMiddle.get()
-        val timeToEnd = preferences.timeToDayEnd.get()
-        return if (((dayTime >= timeToBeginning) && (dayTime < timeToMiddle))
-            || ((dayTime >= timeToBeginning) && (timeToBeginning > timeToMiddle))
-            || ((dayTime < timeToMiddle) && (timeToBeginning > timeToMiddle))) {
-            DayPart.BEGINNING
-        } else if (((dayTime >= timeToMiddle) && (dayTime < timeToEnd))
-            || ((dayTime >= timeToMiddle) && (timeToMiddle > timeToEnd))
-            || ((dayTime < timeToEnd) && (timeToMiddle > timeToEnd))) {
-            DayPart.MIDDLE
-        } else {
-            DayPart.END
+                when (sortedTimes[dayPartIndex]) {
+                    generalSettings.timeToDayMiddle -> DayPart.MIDDLE
+                    generalSettings.timeToDayEnd -> DayPart.END
+                    else -> DayPart.BEGINNING
+                }
+            }
         }
-    }
 
-    fun onAddDoctorResult() {
-        viewState.routerNavigateTo(Screens.Screen.acuityDoctorResult())
-    }
+    fun onAddDoctorResult() = viewState.routerNavigateTo(Screens.Screen.acuityDoctorResult())
 }

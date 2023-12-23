@@ -1,31 +1,21 @@
 package ru.rznnike.eyehealthmanager.app.utils.extensions
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
 import android.widget.ImageView
+import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.rznnike.eyehealthmanager.R
-
-fun getColorState(@ColorInt color: Int): ColorStateList {
-    val states = arrayOf(
-        intArrayOf(android.R.attr.state_enabled),
-        intArrayOf(-android.R.attr.state_enabled),
-        intArrayOf(-android.R.attr.state_checked),
-        intArrayOf(android.R.attr.state_pressed)
-    )
-    val colors = intArrayOf(color, color, color, color)
-    return ColorStateList(states, colors)
-}
 
 fun View?.setVisible() {
     this?.visibility = View.VISIBLE
@@ -98,29 +88,29 @@ fun SwipeRefreshLayout.setupDefaults() {
     setProgressViewOffset(false, progressViewStartOffset, 50)
 }
 
+val RadioGroup.selectionIndex: Int
+    get() = indexOfChild(findViewById(checkedRadioButtonId))
+
+fun ViewPropertyAnimator.withEndActionSafe(fragment: Fragment, action: () -> Unit) = withEndAction {
+    fragment.view?.let { action() }
+}
+
 @SuppressLint("ClickableViewAccessibility")
 fun View.setScaleOnTouch() {
     val pressedScale = 0.96f
-    val normalScale = 1f
     val durationMs = 200L
+
+    fun View.animateScale(scale: Float) = animate()
+        .scaleX(scale)
+        .scaleY(scale)
+        .setDuration(durationMs)
+        .setStartDelay(0)
+        .start()
+
     setOnTouchListener { view, event ->
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                view.animate()
-                    .scaleX(pressedScale)
-                    .scaleY(pressedScale)
-                    .setDuration(durationMs)
-                    .setStartDelay(0)
-                    .start()
-            }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                view.animate()
-                    .scaleX(normalScale)
-                    .scaleY(normalScale)
-                    .setDuration(durationMs)
-                    .setStartDelay(0)
-                    .start()
-            }
+            MotionEvent.ACTION_DOWN -> view.animateScale(pressedScale)
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> view.animateScale(1f)
         }
         false
     }

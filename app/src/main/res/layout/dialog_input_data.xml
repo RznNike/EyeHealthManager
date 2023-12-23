@@ -4,7 +4,7 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_4"
+    android:background="@drawable/bg_rounded_8"
     android:backgroundTint="@color/colorBackgroundLight"
     android:scrollbars="none">
 
@@ -33,14 +33,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="24dp" />
+            android:layout_height="16dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewDialogMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:paddingBottom="24dp"
+            android:paddingBottom="16dp"
             android:textSize="14sp"
             android:textColor="@color/colorTextDark"
             android:textAlignment="center"
@@ -55,15 +55,14 @@
             android:layout_marginHorizontal="16dp"
             android:padding="16dp"
             android:layout_gravity="center"
-            android:background="@drawable/bg_rounded_4"
-            android:backgroundTint="@color/colorBackground"
+            android:background="@drawable/bg_rounded_8_background_outline_accent"
             android:textColorHint="@color/colorTextDark"
             android:maxLines="5"
             tools:hint="Hint" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="24dp" />
+            android:layout_height="16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

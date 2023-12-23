@@ -44,14 +44,15 @@ class NearFarTestFragment : BaseFragment(R.layout.fragment_near_far_test), NearF
 
     private fun initOnClickListeners() = binding.apply {
         buttonNext.setOnClickListener {
-            presenter.onNext()
+            presenter.openAnswerForm()
         }
     }
 
     private fun showExitDialog() {
         showAlertDialog(
             parameters = AlertDialogParameters.HORIZONTAL_2_OPTIONS_LEFT_ACCENT,
-            header = getString(R.string.test_cancel_message),
+            header = getString(R.string.test_cancel_header),
+            message = getString(R.string.test_cancel_message),
             cancellable = true,
             actions = listOf(
                 AlertDialogAction(getString(R.string.cancel)) {

@@ -15,8 +15,8 @@
             android:id="@+id/layoutToolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_4_bottom"
-            android:backgroundTint="@color/colorBackgroundLight"
+            android:background="@color/colorBackgroundLight"
+            android:elevation="4dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <include
@@ -25,236 +25,220 @@
 
         </FrameLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
             android:overScrollMode="never"
             app:layout_constraintTop_toBottomOf="@id/layoutToolbarContainer"
-            app:layout_constraintBottom_toTopOf="@id/layoutControls">
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <LinearLayout
+                android:id="@+id/layoutScrollableContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/AppTheme.TextView.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_4"
-                    android:backgroundTint="@color/colorBackgroundLight"
-                    android:orientation="vertical">
+                    android:text="@string/filters"/>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_8"
+                    android:backgroundTint="@color/colorBackgroundLight">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/buttonClearFilters"
+                        style="@style/AppTheme.TextView.Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textColor="@color/colorAccent"
+                        android:textAllCaps="true"
+                        android:text="@string/clear_all"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkBoxFilterByDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginTop="9dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/by_date"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:checked="true"
+                        tools:ignore="RtlSymmetry" />
 
                     <LinearLayout
+                        android:id="@+id/layoutDates"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/textViewFiltersHeader"
-                            style="@style/AppTheme.TextView.Bold"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginStart="16dp"
-                            android:paddingBottom="8dp"
-                            android:textSize="18sp"
-                            android:text="@string/filters"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/buttonClearFilters"
-                            style="@style/AppTheme.TextView.Bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="16dp"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="16dp"
-                            android:textColor="@color/colorAccent"
-                            android:textAllCaps="true"
-                            android:text="@string/clear"
-                            android:gravity="center"
-                            android:layout_gravity="bottom"/>
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="@drawable/bg_rounded_4"
-                        android:backgroundTint="@color/colorBackgroundGray"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/checkBoxFilterByDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="9dp"
-                            android:text="@string/by_date"
-                            tools:checked="true"/>
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        app:layout_constraintTop_toBottomOf="@id/checkBoxFilterByDate"
+                        app:layout_constraintStart_toStartOf="parent">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/buttonDateFrom"
-                            style="@style/AppTheme.Button.Small"
+                            style="@style/AppTheme.Button.Small.Gray"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
+                            android:lines="1"
+                            android:ellipsize="end"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeTextType="uniform"
                             tools:text="22.02.2020"/>
 
-                        <View
-                            android:id="@+id/viewDateSeparator"
-                            android:layout_width="16dp"
-                            android:layout_height="2dp"
-                            android:layout_margin="8dp"
-                            android:background="@color/colorBackgroundGray"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:text="@string/time_period_separator"
+                            android:textColor="@color/colorTextDark"/>
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/buttonDateTo"
-                            style="@style/AppTheme.Button.Small"
+                            style="@style/AppTheme.Button.Small.Gray"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginEnd="16dp"
+                            android:lines="1"
+                            android:ellipsize="end"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeTextType="uniform"
                             tools:text="22.02.2020"/>
 
                     </LinearLayout>
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkBoxFilterByType"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
+                        android:layout_marginStart="9dp"
+                        android:layout_marginTop="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/by_type"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toBottomOf="@id/layoutDates"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="RtlSymmetry" />
 
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/checkBoxFilterByType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="9dp"
-                            android:text="@string/by_type"
-                            app:layout_constraintTop_toTopOf="@id/recyclerViewFilterTypes"
-                            app:layout_constraintBottom_toBottomOf="@id/recyclerViewFilterTypes"
-                            app:layout_constraintStart_toStartOf="parent"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewFilterTypes"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="12dp"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        android:clipToPadding="false"
+                        tools:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+                        tools:listitem="@layout/item_test_type_small"
+                        tools:itemCount="17"
+                        tools:ignore="RtlSymmetry"
+                        app:layout_constraintTop_toBottomOf="@id/checkBoxFilterByType"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerViewFilterTypes"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:orientation="horizontal"
-                            android:overScrollMode="never"
-                            android:clipToPadding="false"
-                            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/item_test_type_small"
-                            tools:itemCount="7"
-                            tools:ignore="RtlSymmetry" />
-
-                    </LinearLayout>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="16dp" />
-
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="16dp" />
+                    android:layout_height="24dp" />
 
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/AppTheme.TextView.Bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/backups_folder"/>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:background="@drawable/bg_rounded_4"
-                    android:backgroundTint="@color/colorBackgroundLight"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/AppTheme.TextView.Bold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:text="@string/path_to_backups_folder"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/bg_rounded_4"
-                        android:backgroundTint="@color/colorBackgroundGray"/>
+                    android:background="@drawable/bg_rounded_8"
+                    android:backgroundTint="@color/colorBackgroundLight">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textViewBackupFolderPath"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:visibility="gone"
-                        tools:visibility="visible"
-                        tools:text="storage/emulated/0/some/folder" />
+                        tools:text="@string/folder_not_selected"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonOpenFolder"
+                        style="@style/AppTheme.Button.Small.Gray"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/open"
+                        android:enabled="false"
+                        app:layout_constraintTop_toBottomOf="@id/textViewBackupFolderPath"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/buttonSelectFolder"/>
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonSelectFolder"
                         style="@style/AppTheme.Button.Small"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/select_folder"/>
+                        android:layout_marginStart="8dp"
+                        android:text="@string/select"
+                        app:layout_constraintTop_toBottomOf="@id/textViewBackupFolderPath"
+                        app:layout_constraintStart_toEndOf="@id/buttonOpenFolder"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/buttonOpenFolder"
-                        style="@style/AppTheme.Button.Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/open_folder"
-                        android:visibility="gone"
-                        tools:visibility="visible"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </LinearLayout>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp" />
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
-        <FrameLayout
-            android:id="@+id/layoutControls"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonStartExport"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@drawable/bg_rounded_4_top"
-            android:backgroundTint="@color/colorBackgroundLight"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonStartExport"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_export"/>
-
-        </FrameLayout>
+            android:layout_height="56dp"
+            android:layout_margin="16dp"
+            android:text="@string/start_export"
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
             android:id="@+id/progressView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:elevation="4dp"
             android:visibility="gone"
             app:pv_background="@color/colorBackground"
             app:pv_progress_color="@color/colorAccent"

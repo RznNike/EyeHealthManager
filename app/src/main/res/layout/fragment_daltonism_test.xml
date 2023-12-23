@@ -29,31 +29,18 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             app:layout_constraintTop_toBottomOf="@id/layoutToolbarContainer"/>
-    
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutTest"
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewTest"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginVertical="32dp"
-            android:padding="16dp"
-            android:orientation="horizontal"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintTop_toBottomOf="@id/percentProgressView"
             app:layout_constraintBottom_toTopOf="@id/textViewControlsHeader"
             android:visibility="invisible"
-            tools:visibility="visible">
-    
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageViewTest"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:src="@drawable/rabkin_26"/>
-            
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            tools:visibility="visible"
+            tools:src="@drawable/rabkin_26"/>
         
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewControlsHeader"
@@ -61,7 +48,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="@string/daltonism_message"
             app:layout_constraintBottom_toTopOf="@id/layoutControls"/>
         
@@ -71,9 +58,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="invisible"
-            tools:visibility="visible">
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonVariant1"
@@ -87,13 +72,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/buttonVariant2"
+                android:enabled="false"
+                tools:enabled="true"
                 tools:text="Вариант 1"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonVariant2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:padding="4dp"
                 android:lines="2"
                 app:autoSizeTextType="uniform"
@@ -102,13 +89,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/buttonVariant1"
+                android:enabled="false"
+                tools:enabled="true"
                 tools:text="Вариант 2"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonVariant3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:padding="4dp"
                 android:lines="2"
                 app:autoSizeTextType="uniform"
@@ -117,14 +106,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonVariant1"
                 app:layout_constraintEnd_toStartOf="@id/buttonVariant4"
+                android:enabled="false"
+                tools:enabled="true"
                 tools:text="Вариант 3"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonVariant4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 android:padding="4dp"
                 android:lines="2"
                 app:autoSizeTextType="uniform"
@@ -133,6 +124,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonVariant2"
                 app:layout_constraintStart_toEndOf="@id/buttonVariant3"
+                android:enabled="false"
+                tools:enabled="true"
                 tools:text="Вариант 4"/>
             
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,4 @@ class FlowRouter(private val appRouter: AppRouter) : Router() {
     fun forwardTo(flow: Screen) = appRouter.forwardTo(flow)
 
     fun startSingle(flow: Screen) = appRouter.startSingle(flow)
-
-    fun toTop(flow: Screen) = appRouter.toTop(flow)
 }

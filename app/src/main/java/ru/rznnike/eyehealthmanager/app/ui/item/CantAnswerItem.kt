@@ -15,11 +15,8 @@ class CantAnswerItem : BaseBindingItem<ItemCantAnswerBinding>() {
         ItemCantAnswerBinding.inflate(inflater, parent, false)
 
     override fun ItemCantAnswerBinding.bindView() {
-        val background = if (isSelected) {
-            R.drawable.bg_rounded_4_outline_accent
-        } else {
-            R.color.colorTransparent
-        }
-        textViewName.setBackgroundResource(background)
+        textViewName.setBackgroundResource(
+            if (isSelected) R.drawable.bg_rounded_8_outline_accent else R.color.colorTransparent
+        )
     }
 }

@@ -1,6 +1,5 @@
 package ru.rznnike.eyehealthmanager.app.ui.fragment.main.settings
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -19,11 +18,15 @@ import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsPresen
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.restartApp
-import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
+import ru.rznnike.eyehealthmanager.databinding.DialogDevMenuBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
+import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView {
     @InjectPresenter
@@ -42,6 +45,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         binding.apply {
             layoutScrollableContent.addSystemWindowInsetToPadding(top = true)
         }
+        initViews()
         initOnClickListeners()
     }
 
@@ -50,15 +54,40 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         presenter.onResume()
     }
 
+    private fun initViews() = binding.apply {
+        listOf(
+            buttonTestingSettings,
+            buttonAnalysis,
+            buttonExportData,
+            buttonImportData,
+            buttonDeleteDuplicates,
+            buttonClearJournal,
+            buttonLanguage,
+            buttonAboutApp,
+            buttonChangelog,
+            buttonDevMenu
+        ).forEach {
+            it.setScaleOnTouch()
+        }
+        textViewAppVersion.text = BuildConfig.VERSION_NAME
+        buttonDevMenu.setVisible(BuildConfig.DEBUG)
+    }
+
     private fun initOnClickListeners() = binding.apply {
         buttonTestingSettings.setOnClickListener {
             presenter.openTestingSettings()
+        }
+        buttonAnalysis.setOnClickListener {
+            presenter.openAnalysis()
         }
         buttonExportData.setOnClickListener {
             presenter.exportData()
         }
         buttonImportData.setOnClickListener {
             presenter.importData()
+        }
+        buttonDeleteDuplicates.setOnClickListener {
+            presenter.deleteDuplicatesInJournal()
         }
         buttonClearJournal.setOnClickListener {
             showClearJournalDialog()
@@ -69,8 +98,8 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         buttonChangelog.setOnClickListener {
             showChangelogDialog()
         }
-        buttonDeleteDuplicates.setOnClickListener {
-            presenter.deleteDuplicatesInJournal()
+        buttonDevMenu.setOnClickListener {
+            showDevMenuDialog()
         }
     }
 
@@ -86,7 +115,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
     private fun showLanguageSelectionBottomDialog(currentLanguage: Language) {
         showBottomDialog(
             header = getString(R.string.choose_language),
-            actions = Language.values().map { language ->
+            actions = Language.entries.map { language ->
                 BottomDialogAction(
                     text = language.localizedName,
                     selected = language == currentLanguage
@@ -124,20 +153,19 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
                 .setCancelable(true)
                 .create()
 
-            @SuppressLint("SetTextI18n")
-            textViewDialogMessage.text = "<b>%s</b><br><i>%s</i><br><br>%s".format(
-                getString(R.string.app_name),
-                BuildConfig.VERSION_NAME,
-                getString(R.string.developer_name)
-            ).toHtmlSpanned()
-
             buttonDialogEmail.setOnClickListener {
                 dialog.dismiss()
                 routerStartFlow(
                     Screens.Common.actionMailTo(
-                        email = getString(R.string.feedback_email_address),
+                        email = GlobalConstants.FEEDBACK_EMAIL_ADDRESS,
                         subject = getString(R.string.app_name)
                     )
+                )
+            }
+            buttonDialogSourceCode.setOnClickListener {
+                dialog.dismiss()
+                routerStartFlow(
+                    Screens.Common.actionOpenLink(GlobalConstants.REPOSITORY_LINK)
                 )
             }
 
@@ -153,6 +181,34 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
                 .create()
 
             buttonDialogClose.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+    }
+
+    private fun showDevMenuDialog() {
+        DialogDevMenuBinding.inflate(layoutInflater).apply {
+            val dialog = AlertDialog.Builder(requireContext(), R.style.AppTheme_Dialog_Alert)
+                .setView(root)
+                .setCancelable(true)
+                .create()
+
+            buttonDialogGenerateGoodVision.setOnClickListener {
+                presenter.generateData(DataGenerationType.GOOD_VISION)
+                dialog.dismiss()
+            }
+            buttonDialogGenerateAverageVision.setOnClickListener {
+                presenter.generateData(DataGenerationType.AVERAGE_VISION)
+                dialog.dismiss()
+            }
+            buttonDialogGenerateBadVision.setOnClickListener {
+                presenter.generateData(DataGenerationType.BAD_VISION)
+                dialog.dismiss()
+            }
+            buttonDialogGenerateOtherTests.setOnClickListener {
+                presenter.generateData(DataGenerationType.OTHER_TESTS)
                 dialog.dismiss()
             }
 

@@ -17,8 +17,7 @@
         {
           "id": "2:6498520928818614737",
           "name": "recognizedContrast",
-          "type": 5,
-          "flags": 4
+          "type": 5
         }
       ],
       "relations": []
@@ -37,20 +36,17 @@
         {
           "id": "3:7391072902127057350",
           "name": "relationId",
-          "type": 6,
-          "flags": 4
+          "type": 6
         },
         {
           "id": "4:7901822150972218057",
           "name": "timestamp",
-          "type": 6,
-          "flags": 4
+          "type": 6
         },
         {
           "id": "5:6758590541335663652",
           "name": "testType",
-          "type": 5,
-          "flags": 2
+          "type": 5
         }
       ],
       "relations": []
@@ -69,38 +65,32 @@
         {
           "id": "2:4993507194930238814",
           "name": "symbolsType",
-          "type": 5,
-          "flags": 2
+          "type": 5
         },
         {
           "id": "3:7831693729166331893",
           "name": "testEyesType",
-          "type": 5,
-          "flags": 2
+          "type": 5
         },
         {
           "id": "4:1012678870207118346",
           "name": "dayPart",
-          "type": 5,
-          "flags": 2
+          "type": 5
         },
         {
           "id": "5:1573416461143685170",
           "name": "resultLeftEye",
-          "type": 5,
-          "flags": 2
+          "type": 5
         },
         {
           "id": "6:5552481709815497800",
           "name": "resultRightEye",
-          "type": 5,
-          "flags": 2
+          "type": 5
         },
         {
           "id": "7:7697889136166615077",
           "name": "measuredByDoctor",
-          "type": 1,
-          "flags": 4
+          "type": 1
         }
       ],
       "relations": []
@@ -119,14 +109,12 @@
         {
           "id": "2:6651806263269111461",
           "name": "resultLeftEye",
-          "type": 5,
-          "flags": 2
+          "type": 5
         },
         {
           "id": "3:851489992438284427",
           "name": "resultRightEye",
-          "type": 5,
-          "flags": 2
+          "type": 5
         }
       ],
       "relations": []
@@ -145,14 +133,12 @@
         {
           "id": "2:1972340800647978375",
           "name": "recognizedColorsCount",
-          "type": 5,
-          "flags": 4
+          "type": 5
         },
         {
           "id": "3:7707309925622286358",
           "name": "allColorsCount",
-          "type": 5,
-          "flags": 4
+          "type": 5
         }
       ],
       "relations": []
@@ -171,14 +157,12 @@
         {
           "id": "2:7081475566583520565",
           "name": "errorsCount",
-          "type": 5,
-          "flags": 4
+          "type": 5
         },
         {
           "id": "3:3676506057333400056",
           "name": "anomalyType",
-          "type": 5,
-          "flags": 2
+          "type": 5
         }
       ],
       "relations": []
@@ -197,14 +181,12 @@
         {
           "id": "2:1756183916937488218",
           "name": "resultLeftEye",
-          "type": 5,
-          "flags": 2
+          "type": 5
         },
         {
           "id": "3:3967270379480548017",
           "name": "resultRightEye",
-          "type": 5,
-          "flags": 2
+          "type": 5
         }
       ],
       "relations": []

@@ -30,7 +30,7 @@ class Notificator(val context: Context) : KoinComponent {
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannelType.values().forEach {
+            NotificationChannelType.entries.forEach {
                 createIfNotExistNotificationChannel(
                     channelId = getChannelId(
                         notificationChannelType = it,

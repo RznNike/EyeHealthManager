@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.databinding.ItemTestTypeBinding
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 
@@ -20,5 +21,7 @@ class TestTypeItem(
     override fun ItemTestTypeBinding.bindView() {
         textViewName.setText(testType.nameResId)
         imageViewIcon.setImageResource(testType.iconResId)
+
+        root.setScaleOnTouch()
     }
 }

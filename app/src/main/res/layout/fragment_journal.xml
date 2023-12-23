@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:paddingTop="16dp"
         android:paddingBottom="88dp"
         android:orientation="vertical"
         android:overScrollMode="never"
@@ -37,30 +38,59 @@
         android:background="@color/colorBackground"
         app:zv_message_text="@string/journal_is_empty"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/buttonActions"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_margin="24dp"
-        android:padding="16dp"
-        android:layout_gravity="bottom|end"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_fab_menu"
-        android:tint="@color/colorBackgroundLight"
-        android:background="@drawable/bg_rounded_48"
-        android:backgroundTint="@color/colorAccent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_rounded_32_accent"
+        android:elevation="4dp"
+        android:layout_gravity="bottom|end">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewFilterIcon"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginBottom="64dp"
-        android:layout_marginEnd="24dp"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/bg_circle"
-        android:tint="@color/colorRed"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/buttonFilter"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_filter"
+            android:tint="@color/colorTextLight"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewFilterIcon"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/bg_circle"
+            android:tint="@color/colorRed"
+            app:layout_constraintTop_toTopOf="@id/buttonFilter"
+            app:layout_constraintEnd_toEndOf="@id/buttonFilter"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <View
+            android:id="@+id/viewFilterSeparator"
+            android:layout_width="2dp"
+            android:layout_height="16dp"
+            android:background="@drawable/bg_rounded_8"
+            android:backgroundTint="@color/colorTextLight"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonFilter" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/buttonTools"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_tools"
+            android:tint="@color/colorTextLight"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/viewFilterSeparator"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ru.rznnike.eyehealthmanager.app.ui.view.ProgressView
         android:id="@+id/progressView"

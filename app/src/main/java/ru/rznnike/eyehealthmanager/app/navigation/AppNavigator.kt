@@ -8,7 +8,6 @@ import com.github.terrakok.cicerone.*
 import com.github.terrakok.cicerone.androidx.*
 import com.github.terrakok.cicerone.androidx.AppNavigator
 
-@Suppress("unused")
 open class AppNavigator(
     activity: FragmentActivity,
     fragmentManager: FragmentManager,
@@ -34,16 +33,6 @@ open class AppNavigator(
             is Back -> back()
             is ForwardTo -> activityForwardTo(command)
             is StartSingle -> activityStartSingle(command)
-            is ToTop -> fragmentToTop(command)
-        }
-    }
-
-    private fun fragmentToTop(command: ToTop) {
-        (command.screen as? FragmentScreen)?.let { screen ->
-            commitNewFragmentScreen(
-                screen = screen,
-                addToBackStack = true
-            )
         }
     }
 

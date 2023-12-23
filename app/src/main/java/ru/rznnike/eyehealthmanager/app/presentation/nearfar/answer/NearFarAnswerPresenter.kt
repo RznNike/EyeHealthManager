@@ -24,8 +24,8 @@ class NearFarAnswerPresenter : BasePresenter<NearFarAnswerView>() {
     fun onSaveAnswer(answerLeftEye: Int, answerRightEye: Int) {
         presenterScope.launch {
             viewState.setProgress(true)
-            val typeLeftEye = NearFarAnswerType.values()[answerLeftEye]
-            val typeRightEye = NearFarAnswerType.values()[answerRightEye]
+            val typeLeftEye = NearFarAnswerType.entries[answerLeftEye]
+            val typeRightEye = NearFarAnswerType.entries[answerRightEye]
 
             val testResult = NearFarTestResult(
                 timestamp = System.currentTimeMillis(),
@@ -34,7 +34,9 @@ class NearFarAnswerPresenter : BasePresenter<NearFarAnswerView>() {
             )
             addTestResultUseCase(testResult).process(
                 {
-                    viewState.routerNewRootScreen(Screens.Screen.nearFarResult(typeLeftEye, typeRightEye))
+                    viewState.routerNewRootScreen(
+                        Screens.Screen.nearFarResult(typeLeftEye, typeRightEye)
+                    )
                 }, { error ->
                     errorHandler.proceed(error) {
                         notifier.sendMessage(it)

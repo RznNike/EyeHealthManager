@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
-    
+
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -17,21 +17,21 @@
             android:id="@+id/layoutToolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_4_bottom"
-            android:backgroundTint="@color/colorBackgroundLight">
+            android:background="@color/colorBackgroundLight"
+            android:elevation="4dp">
 
             <include
                 android:id="@+id/toolbar"
                 layout="@layout/layout_toolbar"/>
 
         </FrameLayout>
-    
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:fillViewport="true">
-        
+
             <LinearLayout
                 android:id="@+id/layoutScrollableContent"
                 android:layout_width="match_parent"
@@ -39,102 +39,82 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/AppTheme.TextView.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_4"
+                    android:text="@string/scaling"/>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_8"
                     android:backgroundTint="@color/colorBackgroundLight"
-                    android:orientation="vertical"
                     android:padding="16dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/AppTheme.TextView.Bold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:text="@string/scaling"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/bg_rounded_4"
-                        android:backgroundTint="@color/colorBackgroundGray"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textViewCurrentArmsLength"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="@string/current_arms_length"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
+                        tools:text="@string/current_arms_length"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonEnterArmsLength"
-                        style="@style/AppTheme.Button.Small"
-                        android:layout_width="match_parent"
+                        style="@style/AppTheme.Button.Small.Gray"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/enter_arms_length"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/or_string"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
+                        android:layout_marginTop="8dp"
+                        android:text="@string/arms_length"
+                        app:layout_constraintTop_toBottomOf="@id/textViewCurrentArmsLength"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/buttonEnterBodyHeight"/>
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonEnterBodyHeight"
-                        style="@style/AppTheme.Button.Small"
-                        android:layout_width="match_parent"
+                        style="@style/AppTheme.Button.Small.Gray"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/enter_body_height"/>
+                        android:layout_marginStart="8dp"
+                        android:text="@string/body_height"
+                        app:layout_constraintTop_toTopOf="@id/buttonEnterArmsLength"
+                        app:layout_constraintStart_toEndOf="@id/buttonEnterArmsLength"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="16dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/bg_rounded_4"
-                        android:backgroundTint="@color/colorBackgroundGray"/>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="16dp" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_8"
+                    android:backgroundTint="@color/colorBackgroundLight"
+                    android:padding="16dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textViewCurrentScale"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="@string/current_scale_message"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="16dp" />
+                        tools:text="@string/current_scale_message"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
 
                     <LinearLayout
                         android:id="@+id/layoutScalingLine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/textViewCurrentScale"
+                        app:layout_constraintStart_toStartOf="parent">
 
                         <View
                             android:layout_width="2dp"
@@ -155,60 +135,55 @@
 
                     </LinearLayout>
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="16dp" />
-
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonEnterLineLength"
-                        style="@style/AppTheme.Button.Small"
-                        android:layout_width="match_parent"
+                        style="@style/AppTheme.Button.Small.Gray"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/enter_line_length"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
+                        android:layout_marginTop="16dp"
+                        android:text="@string/change_value"
+                        app:layout_constraintTop_toBottomOf="@id/layoutScalingLine"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/buttonResetScale"/>
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonResetScale"
-                        style="@style/AppTheme.Button.Small"
-                        android:layout_width="match_parent"
+                        style="@style/AppTheme.Button.Small.Gray"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/reset_scale"/>
+                        android:layout_marginStart="8dp"
+                        android:text="@string/reset"
+                        app:layout_constraintTop_toTopOf="@id/buttonEnterLineLength"
+                        app:layout_constraintStart_toEndOf="@id/buttonEnterLineLength"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="16dp" />
+                    android:layout_height="24dp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/AppTheme.TextView.Bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/testing_time"/>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_4"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="16dp"
+                    android:background="@drawable/bg_rounded_8"
                     android:backgroundTint="@color/colorBackgroundLight"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/AppTheme.TextView.Bold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:text="@string/testing_time"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/bg_rounded_4"
-                        android:backgroundTint="@color/colorBackgroundGray"/>
-
-                    <com.google.android.material.checkbox.MaterialCheckBox
+                    <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/checkBoxReplaceBeginning"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -248,18 +223,13 @@
                                 android:layout_weight="1"
                                 android:text="@string/beginning"/>
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/from"/>
-
                             <Space
                                 android:layout_width="8dp"
                                 android:layout_height="match_parent" />
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/buttonTimeToBeginning1"
-                                style="@style/AppTheme.Button.Small"
+                                style="@style/AppTheme.Button.Small.Gray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="4"
@@ -272,7 +242,8 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/to"/>
+                                android:text="@string/time_period_separator"
+                                android:textColor="@color/colorTextDark"/>
 
                             <Space
                                 android:layout_width="8dp"
@@ -280,7 +251,7 @@
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/buttonTimeToMiddle1"
-                                style="@style/AppTheme.Button.Small"
+                                style="@style/AppTheme.Button.Small.Gray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="4"
@@ -304,18 +275,13 @@
                                 android:layout_weight="1"
                                 android:text="@string/middle"/>
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/from"/>
-
                             <Space
                                 android:layout_width="8dp"
                                 android:layout_height="match_parent" />
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/buttonTimeToMiddle2"
-                                style="@style/AppTheme.Button.Small"
+                                style="@style/AppTheme.Button.Small.Gray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="4"
@@ -328,7 +294,8 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/to"/>
+                                android:text="@string/time_period_separator"
+                                android:textColor="@color/colorTextDark"/>
 
                             <Space
                                 android:layout_width="8dp"
@@ -336,7 +303,7 @@
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/buttonTimeToEnd1"
-                                style="@style/AppTheme.Button.Small"
+                                style="@style/AppTheme.Button.Small.Gray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="4"
@@ -360,18 +327,13 @@
                                 android:layout_weight="1"
                                 android:text="@string/end"/>
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/from"/>
-
                             <Space
                                 android:layout_width="8dp"
                                 android:layout_height="match_parent" />
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/buttonTimeToEnd2"
-                                style="@style/AppTheme.Button.Small"
+                                style="@style/AppTheme.Button.Small.Gray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="4"
@@ -384,7 +346,8 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/to"/>
+                                android:text="@string/time_period_separator"
+                                android:textColor="@color/colorTextDark"/>
 
                             <Space
                                 android:layout_width="8dp"
@@ -392,7 +355,7 @@
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/buttonTimeToBeginning2"
-                                style="@style/AppTheme.Button.Small"
+                                style="@style/AppTheme.Button.Small.Gray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="4"
@@ -418,11 +381,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
-        
+
             </LinearLayout>
-    
+
         </ScrollView>
-        
+
     </LinearLayout>
 
 </FrameLayout>

@@ -24,7 +24,7 @@ class ErrorHandler(
     private fun getUserMessage(error: Throwable): String {
         val messageResId = when (error) {
             is FileNotFoundException -> R.string.error_file_not_found
-            is NotEnoughDataException -> R.string.not_enough_data_exception
+            is NotEnoughDataException -> R.string.not_enough_data_analysis_header
             is SecurityException -> R.string.security_error
             else -> R.string.unknown_error
         }

@@ -35,7 +35,6 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
     private var recognizedDelta: Int = currentDelta
     private var answersCount: Int = 0
     private var correctAnswersCount: Int = 0
-    private var random: Random = Random.Default
     private var maxBaseSteps = 0
     private var currentBaseStep = 0
 
@@ -61,34 +60,32 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
         goToNextStep()
     }
 
-    private fun goToNextStep() {
-        when {
-            correctAnswersCount >= MIN_CORRECT_ANSWERS -> {
-                recognizedDelta = currentDelta
-                if (recognizedDelta <= END_VALUE) {
-                    finishTest()
-                } else {
-                    currentBaseStep++
-                    answersCount = 0
-                    correctAnswersCount = 0
-                    currentDelta -= if (currentDelta > FIRST_STAGE_BORDER) FIRST_STAGE_STEP else SECOND_STAGE_STEP
-                    currentDirection = Direction.values()[random.nextInt(Direction.values().size)]
-                    showNextImage()
-                }
-            }
-            (answersCount - correctAnswersCount) > (MAX_ANSWERS - MIN_CORRECT_ANSWERS) -> {
+    private fun goToNextStep() = when {
+        correctAnswersCount >= MIN_CORRECT_ANSWERS -> {
+            recognizedDelta = currentDelta
+            if (recognizedDelta <= END_VALUE) {
                 finishTest()
-            }
-            else -> {
-                currentDirection = Direction.values().random(random)
+            } else {
+                currentBaseStep++
+                answersCount = 0
+                correctAnswersCount = 0
+                currentDelta -= if (currentDelta > FIRST_STAGE_BORDER) FIRST_STAGE_STEP else SECOND_STAGE_STEP
+                currentDirection = Direction.entries[Random.nextInt(Direction.entries.size)]
                 showNextImage()
             }
+        }
+        (answersCount - correctAnswersCount) > (MAX_ANSWERS - MIN_CORRECT_ANSWERS) -> {
+            finishTest()
+        }
+        else -> {
+            currentDirection = Direction.entries.random()
+            showNextImage()
         }
     }
 
     private fun showNextImage() {
         val foregroundDelta = currentDelta / 100f
-        val backgroundAlpha = 0.5f - foregroundDelta / 2
+        val backgroundAlpha = (1 - foregroundDelta) / 2
         viewState.populateData(
             currentDirection,
             backgroundAlpha,

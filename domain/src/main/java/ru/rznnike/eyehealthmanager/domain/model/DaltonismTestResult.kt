@@ -1,31 +1,32 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import ru.rznnike.eyehealthmanager.domain.utils.toTimeStamp
 import java.text.ParseException
 
+@Parcelize
 class DaltonismTestResult(
-    id: Long = 0,
-    timestamp: Long,
+    override var id: Long = 0,
+    override var timestamp: Long = 0,
     val errorsCount: Int,
     val anomalyType: DaltonismAnomalyType
-) : TestResult(id, timestamp) {
-    override fun exportToString(): String {
-        return "%s\t%d\t%s".format(
+) : TestResult(id, timestamp), Parcelable {
+    override fun exportToString() =
+        "%s\t%d\t%s".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),
             errorsCount,
             anomalyType.toString()
         )
-    }
 
-    override fun contentEquals(other: TestResult?): Boolean {
-        return (other is DaltonismTestResult)
-                && (this.timestamp == other.timestamp)
-                && (this.errorsCount == other.errorsCount)
-                && (this.anomalyType == other.anomalyType)
-    }
+    override fun contentEquals(other: TestResult?) =
+        (other is DaltonismTestResult)
+                && (timestamp == other.timestamp)
+                && (errorsCount == other.errorsCount)
+                && (anomalyType == other.anomalyType)
 
     companion object {
         const val EXPORT_HEADER = "timestamp\terrorsCount\tanomalyType"
@@ -35,24 +36,21 @@ class DaltonismTestResult(
             return if (stringParts.size < 3) {
                 null
             } else {
-                val timestamp = try {
-                    stringParts[0].toTimeStamp(GlobalConstants.DATE_PATTERN_FULL)
+                try {
+                    val timestamp = stringParts[0].toTimeStamp(GlobalConstants.DATE_PATTERN_FULL)
+                    val errorsCount = stringParts[1].toIntOrNull()
+                    val anomalyType = DaltonismAnomalyType[stringParts[2]]
+                    if ((errorsCount == null) || (anomalyType == null)) {
+                        null
+                    } else {
+                        DaltonismTestResult(
+                            timestamp = timestamp,
+                            errorsCount = errorsCount,
+                            anomalyType = anomalyType
+                        )
+                    }
                 } catch (e: ParseException) {
                     null
-                }
-                val errorsCount = stringParts[1].toIntOrNull()
-                val anomalyType = DaltonismAnomalyType.parseName(stringParts[2])
-                if ((timestamp == null)
-                    || (errorsCount == null)
-                    || (anomalyType == null)
-                ) {
-                    null
-                } else {
-                    DaltonismTestResult(
-                        timestamp = timestamp,
-                        errorsCount = errorsCount,
-                        anomalyType = anomalyType
-                    )
                 }
             }
         }

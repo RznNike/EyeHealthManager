@@ -6,8 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
@@ -19,11 +20,11 @@ import ru.rznnike.eyehealthmanager.app.presentation.journal.backup.ExportJournal
 import ru.rznnike.eyehealthmanager.app.presentation.journal.backup.ExportJournalView
 import ru.rznnike.eyehealthmanager.app.ui.item.TestTypeSmallItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
-import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.FragmentExportJournalBinding
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilterParams
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
@@ -70,7 +71,8 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             layoutToolbarContainer.addSystemWindowInsetToPadding(top = true)
-            layoutControls.addSystemWindowInsetToPadding(bottom = true)
+            layoutScrollableContent.addSystemWindowInsetToPadding(bottom = true)
+            buttonStartExport.addSystemWindowInsetToMargin(bottom = true)
         }
         initToolbar()
         initRecyclerView()
@@ -103,18 +105,17 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
 
     private fun initRecyclerView() = binding.apply {
         recyclerViewFilterTypes.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
             adapter = this@ExportJournalFragment.adapterTestType
             itemAnimator = null
             addItemDecoration(
                 EmptyDividerDecoration(
                     context = requireContext(),
-                    cardInsets = R.dimen.baseline_grid_8,
+                    cardInsets = R.dimen.baseline_grid_4,
                     applyOutsideDecoration = false
                 )
             )
         }
-        itemAdapterTestType.setNewList(TestType.values().map { TestTypeSmallItem(it) })
     }
 
     private fun initOnClickListeners() = binding.apply {
@@ -138,39 +139,37 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
         }
     }
 
-    override fun populateData(filterParams: TestResultFilterParams, folderPath: String?) {
+    override fun populateData(filter: TestResultFilter, folderPath: String?) {
         binding.apply {
-            checkBoxFilterByDate.isChecked = filterParams.filterByDate
-            buttonDateFrom.text = filterParams.dateFrom.toDate(GlobalConstants.DATE_PATTERN_SIMPLE)
-            buttonDateTo.text = filterParams.dateTo.toDate(GlobalConstants.DATE_PATTERN_SIMPLE)
+            checkBoxFilterByDate.isChecked = filter.filterByDate
+            buttonDateFrom.text = filter.dateFrom.toDate(GlobalConstants.DATE_PATTERN_SIMPLE)
+            buttonDateTo.text = filter.dateTo.toDate(GlobalConstants.DATE_PATTERN_SIMPLE)
             buttonDateFrom.setOnClickListener {
                 showDatePicker(
-                    preselectedDate = filterParams.dateFrom,
+                    preselectedDate = filter.dateFrom,
                     onSuccess = presenter::onFilterDateFromSelected
                 )
             }
             buttonDateTo.setOnClickListener {
                 showDatePicker(
-                    preselectedDate = filterParams.dateTo,
+                    preselectedDate = filter.dateTo,
                     onSuccess = presenter::onFilterDateToSelected
                 )
             }
 
-            checkBoxFilterByType.isChecked = filterParams.filterByType
-            itemAdapterTestType.adapterItems.forEach {
-                if (it is TestTypeSmallItem) {
-                    it.isSelected = filterParams.selectedTestTypes.contains(it.testType)
+            checkBoxFilterByType.isChecked = filter.filterByType
+            itemAdapterTestType.setNewList(
+                TestType.entries.map {
+                    TestTypeSmallItem(it).also { item ->
+                        item.isSelected = filter.selectedTestTypes.contains(it)
+                    }
                 }
-            }
-            adapterTestType.notifyAdapterDataSetChanged()
+            )
 
-            textViewBackupFolderPath.text = folderPath
-            textViewBackupFolderPath.setVisible(!folderPath.isNullOrBlank())
-            buttonOpenFolder.setVisible(!folderPath.isNullOrBlank())
+            textViewBackupFolderPath.text = (folderPath ?: "").ifBlank { getString(R.string.folder_not_selected) }
+            buttonOpenFolder.isEnabled = !folderPath.isNullOrBlank()
         }
     }
 
-    override fun selectExportFolder() {
-        folderPicker.launch()
-    }
+    override fun selectExportFolder() = folderPicker.launch()
 }

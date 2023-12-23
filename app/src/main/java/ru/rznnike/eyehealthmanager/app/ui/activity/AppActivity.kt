@@ -1,21 +1,17 @@
 package ru.rznnike.eyehealthmanager.app.ui.activity
 
-import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Screen
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import moxy.presenter.InjectPresenter
@@ -32,8 +28,16 @@ import ru.rznnike.eyehealthmanager.app.navigation.AppRouter
 import ru.rznnike.eyehealthmanager.app.navigation.SupportAppNavigation
 import ru.rznnike.eyehealthmanager.app.presentation.app.AppPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.app.AppView
-import ru.rznnike.eyehealthmanager.app.utils.extensions.*
+import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getParcelableExtraCompat
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getString
+import ru.rznnike.eyehealthmanager.app.utils.extensions.hideKeyboard
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setBackgroundTint
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setGone
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.ActivityBinding
+import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarBottomBinding
+import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarTopBinding
 import ru.rznnike.eyehealthmanager.device.notification.Notificator
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
 import ru.rznnike.eyehealthmanager.domain.model.Notification
@@ -63,7 +67,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
 
         if (savedInstanceState == null) {
             presenter.processNotificationIntent(getNotificationFromIntent(intent))
-            routerNewRootFlow(Screens.Flow.splash())
+            router.newRootScreen(Screens.Flow.splash())
         } else {
             window.setBackgroundDrawableResource(R.color.colorBackground)
         }
@@ -166,7 +170,6 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
         when (systemMessage.type) {
             SystemMessage.Type.ALERT -> showAlertMessage(systemMessage)
             SystemMessage.Type.BAR -> showBarMessage(systemMessage)
-            SystemMessage.Type.BAR_ACTION -> showActionMessage(systemMessage)
         }
     }
 
@@ -177,9 +180,8 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
             showAlertDialog(
                 parameters = AlertDialogParameters.VERTICAL_1_OPTION_ACCENT,
                 header = systemMessage.text ?: "",
-                cancellable = true,
                 actions = listOf(
-                    AlertDialogAction(getString(R.string.yes)) {
+                    AlertDialogAction(getString(R.string.ok)) {
                         it.dismiss()
                     }
                 )
@@ -187,75 +189,41 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
         }
     }
 
-    @SuppressLint("ShowToast")
-    private fun prepareSnackBar(systemMessage: SystemMessage): Snackbar? {
-        if (systemMessage.text.isNullOrBlank()) return null
+    private fun showBarMessage(systemMessage: SystemMessage) =
+        if (systemMessage.showOnTop) showTopSnackBar(systemMessage) else showBottomSnackBar(systemMessage)
 
-        val backgroundResource = R.drawable.bg_snackbar
-        val backgroundTint = when {
-            systemMessage.level == SystemMessage.Level.ERROR -> R.color.colorRed
-            systemMessage.showOnTop -> R.color.colorBackground
-            else -> R.color.colorAccent
-        }
-
-        val snackBar = if (systemMessage.showOnTop) {
-            Snackbar.make(findViewById(R.id.topSnackBarContainer), systemMessage.text ?: "", TOP_BAR_TIME_MS)
-        } else {
-            Snackbar.make(findViewById(R.id.snackBarContainer), systemMessage.text ?: "", Snackbar.LENGTH_LONG)
-        }
-        val snackView = snackBar.view
-
-        snackView.findViewById<TextView>(R.id.snackbar_text).apply {
-            isSingleLine = false
-            setTextColorRes(if (systemMessage.showOnTop) R.color.colorText else R.color.colorTextLight)
-            if (systemMessage.showOnTop) {
-                setDrawableRes(
-                    left = R.drawable.icon
+    private fun showTopSnackBar(
+        systemMessage: SystemMessage
+    ) {
+        ViewSnackbarTopBinding.inflate(layoutInflater).apply {
+            val snackBar = Snackbar.make(findViewById(R.id.topSnackBarContainer), "", TOP_BAR_TIME_MS)
+            snackBar.view.apply {
+                addSystemWindowInsetToMargin(
+                    top = true,
+                    bottom = true,
+                    left = true,
+                    right = true,
+                    topOffset = resources.getDimension(R.dimen.baseline_grid_8).toInt(),
+                    bottomOffset = resources.getDimension(R.dimen.baseline_grid_8).toInt()
                 )
-                compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.baseline_grid_16)
-            }
-        }
-
-        snackView.run {
-            addSystemWindowInsetToMargin(
-                top = true,
-                bottom = true,
-                topOffset = resources.getDimension(R.dimen.baseline_grid_8).toInt(),
-                bottomOffset = resources.getDimension(R.dimen.baseline_grid_8).toInt()
-            )
-            requestApplyInsets()
-            setBackgroundResource(backgroundResource)
-            setBackgroundTint(backgroundTint)
-        }
-
-        return snackBar
-    }
-
-    private fun showBarMessage(systemMessage: SystemMessage) {
-        prepareSnackBar(systemMessage)?.let { snackBar ->
-            snackBar.view.setOnClickListener {
-                snackBar.dismiss()
-                systemMessage.onClickCallback?.invoke()
+                updatePadding(0, 0, 0, 0)
+                requestApplyInsets()
+                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_8_background)
+                (this as ViewGroup).apply {
+                    removeAllViews()
+                    addView(root)
+                }
             }
 
-            snackBar.show()
-        }
-    }
-
-    private fun showActionMessage(systemMessage: SystemMessage) {
-        prepareSnackBar(systemMessage)?.let { snackBar ->
-            if (!systemMessage.actionText.isNullOrBlank() && systemMessage.actionCallback != null) {
-                val actionTitle = systemMessage.actionText ?: ""
-                snackBar.setAction(actionTitle) { systemMessage.actionCallback.invoke() }
-                snackBar.view.findViewById<Button>(R.id.snackbar_action).apply {
-                    setTextColorRes(if (systemMessage.showOnTop) R.color.colorAccent else R.color.colorTextLight)
-                    setBackgroundTint(
-                        if (systemMessage.showOnTop) R.color.colorBackground else R.color.colorAccent
-                    )
-                    updateLayoutParams {
-                        width = ViewGroup.LayoutParams.MATCH_PARENT
-                    }
-                    gravity = Gravity.CENTER
+            textViewMessage.text = systemMessage.text ?: ""
+            if (systemMessage.actionText.isNullOrBlank() || (systemMessage.actionCallback == null)) {
+                buttonAction.setGone()
+            } else {
+                buttonAction.setVisible()
+                buttonAction.text =
+                    (systemMessage.actionText ?: "").ifBlank { getString(R.string.ok) }
+                buttonAction.setOnClickListener {
+                    systemMessage.actionCallback.invoke()
                 }
             }
 
@@ -263,7 +231,45 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
         }
     }
 
-    override fun routerNewRootFlow(flow: Screen) = router.newRootScreen(flow)
+    private fun showBottomSnackBar(
+        systemMessage: SystemMessage
+    ) {
+        ViewSnackbarBottomBinding.inflate(layoutInflater).apply {
+            val snackBar = Snackbar.make(findViewById(R.id.snackBarContainer), "", Snackbar.LENGTH_LONG)
+            snackBar.view.apply {
+                addSystemWindowInsetToMargin(
+                    top = true,
+                    bottom = true,
+                    left = true,
+                    right = true,
+                    topOffset = resources.getDimension(R.dimen.baseline_grid_8).toInt(),
+                    bottomOffset = resources.getDimension(R.dimen.baseline_grid_8).toInt()
+                )
+                updatePadding(0, 0, 0, 0)
+                requestApplyInsets()
+                background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_8_background)
+                (this as ViewGroup).apply {
+                    removeAllViews()
+                    addView(root)
+                }
+            }
 
-    override fun routerStartSingle(flow: Screen) = router.startSingle(flow)
+            root.setBackgroundTint(
+                if (systemMessage.level == SystemMessage.Level.ERROR) R.color.colorRed else R.color.colorAccent
+            )
+            textViewMessage.text = systemMessage.text ?: ""
+            if (systemMessage.actionText.isNullOrBlank() || (systemMessage.actionCallback == null)) {
+                buttonAction.setGone()
+            } else {
+                buttonAction.setVisible()
+                buttonAction.text =
+                    (systemMessage.actionText ?: "").ifBlank { getString(R.string.ok) }
+                buttonAction.setOnClickListener {
+                    systemMessage.actionCallback.invoke()
+                }
+            }
+
+            snackBar.show()
+        }
+    }
 }

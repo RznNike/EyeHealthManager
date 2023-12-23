@@ -9,12 +9,9 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.inSpans
 import java.util.*
 
-fun String.toHtmlSpanned(): Spanned {
-    return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY)
-}
+fun String.toHtmlSpanned() = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
-fun getHexFromColor(color: Int) =
-    "#%06X".format(0xFFFFFF and color)
+fun getHexFromColor(color: Int) = String.format("#%06X", 0xFFFFFF and color)
 
 fun String.capitalize() = replaceFirstChar {
     if (it.isLowerCase()) it.titlecase(

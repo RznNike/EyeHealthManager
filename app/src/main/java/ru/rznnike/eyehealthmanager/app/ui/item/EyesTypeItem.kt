@@ -20,7 +20,7 @@ class EyesTypeItem(
     override fun ItemEyesTypeBinding.bindView() {
         textViewName.setText(eyesType.nameResId)
         textViewName.setBackgroundResource(
-            if (isSelected) R.drawable.bg_rounded_4_outline_accent else R.color.colorTransparent
+            if (isSelected) R.drawable.bg_rounded_8_outline_accent else R.color.colorTransparent
         )
     }
 }
