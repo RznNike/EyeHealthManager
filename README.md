@@ -7,7 +7,7 @@ An app to monitor your eye health.
 ## Downloads
 You can install this app from the store:
 
-[<img src="/readme_files/en/badge_google_play.png" alt="Get it on Google Play" height="60"/>](https://play.google.com/store/apps/details?id=ru.rznnike.eyehealthmanager)
+[<img src="/readme_files/en/badge_google_play.png" alt="Get it on Google Play" height="60"/>](https://play.google.com/store/apps/details?id=ru.rznnike.eyehealthmanager) [<img src="/readme_files/badge_rustore.png" alt="Get it on RuStore" height="60"/>](https://apps.rustore.ru/app/ru.rznnike.eyehealthmanager)
 
 Or you can download the apk from the [releases page](https://github.com/RznNike/EyeHealthManager/releases).
 ## Description
