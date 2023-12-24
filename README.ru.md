@@ -7,7 +7,7 @@
 ## Загрузки
 Вы можете установить это приложение из магазина:
 
-[<img src="/readme_files/ru/badge_google_play.png" alt="Скачать из Google Play" height="60"/>](https://play.google.com/store/apps/details?id=ru.rznnike.eyehealthmanager)
+[<img src="/readme_files/ru/badge_google_play.png" alt="Скачать из Google Play" height="60"/>](https://play.google.com/store/apps/details?id=ru.rznnike.eyehealthmanager) [<img src="/readme_files/badge_rustore.png" alt="Скачать из RuStore" height="60"/>](https://apps.rustore.ru/app/ru.rznnike.eyehealthmanager)
 
 Или вы можете скачать apk со [станицы releases](https://github.com/RznNike/EyeHealthManager/releases).
 ## Описание
