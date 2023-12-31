@@ -7,6 +7,7 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
+import ru.rznnike.eyehealthmanager.domain.utils.toFloatOrNullSmart
 import ru.rznnike.eyehealthmanager.domain.utils.toTimeStamp
 import java.text.ParseException
 
@@ -55,8 +56,8 @@ class AcuityTestResult(
                     val symbolsType = AcuityTestSymbolsType[stringParts[1]]
                     val testEyesType = TestEyesType[stringParts[2]]
                     val dayPart = DayPart[stringParts[3]]
-                    val resultLeftEye = stringParts[4].toFloatOrNull()?.let { (it * 100).toInt() }
-                    val resultRightEye = stringParts[5].toFloatOrNull()?.let { (it * 100).toInt() }
+                    val resultLeftEye = stringParts[4].toFloatOrNullSmart()?.let { (it * 100).toInt() }
+                    val resultRightEye = stringParts[5].toFloatOrNullSmart()?.let { (it * 100).toInt() }
                     val measuredByDoctor = stringParts[6].toBoolean()
                     if ((symbolsType == null) || (testEyesType == null) || (dayPart == null)) {
                         null
