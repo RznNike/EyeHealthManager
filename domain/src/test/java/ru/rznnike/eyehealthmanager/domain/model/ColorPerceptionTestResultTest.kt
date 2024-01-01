@@ -1,9 +1,8 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
-import org.junit.jupiter.api.Assertions.*
-
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
 
 class ColorPerceptionTestResultTest {
     private val testResult1 = ColorPerceptionTestResult(

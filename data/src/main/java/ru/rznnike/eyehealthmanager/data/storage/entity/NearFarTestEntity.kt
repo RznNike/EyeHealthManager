@@ -10,7 +10,7 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
 data class NearFarTestEntity(
     @Id var id: Long = 0,
     @Convert(converter = NearFarAnswerTypeConverter::class, dbType = Int::class)
-    val resultLeftEye: NearFarAnswerType? = null,
+    val resultLeftEye: NearFarAnswerType,
     @Convert(converter = NearFarAnswerTypeConverter::class, dbType = Int::class)
-    val resultRightEye: NearFarAnswerType? = null
+    val resultRightEye: NearFarAnswerType
 )

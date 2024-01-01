@@ -3,19 +3,19 @@ package ru.rznnike.eyehealthmanager.domain.model
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
 
-class AstigmatismTestResultTest {
-    private val testResult1 = AstigmatismTestResult(
+class NearFarTestResultTest {
+    private val testResult1 = NearFarTestResult(
         id = 1,
         timestamp = 1704029085000,
-        resultLeftEye = AstigmatismAnswerType.OK,
-        resultRightEye = AstigmatismAnswerType.ANOMALY
+        resultLeftEye = NearFarAnswerType.EQUAL,
+        resultRightEye = NearFarAnswerType.EQUAL
     )
 
     @Test
     fun exportToString_data_success() {
-        val expectedResult = "31.12.2023 16:24:45\tOK\tANOMALY"
+        val expectedResult = "31.12.2023 16:24:45\tEQUAL\tEQUAL"
 
         val exportString = testResult1.exportToString()
 
@@ -24,9 +24,9 @@ class AstigmatismTestResultTest {
 
     @Test
     fun importFromString_correctData_success() {
-        val string = "31.12.2023 16:24:45\tOK\tANOMALY"
+        val string = "31.12.2023 16:24:45\tEQUAL\tEQUAL"
 
-        val testResult = AstigmatismTestResult.importFromString(string)
+        val testResult = NearFarTestResult.importFromString(string)
 
         assert(testResult1.contentEquals(testResult))
     }
@@ -35,23 +35,23 @@ class AstigmatismTestResultTest {
     fun importFromString_corruptedData_null() {
         val string = "qwerty"
 
-        val testResult = AstigmatismTestResult.importFromString(string)
+        val testResult = NearFarTestResult.importFromString(string)
 
         assertNull(testResult)
     }
 
     @Test
     fun contentEquals_sameData_true() {
-        val otherTest = AstigmatismTestResult.importFromString(testResult1.exportToString())
+        val otherTest = NearFarTestResult.importFromString(testResult1.exportToString())
 
         assert(testResult1.contentEquals(otherTest))
     }
 
     @Test
     fun contentEquals_differentData_false() {
-        val string = "31.12.2023 16:24:45\tOK\tOK"
+        val string = "31.12.2023 16:24:45\tEQUAL\tRED_BETTER"
 
-        val otherTest = AstigmatismTestResult.importFromString(string)
+        val otherTest = NearFarTestResult.importFromString(string)
 
         assert(!testResult1.contentEquals(otherTest))
     }
