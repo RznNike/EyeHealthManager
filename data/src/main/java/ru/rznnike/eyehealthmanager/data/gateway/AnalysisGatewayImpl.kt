@@ -1,6 +1,6 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
-import ru.rznnike.eyehealthmanager.data.storage.repository.TestRepository
+import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import ru.rznnike.eyehealthmanager.domain.gateway.AnalysisGateway
 import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.*

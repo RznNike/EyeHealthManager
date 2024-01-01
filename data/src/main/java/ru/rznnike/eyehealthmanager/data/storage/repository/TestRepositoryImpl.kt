@@ -6,6 +6,7 @@ import ru.rznnike.eyehealthmanager.data.storage.entity.*
 import ru.rznnike.eyehealthmanager.data.storage.global.BaseRepository
 import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 
 class TestRepositoryImpl(
     private val boxStore: BoxStore

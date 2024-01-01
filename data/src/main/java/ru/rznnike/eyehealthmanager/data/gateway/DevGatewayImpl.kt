@@ -1,6 +1,6 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
-import ru.rznnike.eyehealthmanager.data.storage.repository.TestRepository
+import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import ru.rznnike.eyehealthmanager.domain.gateway.DevGateway
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult

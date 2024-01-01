@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
-import ru.rznnike.eyehealthmanager.data.storage.repository.TestRepository
+import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import ru.rznnike.eyehealthmanager.domain.gateway.TestGateway
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
