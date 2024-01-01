@@ -1,12 +1,11 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
-import java.text.DecimalFormatSymbols
-import java.util.Locale
 
 class AcuityTestResultTest {
     private val testResult1 = AcuityTestResult(
@@ -32,12 +31,7 @@ class AcuityTestResultTest {
 
     @Test
     fun exportToString_bothEyes_success() {
-        val separatorChar = DecimalFormatSymbols.getInstance().decimalSeparator.toString()
-        val expectedResult = "31.12.2023 16:24:45\tLETTERS_RU\tBOTH\tEND\t0%s55\t0%s77\ttrue".format(
-            Locale.getDefault(),
-            separatorChar,
-            separatorChar
-        )
+        val expectedResult = "31.12.2023 16:24:45\tLETTERS_RU\tBOTH\tEND\t0.55\t0.77\ttrue"
 
         val exportString = testResult1.exportToString()
 
@@ -46,19 +40,42 @@ class AcuityTestResultTest {
 
     @Test
     fun exportToString_oneEye_success() {
-        val separatorChar = DecimalFormatSymbols.getInstance().decimalSeparator.toString()
-        val expectedResult = "31.12.2023 16:24:45\tSQUARE\tLEFT\tBEGINNING\t0%s56\tnull\tfalse".format(
-            Locale.getDefault(),
-            separatorChar,
-            separatorChar
-        )
+        val expectedResult = "31.12.2023 16:24:45\tSQUARE\tLEFT\tBEGINNING\t0.56\t-\tfalse"
 
         val exportString = testResult2.exportToString()
 
         assertEquals(expectedResult, exportString)
     }
 
-//    @Test
-//    fun contentEquals() {
-//    }
+    @Test
+    fun importFromString_correctData_success() {
+        val string = "31.12.2023 16:24:45\tLETTERS_RU\tBOTH\tEND\t0.55\t0.77\ttrue"
+
+        val testResult = AcuityTestResult.importFromString(string)
+
+        assert(testResult1.contentEquals(testResult))
+    }
+
+    @Test
+    fun importFromString_corruptedData_null() {
+        val string = "qwerty"
+
+        val testResult = AcuityTestResult.importFromString(string)
+
+        assertNull(testResult)
+    }
+
+    @Test
+    fun contentEquals_sameData_true() {
+        val otherTest = AcuityTestResult.importFromString(testResult1.exportToString())
+
+        assert(testResult1.contentEquals(otherTest))
+    }
+
+    @Test
+    fun contentEquals_differentData_false() {
+        val otherTest = AcuityTestResult.importFromString(testResult2.exportToString())
+
+        assert(!testResult1.contentEquals(otherTest))
+    }
 }

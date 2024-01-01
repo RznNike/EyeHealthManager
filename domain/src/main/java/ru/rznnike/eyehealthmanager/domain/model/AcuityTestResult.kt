@@ -6,6 +6,7 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.utils.decimal2Format
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import ru.rznnike.eyehealthmanager.domain.utils.toFloatOrNullSmart
 import ru.rznnike.eyehealthmanager.domain.utils.toTimeStamp
@@ -23,13 +24,13 @@ class AcuityTestResult(
     val measuredByDoctor: Boolean = false
 ) : TestResult(id, timestamp), Parcelable {
     override fun exportToString() =
-        "%s\t%s\t%s\t%s\t%.2f\t%.2f\t%s".format(
+        "%s\t%s\t%s\t%s\t%s\t%s\t%s".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),
             symbolsType.toString(),
             testEyesType.toString(),
             dayPart.toString(),
-            resultLeftEye?.let { it / 100f },
-            resultRightEye?.let { it / 100f },
+            resultLeftEye?.let { decimal2Format.format(it / 100f) } ?: "-",
+            resultRightEye?.let { decimal2Format.format(it / 100f) } ?: "-",
             measuredByDoctor.toString()
         )
 
