@@ -8,8 +8,15 @@ import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 
 class TestRepositoryImpl(
-    boxStore: BoxStore
+    private val boxStore: BoxStore
 ) : BaseRepository<TestEntity>(boxStore, TestEntity::class.java), TestRepository {
+    private val boxAcuity = boxStore.boxFor(AcuityTestEntity::class.java)
+    private val boxAstigmatism = boxStore.boxFor(AstigmatismTestEntity::class.java)
+    private val boxNearFar = boxStore.boxFor(NearFarTestEntity::class.java)
+    private val boxColorPerception = boxStore.boxFor(ColorPerceptionTestEntity::class.java)
+    private val boxDaltonism = boxStore.boxFor(DaltonismTestEntity::class.java)
+    private val boxContrast = boxStore.boxFor(ContrastTestEntity::class.java)
+
     override suspend fun getTests(parameters: TestResultPagingParameters): List<TestResult> {
         val queryBuilder = box.query()
             .notNull(TestEntity_.relationId)
@@ -36,7 +43,7 @@ class TestRepositoryImpl(
             .build()
             .find(parameters.offset.toLong(), parameters.limit.toLong())
 
-        return testEntities.map { mapTestEntityToTestResult(it) }
+        return testEntities.mapNotNull { mapTestEntityToTestResult(it) }
     }
 
     override suspend fun getAllLastTests(): List<TestResult> {
@@ -56,80 +63,22 @@ class TestRepositoryImpl(
 
     private fun mapTestEntityToTestResult(it: TestEntity) =
         when (it.testType) {
-            TestType.ACUITY -> {
-                val acuityTestEntity = box.store.boxFor(AcuityTestEntity::class.java)
-                    .get(it.relationId)
-                AcuityTestResult(
-                    id = it.id,
-                    timestamp = it.timestamp,
-                    symbolsType = acuityTestEntity.symbolsType,
-                    testEyesType = acuityTestEntity.testEyesType,
-                    dayPart = acuityTestEntity.dayPart,
-                    resultLeftEye = acuityTestEntity.resultLeftEye,
-                    resultRightEye = acuityTestEntity.resultRightEye,
-                    measuredByDoctor = acuityTestEntity.measuredByDoctor
-                )
-            }
-            TestType.ASTIGMATISM -> {
-                val astigmatismTestEntity = box.store.boxFor(AstigmatismTestEntity::class.java)
-                    .get(it.relationId)
-                AstigmatismTestResult(
-                    id = it.id,
-                    timestamp = it.timestamp,
-                    resultLeftEye = astigmatismTestEntity.resultLeftEye,
-                    resultRightEye = astigmatismTestEntity.resultRightEye
-                )
-            }
-            TestType.NEAR_FAR -> {
-                val nearFarTestEntity = box.store.boxFor(NearFarTestEntity::class.java)
-                    .get(it.relationId)
-                NearFarTestResult(
-                    id = it.id,
-                    timestamp = it.timestamp,
-                    resultLeftEye = nearFarTestEntity.resultLeftEye,
-                    resultRightEye = nearFarTestEntity.resultRightEye
-                )
-            }
-            TestType.COLOR_PERCEPTION -> {
-                val colorPerceptionTestEntity = box.store.boxFor(ColorPerceptionTestEntity::class.java)
-                    .get(it.relationId)
-                ColorPerceptionTestResult(
-                    id = it.id,
-                    timestamp = it.timestamp,
-                    recognizedColorsCount = colorPerceptionTestEntity.recognizedColorsCount,
-                    allColorsCount = colorPerceptionTestEntity.allColorsCount
-                )
-            }
-            TestType.DALTONISM -> {
-                val daltonismTestEntity = box.store.boxFor(DaltonismTestEntity::class.java)
-                    .get(it.relationId)
-                DaltonismTestResult(
-                    id = it.id,
-                    timestamp = it.timestamp,
-                    errorsCount = daltonismTestEntity.errorsCount,
-                    anomalyType = daltonismTestEntity.anomalyType
-                )
-            }
-            TestType.CONTRAST -> {
-                val contrastTestEntity = box.store.boxFor(ContrastTestEntity::class.java)
-                    .get(it.relationId)
-                ContrastTestResult(
-                    id = it.id,
-                    timestamp = it.timestamp,
-                    recognizedContrast = contrastTestEntity.recognizedContrast
-                )
-            }
+            TestType.ACUITY -> boxAcuity.get(it.relationId)?.toAcuityTestResult(it)
+            TestType.ASTIGMATISM -> boxAstigmatism.get(it.relationId)?.toAstigmatismTestResult(it)
+            TestType.NEAR_FAR -> boxNearFar.get(it.relationId)?.toNearFarTestResult(it)
+            TestType.COLOR_PERCEPTION -> boxColorPerception.get(it.relationId)?.toColorPerceptionTestResult(it)
+            TestType.DALTONISM -> boxDaltonism.get(it.relationId)?.toDaltonismTestResult(it)
+            TestType.CONTRAST -> boxContrast.get(it.relationId)?.toContrastTestResult(it)
         }
 
-    override suspend fun addTests(items: List<TestResult>) {
-        box.store.runInTx {
+    override suspend fun addTests(items: List<TestResult>) =
+        boxStore.runInTx {
             items.forEach { putTestToDB(it) }
         }
-    }
 
     override suspend fun addTest(item: TestResult): Long {
         var resultId: Long = 0
-        box.store.runInTx {
+        boxStore.runInTx {
             resultId = putTestToDB(item)
         }
         return resultId
@@ -141,54 +90,27 @@ class TestRepositoryImpl(
         when (item) {
             is AcuityTestResult -> {
                 testType = TestType.ACUITY
-                val acuityTestEntity = AcuityTestEntity(
-                    symbolsType = item.symbolsType,
-                    testEyesType = item.testEyesType,
-                    dayPart = item.dayPart,
-                    resultLeftEye = item.resultLeftEye,
-                    resultRightEye = item.resultRightEye,
-                    measuredByDoctor = item.measuredByDoctor
-                )
-                relationId = box.store.boxFor(AcuityTestEntity::class.java).put(acuityTestEntity)
+                relationId = boxAcuity.put(item.toAcuityTestEntity())
             }
             is AstigmatismTestResult -> {
                 testType = TestType.ASTIGMATISM
-                val astigmatismTestEntity = AstigmatismTestEntity(
-                    resultLeftEye = item.resultLeftEye,
-                    resultRightEye = item.resultRightEye
-                )
-                relationId = box.store.boxFor(AstigmatismTestEntity::class.java).put(astigmatismTestEntity)
+                relationId = boxAstigmatism.put(item.toAstigmatismTestEntity())
             }
             is NearFarTestResult -> {
                 testType = TestType.NEAR_FAR
-                val nearFarTestEntity = NearFarTestEntity(
-                    resultLeftEye = item.resultLeftEye,
-                    resultRightEye = item.resultRightEye
-                )
-                relationId = box.store.boxFor(NearFarTestEntity::class.java).put(nearFarTestEntity)
+                relationId = boxNearFar.put(item.toNearFarTestEntity())
             }
             is ColorPerceptionTestResult -> {
                 testType = TestType.COLOR_PERCEPTION
-                val colorPerceptionTestEntity = ColorPerceptionTestEntity(
-                    recognizedColorsCount = item.recognizedColorsCount,
-                    allColorsCount = item.allColorsCount
-                )
-                relationId = box.store.boxFor(ColorPerceptionTestEntity::class.java).put(colorPerceptionTestEntity)
+                relationId = boxColorPerception.put(item.toColorPerceptionTestEntity())
             }
             is DaltonismTestResult -> {
                 testType = TestType.DALTONISM
-                val daltonismTestEntity = DaltonismTestEntity(
-                    errorsCount = item.errorsCount,
-                    anomalyType = item.anomalyType
-                )
-                relationId = box.store.boxFor(DaltonismTestEntity::class.java).put(daltonismTestEntity)
+                relationId = boxDaltonism.put(item.toDaltonismTestEntity())
             }
             is ContrastTestResult -> {
                 testType = TestType.CONTRAST
-                val contrastTestEntity = ContrastTestEntity(
-                    recognizedContrast = item.recognizedContrast
-                )
-                relationId = box.store.boxFor(ContrastTestEntity::class.java).put(contrastTestEntity)
+                relationId = boxContrast.put(item.toContrastTestEntity())
             }
         }
         val testEntity = TestEntity(
@@ -199,39 +121,44 @@ class TestRepositoryImpl(
         return box.put(testEntity)
     }
 
-    override suspend fun deleteTestById(id: Long) = box.store.runInTx { deleteTest(id) }
+    override suspend fun deleteTestById(id: Long) = boxStore.runInTx { deleteTest(id) }
 
     private fun deleteTest(id: Long) {
         val testEntity = box.query()
             .equal(TestEntity_.id, id)
             .build()
             .findFirst()
-        box.store.boxFor(TestEntity::class.java).remove(id)
-        when (testEntity?.testType) {
-            TestType.ACUITY -> box.store.boxFor(AcuityTestEntity::class.java)
-            TestType.ASTIGMATISM -> box.store.boxFor(AstigmatismTestEntity::class.java)
-            TestType.NEAR_FAR -> box.store.boxFor(NearFarTestEntity::class.java)
-            TestType.COLOR_PERCEPTION -> box.store.boxFor(ColorPerceptionTestEntity::class.java)
-            TestType.DALTONISM -> box.store.boxFor(DaltonismTestEntity::class.java)
-            TestType.CONTRAST -> box.store.boxFor(ContrastTestEntity::class.java)
-            else -> null
-        }?.remove(testEntity!!.relationId)
+        box.remove(id)
+        testEntity?.let {
+            when (testEntity.testType) {
+                TestType.ACUITY -> boxAcuity
+                TestType.ASTIGMATISM -> boxAstigmatism
+                TestType.NEAR_FAR -> boxNearFar
+                TestType.COLOR_PERCEPTION -> boxColorPerception
+                TestType.DALTONISM -> boxDaltonism
+                TestType.CONTRAST -> boxContrast
+            }.remove(testEntity.relationId)
+        }
     }
 
     override suspend fun deleteAllTests() {
-        box.store.runInTx {
-            box.store.boxFor(TestEntity::class.java).removeAll()
-            box.store.boxFor(AcuityTestEntity::class.java).removeAll()
-            box.store.boxFor(AstigmatismTestEntity::class.java).removeAll()
-            box.store.boxFor(NearFarTestEntity::class.java).removeAll()
-            box.store.boxFor(ColorPerceptionTestEntity::class.java).removeAll()
-            box.store.boxFor(DaltonismTestEntity::class.java).removeAll()
-            box.store.boxFor(ContrastTestEntity::class.java).removeAll()
+        boxStore.runInTx {
+            listOf(
+                box,
+                boxAcuity,
+                boxAstigmatism,
+                boxNearFar,
+                boxColorPerception,
+                boxDaltonism,
+                boxContrast
+            ).forEach {
+                it.removeAll()
+            }
         }
     }
 
     override suspend fun deleteDuplicates() {
-        box.store.runInTx {
+        boxStore.runInTx {
             val testTypeConverter = TestTypeConverter()
 
             var lastId = 0L
@@ -254,11 +181,13 @@ class TestRepositoryImpl(
                             .build()
                             .find()
 
-                        val baseResult = mapTestEntityToTestResult(baseEntity)
-                        similarEntities.forEach {
-                            val similarResult = mapTestEntityToTestResult(it)
-                            if (baseResult.contentEquals(similarResult)) {
-                                deleteTest(similarResult.id)
+                        mapTestEntityToTestResult(baseEntity)?.let { baseResult ->
+                            similarEntities.forEach {
+                                mapTestEntityToTestResult(it)?.let { similarResult ->
+                                    if (baseResult.contentEquals(similarResult)) {
+                                        deleteTest(similarResult.id)
+                                    }
+                                }
                             }
                         }
                     }

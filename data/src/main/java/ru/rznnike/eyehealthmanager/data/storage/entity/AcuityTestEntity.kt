@@ -6,6 +6,7 @@ import io.objectbox.annotation.Id
 import ru.rznnike.eyehealthmanager.data.storage.converter.AcuityTestSymbolsTypeConverter
 import ru.rznnike.eyehealthmanager.data.storage.converter.DayPartConverter
 import ru.rznnike.eyehealthmanager.data.storage.converter.TestEyesTypeConverter
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
@@ -22,4 +23,24 @@ data class AcuityTestEntity(
     val resultLeftEye: Int? = null,
     val resultRightEye: Int? = null,
     val measuredByDoctor: Boolean = false
+) {
+    fun toAcuityTestResult(parentEntity: TestEntity) = AcuityTestResult(
+        id = parentEntity.id,
+        timestamp = parentEntity.timestamp,
+        symbolsType = symbolsType,
+        testEyesType = testEyesType,
+        dayPart = dayPart,
+        resultLeftEye = resultLeftEye,
+        resultRightEye = resultRightEye,
+        measuredByDoctor = measuredByDoctor
+    )
+}
+
+fun AcuityTestResult.toAcuityTestEntity() = AcuityTestEntity(
+    symbolsType = symbolsType,
+    testEyesType = testEyesType,
+    dayPart = dayPart,
+    resultLeftEye = resultLeftEye,
+    resultRightEye = resultRightEye,
+    measuredByDoctor = measuredByDoctor
 )
