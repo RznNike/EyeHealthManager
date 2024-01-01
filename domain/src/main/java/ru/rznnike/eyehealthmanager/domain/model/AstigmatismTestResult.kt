@@ -48,7 +48,6 @@ class AstigmatismTestResult(
                 } catch (e: ParseException) {
                     null
                 }
-
             }
         }
     }
