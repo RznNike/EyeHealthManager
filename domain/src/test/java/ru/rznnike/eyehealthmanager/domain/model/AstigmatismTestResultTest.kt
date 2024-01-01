@@ -2,8 +2,10 @@ package ru.rznnike.eyehealthmanager.domain.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import java.util.TimeZone
 
 class AstigmatismTestResultTest {
     private val testResult1 = AstigmatismTestResult(
@@ -13,9 +15,14 @@ class AstigmatismTestResultTest {
         resultRightEye = AstigmatismAnswerType.ANOMALY
     )
 
+    @BeforeEach
+    fun beforeEach() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
+
     @Test
     fun exportToString_data_success() {
-        val expectedResult = "31.12.2023 16:24:45\tOK\tANOMALY"
+        val expectedResult = "31.12.2023 13:24:45\tOK\tANOMALY"
 
         val exportString = testResult1.exportToString()
 
@@ -24,7 +31,7 @@ class AstigmatismTestResultTest {
 
     @Test
     fun importFromString_correctData_success() {
-        val string = "31.12.2023 16:24:45\tOK\tANOMALY"
+        val string = "31.12.2023 13:24:45\tOK\tANOMALY"
 
         val testResult = AstigmatismTestResult.importFromString(string)
 
@@ -49,7 +56,7 @@ class AstigmatismTestResultTest {
 
     @Test
     fun contentEquals_differentData_false() {
-        val string = "31.12.2023 16:24:45\tOK\tOK"
+        val string = "31.12.2023 13:24:45\tOK\tOK"
 
         val otherTest = AstigmatismTestResult.importFromString(string)
 

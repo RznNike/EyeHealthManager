@@ -2,8 +2,10 @@ package ru.rznnike.eyehealthmanager.domain.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import java.util.TimeZone
 
 class NearFarTestResultTest {
     private val testResult1 = NearFarTestResult(
@@ -13,9 +15,14 @@ class NearFarTestResultTest {
         resultRightEye = NearFarAnswerType.EQUAL
     )
 
+    @BeforeEach
+    fun beforeEach() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
+
     @Test
     fun exportToString_data_success() {
-        val expectedResult = "31.12.2023 16:24:45\tEQUAL\tEQUAL"
+        val expectedResult = "31.12.2023 13:24:45\tEQUAL\tEQUAL"
 
         val exportString = testResult1.exportToString()
 
@@ -24,7 +31,7 @@ class NearFarTestResultTest {
 
     @Test
     fun importFromString_correctData_success() {
-        val string = "31.12.2023 16:24:45\tEQUAL\tEQUAL"
+        val string = "31.12.2023 13:24:45\tEQUAL\tEQUAL"
 
         val testResult = NearFarTestResult.importFromString(string)
 
@@ -49,7 +56,7 @@ class NearFarTestResultTest {
 
     @Test
     fun contentEquals_differentData_false() {
-        val string = "31.12.2023 16:24:45\tEQUAL\tRED_BETTER"
+        val string = "31.12.2023 13:24:45\tEQUAL\tRED_BETTER"
 
         val otherTest = NearFarTestResult.importFromString(string)
 

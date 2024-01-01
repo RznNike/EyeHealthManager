@@ -1,7 +1,9 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.util.TimeZone
 
 class ContrastTestResultTest {
     private val testResult1 = ContrastTestResult(
@@ -10,9 +12,14 @@ class ContrastTestResultTest {
         recognizedContrast = 10
     )
 
+    @BeforeEach
+    fun beforeEach() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
+
     @Test
     fun exportToString_data_success() {
-        val expectedResult = "31.12.2023 16:24:45\t10"
+        val expectedResult = "31.12.2023 13:24:45\t10"
 
         val exportString = testResult1.exportToString()
 
@@ -21,7 +28,7 @@ class ContrastTestResultTest {
 
     @Test
     fun importFromString_correctData_success() {
-        val string = "31.12.2023 16:24:45\t10"
+        val string = "31.12.2023 13:24:45\t10"
 
         val testResult = ContrastTestResult.importFromString(string)
 
@@ -46,7 +53,7 @@ class ContrastTestResultTest {
 
     @Test
     fun contentEquals_differentData_false() {
-        val string = "31.12.2023 16:24:45\t20"
+        val string = "31.12.2023 13:24:45\t20"
 
         val otherTest = ContrastTestResult.importFromString(string)
 
