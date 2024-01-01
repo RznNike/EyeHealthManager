@@ -38,7 +38,7 @@ class DaltonismTestResultTest {
     }
 
     @Test
-    fun importFromString_corruptedData_null() {
+    fun importFromString_badData_null() {
         val string = "qwerty"
 
         val testResult = DaltonismTestResult.importFromString(string)
