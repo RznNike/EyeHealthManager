@@ -10,6 +10,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToLong
 
+// TODO move this partially to global constants and use in UI
 private const val WARNING_VISION_DIFFERENCE_THRESHOLD = 20
 private const val VISION_DYNAMIC_TYPE_THRESHOLD = 5
 private const val NOISE_MIN_POINTS_COUNT = 5
