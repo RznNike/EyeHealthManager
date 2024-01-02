@@ -261,7 +261,7 @@ class AnalysisGatewayImpl(
         }
     }
 
-    private fun isPointNoise(
+    private fun isPointNoise( // TODO fix this
         analysePoint: AcuityTestResult,
         nearbyData: List<AcuityTestResult>
     ): Boolean {

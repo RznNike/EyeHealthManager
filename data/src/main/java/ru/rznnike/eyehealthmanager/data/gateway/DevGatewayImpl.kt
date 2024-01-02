@@ -48,7 +48,7 @@ class DevGatewayImpl(
     ) {
         val days = 90
         val calendar = getTodayCalendar().apply {
-            add(Calendar.MONTH, -3)
+            add(Calendar.DAY_OF_MONTH, -days)
         }
         val tests = mutableListOf<TestResult>()
         for (day in 0 until days) {
