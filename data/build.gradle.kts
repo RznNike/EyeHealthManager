@@ -38,6 +38,12 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -61,6 +67,10 @@ dependencies {
     debugApi("io.objectbox:objectbox-android-objectbrowser:" + rootProject.extra["objectboxVersion"])
     stagingApi("io.objectbox:objectbox-android:" + rootProject.extra["objectboxVersion"])
     releaseApi("io.objectbox:objectbox-android:" + rootProject.extra["objectboxVersion"])
+
+    // Testing
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:" + rootProject.extra["coroutinesVersion"])
 }
 
 apply(plugin = "io.objectbox")
