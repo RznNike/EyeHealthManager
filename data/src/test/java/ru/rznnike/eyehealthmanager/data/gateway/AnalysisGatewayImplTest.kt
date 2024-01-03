@@ -14,6 +14,7 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import java.util.TimeZone
 
 class AnalysisGatewayImplTest {
@@ -187,7 +188,7 @@ class AnalysisGatewayImplTest {
         val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
         val lastTime = fakeTestRepository.tests.maxOf { it.timestamp }
         val parameters = AnalysisParameters(
-            dateFrom = lastTime - 10 * 86400 * 1000L, // 10 days
+            dateFrom = lastTime - 10 * GlobalConstants.DAY_MS,
             dateTo = System.currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
@@ -250,7 +251,7 @@ class AnalysisGatewayImplTest {
             applyDynamicCorrections = true
         )
 
-        val timeOffset = 100 * 86400 * 1000L // 100 days
+        val timeOffset = 100 * GlobalConstants.DAY_MS
         fakeTestRepository.tests.forEach {
             it.timestamp -= timeOffset
         }

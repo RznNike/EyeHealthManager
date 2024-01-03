@@ -5,27 +5,21 @@ import ru.rznnike.eyehealthmanager.domain.gateway.AnalysisGateway
 import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.*
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToLong
 
-// TODO move this partially to global constants and use in UI
 private const val WARNING_VISION_DIFFERENCE_THRESHOLD = 20
 private const val VISION_DYNAMIC_TYPE_THRESHOLD = 5
 private const val NOISE_MIN_POINTS_COUNT = 5
-private const val NOISE_MIN_DATE_DELTA_MS = 5 * 86400 * 1000L // 5 days
-private const val NOISE_MAX_DATE_DELTA_MS = 10 * 86400 * 1000L // 10 days
+private const val NOISE_MIN_DATE_DELTA_MS = 5 * GlobalConstants.DAY_MS
+private const val NOISE_MAX_DATE_DELTA_MS = 10 * GlobalConstants.DAY_MS
 private const val NOISE_FILTER_THRESHOLD = 30
-private const val EXTRAPOLATION_MAX_DATE_DELTA_MS = 90 * 86400 * 1000L // 90 days
+private const val EXTRAPOLATION_MAX_DATE_DELTA_MS = 90 * GlobalConstants.DAY_MS
 private const val EXTRAPOLATION_RESULT_DATE_DIVIDER = 3
-private const val CORRECTIONS_DATE_DELTA_MS = 7 * 86400 * 1000L // 7 days
-private const val GROUPING_MIN_DATE_MS = 3 * 86400 * 1000L // 3 days
-private const val GROUPING_MAX_DATE_MS = 14 * 86400 * 1000L // 14 days
-private const val GROUPING_MIN_SIZE = 5
-private const val STATISTICS_MAX_DATE_MS = 90 * 86400 * 1000L // 90 days
-private const val MIN_GROUPS_COUNT = 2
-private const val MIN_RESULTS_COUNT = GROUPING_MIN_SIZE * MIN_GROUPS_COUNT
+private const val CORRECTIONS_DATE_DELTA_MS = 7 * GlobalConstants.DAY_MS
 
 class AnalysisGatewayImpl(
     private val testRepository: TestRepository
@@ -45,7 +39,7 @@ class AnalysisGatewayImpl(
 
         val acuityResults = testRepository.getTests(acuitySearchParameters)
 
-        if (acuityResults.size < MIN_RESULTS_COUNT) {
+        if (acuityResults.size < GlobalConstants.ANALYSIS_MIN_RESULTS_COUNT) {
             throw NotEnoughDataException()
         }
 
@@ -312,8 +306,9 @@ class AnalysisGatewayImpl(
             )
             currentGroup?.run {
                 values.add(item)
-                val groupIsFilled = ((values.size >= GROUPING_MIN_SIZE) && ((item.timestamp - dateFrom) >= GROUPING_MIN_DATE_MS))
-                        || ((item.timestamp - dateFrom) > GROUPING_MAX_DATE_MS)
+                val groupIsFilled = ((values.size >= GlobalConstants.ANALYSIS_GROUPING_MIN_SIZE)
+                        && ((item.timestamp - dateFrom) >= GlobalConstants.ANALYSIS_GROUPING_MIN_RANGE_MS))
+                        || ((item.timestamp - dateFrom) > GlobalConstants.ANALYSIS_GROUPING_MAX_RANGE_MS)
                 if (groupIsFilled) {
                     groups.add(this)
                     currentGroup = null
@@ -327,7 +322,7 @@ class AnalysisGatewayImpl(
         var index = 0
         while (index < groups.size) {
             val group = groups[index]
-            if ((group.values.size < GROUPING_MIN_SIZE) && (groups.size > 1)) {
+            if ((group.values.size < GlobalConstants.ANALYSIS_GROUPING_MIN_SIZE) && (groups.size > 1)) {
                 val previousGroup = groups.getOrNull(index - 1)
                 val nextGroup = groups.getOrNull(index + 1)
                 when {
@@ -348,7 +343,7 @@ class AnalysisGatewayImpl(
             }
         }
 
-        if (groups.size < MIN_GROUPS_COUNT) {
+        if (groups.size < GlobalConstants.ANALYSIS_MIN_GROUPS_COUNT) {
             throw NotEnoughDataException()
         }
         return groups
@@ -421,7 +416,7 @@ class AnalysisGatewayImpl(
             else -> {
                 val lastTimestamp = groupedResults.last().dateTo
                 val lastGroups = groupedResults.filter {
-                    (lastTimestamp - it.dateFrom) < STATISTICS_MAX_DATE_MS
+                    (lastTimestamp - it.dateFrom) < GlobalConstants.ANALYSIS_MAX_RANGE_MS
                 }
 
                 val averageValue = chartData
