@@ -71,8 +71,9 @@ class AnalysisGatewayImpl(
             )
         }
 
+        val lastResult = sortedResults.last()
         removeNoises(sortedResults)
-        val lastResultRecognizedAsNoise = !sortedResults.contains(acuityResults.lastOrNull())
+        val lastResultRecognizedAsNoise = !sortedResults.contains(lastResult)
 
         val groupedResults = groupResults(sortedResults)
 

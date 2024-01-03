@@ -38,15 +38,15 @@ class EventDispatcher {
         .filter { it.value.size > 0 }
         .forEach { it.value.remove(listener) }
 
-    fun sendEvent(customEvent: AppEvent) {
-        val key = customEvent::class.java.name
+    fun sendEvent(appEvent: AppEvent) {
+        val key = appEvent::class.java.name
         eventListeners
             .filter { it.key == key && it.value.size > 0 }
             .forEach {
                 it.value.forEach { listener ->
                     Handler(Looper.getMainLooper()).post {
                         listener.onEvent(
-                            customEvent
+                            appEvent
                         )
                     }
                 }
