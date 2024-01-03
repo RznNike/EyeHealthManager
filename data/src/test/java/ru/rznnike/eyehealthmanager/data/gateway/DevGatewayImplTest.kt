@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import java.util.TimeZone
 import kotlin.math.abs
 
@@ -31,8 +32,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(90, tests.size)
-        assertEquals(90, filteredTests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
         assert(delta > 10)
     }
 
@@ -51,8 +52,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(90, tests.size)
-        assertEquals(90, filteredTests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
         assert(abs(delta) < 7)
     }
 
@@ -71,8 +72,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(90, tests.size)
-        assertEquals(90, filteredTests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
         assert(delta < -10)
     }
 
