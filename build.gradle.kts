@@ -10,6 +10,7 @@ buildscript {
         set("coroutinesVersion", "1.7.3")
         set("objectboxVersion", "3.7.1")
         set("koinVersion", "3.5.3")
+        set("junitVersion", "5.10.1")
     }
 
     repositories {
