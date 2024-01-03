@@ -54,3 +54,4 @@ This project uses:
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) (charts)
 * [ViewBindingPropertyDelegate](https://github.com/kirich1409/ViewBindingPropertyDelegate) (view binding)
 * [ObjectBox](https://github.com/objectbox/objectbox-java) (database)
+* [JUnit 5](https://junit.org/junit5/) (testing)

@@ -5,7 +5,6 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
-import coil.transform.RoundedCornersTransformation
 import moxy.presenter.InjectPresenter
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogAction
@@ -14,6 +13,7 @@ import ru.rznnike.eyehealthmanager.app.dialog.showAlertDialog
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.test.DaltonismTestPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.test.DaltonismTestView
+import ru.rznnike.eyehealthmanager.app.utils.RoundedCornersFitTransformation
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.context
 import ru.rznnike.eyehealthmanager.app.utils.extensions.convertDpToPx
@@ -104,12 +104,7 @@ class DaltonismTestFragment : BaseFragment(R.layout.fragment_daltonism_test), Da
                                 height = imageViewTest.height
                             )
                             transformations(
-                                RoundedCornersTransformation(
-                                    topLeft = cornersPx,
-                                    topRight = cornersPx,
-                                    bottomLeft = cornersPx,
-                                    bottomRight = cornersPx
-                                )
+                                RoundedCornersFitTransformation(cornersPx)
                             )
                         }
                     }

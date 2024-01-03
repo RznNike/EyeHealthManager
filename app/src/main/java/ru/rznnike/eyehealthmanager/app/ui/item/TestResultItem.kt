@@ -120,8 +120,8 @@ class TestResultItem(
     }
 
     private fun ItemTestResultBinding.getNearFarTestDetails(testResult: NearFarTestResult): String {
-        val leftEyeStatus = testResult.resultLeftEye?.nameResId?.let { getString(it) } ?: "-"
-        val rightEyeStatus = testResult.resultRightEye?.nameResId?.let { getString(it) } ?: "-"
+        val leftEyeStatus = getString(testResult.resultLeftEye.nameResId)
+        val rightEyeStatus = getString(testResult.resultRightEye.nameResId)
         return "%s: %s\n%s: %s".format(
             getString(R.string.left_eye),
             leftEyeStatus,

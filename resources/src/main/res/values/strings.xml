@@ -220,7 +220,7 @@
     <string name="welcome_header">Hello</string>
     <string name="welcome_message">This application is an open source project written by one person for free. You can write about all problems and wishes to the email specified in the settings in the \"About app\" section. There you will also find a link to the source code repository.</string>
     <string name="changelog">Changelog</string>
-    <string name="changelog_text"><b>2.1.0</b>\n• Optimization for Android 14.\n• Redesign and UI improvements.\n• Color perception test improved.\n• Bug fixes.\n• Improvement of texts.\n\n<b>2.0.2</b>\n• Bug fixes.\n\n<b>2.0.1</b>\n• Default language fixed.\n\n<b>2.0.0</b>\n• Optimization for Android 11–13.\n• Redesign and UI improvements.\n• Bug fixes.</string>
+    <string name="changelog_text"><b>2.1.1</b>\n• Bug fixes.\n\n<b>2.1.0</b>\n• Optimization for Android 14.\n• Redesign and UI improvements.\n• Color perception test improved.\n• Bug fixes.\n• Improvement of texts.\n\n<b>2.0.2</b>\n• Bug fixes.\n\n<b>2.0.1</b>\n• Default language fixed.\n\n<b>2.0.0</b>\n• Optimization for Android 11–13.\n• Redesign and UI improvements.\n• Bug fixes.</string>
     <string name="error_file_not_found">File not found</string>
     <string name="notification_channel_system">System notifications</string>
     <string name="notification_channel_soundless_suffix">soundless</string>
