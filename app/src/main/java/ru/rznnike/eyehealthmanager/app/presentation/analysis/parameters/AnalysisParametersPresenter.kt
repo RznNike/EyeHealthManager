@@ -14,10 +14,13 @@ import ru.rznnike.eyehealthmanager.domain.interactor.user.SetApplyDynamicCorrect
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
 import ru.rznnike.eyehealthmanager.domain.utils.toCalendar
+import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 @InjectViewState
@@ -38,7 +41,7 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
         presenterScope.launch {
             parameters.apply {
                 dateFrom = getTodayCalendar().apply {
-                    add(Calendar.MONTH, -3)
+                    add(Calendar.DAY_OF_MONTH, -GlobalConstants.ANALYSIS_MAX_RANGE_DAYS)
                 }.timeInMillis
                 dateTo = Calendar.getInstance().atEndOfDay().timeInMillis
                 applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data ?: false
@@ -49,16 +52,48 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
 
     fun onDateFromValueChanged(newValue: Long) {
         parameters.dateFrom = newValue.toCalendar().atStartOfDay().timeInMillis
-        if (parameters.dateTo <= parameters.dateFrom) {
-            parameters.dateTo = newValue.toCalendar().atEndOfDay().timeInMillis
+        val deltaDays = ChronoUnit.DAYS.between(parameters.dateFrom.toLocalDate(), parameters.dateTo.toLocalDate())
+        when {
+            deltaDays < GlobalConstants.ANALYSIS_MIN_RANGE_DAYS -> {
+                parameters.dateTo = newValue.toCalendar()
+                    .apply {
+                        add(Calendar.DAY_OF_MONTH, GlobalConstants.ANALYSIS_MIN_RANGE_DAYS)
+                    }
+                    .atEndOfDay()
+                    .timeInMillis
+            }
+            deltaDays > GlobalConstants.ANALYSIS_MAX_RANGE_DAYS -> {
+                parameters.dateTo = newValue.toCalendar()
+                    .apply {
+                        add(Calendar.DAY_OF_MONTH, GlobalConstants.ANALYSIS_MAX_RANGE_DAYS)
+                    }
+                    .atEndOfDay()
+                    .timeInMillis
+            }
         }
         viewState.populateData(parameters)
     }
 
     fun onDateToValueChanged(newValue: Long) {
         parameters.dateTo = newValue.toCalendar().atEndOfDay().timeInMillis
-        if (parameters.dateTo <= parameters.dateFrom) {
-            parameters.dateFrom = newValue.toCalendar().atStartOfDay().timeInMillis
+        val deltaDays = ChronoUnit.DAYS.between(parameters.dateFrom.toLocalDate(), parameters.dateTo.toLocalDate())
+        when {
+            deltaDays < GlobalConstants.ANALYSIS_MIN_RANGE_DAYS -> {
+                parameters.dateFrom = newValue.toCalendar()
+                    .apply {
+                        add(Calendar.DAY_OF_MONTH, -GlobalConstants.ANALYSIS_MIN_RANGE_DAYS)
+                    }
+                    .atStartOfDay()
+                    .timeInMillis
+            }
+            deltaDays > GlobalConstants.ANALYSIS_MAX_RANGE_DAYS -> {
+                parameters.dateFrom = newValue.toCalendar()
+                    .apply {
+                        add(Calendar.DAY_OF_MONTH, -GlobalConstants.ANALYSIS_MAX_RANGE_DAYS)
+                    }
+                    .atStartOfDay()
+                    .timeInMillis
+            }
         }
         viewState.populateData(parameters)
     }

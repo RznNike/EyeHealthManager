@@ -2,6 +2,8 @@ package ru.rznnike.eyehealthmanager.domain.utils
 
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
@@ -12,6 +14,10 @@ import java.util.Locale
 
 fun Long.toDate(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE): String =
     SimpleDateFormat(pattern, Locale.getDefault()).format(this)
+
+fun Long.toLocalDate(): LocalDate = Instant.ofEpochMilli(this) // TODO unit tests
+    .atZone(ZoneId.systemDefault())
+    .toLocalDate()
 
 fun String.toTimeStamp(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE_WITH_TIME) =
     if (this.isNotEmpty()) {
