@@ -13,10 +13,10 @@ import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
 
 private const val MIN_DELTA_IN_MS = 60 * 1000L // 1m
-private const val DAY_LENGTH_IN_MS = 24 * 60 * 60 * 1000L // 24h
 
 @InjectViewState
 class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
@@ -104,12 +104,12 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
             val middle = if (settings.timeToDayMiddle >= settings.timeToDayBeginning) {
                 settings.timeToDayMiddle
             } else {
-                settings.timeToDayMiddle + DAY_LENGTH_IN_MS
+                settings.timeToDayMiddle + GlobalConstants.DAY_MS
             }
             val end = if (settings.timeToDayEnd >= settings.timeToDayBeginning) {
                 settings.timeToDayEnd
             } else {
-                settings.timeToDayEnd + DAY_LENGTH_IN_MS
+                settings.timeToDayEnd + GlobalConstants.DAY_MS
             }
 
             return (middle > settings.timeToDayBeginning) && (end > middle)
@@ -119,20 +119,20 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
             when (period) {
                 TimePeriod.BEGINNING -> {
                     settings.timeToDayBeginning = settings.timeToDayEnd + MIN_DELTA_IN_MS
-                    if (settings.timeToDayBeginning >= DAY_LENGTH_IN_MS) {
-                        settings.timeToDayBeginning -= DAY_LENGTH_IN_MS
+                    if (settings.timeToDayBeginning >= GlobalConstants.DAY_MS) {
+                        settings.timeToDayBeginning -= GlobalConstants.DAY_MS
                     }
                 }
                 TimePeriod.MIDDLE -> {
                     settings.timeToDayMiddle = settings.timeToDayBeginning + MIN_DELTA_IN_MS
-                    if (settings.timeToDayMiddle >= DAY_LENGTH_IN_MS) {
-                        settings.timeToDayMiddle -= DAY_LENGTH_IN_MS
+                    if (settings.timeToDayMiddle >= GlobalConstants.DAY_MS) {
+                        settings.timeToDayMiddle -= GlobalConstants.DAY_MS
                     }
                 }
                 TimePeriod.END -> {
                     settings.timeToDayEnd = settings.timeToDayMiddle + MIN_DELTA_IN_MS
-                    if (settings.timeToDayEnd >= DAY_LENGTH_IN_MS) {
-                        settings.timeToDayEnd -= DAY_LENGTH_IN_MS
+                    if (settings.timeToDayEnd >= GlobalConstants.DAY_MS) {
+                        settings.timeToDayEnd -= GlobalConstants.DAY_MS
                     }
                 }
             }

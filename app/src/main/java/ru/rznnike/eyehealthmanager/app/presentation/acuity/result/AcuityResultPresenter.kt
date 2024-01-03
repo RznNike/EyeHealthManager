@@ -5,6 +5,8 @@ import moxy.InjectViewState
 import moxy.presenterScope
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.app.Screens
+import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
+import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
@@ -26,6 +28,7 @@ class AcuityResultPresenter(
 ) : BasePresenter<AcuityResultView>() {
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
+    private val eventDispatcher: EventDispatcher by inject()
     private val getApplyDynamicCorrectionsUseCase: GetApplyDynamicCorrectionsUseCase by inject()
     private val getAnalysisResultUseCase: GetAnalysisResultUseCase by inject()
     private val deleteTestResultUseCase: DeleteTestResultUseCase by inject()
@@ -79,6 +82,7 @@ class AcuityResultPresenter(
                     }
                 }
             )
+            eventDispatcher.sendEvent(AppEvent.JournalChanged)
             viewState.setProgress(false)
         }
     }

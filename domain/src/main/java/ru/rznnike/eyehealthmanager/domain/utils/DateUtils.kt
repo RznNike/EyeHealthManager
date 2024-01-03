@@ -19,15 +19,6 @@ fun Long.toLocalDate(): LocalDate = Instant.ofEpochMilli(this)
     .atZone(ZoneId.systemDefault())
     .toLocalDate()
 
-fun LocalDate.toTimestamp() =
-    atStartOfDay().atZone(ZoneId.systemDefault()).toEpochSecond() * 1000L
-
-fun Long.toYear() =
-    SimpleDateFormat(GlobalConstants.DATE_PATTERN_YEAR, Locale.getDefault()).format(this).toInt()
-
-fun Long.toMonth() =
-    SimpleDateFormat(GlobalConstants.DATE_PATTERN_MONTH, Locale.getDefault()).format(this).toInt()
-
 fun String.toTimeStamp(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE_WITH_TIME) =
     if (this.isNotEmpty()) {
         try {

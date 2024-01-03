@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.data.storage.repository
+package ru.rznnike.eyehealthmanager.domain.storage.repository
 
 import ru.rznnike.eyehealthmanager.domain.model.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
