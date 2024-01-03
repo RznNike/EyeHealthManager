@@ -15,7 +15,7 @@ import java.util.Locale
 fun Long.toDate(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE): String =
     SimpleDateFormat(pattern, Locale.getDefault()).format(this)
 
-fun Long.toLocalDate(): LocalDate = Instant.ofEpochMilli(this) // TODO unit tests
+fun Long.toLocalDate(): LocalDate = Instant.ofEpochMilli(this)
     .atZone(ZoneId.systemDefault())
     .toLocalDate()
 

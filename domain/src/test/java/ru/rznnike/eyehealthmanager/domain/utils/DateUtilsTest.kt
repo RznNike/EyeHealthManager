@@ -44,6 +44,17 @@ class DateUtilsTest {
     }
 
     @Test
+    fun longToLocalDate_success() {
+        val timestamp = 1704124202000L
+
+        val result = timestamp.toLocalDate()
+
+        assertEquals(2024, result.year)
+        assertEquals(1, result.monthValue)
+        assertEquals(1, result.dayOfMonth)
+    }
+
+    @Test
     fun stringToTimeStamp_defaultPattern_success() {
         val string = "01.01.2024 15:50"
         val expectedTimestamp = 1704124200000L
