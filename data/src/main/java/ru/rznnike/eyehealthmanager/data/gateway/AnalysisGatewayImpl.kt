@@ -14,8 +14,8 @@ import kotlin.math.roundToLong
 private const val WARNING_VISION_DIFFERENCE_THRESHOLD = 20
 private const val VISION_DYNAMIC_TYPE_THRESHOLD = 5
 private const val NOISE_MIN_POINTS_COUNT = 5
-private const val NOISE_MIN_DATE_DELTA_MS = 3 * 86400 * 1000L // 3 days
-private const val NOISE_MAX_DATE_DELTA_MS = 7 * 86400 * 1000L // 7 days
+private const val NOISE_MIN_DATE_DELTA_MS = 5 * 86400 * 1000L // 5 days
+private const val NOISE_MAX_DATE_DELTA_MS = 10 * 86400 * 1000L // 10 days
 private const val NOISE_FILTER_THRESHOLD = 30
 private const val EXTRAPOLATION_MAX_DATE_DELTA_MS = 90 * 86400 * 1000L // 90 days
 private const val EXTRAPOLATION_RESULT_DATE_DIVIDER = 3
@@ -261,28 +261,31 @@ class AnalysisGatewayImpl(
         }
     }
 
-    private fun isPointNoise( // TODO fix this
+    private fun isPointNoise(
         analysePoint: AcuityTestResult,
         nearbyData: List<AcuityTestResult>
     ): Boolean {
-        fun isNoise(eye: TestEyesType): Boolean {
-            val functionPoints = nearbyData.mapNotNull { point ->
-                val y = if (eye == TestEyesType.LEFT) point.resultLeftEye else point.resultRightEye
-                y?.let {
-                    FunctionPoint(
-                        x = point.timestamp.toDouble(),
-                        y = y.toDouble()
-                    )
+        var smallDeltaCount = 0
+        var bigDeltaCount = 0
+        nearbyData.forEach {
+            val deltaLeftEye = it.resultLeftEye?.let { result1 ->
+                analysePoint.resultLeftEye?.let { result2 ->
+                    abs(result1 - result2)
                 }
+            } ?: 0
+            val deltaRightEye = it.resultRightEye?.let { result1 ->
+                analysePoint.resultRightEye?.let { result2 ->
+                    abs(result1 - result2)
+                }
+            } ?: 0
+            if ((deltaLeftEye > NOISE_FILTER_THRESHOLD) || (deltaRightEye > NOISE_FILTER_THRESHOLD)) {
+                bigDeltaCount++
+            } else {
+                smallDeltaCount++
             }
-            val trend = getLinearTrend(functionPoints)
-            val analyseX = analysePoint.timestamp.toDouble()
-            val analyseY = if (eye == TestEyesType.LEFT) analysePoint.resultLeftEye else analysePoint.resultRightEye
-
-            return (analyseY != null) && (trend != null) && (abs(analyseY - trend.getY(analyseX)) > NOISE_FILTER_THRESHOLD)
         }
 
-        return isNoise(TestEyesType.LEFT) || isNoise(TestEyesType.RIGHT)
+        return bigDeltaCount >= smallDeltaCount
     }
 
     private fun getLinearTrend(points: List<FunctionPoint>) =
