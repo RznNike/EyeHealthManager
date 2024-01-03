@@ -6,7 +6,9 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.utils.decimal2Format
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
+import ru.rznnike.eyehealthmanager.domain.utils.toFloatOrNullSmart
 import ru.rznnike.eyehealthmanager.domain.utils.toTimeStamp
 import java.text.ParseException
 
@@ -22,13 +24,13 @@ class AcuityTestResult(
     val measuredByDoctor: Boolean = false
 ) : TestResult(id, timestamp), Parcelable {
     override fun exportToString() =
-        "%s\t%s\t%s\t%s\t%.2f\t%.2f\t%s".format(
+        "%s\t%s\t%s\t%s\t%s\t%s\t%s".format(
             timestamp.toDate(GlobalConstants.DATE_PATTERN_FULL),
             symbolsType.toString(),
             testEyesType.toString(),
             dayPart.toString(),
-            resultLeftEye?.let { it / 100f },
-            resultRightEye?.let { it / 100f },
+            resultLeftEye?.let { decimal2Format.format(it / 100f) } ?: "-",
+            resultRightEye?.let { decimal2Format.format(it / 100f) } ?: "-",
             measuredByDoctor.toString()
         )
 
@@ -55,8 +57,8 @@ class AcuityTestResult(
                     val symbolsType = AcuityTestSymbolsType[stringParts[1]]
                     val testEyesType = TestEyesType[stringParts[2]]
                     val dayPart = DayPart[stringParts[3]]
-                    val resultLeftEye = stringParts[4].toFloatOrNull()?.let { (it * 100).toInt() }
-                    val resultRightEye = stringParts[5].toFloatOrNull()?.let { (it * 100).toInt() }
+                    val resultLeftEye = stringParts[4].toFloatOrNullSmart()?.let { (it * 100).toInt() }
+                    val resultRightEye = stringParts[5].toFloatOrNullSmart()?.let { (it * 100).toInt() }
                     val measuredByDoctor = stringParts[6].toBoolean()
                     if ((symbolsType == null) || (testEyesType == null) || (dayPart == null)) {
                         null

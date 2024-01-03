@@ -12,8 +12,8 @@ import java.text.ParseException
 class NearFarTestResult(
     override var id: Long = 0,
     override var timestamp: Long = 0,
-    val resultLeftEye: NearFarAnswerType? = null,
-    val resultRightEye: NearFarAnswerType? = null
+    val resultLeftEye: NearFarAnswerType,
+    val resultRightEye: NearFarAnswerType
 ) : TestResult(id, timestamp), Parcelable {
     override fun exportToString() =
         "%s\t%s\t%s".format(

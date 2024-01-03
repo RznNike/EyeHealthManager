@@ -1,6 +1,6 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
-import ru.rznnike.eyehealthmanager.data.storage.repository.TestRepository
+import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import ru.rznnike.eyehealthmanager.domain.gateway.DevGateway
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
@@ -17,6 +17,7 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
 import java.util.Calendar
 import kotlin.random.Random
@@ -46,12 +47,11 @@ class DevGatewayImpl(
         leftEyeTrend: LinearFunction,
         rightEyeTrend: LinearFunction
     ) {
-        val days = 90
         val calendar = getTodayCalendar().apply {
-            add(Calendar.MONTH, -3)
+            add(Calendar.DAY_OF_MONTH, -GlobalConstants.ANALYSIS_MAX_RANGE_DAYS)
         }
         val tests = mutableListOf<TestResult>()
-        for (day in 0 until days) {
+        for (day in 0 until GlobalConstants.ANALYSIS_MAX_RANGE_DAYS) {
             tests.add(
                 AcuityTestResult(
                     timestamp = calendar.timeInMillis + Random.nextInt(30_000_000), // nearly first 8 hours of day

@@ -82,7 +82,7 @@ class AnalysisParametersFragment : BaseFragment(R.layout.fragment_analysis_param
             }
             buttonDateTo.setOnClickListener {
                 showDatePicker(
-                    preselectedDate = parameters.dateFrom,
+                    preselectedDate = parameters.dateTo,
                     onSuccess = presenter::onDateToValueChanged
                 )
             }

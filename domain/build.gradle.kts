@@ -36,6 +36,12 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -50,4 +56,7 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + rootProject.extra["coroutinesVersion"])
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:" + rootProject.extra["coroutinesVersion"])
+
+    // Testing
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }
