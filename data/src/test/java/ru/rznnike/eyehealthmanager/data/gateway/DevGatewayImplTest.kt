@@ -1,49 +1,16 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
-
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import java.util.TimeZone
 import kotlin.math.abs
 
 class DevGatewayImplTest {
-    private val fakeTestRepository = object : TestRepository {
-        private val tests = mutableListOf<TestResult>()
-
-        override suspend fun getTests(parameters: TestResultPagingParameters) = tests
-
-        override suspend fun getAllLastTests() = tests
-            .filter { it !is AcuityTestResult }
-            .sortedByDescending { it.timestamp }
-            .distinctBy { it.javaClass }
-
-        override suspend fun addTests(items: List<TestResult>) {
-            tests.addAll(items)
-        }
-
-        override suspend fun addTest(item: TestResult): Long {
-            tests.add(item)
-            return item.id
-        }
-
-        override suspend fun deleteTestById(id: Long) {
-            tests.removeAll { it.id == id }
-        }
-
-        override suspend fun deleteAllTests() {
-            tests.clear()
-        }
-
-        override suspend fun deleteDuplicates() = Unit
-    }
-
     @BeforeEach
     fun beforeEach() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
@@ -51,7 +18,7 @@ class DevGatewayImplTest {
 
     @Test
     fun generateData_goodVision_success() = runTest {
-        fakeTestRepository.deleteAllTests()
+        val fakeTestRepository = FakeTestRepository()
         val parameters = TestResultPagingParameters(
             limit = Int.MAX_VALUE,
             offset = 0,
@@ -71,7 +38,7 @@ class DevGatewayImplTest {
 
     @Test
     fun generateData_averageVision_success() = runTest {
-        fakeTestRepository.deleteAllTests()
+        val fakeTestRepository = FakeTestRepository()
         val parameters = TestResultPagingParameters(
             limit = Int.MAX_VALUE,
             offset = 0,
@@ -91,7 +58,7 @@ class DevGatewayImplTest {
 
     @Test
     fun generateData_badVision_success() = runTest {
-        fakeTestRepository.deleteAllTests()
+        val fakeTestRepository = FakeTestRepository()
         val parameters = TestResultPagingParameters(
             limit = Int.MAX_VALUE,
             offset = 0,
@@ -111,7 +78,7 @@ class DevGatewayImplTest {
 
     @Test
     fun generateData_otherTests_success() = runTest {
-        fakeTestRepository.deleteAllTests()
+        val fakeTestRepository = FakeTestRepository()
         val parameters = TestResultPagingParameters(
             limit = Int.MAX_VALUE,
             offset = 0,
