@@ -1,11 +1,13 @@
 package ru.rznnike.eyehealthmanager.app.dispatcher.event
 
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
 import java.util.*
 import kotlin.reflect.KClass
 
-class EventDispatcher {
+class EventDispatcher(
+    private val coroutineProvider: CoroutineProvider
+) {
     private val eventListeners = HashMap<String, MutableList<EventListener>>()
 
     fun addEventListener(appEventClass: KClass<out AppEvent>, listener: EventListener): EventListener {
@@ -43,7 +45,7 @@ class EventDispatcher {
             .filter { it.key == key && it.value.size > 0 }
             .forEach {
                 it.value.forEach { listener ->
-                    MainScope().launch {
+                    coroutineProvider.scopeMain.launch {
                         listener.onEvent(appEvent)
                     }
                 }

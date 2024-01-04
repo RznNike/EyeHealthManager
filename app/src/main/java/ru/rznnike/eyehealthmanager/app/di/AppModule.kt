@@ -22,7 +22,7 @@ val appModule = module {
     factory { AppLifeCycleObserver() }
     single { Notifier(get()) }
     single { ErrorHandler(get(), get()) }
-    single { EventDispatcher() }
+    single { EventDispatcher(get()) }
     single { ExternalIntentDispatcher(get()) }
     single { Notificator(androidContext()) }
     single<CrashlyticsProvider> { CrashlyticsProviderImpl() }
