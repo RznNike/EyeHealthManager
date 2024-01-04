@@ -7,7 +7,7 @@
     android:gravity="center">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/percentProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="6dp"
