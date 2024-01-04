@@ -1,6 +1,5 @@
 package ru.rznnike.eyehealthmanager.app.dispatcher.external
 
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -14,9 +13,7 @@ class ExternalIntentDispatcher(
         ExternalIntentData.App().apply { processed = true }
     )
 
-    fun subscribe(): Flow<ExternalIntentData> {
-        return eventsFlow.asStateFlow()
-    }
+    fun subscribe() = eventsFlow.asStateFlow()
 
     fun send(data: ExternalIntentData) {
         coroutineProvider.scopeIo.launch {

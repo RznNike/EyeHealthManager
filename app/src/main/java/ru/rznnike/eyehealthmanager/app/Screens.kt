@@ -45,7 +45,6 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.settings.testing.TestingSetti
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFragment
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart

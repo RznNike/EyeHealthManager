@@ -1,9 +1,8 @@
 package ru.rznnike.eyehealthmanager.app.dispatcher.event
 
-import android.os.Handler
-import android.os.Looper
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.reflect.KClass
 
 class EventDispatcher {
@@ -44,10 +43,8 @@ class EventDispatcher {
             .filter { it.key == key && it.value.size > 0 }
             .forEach {
                 it.value.forEach { listener ->
-                    Handler(Looper.getMainLooper()).post {
-                        listener.onEvent(
-                            appEvent
-                        )
+                    MainScope().launch {
+                        listener.onEvent(appEvent)
                     }
                 }
             }
