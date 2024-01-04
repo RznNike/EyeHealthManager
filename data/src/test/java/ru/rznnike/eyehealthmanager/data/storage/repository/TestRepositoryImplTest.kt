@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.data.storage.repository
 
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.gateway.DevGatewayImpl
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
@@ -31,7 +32,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
 
         val tests = repository.getTests(parameters)
 
-        assert(tests.isEmpty())
+        assertTrue(tests.isEmpty())
     }
 
     @Test
@@ -89,8 +90,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
         val tests = repository.getTests(parameters)
 
         assertEquals(3, tests.size)
-        assert(tests[0].timestamp > tests[1].timestamp)
-        assert(tests[1].timestamp > tests[2].timestamp)
+        assertTrue(tests[0].timestamp > tests[1].timestamp)
+        assertTrue(tests[1].timestamp > tests[2].timestamp)
     }
 
     @Test
@@ -112,8 +113,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
 
         val tests = repository.getTests(parameters)
 
-        assert(tests.isNotEmpty())
-        assert(tests.minOf { it.timestamp } >= (parameters.filter?.dateFrom ?: 0))
+        assertTrue(tests.isNotEmpty())
+        assertTrue(tests.minOf { it.timestamp } >= (parameters.filter?.dateFrom ?: 0))
     }
 
     @Test
@@ -137,7 +138,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
         val tests = repository.getTests(parameters)
 
         assertEquals(1, tests.size)
-        assert(tests.first() is ContrastTestResult)
+        assertTrue(tests.first() is ContrastTestResult)
     }
 
     @Test
@@ -160,9 +161,9 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
 
         val tests = repository.getTests(parameters)
 
-        assert(tests.isNotEmpty())
-        assert(tests.minOf { it.timestamp } >= (parameters.filter?.dateFrom ?: 0))
-        assert(tests.all { it is AcuityTestResult })
+        assertTrue(tests.isNotEmpty())
+        assertTrue(tests.minOf { it.timestamp } >= (parameters.filter?.dateFrom ?: 0))
+        assertTrue(tests.all { it is AcuityTestResult })
     }
 
     @Test
@@ -171,7 +172,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
 
         val tests = repository.getAllLastTests()
 
-        assert(tests.isEmpty())
+        assertTrue(tests.isEmpty())
     }
 
     @Test
@@ -183,7 +184,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
         val tests = repository.getAllLastTests()
 
         assertEquals(1, tests.size)
-        assert(tests.first() is AcuityTestResult)
+        assertTrue(tests.first() is AcuityTestResult)
     }
 
     @Test
@@ -219,7 +220,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
         repository.addTests(tests)
         val resultTests = repository.getTests(parameters)
 
-        assert(resultTests.isEmpty())
+        assertTrue(resultTests.isEmpty())
     }
 
     @Test
@@ -357,7 +358,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
         repository.deleteAllTests()
         val resultTests = repository.getTests(parameters)
 
-        assert(resultTests.isEmpty())
+        assertTrue(resultTests.isEmpty())
     }
 
     @Test
@@ -381,8 +382,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
         repository.deleteAllTests()
         val resultTests = repository.getTests(parameters)
 
-        assert(oldTests.isNotEmpty())
-        assert(resultTests.isEmpty())
+        assertTrue(oldTests.isNotEmpty())
+        assertTrue(resultTests.isEmpty())
     }
 
     @Test
@@ -416,7 +417,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
         repository.deleteDuplicates()
         val resultTests = repository.getTests(parameters)
 
-        assert(oldTests.isNotEmpty())
+        assertTrue(oldTests.isNotEmpty())
         assertEquals(tests.size, oldTests.size)
         assertEquals(oldTests.size, resultTests.size)
     }
@@ -453,7 +454,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
         repository.deleteDuplicates()
         val resultTests = repository.getTests(parameters)
 
-        assert(oldTests.isNotEmpty())
+        assertTrue(oldTests.isNotEmpty())
         assertEquals(tests.size * 2, oldTests.size)
         assertEquals(tests.size, resultTests.size)
     }

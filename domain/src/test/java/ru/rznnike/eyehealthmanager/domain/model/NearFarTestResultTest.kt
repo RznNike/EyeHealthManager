@@ -1,7 +1,9 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
@@ -35,7 +37,7 @@ class NearFarTestResultTest {
 
         val testResult = NearFarTestResult.importFromString(string)
 
-        assert(testResult1.contentEquals(testResult))
+        assertTrue(testResult1.contentEquals(testResult))
     }
 
     @Test
@@ -51,7 +53,7 @@ class NearFarTestResultTest {
     fun contentEquals_sameData_true() {
         val otherTest = NearFarTestResult.importFromString(testResult1.exportToString())
 
-        assert(testResult1.contentEquals(otherTest))
+        assertTrue(testResult1.contentEquals(otherTest))
     }
 
     @Test
@@ -60,6 +62,6 @@ class NearFarTestResultTest {
 
         val otherTest = NearFarTestResult.importFromString(string)
 
-        assert(!testResult1.contentEquals(otherTest))
+        assertFalse(testResult1.contentEquals(otherTest))
     }
 }

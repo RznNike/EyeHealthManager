@@ -2,8 +2,10 @@ package ru.rznnike.eyehealthmanager.data.gateway
 
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -73,7 +75,7 @@ class AnalysisGatewayImplTest {
 
         val result = gateway.getAnalysisResult(parameters)
 
-        assert(!result.showWarningAboutVision)
+        assertFalse(result.showWarningAboutVision)
     }
 
     @Test
@@ -91,7 +93,7 @@ class AnalysisGatewayImplTest {
 
         val result = gateway.getAnalysisResult(parameters)
 
-        assert(!result.showWarningAboutVision)
+        assertFalse(result.showWarningAboutVision)
     }
 
     @Test
@@ -109,7 +111,7 @@ class AnalysisGatewayImplTest {
 
         val result = gateway.getAnalysisResult(parameters)
 
-        assert(result.showWarningAboutVision)
+        assertTrue(result.showWarningAboutVision)
     }
 
     @Test
@@ -137,8 +139,8 @@ class AnalysisGatewayImplTest {
         fakeTestRepository.addTest(noiseTest)
         val result2 = gateway.getAnalysisResult(parameters)
 
-        assert(!result1.lastResultRecognizedAsNoise)
-        assert(result2.lastResultRecognizedAsNoise)
+        assertFalse(result1.lastResultRecognizedAsNoise)
+        assertTrue(result2.lastResultRecognizedAsNoise)
     }
 
     @Test
@@ -177,7 +179,7 @@ class AnalysisGatewayImplTest {
 
         val result = gateway.getAnalysisResult(parameters)
 
-        assert(result.testResults.isEmpty())
+        assertTrue(result.testResults.isEmpty())
     }
 
     @Test
@@ -215,8 +217,8 @@ class AnalysisGatewayImplTest {
 
         val result = gateway.getAnalysisResult(parameters)
 
-        assert(result.leftEyeAnalysisResult.chartData.size > 5)
-        assert(result.rightEyeAnalysisResult.chartData.size > 5)
+        assertTrue(result.leftEyeAnalysisResult.chartData.size > 5)
+        assertTrue(result.rightEyeAnalysisResult.chartData.size > 5)
     }
 
     @Test

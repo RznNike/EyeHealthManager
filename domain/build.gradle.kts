@@ -58,6 +58,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:" + rootProject.extra["coroutinesVersion"])
 
     // Testing
-    // https://junit.org/junit5/
     testImplementation("org.junit.jupiter:junit-jupiter:" + rootProject.extra["junitVersion"])
 }

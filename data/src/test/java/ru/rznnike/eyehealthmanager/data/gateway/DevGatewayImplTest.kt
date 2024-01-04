@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.data.gateway
 
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
@@ -34,7 +35,7 @@ class DevGatewayImplTest {
 
         assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
         assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
-        assert(delta > 10)
+        assertTrue(delta > 10)
     }
 
     @Test
@@ -54,7 +55,7 @@ class DevGatewayImplTest {
 
         assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
         assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
-        assert(abs(delta) < 7)
+        assertTrue(abs(delta) < 7)
     }
 
     @Test
@@ -74,7 +75,7 @@ class DevGatewayImplTest {
 
         assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
         assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
-        assert(delta < -10)
+        assertTrue(delta < -10)
     }
 
     @Test

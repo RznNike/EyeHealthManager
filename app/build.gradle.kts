@@ -110,6 +110,12 @@ android {
         abi.enableSplit = false
         language.enableSplit = false
     }
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -191,4 +197,10 @@ dependencies {
     // FlexboxLayoutManager
     // https://github.com/google/flexbox-layout
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+
+    // Testing
+    // https://junit.org/junit5/
+    testImplementation("org.junit.jupiter:junit-jupiter:" + rootProject.extra["junitVersion"])
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:" + rootProject.extra["coroutinesVersion"])
+    testImplementation("org.mockito:mockito-core:5.8.0")
 }
