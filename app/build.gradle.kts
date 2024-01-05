@@ -142,6 +142,7 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + rootProject.extra["coroutinesVersion"])
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:" + rootProject.extra["coroutinesVersion"])
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:" + rootProject.extra["coroutinesVersion"])
 
     // Material
     implementation("com.google.android.material:material:1.11.0")
@@ -154,6 +155,8 @@ dependencies {
     // https://github.com/InsertKoinIO/koin
     implementation("io.insert-koin:koin-core:" + rootProject.extra["koinVersion"])
     implementation("io.insert-koin:koin-android:" + rootProject.extra["koinVersion"])
+    testImplementation("io.insert-koin:koin-test:" + rootProject.extra["koinVersion"])
+    testImplementation("io.insert-koin:koin-test-junit5:" + rootProject.extra["koinVersion"])
 
     // Moxy MVP
     // https://github.com/moxy-community/Moxy
@@ -201,7 +204,6 @@ dependencies {
     // Testing
     // https://junit.org/junit5/
     testImplementation("org.junit.jupiter:junit-jupiter:" + rootProject.extra["junitVersion"])
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:" + rootProject.extra["coroutinesVersion"])
 
     // Mocks for testing
     // https://github.com/mockito/mockito
