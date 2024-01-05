@@ -1,6 +1,5 @@
 package ru.rznnike.eyehealthmanager.app.dispatcher.event
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
@@ -8,7 +7,7 @@ import org.mockito.Mockito.never
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
-import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
+import ru.rznnike.eyehealthmanager.app.utils.createTestCoroutineProvider
 
 class EventDispatcherTest {
     @Test
@@ -130,12 +129,5 @@ class EventDispatcherTest {
         testScheduler.advanceUntilIdle()
 
         verify(mockListener, never()).onEvent(event)
-    }
-
-    private fun CoroutineScope.createTestCoroutineProvider() = object : CoroutineProvider {
-        override val scopeIo = this@createTestCoroutineProvider
-        override val scopeMain = this@createTestCoroutineProvider
-        override val scopeMainImmediate = this@createTestCoroutineProvider
-        override val scopeUnconfined = this@createTestCoroutineProvider
     }
 }
