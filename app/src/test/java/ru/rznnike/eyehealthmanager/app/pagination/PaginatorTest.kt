@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.pagination
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -24,18 +25,8 @@ class PaginatorTest {
 
     @Test
     fun getData_empty_success() = runTest {
-        val sourceData = IntRange(1000, 1029).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1029).toList())
+        val paginator = createPaginator(loader)
 
         val result = paginator.getData()
 
@@ -44,18 +35,8 @@ class PaginatorTest {
 
     @Test
     fun getData_notEmpty_success() = runTest {
-        val sourceData = IntRange(1000, 1029).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1029).toList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
@@ -66,18 +47,8 @@ class PaginatorTest {
 
     @Test
     fun getData_afterRefresh_updatesAllData() = runTest {
-        val sourceData = IntRange(1000, 1029).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1029).toList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
@@ -88,24 +59,14 @@ class PaginatorTest {
         testScheduler.advanceUntilIdle()
         val afterRefresh = paginator.getData()
 
-        assertEquals(sourceData.size, beforeRefresh.size)
-        assertEquals(sourceData.size, afterRefresh.size)
+        assertEquals(loader.sourceData.size, beforeRefresh.size)
+        assertEquals(loader.sourceData.size, afterRefresh.size)
     }
 
     @Test
     fun loadNextPage_firstPageEmpty_properViewSetup() = runTest {
-        val sourceData = emptyList<Int>()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(emptyList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
@@ -130,18 +91,8 @@ class PaginatorTest {
 
     @Test
     fun loadNextPage_firstPageEmpty_stopsLoading() = runTest {
-        val sourceData = emptyList<Int>()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(emptyList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
@@ -164,18 +115,8 @@ class PaginatorTest {
 
     @Test
     fun loadNextPage_firstPageSmall_stopsLoading() = runTest {
-        val sourceData = IntRange(1000, 1009).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1009).toList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
@@ -184,7 +125,7 @@ class PaginatorTest {
         testScheduler.advanceUntilIdle()
         val result = paginator.getData()
 
-        assertEquals(sourceData.size, result.size)
+        assertEquals(loader.sourceData.size, result.size)
         verify(mockViewController, never()).showProgress(
             show = anyBoolean(),
             isRefresh = anyBoolean(),
@@ -200,18 +141,8 @@ class PaginatorTest {
 
     @Test
     fun loadNextPage_firstPageBig_loadsSecondPage() = runTest {
-        val sourceData = IntRange(1000, 1029).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1029).toList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
@@ -220,7 +151,7 @@ class PaginatorTest {
         testScheduler.advanceUntilIdle()
         val result = paginator.getData()
 
-        assertEquals(sourceData.size, result.size)
+        assertEquals(loader.sourceData.size, result.size)
         verify(mockViewController, times(1)).showProgress(
             show = true,
             isRefresh = false,
@@ -241,18 +172,8 @@ class PaginatorTest {
 
     @Test
     fun loadNextPage_secondPageSmall_stopsLoading() = runTest {
-        val sourceData = IntRange(1000, 1029).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1029).toList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
@@ -263,7 +184,7 @@ class PaginatorTest {
         testScheduler.advanceUntilIdle()
         val result = paginator.getData()
 
-        assertEquals(sourceData.size, result.size)
+        assertEquals(loader.sourceData.size, result.size)
         verify(mockViewController, never()).showProgress(
             show = anyBoolean(),
             isRefresh = anyBoolean(),
@@ -279,18 +200,8 @@ class PaginatorTest {
 
     @Test
     fun refresh_noData_loadsFirstPage() = runTest {
-        val sourceData = IntRange(1000, 1029).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1029).toList())
+        val paginator = createPaginator(loader)
 
         paginator.refresh()
         testScheduler.advanceUntilIdle()
@@ -301,22 +212,12 @@ class PaginatorTest {
 
     @Test
     fun refresh_smallData_loadsFirstPageWithDefaultSize() = runTest {
-        var sourceData = IntRange(1000, 1009).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1009).toList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
-        sourceData = IntRange(1000, 1029).toList()
+        loader.sourceData = IntRange(1000, 1029).toList()
         paginator.refresh()
         testScheduler.advanceUntilIdle()
         val result = paginator.getData()
@@ -326,18 +227,8 @@ class PaginatorTest {
 
     @Test
     fun refresh_bigData_loadsWithCurrentDataSize() = runTest {
-        val sourceData = IntRange(1000, 1129).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1129).toList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
@@ -352,22 +243,12 @@ class PaginatorTest {
 
     @Test
     fun refresh_newDataIsEmpty_success() = runTest {
-        var sourceData = IntRange(1000, 1029).toList()
-        @Suppress("RedundantSuspendModifier")
-        suspend fun loadNext(offset: Int, limit: Int): List<Int> {
-            val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
-            return sourceData.subList(offset, lastIndex)
-        }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
+        val loader = FakeLoader(IntRange(1000, 1029).toList())
+        val paginator = createPaginator(loader)
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
-        sourceData = emptyList()
+        loader.sourceData = emptyList()
         paginator.refresh()
         testScheduler.advanceUntilIdle()
         val result = paginator.getData()
@@ -377,26 +258,33 @@ class PaginatorTest {
 
     @Test
     fun refresh_newDataIsSmaller_success() = runTest {
-        var sourceData = IntRange(1000, 1029).toList()
+        val loader = FakeLoader(IntRange(1000, 1029).toList())
+        val paginator = createPaginator(loader)
+
+        paginator.loadNextPage()
+        testScheduler.advanceUntilIdle()
+        loader.sourceData = IntRange(1000, 1009).toList()
+        paginator.refresh()
+        testScheduler.advanceUntilIdle()
+        val result = paginator.getData()
+
+        assertEquals(loader.sourceData.size, result.size)
+    }
+
+    private class FakeLoader(
+        var sourceData: List<Int>
+    ) {
         @Suppress("RedundantSuspendModifier")
         suspend fun loadNext(offset: Int, limit: Int): List<Int> {
             val lastIndex = (offset + limit).coerceAtMost(sourceData.size)
             return sourceData.subList(offset, lastIndex)
         }
-        val paginator = Paginator(
-            coroutineScope = this,
-            pageRequest = ::loadNext,
-            viewController = mockViewController,
-            limit = TEST_PAGE_LIMIT
-        )
-
-        paginator.loadNextPage()
-        testScheduler.advanceUntilIdle()
-        sourceData = IntRange(1000, 1009).toList()
-        paginator.refresh()
-        testScheduler.advanceUntilIdle()
-        val result = paginator.getData()
-
-        assertEquals(sourceData.size, result.size)
     }
+
+    private fun CoroutineScope.createPaginator(loader: FakeLoader) = Paginator(
+        coroutineScope = this,
+        pageRequest = loader::loadNext,
+        viewController = mockViewController,
+        limit = TEST_PAGE_LIMIT
+    )
 }
