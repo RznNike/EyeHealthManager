@@ -208,4 +208,6 @@ dependencies {
     val mockitoVersion = "5.8.0"
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
     testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
+    // https://github.com/mockito/mockito-kotlin
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
 }
