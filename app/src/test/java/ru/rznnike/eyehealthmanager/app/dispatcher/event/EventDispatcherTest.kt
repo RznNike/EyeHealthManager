@@ -3,8 +3,8 @@ package ru.rznnike.eyehealthmanager.app.dispatcher.event
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.never
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoInteractions
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import ru.rznnike.eyehealthmanager.app.utils.createTestCoroutineProvider
@@ -20,7 +20,7 @@ class EventDispatcherTest {
         eventDispatcher.sendEvent(event)
         testScheduler.advanceUntilIdle()
 
-        verify(mockListener, times(1)).onEvent(event)
+        verify(mockListener).onEvent(event)
     }
 
     @Test
@@ -33,7 +33,7 @@ class EventDispatcherTest {
         eventDispatcher.sendEvent(event)
         testScheduler.advanceUntilIdle()
 
-        verify(mockListener, never()).onEvent(event)
+        verifyNoInteractions(mockListener)
     }
 
     @Test
@@ -48,8 +48,8 @@ class EventDispatcherTest {
         eventDispatcher.sendEvent(event)
         testScheduler.advanceUntilIdle()
 
-        verify(mockListener1, times(1)).onEvent(event)
-        verify(mockListener2, times(1)).onEvent(event)
+        verify(mockListener1).onEvent(event)
+        verify(mockListener2).onEvent(event)
     }
 
     @Test
@@ -64,8 +64,8 @@ class EventDispatcherTest {
         eventDispatcher.sendEvent(event)
         testScheduler.advanceUntilIdle()
 
-        verify(mockListener1, times(1)).onEvent(event)
-        verify(mockListener2, never()).onEvent(event)
+        verify(mockListener1).onEvent(event)
+        verifyNoInteractions(mockListener2)
     }
 
     @Test
@@ -85,7 +85,7 @@ class EventDispatcherTest {
         testScheduler.advanceUntilIdle()
 
         verify(mockListener1, never()).onEvent(event)
-        verify(mockListener2, times(1)).onEvent(event)
+        verify(mockListener2).onEvent(event)
     }
 
     @Test
@@ -104,8 +104,8 @@ class EventDispatcherTest {
         eventDispatcher.sendEvent(event)
         testScheduler.advanceUntilIdle()
 
-        verify(mockListener1, times(1)).onEvent(event)
-        verify(mockListener2, times(1)).onEvent(event)
+        verify(mockListener1).onEvent(event)
+        verify(mockListener2).onEvent(event)
     }
 
     @Test
@@ -119,7 +119,7 @@ class EventDispatcherTest {
         eventDispatcher.sendEvent(event)
         testScheduler.advanceUntilIdle()
 
-        verify(mockListener, never()).onEvent(event)
+        verifyNoInteractions(mockListener)
     }
 
     @Test
@@ -132,6 +132,6 @@ class EventDispatcherTest {
         eventDispatcher.sendEvent(event)
         testScheduler.advanceUntilIdle()
 
-        verify(mockListener, never()).onEvent(event)
+        verifyNoInteractions(mockListener)
     }
 }

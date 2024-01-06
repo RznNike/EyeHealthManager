@@ -7,13 +7,10 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito.any
-import org.mockito.Mockito.anyBoolean
-import org.mockito.Mockito.anyList
-import org.mockito.Mockito.never
 import org.mockito.Mockito.reset
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoInteractions
+import org.mockito.Mockito.verifyNoMoreInteractions
 import org.mockito.junit.jupiter.MockitoExtension
 
 private const val TEST_PAGE_LIMIT = 20
@@ -71,22 +68,23 @@ class PaginatorTest {
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
 
-        verify(mockViewController, times(1)).showProgress(
+        verify(mockViewController).showProgress(
             show = true,
             isRefresh = false,
             isDataEmpty = true
         )
-        verify(mockViewController, times(1)).showError(
+        verify(mockViewController).showError(
             show = false,
             error = null,
             isDataEmpty = true
         )
-        verify(mockViewController, times(1)).showData(emptyList())
-        verify(mockViewController, times(1)).showProgress(
+        verify(mockViewController).showData(emptyList())
+        verify(mockViewController).showProgress(
             show = false,
             isRefresh = false,
             isDataEmpty = true
         )
+        verifyNoMoreInteractions(mockViewController)
     }
 
     @Test
@@ -100,17 +98,7 @@ class PaginatorTest {
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
 
-        verify(mockViewController, never()).showProgress(
-            show = anyBoolean(),
-            isRefresh = anyBoolean(),
-            isDataEmpty = anyBoolean()
-        )
-        verify(mockViewController, never()).showError(
-            show = anyBoolean(),
-            error = any(Throwable::class.java),
-            isDataEmpty = anyBoolean()
-        )
-        verify(mockViewController, never()).showData(anyList())
+        verifyNoInteractions(mockViewController)
     }
 
     @Test
@@ -126,17 +114,7 @@ class PaginatorTest {
         val result = paginator.getData()
 
         assertEquals(loader.sourceData.size, result.size)
-        verify(mockViewController, never()).showProgress(
-            show = anyBoolean(),
-            isRefresh = anyBoolean(),
-            isDataEmpty = anyBoolean()
-        )
-        verify(mockViewController, never()).showError(
-            show = anyBoolean(),
-            error = any(Throwable::class.java),
-            isDataEmpty = anyBoolean()
-        )
-        verify(mockViewController, never()).showData(anyList())
+        verifyNoInteractions(mockViewController)
     }
 
     @Test
@@ -152,22 +130,23 @@ class PaginatorTest {
         val result = paginator.getData()
 
         assertEquals(loader.sourceData.size, result.size)
-        verify(mockViewController, times(1)).showProgress(
+        verify(mockViewController).showProgress(
             show = true,
             isRefresh = false,
             isDataEmpty = false
         )
-        verify(mockViewController, times(1)).showError(
+        verify(mockViewController).showError(
             show = false,
             error = null,
             isDataEmpty = false
         )
-        verify(mockViewController, times(1)).showData(result)
-        verify(mockViewController, times(1)).showProgress(
+        verify(mockViewController).showData(result)
+        verify(mockViewController).showProgress(
             show = false,
             isRefresh = false,
             isDataEmpty = false
         )
+        verifyNoMoreInteractions(mockViewController)
     }
 
     @Test
@@ -185,17 +164,7 @@ class PaginatorTest {
         val result = paginator.getData()
 
         assertEquals(loader.sourceData.size, result.size)
-        verify(mockViewController, never()).showProgress(
-            show = anyBoolean(),
-            isRefresh = anyBoolean(),
-            isDataEmpty = anyBoolean()
-        )
-        verify(mockViewController, never()).showError(
-            show = anyBoolean(),
-            error = any(Throwable::class.java),
-            isDataEmpty = anyBoolean()
-        )
-        verify(mockViewController, never()).showData(anyList())
+        verifyNoInteractions(mockViewController)
     }
 
     @Test

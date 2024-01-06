@@ -6,11 +6,10 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.koin.test.junit5.KoinTestExtension
-import org.mockito.kotlin.any
+import org.mockito.Mockito.only
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoInteractions
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.never
-import org.mockito.kotlin.times
-import org.mockito.kotlin.verify
 import ru.rznnike.eyehealthmanager.app.dispatcher.external.ExternalIntentDispatcher
 import ru.rznnike.eyehealthmanager.domain.model.ExternalIntentData
 import ru.rznnike.eyehealthmanager.domain.model.Notification
@@ -34,7 +33,7 @@ class AppPresenterTest : KoinTest {
 
         presenter.processNotificationIntent(null)
 
-        verify(mockExternalIntentDispatcher, never()).send(any())
+        verifyNoInteractions(mockExternalIntentDispatcher)
     }
 
     @Test
@@ -49,6 +48,6 @@ class AppPresenterTest : KoinTest {
 
         presenter.processNotificationIntent(notification)
 
-        verify(mockExternalIntentDispatcher, times(1)).send(notification.externalIntentData)
+        verify(mockExternalIntentDispatcher, only()).send(notification.externalIntentData)
     }
 }
