@@ -1,9 +1,11 @@
 package ru.rznnike.eyehealthmanager.app.utils
 
+import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import kotlinx.coroutines.CoroutineScope
-import org.mockito.kotlin.argForWhich
+import org.mockito.kotlin.argThat
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
+import kotlin.reflect.KClass
 
 fun CoroutineScope.createTestCoroutineProvider() = object : CoroutineProvider {
     override val scopeIo = this@createTestCoroutineProvider
@@ -12,6 +14,6 @@ fun CoroutineScope.createTestCoroutineProvider() = object : CoroutineProvider {
     override val scopeUnconfined = this@createTestCoroutineProvider
 }
 
-fun screenMatcher(sampleScreen: FragmentScreen) = argForWhich<FragmentScreen> {
-    (screenKey == sampleScreen.screenKey)
+fun screenMatcher(fragmentClass: KClass<out Fragment>) = argThat<FragmentScreen> {
+    (screenKey == fragmentClass.java.name)
 }

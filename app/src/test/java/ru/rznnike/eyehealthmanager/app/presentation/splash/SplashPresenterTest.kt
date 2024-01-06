@@ -7,6 +7,7 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
 import ru.rznnike.eyehealthmanager.app.Screens
+import ru.rznnike.eyehealthmanager.app.ui.fragment.main.MainFlowFragment
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 
 @ExtendWith(MockitoExtension::class)
@@ -21,6 +22,6 @@ class SplashPresenterTest {
 
         presenter.onAnimationEnd()
 
-        verify(mockView, times(1)).routerNewRootFlow(screenMatcher(Screens.Flow.main()))
+        verify(mockView, times(1)).routerNewRootFlow(screenMatcher(MainFlowFragment::class))
     }
 }
