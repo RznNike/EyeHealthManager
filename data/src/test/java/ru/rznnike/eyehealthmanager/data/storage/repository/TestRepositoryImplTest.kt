@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.gateway.DevGatewayImpl
+import ru.rznnike.eyehealthmanager.data.storage.AbstractObjectBoxTest
 import ru.rznnike.eyehealthmanager.data.storage.dao.AcuityTestDAO
 import ru.rznnike.eyehealthmanager.data.storage.dao.AstigmatismTestDAO
 import ru.rznnike.eyehealthmanager.data.storage.dao.ColorPerceptionTestDAO
