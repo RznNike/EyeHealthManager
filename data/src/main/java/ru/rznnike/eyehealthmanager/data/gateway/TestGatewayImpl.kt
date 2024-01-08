@@ -27,16 +27,16 @@ class TestGatewayImpl(
     private val context: Context
 ) : TestGateway {
     override suspend fun getTestResults(parameters: TestResultPagingParameters) =
-        testRepository.getTests(parameters)
+        testRepository.getList(parameters)
 
     override suspend fun addTestResult(item: TestResult) =
-        testRepository.addTest(item)
+        testRepository.add(item)
 
     override suspend fun deleteTestResultById(id: Long) =
-        testRepository.deleteTestById(id)
+        testRepository.delete(id)
 
     override suspend fun deleteAllTestResults() =
-        testRepository.deleteAllTests()
+        testRepository.deleteAll()
 
     override suspend fun deleteDuplicates() =
         testRepository.deleteDuplicates()
@@ -114,7 +114,7 @@ class TestGatewayImpl(
         exportFileWriters: MutableMap<TestType, BufferedWriter>,
         exportEntryCounters: MutableMap<TestType, Int>
     ): Int {
-        val data = testRepository.getTests(
+        val data = testRepository.getList(
             TestResultPagingParameters(
                 limit = GlobalConstants.EXPORT_PAGE_SIZE,
                 offset = pageOffset,
@@ -187,11 +187,11 @@ class TestGatewayImpl(
                             .forEach {
                                 resultsBuffer.add(it)
                                 if (resultsBuffer.size >= GlobalConstants.IMPORT_PAGE_SIZE) {
-                                    testRepository.addTests(resultsBuffer)
+                                    testRepository.add(resultsBuffer)
                                     resultsBuffer.clear()
                                 }
                             }
-                        testRepository.addTests(resultsBuffer)
+                        testRepository.add(resultsBuffer)
                     }
             }
     }

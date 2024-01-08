@@ -65,12 +65,12 @@ class DevGatewayImpl(
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
 
-        testRepository.addTests(tests)
+        testRepository.add(tests)
     }
 
     private suspend fun generateOtherTests() {
         val timestamp = System.currentTimeMillis()
-        testRepository.addTests(
+        testRepository.add(
             listOf(
                 AstigmatismTestResult(
                     timestamp = timestamp,

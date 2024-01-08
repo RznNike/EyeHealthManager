@@ -37,7 +37,7 @@ class AnalysisGatewayImpl(
             )
         )
 
-        val acuityResults = testRepository.getTests(acuitySearchParameters)
+        val acuityResults = testRepository.getList(acuitySearchParameters)
 
         if (acuityResults.size < GlobalConstants.ANALYSIS_MIN_RESULTS_COUNT) {
             throw NotEnoughDataException()
@@ -85,7 +85,7 @@ class AnalysisGatewayImpl(
         }
 
         val allLastResults = if (parameters.analysisType == AnalysisType.CONSOLIDATED_REPORT) {
-            testRepository.getAllLastTests().filter { it !is AcuityTestResult }
+            testRepository.getListDistinctByType().filter { it !is AcuityTestResult }
         } else {
             emptyList()
         }
