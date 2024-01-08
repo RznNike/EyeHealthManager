@@ -44,7 +44,7 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_notEnoughData_exception() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        fakeTestRepository.addTest(
+        fakeTestRepository.add(
             AcuityTestResult()
         )
         val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
@@ -136,7 +136,7 @@ class AnalysisGatewayImplTest {
         )
 
         val result1 = gateway.getAnalysisResult(parameters)
-        fakeTestRepository.addTest(noiseTest)
+        fakeTestRepository.add(noiseTest)
         val result2 = gateway.getAnalysisResult(parameters)
 
         assertFalse(result1.lastResultRecognizedAsNoise)
@@ -158,7 +158,7 @@ class AnalysisGatewayImplTest {
         )
 
         val result = gateway.getAnalysisResult(parameters)
-        val tests = fakeTestRepository.getAllLastTests()
+        val tests = fakeTestRepository.getListDistinctByType()
 
         assertEquals(tests.size, result.testResults.size)
     }

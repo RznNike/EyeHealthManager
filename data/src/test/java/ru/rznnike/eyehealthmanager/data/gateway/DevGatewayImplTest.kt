@@ -29,7 +29,7 @@ class DevGatewayImplTest {
         val gateway = DevGatewayImpl(fakeTestRepository)
 
         gateway.generateData(DataGenerationType.GOOD_VISION)
-        val tests = fakeTestRepository.getTests(parameters)
+        val tests = fakeTestRepository.getList(parameters)
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
@@ -49,7 +49,7 @@ class DevGatewayImplTest {
         val gateway = DevGatewayImpl(fakeTestRepository)
 
         gateway.generateData(DataGenerationType.AVERAGE_VISION)
-        val tests = fakeTestRepository.getTests(parameters)
+        val tests = fakeTestRepository.getList(parameters)
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
@@ -69,7 +69,7 @@ class DevGatewayImplTest {
         val gateway = DevGatewayImpl(fakeTestRepository)
 
         gateway.generateData(DataGenerationType.BAD_VISION)
-        val tests = fakeTestRepository.getTests(parameters)
+        val tests = fakeTestRepository.getList(parameters)
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
@@ -89,7 +89,7 @@ class DevGatewayImplTest {
         val gateway = DevGatewayImpl(fakeTestRepository)
 
         gateway.generateData(DataGenerationType.OTHER_TESTS)
-        val tests = fakeTestRepository.getTests(parameters)
+        val tests = fakeTestRepository.getList(parameters)
         val filteredTests = tests.filter { it !is AcuityTestResult }
 
         assertEquals(5, tests.size)
