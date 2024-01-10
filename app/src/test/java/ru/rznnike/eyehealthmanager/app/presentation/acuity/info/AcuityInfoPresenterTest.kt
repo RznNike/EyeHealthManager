@@ -44,6 +44,7 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
+import java.util.TimeZone
 
 @ExtendWith(MockitoExtension::class)
 class AcuityInfoPresenterTest : KoinTest {
@@ -74,6 +75,7 @@ class AcuityInfoPresenterTest : KoinTest {
     @BeforeEach
     fun beforeEach() {
         Dispatchers.setMain(testDispatcher)
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -270,7 +272,11 @@ class AcuityInfoPresenterTest : KoinTest {
         testScheduler.advanceUntilIdle()
 
         verify(mockSetAcuityTestingSettingsUseCase)(any())
-        verify(mockView).routerNavigateTo(screenMatcher(AcuityInstructionFragment::class)) // TODO params check
+        verify(mockView).routerNavigateTo(
+            screenMatcher(AcuityInstructionFragment::class) { arguments ->
+                arguments[AcuityInstructionFragment.DAY_PART] == dayPart
+            }
+        )
         verifyNoMoreInteractions(
             mockView,
             mockGetTestingSettingsUseCase,
@@ -297,6 +303,9 @@ class AcuityInfoPresenterTest : KoinTest {
         testScheduler.advanceUntilIdle()
         clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
 
+        println("test time")
+        println("Clock ${Clock.systemUTC().millis()}")
+        println("System ${System.currentTimeMillis()}")
         Instant.now(
             Clock.fixed(
                 Instant.parse( "2024-01-10T00:00:10Z"), ZoneOffset.UTC
@@ -306,7 +315,11 @@ class AcuityInfoPresenterTest : KoinTest {
         testScheduler.advanceUntilIdle()
 
         verify(mockSetAcuityTestingSettingsUseCase)(any())
-        verify(mockView).routerNavigateTo(screenMatcher(AcuityInstructionFragment::class)) // TODO params check
+        verify(mockView).routerNavigateTo(
+            screenMatcher(AcuityInstructionFragment::class) { arguments ->
+                arguments[AcuityInstructionFragment.DAY_PART] == DayPart.BEGINNING
+            }
+        )
         verifyNoMoreInteractions(
             mockView,
             mockGetTestingSettingsUseCase,
