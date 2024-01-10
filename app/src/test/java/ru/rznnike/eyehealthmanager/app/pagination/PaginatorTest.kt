@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito.reset
+import org.mockito.Mockito.clearInvocations
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoInteractions
 import org.mockito.Mockito.verifyNoMoreInteractions
@@ -94,7 +94,7 @@ class PaginatorTest {
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
-        reset(mockViewController)
+        clearInvocations(mockViewController)
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
 
@@ -108,7 +108,7 @@ class PaginatorTest {
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
-        reset(mockViewController)
+        clearInvocations(mockViewController)
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
         val result = paginator.getData()
@@ -124,7 +124,7 @@ class PaginatorTest {
 
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
-        reset(mockViewController)
+        clearInvocations(mockViewController)
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
         val result = paginator.getData()
@@ -158,7 +158,7 @@ class PaginatorTest {
         testScheduler.advanceUntilIdle()
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
-        reset(mockViewController)
+        clearInvocations(mockViewController)
         paginator.loadNextPage()
         testScheduler.advanceUntilIdle()
         val result = paginator.getData()

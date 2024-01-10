@@ -18,9 +18,9 @@ import org.koin.test.junit5.KoinTestExtension
 import org.mockito.Mock
 import org.mockito.Mockito.anyBoolean
 import org.mockito.Mockito.anyInt
+import org.mockito.Mockito.clearInvocations
 import org.mockito.Mockito.never
 import org.mockito.Mockito.only
-import org.mockito.Mockito.reset
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoMoreInteractions
 import org.mockito.junit.jupiter.MockitoExtension
@@ -96,7 +96,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
     fun onLeftEyeValueChanged_populateChangedData() {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        reset(mockView)
+        clearInvocations(mockView)
 
         presenter.onLeftEyeValueChanged("123")
 
@@ -111,7 +111,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
     fun onRightEyeValueChanged_populateChangedData() {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        reset(mockView)
+        clearInvocations(mockView)
 
         presenter.onRightEyeValueChanged("123")
 
@@ -126,7 +126,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
     fun onDateTimeSelected_populateChangedData() {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        reset(mockView)
+        clearInvocations(mockView)
 
         presenter.onDateTimeSelected(42)
 
@@ -141,7 +141,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
     fun onAddResult_dateNotSet_message() = runTest {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        reset(mockView)
+        clearInvocations(mockView)
 
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
@@ -149,7 +149,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         verify(mockNotifier).sendMessage(R.string.choose_date_and_time)
         verify(mockView, never()).setProgress(anyBoolean(), anyBoolean())
         verify(mockView, never()).routerFinishFlow()
-        verify(mockAddTestResultUseCase, never()).invoke(any())
+        verify(mockAddTestResultUseCase, never())(any())
         verify(mockErrorHandler, never()).proceed(any(), any())
         verify(mockEventDispatcher, never()).sendEvent(any())
     }
@@ -158,7 +158,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
     fun onAddResult_bothEyesNotSet_message() = runTest {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        reset(mockView)
+        clearInvocations(mockView)
 
         presenter.onDateTimeSelected(42)
         presenter.onAddResult()
@@ -167,7 +167,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         verify(mockNotifier).sendMessage(R.string.error_enter_at_least_one_eye)
         verify(mockView, never()).setProgress(anyBoolean(), anyBoolean())
         verify(mockView, never()).routerFinishFlow()
-        verify(mockAddTestResultUseCase, never()).invoke(any())
+        verify(mockAddTestResultUseCase, never())(any())
         verify(mockErrorHandler, never()).proceed(any(), any())
         verify(mockEventDispatcher, never()).sendEvent(any())
     }
@@ -179,13 +179,13 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         presenter.attachView(mockView)
         presenter.onLeftEyeValueChanged("0.55")
         presenter.onDateTimeSelected(42)
-        reset(mockView)
+        clearInvocations(mockView)
 
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
-        verify(mockAddTestResultUseCase).invoke(
+        verify(mockAddTestResultUseCase)(
             argThat<AcuityTestResult> {
                 (symbolsType == AcuityTestSymbolsType.LETTERS_RU)
                         && (testEyesType == TestEyesType.LEFT)
@@ -211,13 +211,13 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         presenter.onLeftEyeValueChanged("0.55")
         presenter.onRightEyeValueChanged("0.66")
         presenter.onDateTimeSelected(42)
-        reset(mockView)
+        clearInvocations(mockView)
 
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
-        verify(mockAddTestResultUseCase).invoke(
+        verify(mockAddTestResultUseCase)(
             argThat<AcuityTestResult> {
                 (symbolsType == AcuityTestSymbolsType.LETTERS_RU)
                         && (testEyesType == TestEyesType.BOTH)
@@ -244,13 +244,13 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         presenter.onLeftEyeValueChanged("0.55")
         presenter.onRightEyeValueChanged("0.66")
         presenter.onDateTimeSelected(42)
-        reset(mockView)
+        clearInvocations(mockView)
 
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
-        verify(mockAddTestResultUseCase).invoke(
+        verify(mockAddTestResultUseCase)(
             argThat<AcuityTestResult> {
                 (symbolsType == AcuityTestSymbolsType.LETTERS_RU)
                         && (testEyesType == TestEyesType.BOTH)

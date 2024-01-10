@@ -49,7 +49,7 @@ fun EditText?.removeFocusAndSpan() {
 fun EditText.setOnKeyboardActionListener(keyId: Int, action: () -> Unit) {
     setOnEditorActionListener { _, actionId, _ ->
         if (actionId == keyId) {
-            action.invoke()
+            action()
             true
         } else {
             false
