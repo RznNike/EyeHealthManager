@@ -17,6 +17,7 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import java.time.Clock
 import java.util.TimeZone
 
 class AnalysisGatewayImplTest {
@@ -28,10 +29,13 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_noData_exception() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -47,10 +51,13 @@ class AnalysisGatewayImplTest {
         fakeTestRepository.add(
             AcuityTestResult()
         )
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -63,12 +70,18 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_positiveData_noWarning() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -81,12 +94,18 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_neutralData_noWarning() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.AVERAGE_VISION)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -99,12 +118,18 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_negativeData_warning() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.BAD_VISION)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -117,20 +142,26 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_withNoise_detected() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val noiseTest = AcuityTestResult(
             id = 42,
-            timestamp = System.currentTimeMillis() - 1000,
+            timestamp = Clock.systemUTC().millis() - 1000,
             symbolsType = AcuityTestSymbolsType.LETTERS_RU,
             testEyesType = TestEyesType.BOTH,
             resultLeftEye = 0,
             resultRightEye = 10
         )
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -146,13 +177,19 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_consolidated_withAllTests() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -166,13 +203,19 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_acuityOnly_withoutAllTests() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.ACUITY_ONLY,
             applyDynamicCorrections = true
         )
@@ -185,13 +228,19 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_smallData_twoGroups() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val lastTime = fakeTestRepository.tests.maxOf { it.timestamp }
         val parameters = AnalysisParameters(
             dateFrom = lastTime - 10 * GlobalConstants.DAY_MS,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -205,12 +254,18 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_bigData_manyGroups() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -224,12 +279,18 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_actualData_withExtrapolation() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -243,12 +304,18 @@ class AnalysisGatewayImplTest {
     @Test
     fun getAnalysisResult_oldData_withoutExtrapolation() = runTest {
         val fakeTestRepository = FakeTestRepository()
-        val generator = DevGatewayImpl(fakeTestRepository)
+        val generator = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
-        val gateway = AnalysisGatewayImpl(testRepository = fakeTestRepository)
+        val gateway = AnalysisGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = System.currentTimeMillis(),
+            dateTo = Clock.systemUTC().millis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )

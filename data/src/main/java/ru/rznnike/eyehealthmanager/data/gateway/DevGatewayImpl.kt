@@ -19,11 +19,13 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
+import java.time.Clock
 import java.util.Calendar
 import kotlin.random.Random
 
 class DevGatewayImpl(
-    private val testRepository: TestRepository
+    private val testRepository: TestRepository,
+    private val clock: Clock
 ) : DevGateway {
     override suspend fun generateData(type: DataGenerationType) {
         when (type) {
@@ -69,7 +71,7 @@ class DevGatewayImpl(
     }
 
     private suspend fun generateOtherTests() {
-        val timestamp = System.currentTimeMillis()
+        val timestamp = clock.millis()
         testRepository.add(
             listOf(
                 AstigmatismTestResult(

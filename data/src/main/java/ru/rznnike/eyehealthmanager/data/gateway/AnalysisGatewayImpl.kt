@@ -6,6 +6,7 @@ import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.*
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import java.time.Clock
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -22,7 +23,8 @@ private const val EXTRAPOLATION_RESULT_DATE_DIVIDER = 3
 private const val CORRECTIONS_DATE_DELTA_MS = 7 * GlobalConstants.DAY_MS
 
 class AnalysisGatewayImpl(
-    private val testRepository: TestRepository
+    private val testRepository: TestRepository,
+    private val clock: Clock
 ) : AnalysisGateway {
     override suspend fun getAnalysisResult(parameters: AnalysisParameters): AnalysisResult {
         val acuitySearchParameters = TestResultPagingParameters(
@@ -386,8 +388,8 @@ class AnalysisGatewayImpl(
             if (extrapolationPoints.size > 1) {
                 val minDate = extrapolationPoints.minOf { it.x }
                 val maxDate = extrapolationPoints.maxOf { it.x }
-                if (((maxDate - minDate) / 2) > (System.currentTimeMillis() - maxDate)) {
-                    val extrapolationDate = System.currentTimeMillis() + (maxDate - minDate) / EXTRAPOLATION_RESULT_DATE_DIVIDER
+                if (((maxDate - minDate) / 2) > (clock.millis() - maxDate)) {
+                    val extrapolationDate = clock.millis() + (maxDate - minDate) / EXTRAPOLATION_RESULT_DATE_DIVIDER
                     getLinearTrend(extrapolationPoints)?.let { trend ->
                         return EyeChartPoint(
                             timestamp = extrapolationDate.roundToLong(),
@@ -396,7 +398,6 @@ class AnalysisGatewayImpl(
                     }
                 }
             }
-
         }
         return null
     }

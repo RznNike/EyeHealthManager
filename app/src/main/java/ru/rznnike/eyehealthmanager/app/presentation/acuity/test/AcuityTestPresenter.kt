@@ -15,6 +15,7 @@ import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettin
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.model.*
 import ru.rznnike.eyehealthmanager.domain.model.enums.*
+import java.time.Clock
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -28,6 +29,7 @@ private const val MAX_ANSWERS = 3
 class AcuityTestPresenter(
     private var dayPart: DayPart
 ) : BasePresenter<AcuityTestView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -145,7 +147,7 @@ class AcuityTestPresenter(
             } else {
                 viewState.setProgress(true)
                 val testResult = AcuityTestResult(
-                    timestamp = System.currentTimeMillis(),
+                    timestamp = clock.millis(),
                     symbolsType = acuitySettings.symbolsType,
                     testEyesType = acuitySettings.eyesType,
                     dayPart = dayPart,

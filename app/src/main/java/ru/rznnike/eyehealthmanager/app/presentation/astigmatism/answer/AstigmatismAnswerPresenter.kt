@@ -13,9 +13,11 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import java.time.Clock
 
 @InjectViewState
 class AstigmatismAnswerPresenter : BasePresenter<AstigmatismAnswerView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -28,7 +30,7 @@ class AstigmatismAnswerPresenter : BasePresenter<AstigmatismAnswerView>() {
             val typeRightEye = if (answerRightEye == 0) AstigmatismAnswerType.OK else AstigmatismAnswerType.ANOMALY
 
             val testResult = AstigmatismTestResult(
-                timestamp = System.currentTimeMillis(),
+                timestamp = clock.millis(),
                 resultLeftEye = typeLeftEye,
                 resultRightEye = typeRightEye
             )

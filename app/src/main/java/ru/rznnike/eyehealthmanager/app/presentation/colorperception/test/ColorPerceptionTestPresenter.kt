@@ -13,9 +13,11 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestData
 import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
+import java.time.Clock
 
 @InjectViewState
 class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -57,7 +59,7 @@ class ColorPerceptionTestPresenter : BasePresenter<ColorPerceptionTestView>() {
         presenterScope.launch {
             viewState.setProgress(true)
             val testResult = ColorPerceptionTestResult(
-                timestamp = System.currentTimeMillis(),
+                timestamp = clock.millis(),
                 recognizedColorsCount = recognizedColorsCount,
                 allColorsCount = ColorPerceptionTestData.colors.size
             )

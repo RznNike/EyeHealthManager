@@ -4,6 +4,7 @@ import android.os.Parcelable
 import ru.rznnike.eyehealthmanager.domain.model.enums.NotificationChannelType
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import java.time.Clock
 import java.util.*
 
 @Parcelize
@@ -13,7 +14,7 @@ data class Notification(
     var title: String,
     var message: String,
     var externalIntentData: ExternalIntentData,
-    val createdDate: Long = System.currentTimeMillis()
+    val createdDate: Long = Clock.systemUTC().millis()
 ) : Parcelable {
     @IgnoredOnParcel
     var showed: Boolean = false

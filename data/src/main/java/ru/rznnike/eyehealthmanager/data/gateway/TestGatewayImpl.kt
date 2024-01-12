@@ -20,11 +20,13 @@ import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import java.io.BufferedWriter
 import java.io.IOException
+import java.time.Clock
 import java.util.EnumMap
 
 class TestGatewayImpl(
     private val testRepository: TestRepository,
-    private val context: Context
+    private val context: Context,
+    private val clock: Clock
 ) : TestGateway {
     override suspend fun getTestResults(parameters: TestResultPagingParameters) =
         testRepository.getList(parameters)
@@ -58,7 +60,7 @@ class TestGatewayImpl(
             ?.findOrCreateDocumentFolder(GlobalConstants.APP_DIR)
             ?.findOrCreateDocumentFolder(GlobalConstants.EXPORT_DIR)
             ?.findOrCreateDocumentFolder(
-                System.currentTimeMillis().toDate(GlobalConstants.DATE_PATTERN_FULL_FOR_PATH)
+                clock.millis().toDate(GlobalConstants.DATE_PATTERN_FULL_FOR_PATH)
             )
             ?.let { folder ->
                 try {

@@ -9,6 +9,7 @@ import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import java.time.Clock
 import java.util.TimeZone
 import kotlin.math.abs
 
@@ -26,7 +27,10 @@ class DevGatewayImplTest {
             offset = 0,
             filter = null
         )
-        val gateway = DevGatewayImpl(fakeTestRepository)
+        val gateway = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
 
         gateway.generateData(DataGenerationType.GOOD_VISION)
         val tests = fakeTestRepository.getList(parameters)
@@ -46,7 +50,10 @@ class DevGatewayImplTest {
             offset = 0,
             filter = null
         )
-        val gateway = DevGatewayImpl(fakeTestRepository)
+        val gateway = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
 
         gateway.generateData(DataGenerationType.AVERAGE_VISION)
         val tests = fakeTestRepository.getList(parameters)
@@ -66,7 +73,10 @@ class DevGatewayImplTest {
             offset = 0,
             filter = null
         )
-        val gateway = DevGatewayImpl(fakeTestRepository)
+        val gateway = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
 
         gateway.generateData(DataGenerationType.BAD_VISION)
         val tests = fakeTestRepository.getList(parameters)
@@ -86,7 +96,10 @@ class DevGatewayImplTest {
             offset = 0,
             filter = null
         )
-        val gateway = DevGatewayImpl(fakeTestRepository)
+        val gateway = DevGatewayImpl(
+            testRepository = fakeTestRepository,
+            clock = Clock.systemUTC()
+        )
 
         gateway.generateData(DataGenerationType.OTHER_TESTS)
         val tests = fakeTestRepository.getList(parameters)

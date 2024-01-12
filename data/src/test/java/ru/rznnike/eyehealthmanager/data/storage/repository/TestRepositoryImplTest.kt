@@ -21,6 +21,7 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import java.time.Clock
 
 class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
@@ -33,7 +34,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -46,7 +47,10 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
     fun getList_withData_success() = runTest {
         val repository = createRepository()
-        val generator = DevGatewayImpl(repository)
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val parameters = TestResultPagingParameters(
             offset = 0,
@@ -55,7 +59,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -90,7 +94,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -105,7 +109,10 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
     fun getList_filterByDate_success() = runTest {
         val repository = createRepository()
-        val generator = DevGatewayImpl(repository)
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val parameters = TestResultPagingParameters(
             offset = 0,
@@ -113,8 +120,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = false,
-                dateFrom = System.currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
-                dateTo = System.currentTimeMillis(),
+                dateFrom = Clock.systemUTC().millis() - 10 * GlobalConstants.DAY_MS,
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -128,7 +135,10 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
     fun getList_filterByType_success() = runTest {
         val repository = createRepository()
-        val generator = DevGatewayImpl(repository)
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
         val parameters = TestResultPagingParameters(
@@ -138,7 +148,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = true,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf(TestType.CONTRAST)
             )
         )
@@ -152,7 +162,10 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
     fun getList_allFilters_success() = runTest {
         val repository = createRepository()
-        val generator = DevGatewayImpl(repository)
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
         val parameters = TestResultPagingParameters(
@@ -161,8 +174,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = true,
-                dateFrom = System.currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
-                dateTo = System.currentTimeMillis(),
+                dateFrom = Clock.systemUTC().millis() - 10 * GlobalConstants.DAY_MS,
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf(TestType.ACUITY)
             )
         )
@@ -186,7 +199,10 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
     fun getListDistinctByType_acuityOnly_success() = runTest {
         val repository = createRepository()
-        val generator = DevGatewayImpl(repository)
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
 
         val tests = repository.getListDistinctByType()
@@ -198,7 +214,10 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
     fun getListDistinctByType_allTests_success() = runTest {
         val repository = createRepository()
-        val generator = DevGatewayImpl(repository)
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
 
@@ -220,7 +239,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -252,7 +271,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -276,7 +295,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -305,7 +324,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -335,7 +354,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -358,7 +377,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -372,7 +391,10 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
     fun deleteAll_withData_success() = runTest {
         val repository = createRepository()
-        val generator = DevGatewayImpl(repository)
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val parameters = TestResultPagingParameters(
             offset = 0,
@@ -381,7 +403,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -415,7 +437,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -451,7 +473,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )

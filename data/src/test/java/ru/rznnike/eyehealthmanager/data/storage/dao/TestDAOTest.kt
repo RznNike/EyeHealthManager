@@ -12,6 +12,7 @@ import ru.rznnike.eyehealthmanager.data.storage.entity.TestEntity
 import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import java.time.Clock
 
 class TestDAOTest : AbstractObjectBoxTest() {
     @Test
@@ -161,7 +162,7 @@ class TestDAOTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -205,7 +206,7 @@ class TestDAOTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -249,7 +250,7 @@ class TestDAOTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -340,7 +341,7 @@ class TestDAOTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = true,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = Clock.systemUTC().millis(),
                 selectedTestTypes = mutableListOf(TestType.CONTRAST)
             )
         )

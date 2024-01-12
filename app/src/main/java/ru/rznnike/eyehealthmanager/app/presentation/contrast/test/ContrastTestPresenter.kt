@@ -13,6 +13,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
+import java.time.Clock
 import kotlin.random.Random
 
 private const val START_VALUE = 100
@@ -25,6 +26,7 @@ private const val MAX_ANSWERS = 3
 
 @InjectViewState
 class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -101,7 +103,7 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
         presenterScope.launch {
             viewState.setProgress(true)
             val testResult = ContrastTestResult(
-                timestamp = System.currentTimeMillis(),
+                timestamp = clock.millis(),
                 recognizedContrast = recognizedDelta
             )
             addTestResultUseCase(testResult).process(

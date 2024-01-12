@@ -30,6 +30,7 @@ import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.deviceSize
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
+import java.time.Clock
 import java.util.*
 
 fun Context.showAlertDialog(
@@ -223,7 +224,7 @@ fun Context.showDatePicker(
     onSuccess: (date: Long) -> Unit
 ) {
     val currentCalendar = Calendar.getInstance().apply {
-        timeInMillis = preselectedDate ?: System.currentTimeMillis()
+        timeInMillis = preselectedDate ?: Clock.systemUTC().millis()
     }
     DatePickerDialog(
         this,
@@ -273,7 +274,7 @@ fun Context.showTimePicker(
     onSuccess: (date: Long) -> Unit
 ) {
     val currentCalendar = Calendar.getInstance().apply {
-        timeInMillis = preselectedTime ?: System.currentTimeMillis()
+        timeInMillis = preselectedTime ?: Clock.systemUTC().millis()
     }
     TimePickerDialog(
         this,
