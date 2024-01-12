@@ -104,15 +104,18 @@ class TestingSettingsFragment : BaseFragment(R.layout.fragment_settings_testing)
 
             viewTimeControlsDisabler.setVisible(!settings.enableAutoDayPart)
 
-            val calendar = Calendar.getInstance()
-            val timeToDayBeginningWithOffset = settings.timeToDayBeginning - calendar.timeZone.rawOffset
-            val timeToDayBeginningText = timeToDayBeginningWithOffset.toDate(GlobalConstants.DATE_PATTERN_CLOCK)
-
-            val timeToDayMiddleWithOffset = settings.timeToDayMiddle - calendar.timeZone.rawOffset
-            val timeToDayMiddleText = timeToDayMiddleWithOffset.toDate(GlobalConstants.DATE_PATTERN_CLOCK)
-
-            val timeToDayEndWithOffset = settings.timeToDayEnd - calendar.timeZone.rawOffset
-            val timeToDayEndText = timeToDayEndWithOffset.toDate(GlobalConstants.DATE_PATTERN_CLOCK)
+            val timeToDayBeginningText = settings.timeToDayBeginning.toDate(
+                pattern = GlobalConstants.DATE_PATTERN_CLOCK,
+                zeroTimeZone = true
+            )
+            val timeToDayMiddleText = settings.timeToDayMiddle.toDate(
+                pattern = GlobalConstants.DATE_PATTERN_CLOCK,
+                zeroTimeZone = true
+            )
+            val timeToDayEndText = settings.timeToDayEnd.toDate(
+                pattern = GlobalConstants.DATE_PATTERN_CLOCK,
+                zeroTimeZone = true
+            )
 
             buttonTimeToBeginning1.text = timeToDayBeginningText
             buttonTimeToBeginning2.text = timeToDayBeginningText
@@ -121,10 +124,11 @@ class TestingSettingsFragment : BaseFragment(R.layout.fragment_settings_testing)
             buttonTimeToEnd1.text = timeToDayEndText
             buttonTimeToEnd2.text = timeToDayEndText
 
+            val zoneOffset = TimeZone.getDefault().rawOffset
             listOf(buttonTimeToBeginning1, buttonTimeToBeginning2).forEach {
                 it.setOnClickListener {
                     showTimePicker(
-                        preselectedTime = timeToDayBeginningWithOffset,
+                        preselectedTime = settings.timeToDayBeginning - zoneOffset,
                         onSuccess = presenter::onTimeToDayBeginningValueChanged
                     )
                 }
@@ -132,7 +136,7 @@ class TestingSettingsFragment : BaseFragment(R.layout.fragment_settings_testing)
             listOf(buttonTimeToMiddle1, buttonTimeToMiddle2).forEach {
                 it.setOnClickListener {
                     showTimePicker(
-                        preselectedTime = timeToDayMiddleWithOffset,
+                        preselectedTime = settings.timeToDayMiddle - zoneOffset,
                         onSuccess = presenter::onTimeToDayMiddleValueChanged
                     )
                 }
@@ -140,7 +144,7 @@ class TestingSettingsFragment : BaseFragment(R.layout.fragment_settings_testing)
             listOf(buttonTimeToEnd1, buttonTimeToEnd2).forEach {
                 it.setOnClickListener {
                     showTimePicker(
-                        preselectedTime = timeToDayEndWithOffset,
+                        preselectedTime = settings.timeToDayEnd - zoneOffset,
                         onSuccess = presenter::onTimeToDayEndValueChanged
                     )
                 }
