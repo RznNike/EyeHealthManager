@@ -17,9 +17,11 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
+import java.time.Clock
 
 @InjectViewState
 class AcuityInfoPresenter : BasePresenter<AcuityInfoView>(), EventDispatcher.EventListener {
+    private val clock: Clock by inject()
     private val eventDispatcher: EventDispatcher by inject()
     private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
     private val getAcuityTestingSettingsUseCase: GetAcuityTestingSettingsUseCase by inject()
@@ -93,7 +95,7 @@ class AcuityInfoPresenter : BasePresenter<AcuityInfoView>(), EventDispatcher.Eve
     }
 
     private fun autoSelectDayPart() =
-        when (val currentDayTime = System.currentTimeMillis().getDayTime()) {
+        when (val currentDayTime = clock.millis().getDayTime()) {
             generalSettings.timeToDayBeginning -> DayPart.BEGINNING
             generalSettings.timeToDayMiddle -> DayPart.MIDDLE
             generalSettings.timeToDayEnd -> DayPart.END

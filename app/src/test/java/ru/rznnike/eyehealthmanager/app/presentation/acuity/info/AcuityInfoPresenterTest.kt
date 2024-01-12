@@ -15,7 +15,10 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.koin.test.junit5.KoinTestExtension
+import org.koin.test.junit5.mock.MockProviderExtension
+import org.koin.test.mock.declare
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.clearInvocations
 import org.mockito.Mockito.only
 import org.mockito.Mockito.verify
@@ -63,12 +66,19 @@ class AcuityInfoPresenterTest : KoinTest {
     val koinTestExtension = KoinTestExtension.create {
         modules(
             module {
+                single { Clock.systemUTC() }
                 single { mock<EventDispatcher>() }
                 single { mock<GetTestingSettingsUseCase>() }
                 single { mock<GetAcuityTestingSettingsUseCase>() }
                 single { mock<SetAcuityTestingSettingsUseCase>() }
             }
         )
+    }
+
+    @JvmField
+    @RegisterExtension
+    val mockProvider = MockProviderExtension.create { clazz ->
+        Mockito.mock(clazz.java)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -286,14 +296,73 @@ class AcuityInfoPresenterTest : KoinTest {
     }
 
     @Test
-    fun onPrepareToStartTest_autoDayPart_startTest() = runTest { // TODO check all time cases
+    fun onPrepareToStartTest_autoDayPart_beforeBeginning() {
+        declare {
+            Clock.fixed(
+                Instant.parse( "2024-01-10T00:00:05Z"), ZoneOffset.UTC
+            )
+        }
+        onPrepareToStartTest_autoDayPart_testBody(DayPart.END)
+    }
+
+    @Test
+    fun onPrepareToStartTest_autoDayPart_beginning() {
+        declare {
+            Clock.fixed(
+                Instant.parse( "2024-01-10T00:00:10Z"), ZoneOffset.UTC
+            )
+        }
+        onPrepareToStartTest_autoDayPart_testBody(DayPart.BEGINNING)
+    }
+
+    @Test
+    fun onPrepareToStartTest_autoDayPart_beforeMiddle() {
+        declare {
+            Clock.fixed(
+                Instant.parse( "2024-01-10T00:00:20Z"), ZoneOffset.UTC
+            )
+        }
+        onPrepareToStartTest_autoDayPart_testBody(DayPart.BEGINNING)
+    }
+
+    @Test
+    fun onPrepareToStartTest_autoDayPart_middle() {
+        declare {
+            Clock.fixed(
+                Instant.parse( "2024-01-10T00:01:00Z"), ZoneOffset.UTC
+            )
+        }
+        onPrepareToStartTest_autoDayPart_testBody(DayPart.MIDDLE)
+    }
+
+    @Test
+    fun onPrepareToStartTest_autoDayPart_beforeEnd() {
+        declare {
+            Clock.fixed(
+                Instant.parse( "2024-01-10T00:01:10Z"), ZoneOffset.UTC
+            )
+        }
+        onPrepareToStartTest_autoDayPart_testBody(DayPart.MIDDLE)
+    }
+
+    @Test
+    fun onPrepareToStartTest_autoDayPart_end() {
+        declare {
+            Clock.fixed(
+                Instant.parse( "2024-01-10T00:02:00Z"), ZoneOffset.UTC
+            )
+        }
+        onPrepareToStartTest_autoDayPart_testBody(DayPart.END)
+    }
+
+    private fun onPrepareToStartTest_autoDayPart_testBody(part: DayPart) = runTest {
         whenever(mockGetTestingSettingsUseCase()).doReturn(
             UseCaseResult(
                 TestingSettings(
                     enableAutoDayPart = true,
-                    timeToDayBeginning = 60_000,
-                    timeToDayMiddle = 120_000,
-                    timeToDayEnd = 180_000
+                    timeToDayBeginning = 10_000,
+                    timeToDayMiddle = 60_000,
+                    timeToDayEnd = 120_000
                 )
             )
         )
@@ -303,21 +372,13 @@ class AcuityInfoPresenterTest : KoinTest {
         testScheduler.advanceUntilIdle()
         clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
 
-        println("test time")
-        println("Clock ${Clock.systemUTC().millis()}")
-        println("System ${System.currentTimeMillis()}")
-        Instant.now(
-            Clock.fixed(
-                Instant.parse( "2024-01-10T00:00:10Z"), ZoneOffset.UTC
-            )
-        )
         presenter.onPrepareToStartTest()
         testScheduler.advanceUntilIdle()
 
         verify(mockSetAcuityTestingSettingsUseCase)(any())
         verify(mockView).routerNavigateTo(
             screenMatcher(AcuityInstructionFragment::class) { arguments ->
-                arguments[AcuityInstructionFragment.DAY_PART] == DayPart.BEGINNING
+                arguments[AcuityInstructionFragment.DAY_PART] == part
             }
         )
         verifyNoMoreInteractions(
