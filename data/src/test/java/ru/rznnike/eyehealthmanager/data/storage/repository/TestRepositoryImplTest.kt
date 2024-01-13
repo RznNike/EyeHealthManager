@@ -67,7 +67,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
 
         val tests = repository.getList(parameters)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
     }
 
     @Test

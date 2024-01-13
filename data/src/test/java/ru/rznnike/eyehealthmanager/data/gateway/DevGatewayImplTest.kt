@@ -37,8 +37,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
         assertTrue(delta > 10)
     }
 
@@ -60,8 +60,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
         assertTrue(abs(delta) < 7)
     }
 
@@ -83,8 +83,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
         assertTrue(delta < -10)
     }
 

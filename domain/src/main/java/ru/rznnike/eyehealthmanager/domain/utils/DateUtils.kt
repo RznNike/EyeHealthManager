@@ -31,10 +31,7 @@ fun String.toTimeStamp(pattern: String = GlobalConstants.DATE_PATTERN_SIMPLE_WIT
             DateTimeFormatter.ofPattern(pattern).parse(this, ParsePosition(0)).let {
                 val date = it.query(TemporalQueries.localDate())
                 val time = it.query(TemporalQueries.localTime())
-                LocalDateTime.of(date, time ?: LocalTime.MIN)
-                    .atZone(ZoneId.systemDefault())
-                    .toInstant()
-                    .toEpochMilli()
+                ZonedDateTime.of(date, time ?: LocalTime.MIN, ZoneId.systemDefault()).millis()
             }
         } catch (exception: Exception) {
             SimpleDateFormat(pattern, Locale.getDefault()).parse(this)?.time ?: 0
@@ -45,8 +42,6 @@ fun Long.toDateTime(): ZonedDateTime = Instant.ofEpochMilli(this)
     .atZone(ZoneId.systemDefault())
 
 fun Long.toLocalDate(): LocalDate = toDateTime().toLocalDate()
-
-fun Long.toLocalDateTime(): LocalDateTime = toDateTime().toLocalDateTime()
 
 fun Long.getDayTime() = toDateTime().toLocalTime().toNanoOfDay() / 1000_000L
 

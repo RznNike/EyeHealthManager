@@ -43,17 +43,6 @@ class DateUtilsTest {
     }
 
     @Test
-    fun longToLocalDate_success() {
-        val timestamp = 1704124202000L
-
-        val result = timestamp.toLocalDate()
-
-        assertEquals(2024, result.year)
-        assertEquals(1, result.monthValue)
-        assertEquals(1, result.dayOfMonth)
-    }
-
-    @Test
     fun stringToTimeStamp_defaultPattern_success() {
         val string = "01.01.2024 15:50"
         val expectedTimestamp = 1704124200000L
@@ -102,6 +91,49 @@ class DateUtilsTest {
     }
 
     @Test
+    fun longToDateTime_utc_success() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+        val timestamp = 1704124202000L
+
+        val result = timestamp.toDateTime()
+
+        assertEquals(2024, result.year)
+        assertEquals(1, result.monthValue)
+        assertEquals(1, result.dayOfMonth)
+        assertEquals(15, result.hour)
+        assertEquals(50, result.minute)
+        assertEquals(2, result.second)
+        assertEquals(0, result.nano)
+    }
+
+    @Test
+    fun longToDateTime_timeZoneWithOffset_success() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+3"))
+        val timestamp = 1704124202000L
+
+        val result = timestamp.toDateTime()
+
+        assertEquals(2024, result.year)
+        assertEquals(1, result.monthValue)
+        assertEquals(1, result.dayOfMonth)
+        assertEquals(18, result.hour)
+        assertEquals(50, result.minute)
+        assertEquals(2, result.second)
+        assertEquals(0, result.nano)
+    }
+
+    @Test
+    fun longToLocalDate_success() {
+        val timestamp = 1704124202000L
+
+        val result = timestamp.toLocalDate()
+
+        assertEquals(2024, result.year)
+        assertEquals(1, result.monthValue)
+        assertEquals(1, result.dayOfMonth)
+    }
+
+    @Test
     fun longGetDayTime_success() {
         val timestamp = 1704124202001L
         val expectedDayTime = 57002001L
@@ -109,5 +141,33 @@ class DateUtilsTest {
         val result = timestamp.getDayTime()
 
         assertEquals(expectedDayTime, result)
+    }
+
+    @Test
+    fun zonedDateTimeMillis_success() {
+        val timestamp = 1704124202001L
+
+        val result = timestamp.toDateTime().millis()
+
+        assertEquals(timestamp, result)
+    }
+
+    @Test
+    fun localDateTimeMillis_success() {
+        val timestamp = 1704124202001L
+
+        val result = timestamp.toDateTime().toLocalDateTime().millis()
+
+        assertEquals(timestamp, result)
+    }
+
+    @Test
+    fun localDateAtEndOfDay_success() {
+        val timestamp = 1704124202000L
+        val expectedResult = 1704153599999L
+
+        val result = timestamp.toDateTime().toLocalDate().atEndOfDay().millis()
+
+        assertEquals(expectedResult, result)
     }
 }

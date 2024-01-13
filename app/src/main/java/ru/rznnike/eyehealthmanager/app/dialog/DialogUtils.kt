@@ -38,7 +38,6 @@ import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toDateTime
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
-import ru.rznnike.eyehealthmanager.domain.utils.toLocalDateTime
 
 fun Context.showAlertDialog(
     parameters: AlertDialogParameters,
@@ -274,12 +273,12 @@ fun Context.showTimePicker(
     onCancel: (() -> Unit)? = null,
     onSuccess: (timestamp: Long) -> Unit
 ) {
-    val currentDate = (preselectedTime ?: currentTimeMillis()).toLocalDateTime()
+    val currentDate = (preselectedTime ?: currentTimeMillis()).toDateTime()
     TimePickerDialog(
         this,
         android.R.style.ThemeOverlay_Material_Dialog,
         { _, hourOfDay, minute ->
-            val selectedTime =  currentTimeMillis().toDateTime().toLocalDateTime()
+            val selectedTime =  currentTimeMillis().toDateTime()
                 .withHour(hourOfDay)
                 .withMinute(minute)
                 .withSecond(0)
