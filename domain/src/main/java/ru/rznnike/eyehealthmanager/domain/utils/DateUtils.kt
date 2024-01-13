@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.domain.utils
 
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
+import java.time.Clock
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -54,3 +55,5 @@ fun ZonedDateTime.millis() = toInstant().toEpochMilli()
 fun LocalDateTime.millis() = atZone(ZoneId.systemDefault()).millis()
 
 fun LocalDate.atEndOfDay(): LocalDateTime = atTime(23, 59, 59, 999_999_999)
+
+fun currentTimeMillis() = Clock.systemUTC().millis()

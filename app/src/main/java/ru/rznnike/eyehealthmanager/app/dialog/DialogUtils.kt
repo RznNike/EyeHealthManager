@@ -34,11 +34,11 @@ import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.deviceSize
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
+import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toDateTime
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDateTime
-import java.time.Clock
 
 fun Context.showAlertDialog(
     parameters: AlertDialogParameters,
@@ -230,7 +230,7 @@ fun Context.showDatePicker(
     onCancel: (() -> Unit)? = null,
     onSuccess: (date: Long) -> Unit
 ) {
-    val currentDate = (preselectedDate ?: Clock.systemUTC().millis()).toLocalDate()
+    val currentDate = (preselectedDate ?: currentTimeMillis()).toLocalDate()
     DatePickerDialog(
         this,
         android.R.style.ThemeOverlay_Material_Dialog,
@@ -249,7 +249,7 @@ fun Context.showDatePicker(
                     }
                 )
             } else {
-                val selectedTime = Clock.systemUTC().millis().toDateTime().toLocalDate()
+                val selectedTime = currentTimeMillis().toDateTime().toLocalDate()
                     .withYear(year)
                     .withMonth(month + 1)
                     .withDayOfMonth(dayOfMonth)
@@ -274,12 +274,12 @@ fun Context.showTimePicker(
     onCancel: (() -> Unit)? = null,
     onSuccess: (timestamp: Long) -> Unit
 ) {
-    val currentDate = (preselectedTime ?: Clock.systemUTC().millis()).toLocalDateTime()
+    val currentDate = (preselectedTime ?: currentTimeMillis()).toLocalDateTime()
     TimePickerDialog(
         this,
         android.R.style.ThemeOverlay_Material_Dialog,
         { _, hourOfDay, minute ->
-            val selectedTime =  Clock.systemUTC().millis().toDateTime().toLocalDateTime()
+            val selectedTime =  currentTimeMillis().toDateTime().toLocalDateTime()
                 .withHour(hourOfDay)
                 .withMinute(minute)
                 .withSecond(0)

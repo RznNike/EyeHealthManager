@@ -17,6 +17,7 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import java.time.Clock
 import java.util.TimeZone
 
@@ -35,7 +36,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -57,7 +58,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -81,7 +82,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -105,7 +106,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -129,7 +130,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -149,7 +150,7 @@ class AnalysisGatewayImplTest {
         generator.generateData(DataGenerationType.GOOD_VISION)
         val noiseTest = AcuityTestResult(
             id = 42,
-            timestamp = Clock.systemUTC().millis() - 1000,
+            timestamp = currentTimeMillis() - 1000,
             symbolsType = AcuityTestSymbolsType.LETTERS_RU,
             testEyesType = TestEyesType.BOTH,
             resultLeftEye = 0,
@@ -161,7 +162,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -189,7 +190,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -215,7 +216,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.ACUITY_ONLY,
             applyDynamicCorrections = true
         )
@@ -240,7 +241,7 @@ class AnalysisGatewayImplTest {
         val lastTime = fakeTestRepository.tests.maxOf { it.timestamp }
         val parameters = AnalysisParameters(
             dateFrom = lastTime - 10 * GlobalConstants.DAY_MS,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -265,7 +266,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -290,7 +291,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )
@@ -315,7 +316,7 @@ class AnalysisGatewayImplTest {
         )
         val parameters = AnalysisParameters(
             dateFrom = 0,
-            dateTo = Clock.systemUTC().millis(),
+            dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
         )

@@ -21,6 +21,7 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import java.time.Clock
 
 class TestRepositoryImplTest : AbstractObjectBoxTest() {
@@ -34,7 +35,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -59,7 +60,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -94,7 +95,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -120,8 +121,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = false,
-                dateFrom = Clock.systemUTC().millis() - 10 * GlobalConstants.DAY_MS,
-                dateTo = Clock.systemUTC().millis(),
+                dateFrom = currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -148,7 +149,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = true,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf(TestType.CONTRAST)
             )
         )
@@ -174,8 +175,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = true,
-                dateFrom = Clock.systemUTC().millis() - 10 * GlobalConstants.DAY_MS,
-                dateTo = Clock.systemUTC().millis(),
+                dateFrom = currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf(TestType.ACUITY)
             )
         )
@@ -239,7 +240,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -271,7 +272,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -295,7 +296,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -324,7 +325,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -354,7 +355,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -377,7 +378,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -403,7 +404,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -437,7 +438,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
@@ -473,7 +474,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = Clock.systemUTC().millis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
