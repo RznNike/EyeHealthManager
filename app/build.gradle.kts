@@ -202,7 +202,7 @@ dependencies {
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     // Testing
-    // https://junit.org/junit5/
+    // https://github.com/junit-team/junit5/
     testImplementation("org.junit.jupiter:junit-jupiter:" + rootProject.extra["junitVersion"])
 
     // Mocks for testing
