@@ -58,8 +58,8 @@ class AcuityResultPresenter(
                         if (error !is NotEnoughDataException) {
                             notifier.sendMessage(it)
                         }
-                        populateData()
                     }
+                    populateData()
                 }
             )
             viewState.setProgress(false)

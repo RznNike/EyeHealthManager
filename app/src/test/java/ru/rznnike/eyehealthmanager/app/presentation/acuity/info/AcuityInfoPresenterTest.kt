@@ -19,15 +19,15 @@ import org.koin.test.junit5.mock.MockProviderExtension
 import org.koin.test.mock.declare
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.clearInvocations
 import org.mockito.Mockito.only
 import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
+import org.mockito.kotlin.clearInvocations
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
@@ -104,7 +104,7 @@ class AcuityInfoPresenterTest : KoinTest {
     @Test
     fun onDestroy_unsubscribedFromEvents() {
         val presenter = AcuityInfoPresenter()
-        clearInvocations(mockEventDispatcher)
+        clearInvocationsForAll()
 
         presenter.onDestroy()
 
@@ -119,7 +119,7 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onEvent(AppEvent.TestingSettingsChanged)
         testScheduler.advanceUntilIdle()
@@ -143,17 +143,12 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onEvent(AppEvent.JournalChanged)
         testScheduler.advanceUntilIdle()
 
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -162,7 +157,7 @@ class AcuityInfoPresenterTest : KoinTest {
         whenever(mockGetTestingSettingsUseCase()).doReturn(UseCaseResult(TestingSettings()))
         whenever(mockGetAcuityTestingSettingsUseCase()).doReturn(UseCaseResult(acuityTestingSettings))
         val presenter = AcuityInfoPresenter()
-        clearInvocations(mockView)
+        clearInvocationsForAll()
 
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
@@ -170,12 +165,7 @@ class AcuityInfoPresenterTest : KoinTest {
         verify(mockGetTestingSettingsUseCase)()
         verify(mockGetAcuityTestingSettingsUseCase)()
         verify(mockView).populateData(acuityTestingSettings)
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -185,7 +175,7 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onSymbolsTypeSelected(AcuityTestSymbolsType.LETTERS_EN)
         testScheduler.advanceUntilIdle()
@@ -195,12 +185,7 @@ class AcuityInfoPresenterTest : KoinTest {
                 acuityTestingSettings.symbolsType == AcuityTestSymbolsType.LETTERS_EN
             }
         )
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -210,7 +195,7 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onEyesTypeSelected(TestEyesType.RIGHT)
         testScheduler.advanceUntilIdle()
@@ -220,12 +205,7 @@ class AcuityInfoPresenterTest : KoinTest {
                 acuityTestingSettings.eyesType == TestEyesType.RIGHT
             }
         )
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -235,17 +215,12 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onScaleSettings()
 
         verify(mockView).routerNavigateTo(screenMatcher(TestingSettingsFragment::class))
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -255,17 +230,12 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onDayPartAutoSelectionSettings()
 
         verify(mockView).routerNavigateTo(screenMatcher(TestingSettingsFragment::class))
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -276,7 +246,7 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.startTest(dayPart)
         testScheduler.advanceUntilIdle()
@@ -287,12 +257,7 @@ class AcuityInfoPresenterTest : KoinTest {
                 arguments[AcuityInstructionFragment.DAY_PART] == dayPart
             }
         )
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -370,7 +335,7 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onPrepareToStartTest()
         testScheduler.advanceUntilIdle()
@@ -381,12 +346,7 @@ class AcuityInfoPresenterTest : KoinTest {
                 arguments[AcuityInstructionFragment.DAY_PART] == part
             }
         )
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -403,18 +363,13 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onPrepareToStartTest()
         testScheduler.advanceUntilIdle()
 
         verify(mockView).showDayPartSelectionDialog(true)
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -424,16 +379,25 @@ class AcuityInfoPresenterTest : KoinTest {
         val presenter = AcuityInfoPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        clearInvocations(mockView, mockGetTestingSettingsUseCase, mockGetAcuityTestingSettingsUseCase)
+        clearInvocationsForAll()
 
         presenter.onAddDoctorResult()
 
         verify(mockView).routerNavigateTo(screenMatcher(AcuityDoctorResultFragment::class))
-        verifyNoMoreInteractions(
+        verifyNoMoreInteractionsForAll()
+    }
+
+    private val allMocks by lazy {
+        arrayOf(
             mockView,
+            mockEventDispatcher,
             mockGetTestingSettingsUseCase,
             mockGetAcuityTestingSettingsUseCase,
             mockSetAcuityTestingSettingsUseCase
         )
     }
+
+    private fun clearInvocationsForAll() = clearInvocations(*allMocks)
+
+    private fun verifyNoMoreInteractionsForAll() = verifyNoMoreInteractions(*allMocks)
 }
