@@ -44,6 +44,7 @@ class AstigmatismAnswerPresenter : BasePresenter<AstigmatismAnswerView>() {
                 }
             )
             eventDispatcher.sendEvent(AppEvent.JournalChanged)
+            viewState.setProgress(false)
         }
     }
 }
