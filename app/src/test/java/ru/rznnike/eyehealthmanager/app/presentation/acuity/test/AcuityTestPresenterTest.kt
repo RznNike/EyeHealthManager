@@ -42,7 +42,6 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import java.time.Clock
-import java.util.TimeZone
 
 @ExtendWith(MockitoExtension::class)
 class AcuityTestPresenterTest : KoinTest {
@@ -84,7 +83,6 @@ class AcuityTestPresenterTest : KoinTest {
     @BeforeEach
     fun beforeEach() {
         Dispatchers.setMain(testDispatcher)
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
