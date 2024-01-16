@@ -78,7 +78,7 @@ class ColorPerceptionTestPresenterTest : KoinTest {
     }
 
     @Test
-    fun onFirstViewAttach_populateData() { // TODO Robolectric?
+    fun onFirstViewAttach_populateData() {
         val presenter = ColorPerceptionTestPresenter()
 
         presenter.attachView(mockView)
