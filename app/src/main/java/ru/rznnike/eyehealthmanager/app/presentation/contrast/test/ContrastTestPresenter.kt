@@ -40,9 +40,9 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
     private var maxBaseSteps = 0
     private var currentBaseStep = 0
 
-    init {
+    override fun onFirstViewAttach() {
         initData()
-        goToNextStep()
+        nextStep()
     }
 
     private fun initData() {
@@ -54,15 +54,15 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
         }
     }
 
-    fun onAnswer(direction: Direction) {
+    fun answer(direction: Direction) {
         answersCount++
         if (direction == currentDirection) {
             correctAnswersCount++
         }
-        goToNextStep()
+        nextStep()
     }
 
-    private fun goToNextStep() = when {
+    private fun nextStep() = when {
         correctAnswersCount >= MIN_CORRECT_ANSWERS -> {
             recognizedDelta = currentDelta
             if (recognizedDelta <= END_VALUE) {
