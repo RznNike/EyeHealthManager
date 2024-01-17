@@ -207,7 +207,7 @@ dependencies {
 
     // Mocks for testing
     // https://github.com/mockito/mockito
-    val mockitoVersion = "5.8.0"
+    val mockitoVersion = "5.9.0"
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
     testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
     // https://github.com/mockito/mockito-kotlin
