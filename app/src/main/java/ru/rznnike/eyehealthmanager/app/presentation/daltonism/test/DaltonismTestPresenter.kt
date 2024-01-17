@@ -31,11 +31,11 @@ class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
     private val userAnswers: MutableList<Int> = mutableListOf()
     private val answerDeltas: MutableMap<DaltonismAnomalyType, Int> = mutableMapOf()
 
-    init {
+    override fun onFirstViewAttach() {
         nextStep()
     }
 
-    fun onAnswer(selection: Int) {
+    fun answer(selection: Int) {
         userAnswers.add(answersOrder[selection])
         nextStep()
     }
@@ -100,7 +100,7 @@ class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
                     viewState.routerNewRootScreen(
                         Screens.Screen.daltonismResult(
                             errorsCount = errorsCount,
-                            resultType = anomalyType.toString()
+                            resultType = anomalyType
                         )
                     )
                 }, { error ->

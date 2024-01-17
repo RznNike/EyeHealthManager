@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.app.presentation.contrast.test
+package ru.rznnike.eyehealthmanager.app.presentation.daltonism.test
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +25,6 @@ import org.mockito.kotlin.argThat
 import org.mockito.kotlin.clearInvocations
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
@@ -34,22 +33,22 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.app.ui.fragment.contrast.result.ContrastResultFragment
-import ru.rznnike.eyehealthmanager.app.utils.floatEquals
+import ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.result.DaltonismResultFragment
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
+import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestData
+import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
 import java.util.TimeZone
 
 @ExtendWith(MockitoExtension::class)
-class ContrastTestPresenterTest : KoinTest {
+class DaltonismTestPresenterTest : KoinTest {
     @Mock
-    private lateinit var mockView: ContrastTestView
+    private lateinit var mockView: DaltonismTestView
 
     private val mockErrorHandler: ErrorHandler by inject()
     private val mockNotifier: Notifier by inject()
@@ -93,97 +92,81 @@ class ContrastTestPresenterTest : KoinTest {
 
     @Test
     fun onFirstViewAttach_populateData() {
-        var direction: Direction = Direction.UP
-        whenever(mockView.populateData(any(), any(), any(), any())).doAnswer {
-            direction = it.getArgument(0)
+        var variants: List<Int> = emptyList()
+        whenever(mockView.populateData(any(), any(), any())).doAnswer {
+            variants = it.arguments.filterIsInstance<List<Int>>().first()
         }
-        val presenter = ContrastTestPresenter()
+        val presenter = DaltonismTestPresenter()
 
         presenter.attachView(mockView)
 
         verify(mockView).populateData(
-            direction = eq(direction),
-            backgroundAlpha = floatEquals(0f),
-            foregroundDelta = floatEquals(1f),
-            progress = eq(0)
+            imageResId = DaltonismTestData.questions[0].testImageResId,
+            variants = variants,
+            progress = 0
         )
         verifyNoMoreInteractionsForAll()
     }
 
     @Test
-    fun answer_oneAnswer_nextStep() {
-        var direction: Direction = Direction.UP
-        whenever(mockView.populateData(any(), any(), any(), any())).doAnswer {
-            direction = it.getArgument(0)
+    fun onAnswer_oneAnswer_nextStep() {
+        var variants: List<Int> = emptyList()
+        whenever(mockView.populateData(any(), any(), any())).doAnswer {
+            variants = it.arguments.filterIsInstance<List<Int>>().first()
         }
-        val presenter = ContrastTestPresenter()
+        val presenter = DaltonismTestPresenter()
         presenter.attachView(mockView)
         clearInvocationsForAll()
 
-        presenter.answer(direction)
+        presenter.answer(0)
 
         verify(mockView).populateData(
-            direction = eq(direction),
-            backgroundAlpha = floatEquals(0f),
-            foregroundDelta = floatEquals(1f),
-            progress = eq(1)
+            imageResId = DaltonismTestData.questions[1].testImageResId,
+            variants = variants,
+            progress = 3
         )
         verifyNoMoreInteractionsForAll()
     }
 
     @Test
-    fun answer_twoGoodAnswers_nextContrast() {
-        var direction: Direction = Direction.UP
-        whenever(mockView.populateData(any(), any(), any(), any())).doAnswer {
-            direction = it.getArgument(0)
-        }
-        val presenter = ContrastTestPresenter()
-        presenter.attachView(mockView)
-        presenter.answer(direction)
-        clearInvocationsForAll()
-
-        presenter.answer(direction)
-
-        verify(mockView).populateData(
-            direction = eq(direction),
-            backgroundAlpha = floatEquals(0.05f),
-            foregroundDelta = floatEquals(0.9f),
-            progress = eq(5)
-        )
-        verifyNoMoreInteractionsForAll()
-    }
-
-    @Test
-    fun answer_twoBadAnswersAndSuccess_finishTest() = runTest {
+    fun onAnswer_lastAnswerAndSuccess_finishTest() = runTest {
         declare {
             Clock.fixed(
                 Instant.parse( "2024-01-17T05:00:00Z"), ZoneOffset.UTC
             )
         }
-        var direction: Direction = Direction.UP
-        whenever(mockView.populateData(any(), any(), any(), any())).doAnswer {
-            direction = it.getArgument(0)
+        var variants: List<Int> = emptyList()
+        whenever(mockView.populateData(any(), any(), any())).doAnswer {
+            variants = it.arguments.filterIsInstance<List<Int>>().first()
         }
         whenever(mockAddTestResultUseCase(any())).doReturn(UseCaseResult(42L))
-        val presenter = ContrastTestPresenter()
+        val presenter = DaltonismTestPresenter()
         presenter.attachView(mockView)
-        presenter.answer(Direction.entries.first { it != direction })
+        DaltonismTestData.questions.subList(0, DaltonismTestData.questions.lastIndex).forEach { question ->
+            val correctAnswerIndex = variants.indexOf(question.answerResIds.first())
+            presenter.answer(correctAnswerIndex)
+        }
         clearInvocationsForAll()
 
-        presenter.answer(Direction.entries.first { it != direction })
+        val correctAnswerIndex = variants.indexOf(
+            DaltonismTestData.questions.last().answerResIds.first()
+        )
+        presenter.answer(correctAnswerIndex)
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
         verify(mockAddTestResultUseCase)(
             argThat {
-                (this is ContrastTestResult)
+                (this is DaltonismTestResult)
                         && (timestamp == 1705467600000L)
-                        && (recognizedContrast == 100)
+                        && (errorsCount == 0)
+                        && (anomalyType == DaltonismAnomalyType.NONE)
             }
         )
         verify(mockView).routerNewRootScreen(
-            screenMatcher(ContrastResultFragment::class) { arguments ->
-                arguments[ContrastResultFragment.RECOGNIZED_DELTA] == 100
+            screenMatcher(DaltonismResultFragment::class) { arguments ->
+                (arguments[DaltonismResultFragment.ERRORS_COUNT] == 0)
+                        && (arguments[DaltonismResultFragment.RESULT_TYPE] == DaltonismAnomalyType.NONE)
             }
         )
         verify(mockEventDispatcher).sendEvent(AppEvent.JournalChanged)
@@ -192,31 +175,38 @@ class ContrastTestPresenterTest : KoinTest {
     }
 
     @Test
-    fun answer_twoBadAnswersAndException_errorHandler() = runTest {
+    fun onAnswer_lastAnswerAndException_errorHandler() = runTest {
         declare {
             Clock.fixed(
                 Instant.parse( "2024-01-17T05:00:00Z"), ZoneOffset.UTC
             )
         }
-        var direction: Direction = Direction.UP
-        whenever(mockView.populateData(any(), any(), any(), any())).doAnswer {
-            direction = it.getArgument(0)
+        var variants: List<Int> = emptyList()
+        whenever(mockView.populateData(any(), any(), any())).doAnswer {
+            variants = it.arguments.filterIsInstance<List<Int>>().first()
         }
         whenever(mockAddTestResultUseCase(any())).doReturn(UseCaseResult(error = Exception()))
-        val presenter = ContrastTestPresenter()
+        val presenter = DaltonismTestPresenter()
         presenter.attachView(mockView)
-        presenter.answer(Direction.entries.first { it != direction })
+        DaltonismTestData.questions.subList(0, DaltonismTestData.questions.lastIndex).forEach { question ->
+            val correctAnswerIndex = variants.indexOf(question.answerResIds.first())
+            presenter.answer(correctAnswerIndex)
+        }
         clearInvocationsForAll()
 
-        presenter.answer(Direction.entries.first { it != direction })
+        val correctAnswerIndex = variants.indexOf(
+            DaltonismTestData.questions.last().answerResIds.first()
+        )
+        presenter.answer(correctAnswerIndex)
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
         verify(mockAddTestResultUseCase)(
             argThat {
-                (this is ContrastTestResult)
+                (this is DaltonismTestResult)
                         && (timestamp == 1705467600000L)
-                        && (recognizedContrast == 100)
+                        && (errorsCount == 0)
+                        && (anomalyType == DaltonismAnomalyType.NONE)
             }
         )
         verify(mockErrorHandler).proceed(any(), any())

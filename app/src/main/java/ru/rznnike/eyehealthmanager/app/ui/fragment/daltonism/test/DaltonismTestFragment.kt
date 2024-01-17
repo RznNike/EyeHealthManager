@@ -66,7 +66,7 @@ class DaltonismTestFragment : BaseFragment(R.layout.fragment_daltonism_test), Da
             buttonVariant4
         ).forEachIndexed { index, button ->
             button.setOnClickListener {
-                presenter.onAnswer(index)
+                presenter.answer(index)
             }
         }
     }

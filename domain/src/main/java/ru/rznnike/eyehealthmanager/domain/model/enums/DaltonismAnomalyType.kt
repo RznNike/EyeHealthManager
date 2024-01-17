@@ -1,12 +1,15 @@
 package ru.rznnike.eyehealthmanager.domain.model.enums
 
+import android.os.Parcelable
 import androidx.annotation.StringRes
+import kotlinx.parcelize.Parcelize
 import ru.rznnike.eyehealthmanager.domain.R
 
+@Parcelize
 enum class DaltonismAnomalyType(
     val id: Int,
     @StringRes val nameResId: Int
-) {
+) : Parcelable {
     NONE(0, R.string.rabkin_result_normal),
     PROTANOPIA(1, R.string.rabkin_result_protanopia),
     DEITERANOPIA(2, R.string.rabkin_result_deiteranopia),

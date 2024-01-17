@@ -47,6 +47,7 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFragment
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
 
@@ -118,7 +119,7 @@ object Screens {
 
         fun daltonismResult(
             errorsCount: Int,
-            resultType: String
+            resultType: DaltonismAnomalyType
         ) = DaltonismResultFragment::class.getFragmentScreen(
             DaltonismResultFragment.ERRORS_COUNT to errorsCount,
             DaltonismResultFragment.RESULT_TYPE to resultType
