@@ -16,19 +16,16 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.koin.test.junit5.KoinTestExtension
 import org.mockito.Mock
-import org.mockito.Mockito.anyBoolean
-import org.mockito.Mockito.anyInt
-import org.mockito.Mockito.clearInvocations
-import org.mockito.Mockito.never
-import org.mockito.Mockito.only
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
+import org.mockito.kotlin.clearInvocations
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.only
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
@@ -96,80 +93,75 @@ class AcuityDoctorResultPresenterTest : KoinTest {
     fun onLeftEyeValueChanged_populateChangedData() {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        clearInvocations(mockView)
+        clearInvocationsForAll()
 
         presenter.onLeftEyeValueChanged("123")
 
-        verify(mockView, only()).populateData(
+        verify(mockView).populateData(
             date = null,
             leftEye = "123",
             rightEye = ""
         )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun onRightEyeValueChanged_populateChangedData() {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        clearInvocations(mockView)
+        clearInvocationsForAll()
 
         presenter.onRightEyeValueChanged("123")
 
-        verify(mockView, only()).populateData(
+        verify(mockView).populateData(
             date = null,
             leftEye = "",
             rightEye = "123"
         )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun onDateTimeSelected_populateChangedData() {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        clearInvocations(mockView)
+        clearInvocationsForAll()
 
         presenter.onDateTimeSelected(42)
 
-        verify(mockView, only()).populateData(
+        verify(mockView).populateData(
             date = 42,
             leftEye = "",
             rightEye = ""
         )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun onAddResult_dateNotSet_message() = runTest {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        clearInvocations(mockView)
+        clearInvocationsForAll()
 
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
 
         verify(mockNotifier).sendMessage(R.string.choose_date_and_time)
-        verify(mockView, never()).setProgress(anyBoolean(), anyBoolean())
-        verify(mockView, never()).routerFinishFlow()
-        verify(mockAddTestResultUseCase, never())(any())
-        verify(mockErrorHandler, never()).proceed(any(), any())
-        verify(mockEventDispatcher, never()).sendEvent(any())
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun onAddResult_bothEyesNotSet_message() = runTest {
         val presenter = AcuityDoctorResultPresenter()
         presenter.attachView(mockView)
-        clearInvocations(mockView)
-
         presenter.onDateTimeSelected(42)
+        clearInvocationsForAll()
+
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
 
         verify(mockNotifier).sendMessage(R.string.error_enter_at_least_one_eye)
-        verify(mockView, never()).setProgress(anyBoolean(), anyBoolean())
-        verify(mockView, never()).routerFinishFlow()
-        verify(mockAddTestResultUseCase, never())(any())
-        verify(mockErrorHandler, never()).proceed(any(), any())
-        verify(mockEventDispatcher, never()).sendEvent(any())
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -179,7 +171,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         presenter.attachView(mockView)
         presenter.onLeftEyeValueChanged("0.55")
         presenter.onDateTimeSelected(42)
-        clearInvocations(mockView)
+        clearInvocationsForAll()
 
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
@@ -197,10 +189,9 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         )
         verify(mockNotifier).sendMessage(R.string.data_added)
         verify(mockView).routerFinishFlow()
-        verify(mockErrorHandler, never()).proceed(any(), any())
         verify(mockEventDispatcher).sendEvent(AppEvent.JournalChanged)
         verify(mockView).setProgress(show = false, immediately = true)
-        verifyNoMoreInteractions(mockView, mockNotifier, mockAddTestResultUseCase, mockErrorHandler, mockEventDispatcher)
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -211,7 +202,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         presenter.onLeftEyeValueChanged("0.55")
         presenter.onRightEyeValueChanged("0.66")
         presenter.onDateTimeSelected(42)
-        clearInvocations(mockView)
+        clearInvocationsForAll()
 
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
@@ -229,10 +220,9 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         )
         verify(mockNotifier).sendMessage(R.string.data_added)
         verify(mockView).routerFinishFlow()
-        verify(mockErrorHandler, never()).proceed(any(), any())
         verify(mockEventDispatcher).sendEvent(AppEvent.JournalChanged)
         verify(mockView).setProgress(show = false, immediately = true)
-        verifyNoMoreInteractions(mockView, mockNotifier, mockAddTestResultUseCase, mockErrorHandler, mockEventDispatcher)
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -244,7 +234,7 @@ class AcuityDoctorResultPresenterTest : KoinTest {
         presenter.onLeftEyeValueChanged("0.55")
         presenter.onRightEyeValueChanged("0.66")
         presenter.onDateTimeSelected(42)
-        clearInvocations(mockView)
+        clearInvocationsForAll()
 
         presenter.onAddResult()
         testScheduler.advanceUntilIdle()
@@ -260,11 +250,23 @@ class AcuityDoctorResultPresenterTest : KoinTest {
                         && measuredByDoctor
             }
         )
-        verify(mockNotifier, never()).sendMessage(anyInt(), any(), any())
-        verify(mockView, never()).routerFinishFlow()
         verify(mockErrorHandler).proceed(eq(error), any())
         verify(mockEventDispatcher).sendEvent(AppEvent.JournalChanged)
         verify(mockView).setProgress(show = false, immediately = true)
-        verifyNoMoreInteractions(mockView, mockNotifier, mockAddTestResultUseCase, mockErrorHandler, mockEventDispatcher)
+        verifyNoMoreInteractionsForAll()
     }
+
+    private val allMocks by lazy {
+        arrayOf(
+            mockView,
+            mockErrorHandler,
+            mockNotifier,
+            mockEventDispatcher,
+            mockAddTestResultUseCase
+        )
+    }
+
+    private fun clearInvocationsForAll() = clearInvocations(*allMocks)
+
+    private fun verifyNoMoreInteractionsForAll() = verifyNoMoreInteractions(*allMocks)
 }
