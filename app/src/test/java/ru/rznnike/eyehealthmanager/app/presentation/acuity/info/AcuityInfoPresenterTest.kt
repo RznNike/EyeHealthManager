@@ -19,14 +19,13 @@ import org.koin.test.junit5.mock.MockProviderExtension
 import org.koin.test.mock.declare
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.only
-import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.clearInvocations
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
@@ -98,7 +97,8 @@ class AcuityInfoPresenterTest : KoinTest {
     fun init_subscribedToEvents() {
         val presenter = AcuityInfoPresenter()
 
-        verify(mockEventDispatcher, only()).addEventListener(AppEvent.TestingSettingsChanged::class, presenter)
+        verify(mockEventDispatcher).addEventListener(AppEvent.TestingSettingsChanged::class, presenter)
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -108,7 +108,8 @@ class AcuityInfoPresenterTest : KoinTest {
 
         presenter.onDestroy()
 
-        verify(mockEventDispatcher, only()).removeEventListener(presenter)
+        verify(mockEventDispatcher).removeEventListener(presenter)
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
@@ -127,12 +128,7 @@ class AcuityInfoPresenterTest : KoinTest {
         verify(mockGetTestingSettingsUseCase)()
         verify(mockGetAcuityTestingSettingsUseCase)()
         verify(mockView).populateData(acuityTestingSettings)
-        verifyNoMoreInteractions(
-            mockView,
-            mockGetTestingSettingsUseCase,
-            mockGetAcuityTestingSettingsUseCase,
-            mockSetAcuityTestingSettingsUseCase
-        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
