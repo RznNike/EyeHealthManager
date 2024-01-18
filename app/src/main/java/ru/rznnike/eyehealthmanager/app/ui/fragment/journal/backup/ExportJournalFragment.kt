@@ -120,7 +120,7 @@ class ExportJournalFragment : BaseFragment(R.layout.fragment_export_journal), Ex
 
     private fun initOnClickListeners() = binding.apply {
         buttonClearFilters.setOnClickListener {
-            presenter.onClearFilters()
+            presenter.clearFilters()
         }
         checkBoxFilterByDate.setOnClickListener {
             presenter.onFilterByDateValueChanged(checkBoxFilterByDate.isChecked)

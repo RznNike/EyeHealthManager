@@ -37,20 +37,15 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private var startExportAutomatically = false
 
     override fun onFirstViewAttach() {
-        initFilters()
+        clearFilters()
     }
 
-    private fun initFilters() {
+    fun clearFilters() {
         val dateNow = clock.millis().toLocalDate()
         filter = TestResultFilter(
             dateFrom = dateNow.minusMonths(1).atStartOfDay().millis(),
             dateTo = dateNow.atEndOfDay().millis()
         )
-        populateData()
-    }
-
-    fun onClearFilters() {
-        initFilters()
         populateData()
     }
 
