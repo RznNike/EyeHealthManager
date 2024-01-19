@@ -18,6 +18,7 @@ object GlobalConstants {
     const val FEEDBACK_EMAIL_ADDRESS = "rznnike@yandex.ru"
     const val REPOSITORY_LINK = "https://github.com/RznNike/EyeHealthManager"
 
+    const val MINUTE_MS = 60_1000L
     const val DAY_MS = 86_400_000L
     const val ANALYSIS_GROUPING_MIN_RANGE_DAYS = 3L
     const val ANALYSIS_GROUPING_MIN_RANGE_MS = ANALYSIS_GROUPING_MIN_RANGE_DAYS * DAY_MS
