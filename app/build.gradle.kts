@@ -110,6 +110,12 @@ android {
         abi.enableSplit = false
         language.enableSplit = false
     }
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -125,7 +131,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.viewpager2:viewpager2:1.1.0-beta02")
@@ -136,6 +142,7 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + rootProject.extra["coroutinesVersion"])
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:" + rootProject.extra["coroutinesVersion"])
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:" + rootProject.extra["coroutinesVersion"])
 
     // Material
     implementation("com.google.android.material:material:1.11.0")
@@ -148,6 +155,8 @@ dependencies {
     // https://github.com/InsertKoinIO/koin
     implementation("io.insert-koin:koin-core:" + rootProject.extra["koinVersion"])
     implementation("io.insert-koin:koin-android:" + rootProject.extra["koinVersion"])
+    testImplementation("io.insert-koin:koin-test:" + rootProject.extra["koinVersion"])
+    testImplementation("io.insert-koin:koin-test-junit5:" + rootProject.extra["koinVersion"])
 
     // Moxy MVP
     // https://github.com/moxy-community/Moxy
@@ -191,4 +200,16 @@ dependencies {
     // FlexboxLayoutManager
     // https://github.com/google/flexbox-layout
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+
+    // Testing
+    // https://github.com/junit-team/junit5/
+    testImplementation("org.junit.jupiter:junit-jupiter:" + rootProject.extra["junitVersion"])
+
+    // Mocks for testing
+    // https://github.com/mockito/mockito
+    val mockitoVersion = "5.9.0"
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
+    // https://github.com/mockito/mockito-kotlin
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
 }

@@ -2,8 +2,17 @@ package ru.rznnike.eyehealthmanager.data.storage.repository
 
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.gateway.DevGatewayImpl
+import ru.rznnike.eyehealthmanager.data.storage.AbstractObjectBoxTest
+import ru.rznnike.eyehealthmanager.data.storage.dao.AcuityTestDAO
+import ru.rznnike.eyehealthmanager.data.storage.dao.AstigmatismTestDAO
+import ru.rznnike.eyehealthmanager.data.storage.dao.ColorPerceptionTestDAO
+import ru.rznnike.eyehealthmanager.data.storage.dao.ContrastTestDAO
+import ru.rznnike.eyehealthmanager.data.storage.dao.DaltonismTestDAO
+import ru.rznnike.eyehealthmanager.data.storage.dao.NearFarTestDAO
+import ru.rznnike.eyehealthmanager.data.storage.dao.TestDAO
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
 import ru.rznnike.eyehealthmanager.domain.model.TestResult
@@ -12,11 +21,13 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
+import java.time.Clock
 
 class TestRepositoryImplTest : AbstractObjectBoxTest() {
     @Test
-    fun getTests_empty_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+    fun getList_empty_success() = runTest {
+        val repository = createRepository()
         val parameters = TestResultPagingParameters(
             offset = 0,
             limit = Int.MAX_VALUE,
@@ -24,20 +35,23 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        val tests = repository.getTests(parameters)
+        val tests = repository.getList(parameters)
 
-        assert(tests.isEmpty())
+        assertTrue(tests.isEmpty())
     }
 
     @Test
-    fun getTests_withData_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
-        val generator = DevGatewayImpl(repository)
+    fun getList_withData_success() = runTest {
+        val repository = createRepository()
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val parameters = TestResultPagingParameters(
             offset = 0,
@@ -46,30 +60,30 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        val tests = repository.getTests(parameters)
+        val tests = repository.getList(parameters)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size)
+        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
     }
 
     @Test
-    fun getTests_disorderedData_returnOrderedByTimestampDesc() = runTest {
-        val repository = TestRepositoryImpl(store!!)
-        repository.addTest(
+    fun getList_disorderedData_returnOrderedByTimestampDesc() = runTest {
+        val repository = createRepository()
+        repository.add(
             AcuityTestResult(
                 timestamp = 10_000
             )
         )
-        repository.addTest(
+        repository.add(
             AcuityTestResult(
                 timestamp = 30_000
             )
         )
-        repository.addTest(
+        repository.add(
             AcuityTestResult(
                 timestamp = 20_000
             )
@@ -81,22 +95,25 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        val tests = repository.getTests(parameters)
+        val tests = repository.getList(parameters)
 
         assertEquals(3, tests.size)
-        assert(tests[0].timestamp > tests[1].timestamp)
-        assert(tests[1].timestamp > tests[2].timestamp)
+        assertTrue(tests[0].timestamp > tests[1].timestamp)
+        assertTrue(tests[1].timestamp > tests[2].timestamp)
     }
 
     @Test
-    fun getTests_filterByDate_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
-        val generator = DevGatewayImpl(repository)
+    fun getList_filterByDate_success() = runTest {
+        val repository = createRepository()
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val parameters = TestResultPagingParameters(
             offset = 0,
@@ -104,22 +121,25 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = false,
-                dateFrom = System.currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
-                dateTo = System.currentTimeMillis(),
+                dateFrom = currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        val tests = repository.getTests(parameters)
+        val tests = repository.getList(parameters)
 
-        assert(tests.isNotEmpty())
-        assert(tests.minOf { it.timestamp } >= (parameters.filter?.dateFrom ?: 0))
+        assertTrue(tests.isNotEmpty())
+        assertTrue(tests.minOf { it.timestamp } >= (parameters.filter?.dateFrom ?: 0))
     }
 
     @Test
-    fun getTests_filterByType_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
-        val generator = DevGatewayImpl(repository)
+    fun getList_filterByType_success() = runTest {
+        val repository = createRepository()
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
         val parameters = TestResultPagingParameters(
@@ -129,21 +149,24 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = true,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf(TestType.CONTRAST)
             )
         )
 
-        val tests = repository.getTests(parameters)
+        val tests = repository.getList(parameters)
 
         assertEquals(1, tests.size)
-        assert(tests.first() is ContrastTestResult)
+        assertTrue(tests.first() is ContrastTestResult)
     }
 
     @Test
-    fun getTests_allFilters_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
-        val generator = DevGatewayImpl(repository)
+    fun getList_allFilters_success() = runTest {
+        val repository = createRepository()
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
         val parameters = TestResultPagingParameters(
@@ -152,48 +175,54 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = true,
-                dateFrom = System.currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
-                dateTo = System.currentTimeMillis(),
+                dateFrom = currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf(TestType.ACUITY)
             )
         )
 
-        val tests = repository.getTests(parameters)
+        val tests = repository.getList(parameters)
 
-        assert(tests.isNotEmpty())
-        assert(tests.minOf { it.timestamp } >= (parameters.filter?.dateFrom ?: 0))
-        assert(tests.all { it is AcuityTestResult })
+        assertTrue(tests.isNotEmpty())
+        assertTrue(tests.minOf { it.timestamp } >= (parameters.filter?.dateFrom ?: 0))
+        assertTrue(tests.all { it is AcuityTestResult })
     }
 
     @Test
-    fun getAllLastTests_empty_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+    fun getListDistinctByType_empty_success() = runTest {
+        val repository = createRepository()
 
-        val tests = repository.getAllLastTests()
+        val tests = repository.getListDistinctByType()
 
-        assert(tests.isEmpty())
+        assertTrue(tests.isEmpty())
     }
 
     @Test
-    fun getAllLastTests_acuityOnly_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
-        val generator = DevGatewayImpl(repository)
+    fun getListDistinctByType_acuityOnly_success() = runTest {
+        val repository = createRepository()
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
 
-        val tests = repository.getAllLastTests()
+        val tests = repository.getListDistinctByType()
 
         assertEquals(1, tests.size)
-        assert(tests.first() is AcuityTestResult)
+        assertTrue(tests.first() is AcuityTestResult)
     }
 
     @Test
-    fun getAllLastTests_allTests_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
-        val generator = DevGatewayImpl(repository)
+    fun getListDistinctByType_allTests_success() = runTest {
+        val repository = createRepository()
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
 
-        val tests = repository.getAllLastTests()
+        val tests = repository.getListDistinctByType()
         val testsDistinctByType = tests.distinctBy { it.javaClass }
 
         assertEquals(TestType.entries.size, tests.size)
@@ -201,8 +230,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     }
 
     @Test
-    fun addTests_empty_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+    fun addList_empty_success() = runTest {
+        val repository = createRepository()
         val tests = emptyList<TestResult>()
         val parameters = TestResultPagingParameters(
             offset = 0,
@@ -211,20 +240,20 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        repository.addTests(tests)
-        val resultTests = repository.getTests(parameters)
+        repository.add(tests)
+        val resultTests = repository.getList(parameters)
 
-        assert(resultTests.isEmpty())
+        assertTrue(resultTests.isEmpty())
     }
 
     @Test
-    fun addTests_withData_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+    fun addList_withData_success() = runTest {
+        val repository = createRepository()
         val tests = listOf(
             AcuityTestResult(
                 timestamp = 10_000
@@ -243,20 +272,20 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        repository.addTests(tests)
-        val resultTests = repository.getTests(parameters)
+        repository.add(tests)
+        val resultTests = repository.getList(parameters)
 
         assertEquals(tests.size, resultTests.size)
     }
 
     @Test
-    fun addTest_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+    fun add_success() = runTest {
+        val repository = createRepository()
         val test = AcuityTestResult(
             timestamp = 10_000
         )
@@ -267,13 +296,13 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        val id = repository.addTest(test)
-        val resultTests = repository.getTests(parameters)
+        val id = repository.add(test)
+        val resultTests = repository.getList(parameters)
 
         assertEquals(1, resultTests.size)
         assertEquals(id, resultTests.first().id)
@@ -281,8 +310,8 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     }
 
     @Test
-    fun deleteTestById_correctId_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+    fun delete_correctId_success() = runTest {
+        val repository = createRepository()
         val test1 = AcuityTestResult(
             timestamp = 10_000
         )
@@ -296,23 +325,23 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
-        val id1 = repository.addTest(test1)
-        val id2 = repository.addTest(test2)
+        val id1 = repository.add(test1)
+        val id2 = repository.add(test2)
 
-        repository.deleteTestById(id1)
-        val resultTests = repository.getTests(parameters)
+        repository.delete(id1)
+        val resultTests = repository.getList(parameters)
 
         assertEquals(1, resultTests.size)
         assertEquals(id2, resultTests.first().id)
     }
 
     @Test
-    fun deleteTestById_badId_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+    fun delete_badId_success() = runTest {
+        val repository = createRepository()
         val test1 = AcuityTestResult(
             timestamp = 10_000
         )
@@ -326,22 +355,22 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
-        val id1 = repository.addTest(test1)
-        val id2 = repository.addTest(test2)
+        val id1 = repository.add(test1)
+        val id2 = repository.add(test2)
 
-        repository.deleteTestById(id1 + id2 + 1)
-        val resultTests = repository.getTests(parameters)
+        repository.delete(id1 + id2 + 1)
+        val resultTests = repository.getList(parameters)
 
         assertEquals(2, resultTests.size)
     }
 
     @Test
-    fun deleteAllTests_empty_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+    fun deleteAll_empty_success() = runTest {
+        val repository = createRepository()
         val parameters = TestResultPagingParameters(
             offset = 0,
             limit = Int.MAX_VALUE,
@@ -349,21 +378,24 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        repository.deleteAllTests()
-        val resultTests = repository.getTests(parameters)
+        repository.deleteAll()
+        val resultTests = repository.getList(parameters)
 
-        assert(resultTests.isEmpty())
+        assertTrue(resultTests.isEmpty())
     }
 
     @Test
-    fun deleteAllTests_withData_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
-        val generator = DevGatewayImpl(repository)
+    fun deleteAll_withData_success() = runTest {
+        val repository = createRepository()
+        val generator = DevGatewayImpl(
+            testRepository = repository,
+            clock = Clock.systemUTC()
+        )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val parameters = TestResultPagingParameters(
             offset = 0,
@@ -372,22 +404,22 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
 
-        val oldTests = repository.getTests(parameters)
-        repository.deleteAllTests()
-        val resultTests = repository.getTests(parameters)
+        val oldTests = repository.getList(parameters)
+        repository.deleteAll()
+        val resultTests = repository.getList(parameters)
 
-        assert(oldTests.isNotEmpty())
-        assert(resultTests.isEmpty())
+        assertTrue(oldTests.isNotEmpty())
+        assertTrue(resultTests.isEmpty())
     }
 
     @Test
     fun deleteDuplicates_noDuplicates_noChanges() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+        val repository = createRepository()
         val tests = listOf(
             AcuityTestResult(
                 timestamp = 10_000
@@ -406,24 +438,24 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
-        repository.addTests(tests)
+        repository.add(tests)
 
-        val oldTests = repository.getTests(parameters)
+        val oldTests = repository.getList(parameters)
         repository.deleteDuplicates()
-        val resultTests = repository.getTests(parameters)
+        val resultTests = repository.getList(parameters)
 
-        assert(oldTests.isNotEmpty())
+        assertTrue(oldTests.isNotEmpty())
         assertEquals(tests.size, oldTests.size)
         assertEquals(oldTests.size, resultTests.size)
     }
 
     @Test
     fun deleteDuplicates_withDuplicates_success() = runTest {
-        val repository = TestRepositoryImpl(store!!)
+        val repository = createRepository()
         val tests = listOf(
             AcuityTestResult(
                 timestamp = 10_000
@@ -442,19 +474,30 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
                 filterByDate = false,
                 filterByType = false,
                 dateFrom = 0,
-                dateTo = System.currentTimeMillis(),
+                dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
         )
-        repository.addTests(tests)
-        repository.addTests(tests)
+        repository.add(tests)
+        repository.add(tests)
 
-        val oldTests = repository.getTests(parameters)
+        val oldTests = repository.getList(parameters)
         repository.deleteDuplicates()
-        val resultTests = repository.getTests(parameters)
+        val resultTests = repository.getList(parameters)
 
-        assert(oldTests.isNotEmpty())
+        assertTrue(oldTests.isNotEmpty())
         assertEquals(tests.size * 2, oldTests.size)
         assertEquals(tests.size, resultTests.size)
     }
+
+    private fun createRepository() = TestRepositoryImpl(
+        boxStore = store!!,
+        testDAO = TestDAO(store!!),
+        acuityTestDAO = AcuityTestDAO(store!!),
+        astigmatismTestDAO = AstigmatismTestDAO(store!!),
+        colorPerceptionTestDAO = ColorPerceptionTestDAO(store!!),
+        contrastTestDAO = ContrastTestDAO(store!!),
+        daltonismTestDAO = DaltonismTestDAO(store!!),
+        nearFarTestDAO = NearFarTestDAO(store!!),
+    )
 }

@@ -20,23 +20,25 @@ import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import java.io.BufferedWriter
 import java.io.IOException
+import java.time.Clock
 import java.util.EnumMap
 
 class TestGatewayImpl(
     private val testRepository: TestRepository,
-    private val context: Context
+    private val context: Context,
+    private val clock: Clock
 ) : TestGateway {
     override suspend fun getTestResults(parameters: TestResultPagingParameters) =
-        testRepository.getTests(parameters)
+        testRepository.getList(parameters)
 
     override suspend fun addTestResult(item: TestResult) =
-        testRepository.addTest(item)
+        testRepository.add(item)
 
     override suspend fun deleteTestResultById(id: Long) =
-        testRepository.deleteTestById(id)
+        testRepository.delete(id)
 
     override suspend fun deleteAllTestResults() =
-        testRepository.deleteAllTests()
+        testRepository.deleteAll()
 
     override suspend fun deleteDuplicates() =
         testRepository.deleteDuplicates()
@@ -58,7 +60,7 @@ class TestGatewayImpl(
             ?.findOrCreateDocumentFolder(GlobalConstants.APP_DIR)
             ?.findOrCreateDocumentFolder(GlobalConstants.EXPORT_DIR)
             ?.findOrCreateDocumentFolder(
-                System.currentTimeMillis().toDate(GlobalConstants.DATE_PATTERN_FULL_FOR_PATH)
+                clock.millis().toDate(GlobalConstants.DATE_PATTERN_FULL_FOR_PATH)
             )
             ?.let { folder ->
                 try {
@@ -114,7 +116,7 @@ class TestGatewayImpl(
         exportFileWriters: MutableMap<TestType, BufferedWriter>,
         exportEntryCounters: MutableMap<TestType, Int>
     ): Int {
-        val data = testRepository.getTests(
+        val data = testRepository.getList(
             TestResultPagingParameters(
                 limit = GlobalConstants.EXPORT_PAGE_SIZE,
                 offset = pageOffset,
@@ -187,11 +189,11 @@ class TestGatewayImpl(
                             .forEach {
                                 resultsBuffer.add(it)
                                 if (resultsBuffer.size >= GlobalConstants.IMPORT_PAGE_SIZE) {
-                                    testRepository.addTests(resultsBuffer)
+                                    testRepository.add(resultsBuffer)
                                     resultsBuffer.clear()
                                 }
                             }
-                        testRepository.addTests(resultsBuffer)
+                        testRepository.add(resultsBuffer)
                     }
             }
     }

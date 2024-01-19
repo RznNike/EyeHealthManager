@@ -37,12 +37,12 @@ class PercentProgressView @JvmOverloads constructor(
     }
 
     private fun updateMax() = binding.apply {
-        progressBar.max = max * PROGRESS_MULTIPLIER
+        percentProgressBar.max = max * PROGRESS_MULTIPLIER
     }
 
     private fun updateProgress() = binding.apply {
         textViewProgress.text = "%d%%".format(progress)
-        ObjectAnimator.ofInt(progressBar, "progress", progress * PROGRESS_MULTIPLIER)
+        ObjectAnimator.ofInt(percentProgressBar, "progress", progress * PROGRESS_MULTIPLIER)
             .setDuration(PROGRESS_ANIMATION_MS)
             .start()
     }

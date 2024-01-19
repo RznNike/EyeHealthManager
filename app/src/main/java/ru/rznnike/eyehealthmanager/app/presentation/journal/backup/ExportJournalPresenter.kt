@@ -20,13 +20,13 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
-import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
-import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
-import ru.rznnike.eyehealthmanager.domain.utils.toCalendar
-import java.util.Calendar
+import ru.rznnike.eyehealthmanager.domain.utils.millis
+import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
+import java.time.Clock
 
 @InjectViewState
 class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -37,21 +37,15 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private var startExportAutomatically = false
 
     override fun onFirstViewAttach() {
-        initFilters()
+        clearFilters()
     }
 
-    private fun initFilters() {
+    fun clearFilters() {
+        val dateNow = clock.millis().toLocalDate()
         filter = TestResultFilter(
-            dateFrom = getTodayCalendar().apply {
-                add(Calendar.MONTH, -1)
-            }.timeInMillis,
-            dateTo = Calendar.getInstance().atEndOfDay().timeInMillis
+            dateFrom = dateNow.minusMonths(1).atStartOfDay().millis(),
+            dateTo = dateNow.atEndOfDay().millis()
         )
-        populateData()
-    }
-
-    fun onClearFilters() {
-        initFilters()
         populateData()
     }
 
@@ -76,18 +70,18 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     }
 
     fun onFilterDateFromSelected(timestamp: Long) {
-        filter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+        filter.dateFrom = timestamp.toLocalDate().atStartOfDay().millis()
         if (filter.dateTo <= filter.dateFrom) {
-            filter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+            filter.dateTo = timestamp.toLocalDate().atEndOfDay().millis()
         }
         filter.filterByDate = true
         populateData()
     }
 
     fun onFilterDateToSelected(timestamp: Long) {
-        filter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+        filter.dateTo = timestamp.toLocalDate().atEndOfDay().millis()
         if (filter.dateTo <= filter.dateFrom) {
-            filter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+            filter.dateFrom = timestamp.toLocalDate().atStartOfDay().millis()
         }
         filter.filterByDate = true
         populateData()

@@ -17,89 +17,77 @@ class Notifier(
         text: String,
         level: SystemMessage.Level = SystemMessage.Level.NORMAL,
         showOnTop: Boolean = false
-    ) {
-        val msg = SystemMessage(
+    ) = emitMessage(
+        SystemMessage(
             text = text,
             type = SystemMessage.Type.BAR,
             showOnTop = showOnTop,
             level = level
         )
-        coroutineProvider.scopeIo.launch {
-            notifierFlow.emit(msg)
-        }
-    }
+    )
 
     fun sendMessage(
         @StringRes textRes: Int,
         level: SystemMessage.Level = SystemMessage.Level.NORMAL,
         showOnTop: Boolean = false
-    ) {
-        val msg = SystemMessage(
+    ) = emitMessage(
+        SystemMessage(
             textRes = textRes,
             type = SystemMessage.Type.BAR,
             showOnTop = showOnTop,
             level = level
         )
-        coroutineProvider.scopeIo.launch {
-            notifierFlow.emit(msg)
-        }
-    }
+    )
 
-    fun sendAlert(text: String) {
-        val msg = SystemMessage(
+    fun sendAlert(text: String) = emitMessage(
+        SystemMessage(
             text = text,
             type = SystemMessage.Type.ALERT,
             showOnTop = false
         )
-        coroutineProvider.scopeIo.launch {
-            notifierFlow.emit(msg)
-        }
-    }
+    )
 
-    fun sendAlert(@StringRes textRes: Int) {
-        val msg = SystemMessage(
+    fun sendAlert(@StringRes textRes: Int) = emitMessage(
+        SystemMessage(
             textRes = textRes,
             type = SystemMessage.Type.ALERT,
             showOnTop = false
         )
-        coroutineProvider.scopeIo.launch {
-            notifierFlow.emit(msg)
-        }
-    }
+    )
 
     fun sendActionMessage(
         @StringRes textRes: Int,
         @StringRes actionTextRes: Int,
         showOnTop: Boolean = false,
         actionCallback: () -> Unit
-    ) {
-        val msg = SystemMessage(
+    ) = emitMessage(
+        SystemMessage(
             textRes = textRes,
             actionTextRes = actionTextRes,
             actionCallback = actionCallback,
             type = SystemMessage.Type.BAR,
             showOnTop = showOnTop
         )
-        coroutineProvider.scopeIo.launch {
-            notifierFlow.emit(msg)
-        }
-    }
+    )
 
     fun sendActionMessage(
         text: String,
         actionText: String,
         showOnTop: Boolean = false,
         actionCallback: () -> Unit
-    ) {
-        val msg = SystemMessage(
+    ) = emitMessage(
+        SystemMessage(
             text = text,
             actionText = actionText,
             actionCallback = actionCallback,
             type = SystemMessage.Type.BAR,
             showOnTop = showOnTop
         )
+    )
+
+    private fun emitMessage(message: SystemMessage) {
         coroutineProvider.scopeIo.launch {
-            notifierFlow.emit(msg)
+            notifierFlow.emit(message)
         }
     }
 }

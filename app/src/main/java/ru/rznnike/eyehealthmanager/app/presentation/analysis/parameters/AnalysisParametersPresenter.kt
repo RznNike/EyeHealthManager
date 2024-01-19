@@ -16,15 +16,14 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
-import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
-import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
-import ru.rznnike.eyehealthmanager.domain.utils.toCalendar
+import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
+import java.time.Clock
 import java.time.temporal.ChronoUnit
-import java.util.*
 
 @InjectViewState
 class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val getApplyDynamicCorrectionsUseCase: GetApplyDynamicCorrectionsUseCase by inject()
@@ -39,11 +38,10 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
 
     private fun initData() {
         presenterScope.launch {
+            val dateNow = clock.millis().toLocalDate()
             parameters.apply {
-                dateFrom = getTodayCalendar().apply {
-                    add(Calendar.DAY_OF_MONTH, -GlobalConstants.ANALYSIS_MAX_RANGE_DAYS)
-                }.timeInMillis
-                dateTo = Calendar.getInstance().atEndOfDay().timeInMillis
+                dateFrom = dateNow.minusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1).atStartOfDay().millis()
+                dateTo = dateNow.atEndOfDay().millis()
                 applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data ?: false
             }
             viewState.populateData(parameters)
@@ -51,48 +49,40 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
     }
 
     fun onDateFromValueChanged(newValue: Long) {
-        parameters.dateFrom = newValue.toCalendar().atStartOfDay().timeInMillis
+        parameters.dateFrom = newValue.toLocalDate().atStartOfDay().millis()
         val deltaDays = ChronoUnit.DAYS.between(parameters.dateFrom.toLocalDate(), parameters.dateTo.toLocalDate())
         when {
-            deltaDays < GlobalConstants.ANALYSIS_MIN_RANGE_DAYS -> {
-                parameters.dateTo = newValue.toCalendar()
-                    .apply {
-                        add(Calendar.DAY_OF_MONTH, GlobalConstants.ANALYSIS_MIN_RANGE_DAYS)
-                    }
+            deltaDays < (GlobalConstants.ANALYSIS_MIN_RANGE_DAYS - 1) -> {
+                parameters.dateTo = newValue.toLocalDate()
+                    .plusDays(GlobalConstants.ANALYSIS_MIN_RANGE_DAYS - 1)
                     .atEndOfDay()
-                    .timeInMillis
+                    .millis()
             }
-            deltaDays > GlobalConstants.ANALYSIS_MAX_RANGE_DAYS -> {
-                parameters.dateTo = newValue.toCalendar()
-                    .apply {
-                        add(Calendar.DAY_OF_MONTH, GlobalConstants.ANALYSIS_MAX_RANGE_DAYS)
-                    }
+            deltaDays > (GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1) -> {
+                parameters.dateTo = newValue.toLocalDate()
+                    .plusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1)
                     .atEndOfDay()
-                    .timeInMillis
+                    .millis()
             }
         }
         viewState.populateData(parameters)
     }
 
     fun onDateToValueChanged(newValue: Long) {
-        parameters.dateTo = newValue.toCalendar().atEndOfDay().timeInMillis
+        parameters.dateTo = newValue.toLocalDate().atEndOfDay().millis()
         val deltaDays = ChronoUnit.DAYS.between(parameters.dateFrom.toLocalDate(), parameters.dateTo.toLocalDate())
         when {
-            deltaDays < GlobalConstants.ANALYSIS_MIN_RANGE_DAYS -> {
-                parameters.dateFrom = newValue.toCalendar()
-                    .apply {
-                        add(Calendar.DAY_OF_MONTH, -GlobalConstants.ANALYSIS_MIN_RANGE_DAYS)
-                    }
+            deltaDays < (GlobalConstants.ANALYSIS_MIN_RANGE_DAYS - 1) -> {
+                parameters.dateFrom = newValue.toLocalDate()
+                    .minusDays(GlobalConstants.ANALYSIS_MIN_RANGE_DAYS - 1)
                     .atStartOfDay()
-                    .timeInMillis
+                    .millis()
             }
-            deltaDays > GlobalConstants.ANALYSIS_MAX_RANGE_DAYS -> {
-                parameters.dateFrom = newValue.toCalendar()
-                    .apply {
-                        add(Calendar.DAY_OF_MONTH, -GlobalConstants.ANALYSIS_MAX_RANGE_DAYS)
-                    }
+            deltaDays > (GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1) -> {
+                parameters.dateFrom = newValue.toLocalDate()
+                    .minusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1)
                     .atStartOfDay()
-                    .timeInMillis
+                    .millis()
             }
         }
         viewState.populateData(parameters)

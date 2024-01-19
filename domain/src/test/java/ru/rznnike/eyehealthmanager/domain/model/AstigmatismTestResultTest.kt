@@ -1,7 +1,9 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
@@ -35,7 +37,7 @@ class AstigmatismTestResultTest {
 
         val testResult = AstigmatismTestResult.importFromString(string)
 
-        assert(testResult1.contentEquals(testResult))
+        assertTrue(testResult1.contentEquals(testResult))
     }
 
     @Test
@@ -51,7 +53,7 @@ class AstigmatismTestResultTest {
     fun contentEquals_sameData_true() {
         val otherTest = AstigmatismTestResult.importFromString(testResult1.exportToString())
 
-        assert(testResult1.contentEquals(otherTest))
+        assertTrue(testResult1.contentEquals(otherTest))
     }
 
     @Test
@@ -60,6 +62,6 @@ class AstigmatismTestResultTest {
 
         val otherTest = AstigmatismTestResult.importFromString(string)
 
-        assert(!testResult1.contentEquals(otherTest))
+        assertFalse(testResult1.contentEquals(otherTest))
     }
 }

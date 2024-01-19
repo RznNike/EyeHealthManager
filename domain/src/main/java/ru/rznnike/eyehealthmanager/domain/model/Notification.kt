@@ -1,10 +1,11 @@
 package ru.rznnike.eyehealthmanager.domain.model
 
 import android.os.Parcelable
-import ru.rznnike.eyehealthmanager.domain.model.enums.NotificationChannelType
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import java.util.*
+import ru.rznnike.eyehealthmanager.domain.model.enums.NotificationChannelType
+import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
+import java.util.UUID
 
 @Parcelize
 data class Notification(
@@ -13,7 +14,7 @@ data class Notification(
     var title: String,
     var message: String,
     var externalIntentData: ExternalIntentData,
-    val createdDate: Long = System.currentTimeMillis()
+    val createdDate: Long = currentTimeMillis()
 ) : Parcelable {
     @IgnoredOnParcel
     var showed: Boolean = false

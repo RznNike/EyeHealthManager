@@ -14,11 +14,13 @@ import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestData
 import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
+import java.time.Clock
 
 private const val NORMAL_BORDER = 2
 
 @InjectViewState
 class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -29,11 +31,11 @@ class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
     private val userAnswers: MutableList<Int> = mutableListOf()
     private val answerDeltas: MutableMap<DaltonismAnomalyType, Int> = mutableMapOf()
 
-    init {
+    override fun onFirstViewAttach() {
         nextStep()
     }
 
-    fun onAnswer(selection: Int) {
+    fun answer(selection: Int) {
         userAnswers.add(answersOrder[selection])
         nextStep()
     }
@@ -89,7 +91,7 @@ class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
             }
 
             val testResult = DaltonismTestResult(
-                timestamp = System.currentTimeMillis(),
+                timestamp = clock.millis(),
                 errorsCount = errorsCount,
                 anomalyType = anomalyType
             )
@@ -98,7 +100,7 @@ class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
                     viewState.routerNewRootScreen(
                         Screens.Screen.daltonismResult(
                             errorsCount = errorsCount,
-                            resultType = anomalyType.toString()
+                            resultType = anomalyType
                         )
                     )
                 }, { error ->

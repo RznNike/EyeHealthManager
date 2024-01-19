@@ -74,16 +74,16 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
 
     private fun initOnClickListeners() = binding.apply {
         buttonUp.setOnClickListener {
-            presenter.onAnswer(Direction.UP)
+            presenter.answer(Direction.UP)
         }
         buttonDown.setOnClickListener {
-            presenter.onAnswer(Direction.DOWN)
+            presenter.answer(Direction.DOWN)
         }
         buttonLeft.setOnClickListener {
-            presenter.onAnswer(Direction.LEFT)
+            presenter.answer(Direction.LEFT)
         }
         buttonRight.setOnClickListener {
-            presenter.onAnswer(Direction.RIGHT)
+            presenter.answer(Direction.RIGHT)
         }
     }
 

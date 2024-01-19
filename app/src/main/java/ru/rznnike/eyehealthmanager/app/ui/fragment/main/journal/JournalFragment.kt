@@ -37,9 +37,9 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
-import ru.rznnike.eyehealthmanager.domain.utils.atStartOfDay
-import ru.rznnike.eyehealthmanager.domain.utils.toCalendar
+import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
+import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
 
 class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
     @InjectPresenter
@@ -294,9 +294,9 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                     showDatePicker(
                         preselectedDate = newFilter.dateFrom
                     ) { timestamp ->
-                        newFilter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+                        newFilter.dateFrom = timestamp.toLocalDate().atStartOfDay().millis()
                         if (newFilter.dateTo <= newFilter.dateFrom) {
-                            newFilter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+                            newFilter.dateTo = timestamp.toLocalDate().atEndOfDay().millis()
                         }
                         newFilter.filterByDate = true
                         updateDates()
@@ -306,9 +306,9 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
                     showDatePicker(
                         preselectedDate = newFilter.dateTo
                     ) { timestamp ->
-                        newFilter.dateTo = timestamp.toCalendar().atEndOfDay().timeInMillis
+                        newFilter.dateTo = timestamp.toLocalDate().atEndOfDay().millis()
                         if (newFilter.dateTo <= newFilter.dateFrom) {
-                            newFilter.dateFrom = timestamp.toCalendar().atStartOfDay().timeInMillis
+                            newFilter.dateFrom = timestamp.toLocalDate().atStartOfDay().millis()
                         }
                         newFilter.filterByDate = true
                         updateDates()

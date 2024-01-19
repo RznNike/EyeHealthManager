@@ -16,8 +16,6 @@ import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
 
-private const val MIN_DELTA_IN_MS = 60 * 1000L // 1m
-
 @InjectViewState
 class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
     private val errorHandler: ErrorHandler by inject()
@@ -52,8 +50,8 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
                 }, { error ->
                     errorHandler.proceed(error) {
                         notifier.sendMessage(it)
-                        viewState.routerExit()
                     }
+                    viewState.routerExit()
                 }
             )
         }
@@ -118,19 +116,19 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
         if (!isTimeOrderCorrect(settings)) {
             when (period) {
                 TimePeriod.BEGINNING -> {
-                    settings.timeToDayBeginning = settings.timeToDayEnd + MIN_DELTA_IN_MS
+                    settings.timeToDayBeginning = settings.timeToDayEnd + GlobalConstants.MINUTE_MS
                     if (settings.timeToDayBeginning >= GlobalConstants.DAY_MS) {
                         settings.timeToDayBeginning -= GlobalConstants.DAY_MS
                     }
                 }
                 TimePeriod.MIDDLE -> {
-                    settings.timeToDayMiddle = settings.timeToDayBeginning + MIN_DELTA_IN_MS
+                    settings.timeToDayMiddle = settings.timeToDayBeginning + GlobalConstants.MINUTE_MS
                     if (settings.timeToDayMiddle >= GlobalConstants.DAY_MS) {
                         settings.timeToDayMiddle -= GlobalConstants.DAY_MS
                     }
                 }
                 TimePeriod.END -> {
-                    settings.timeToDayEnd = settings.timeToDayMiddle + MIN_DELTA_IN_MS
+                    settings.timeToDayEnd = settings.timeToDayMiddle + GlobalConstants.MINUTE_MS
                     if (settings.timeToDayEnd >= GlobalConstants.DAY_MS) {
                         settings.timeToDayEnd -= GlobalConstants.DAY_MS
                     }

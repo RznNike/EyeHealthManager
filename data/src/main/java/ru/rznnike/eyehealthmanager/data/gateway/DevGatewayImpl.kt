@@ -1,6 +1,5 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
-import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import ru.rznnike.eyehealthmanager.domain.gateway.DevGateway
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
@@ -17,13 +16,16 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
-import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
-import java.util.Calendar
+import ru.rznnike.eyehealthmanager.domain.utils.millis
+import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
+import java.time.Clock
 import kotlin.random.Random
 
 class DevGatewayImpl(
-    private val testRepository: TestRepository
+    private val testRepository: TestRepository,
+    private val clock: Clock
 ) : DevGateway {
     override suspend fun generateData(type: DataGenerationType) {
         when (type) {
@@ -47,14 +49,12 @@ class DevGatewayImpl(
         leftEyeTrend: LinearFunction,
         rightEyeTrend: LinearFunction
     ) {
-        val calendar = getTodayCalendar().apply {
-            add(Calendar.DAY_OF_MONTH, -GlobalConstants.ANALYSIS_MAX_RANGE_DAYS)
-        }
+        var dateTime = clock.millis().toLocalDate().minusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS).atStartOfDay()
         val tests = mutableListOf<TestResult>()
         for (day in 0 until GlobalConstants.ANALYSIS_MAX_RANGE_DAYS) {
             tests.add(
                 AcuityTestResult(
-                    timestamp = calendar.timeInMillis + Random.nextInt(30_000_000), // nearly first 8 hours of day
+                    timestamp = dateTime.millis() + Random.nextInt(30_000_000), // nearly first 8 hours of day
                     symbolsType = AcuityTestSymbolsType.LETTERS_RU,
                     testEyesType = TestEyesType.BOTH,
                     dayPart = DayPart.MIDDLE,
@@ -62,15 +62,15 @@ class DevGatewayImpl(
                     resultRightEye = (rightEyeTrend.getY(day.toDouble()) * 100).toInt() + Random.nextInt(-3, 4),
                 )
             )
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
+            dateTime = dateTime.plusDays(1)
         }
 
-        testRepository.addTests(tests)
+        testRepository.add(tests)
     }
 
     private suspend fun generateOtherTests() {
-        val timestamp = System.currentTimeMillis()
-        testRepository.addTests(
+        val timestamp = clock.millis()
+        testRepository.add(
             listOf(
                 AstigmatismTestResult(
                     timestamp = timestamp,

@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.data.storage.repository
+package ru.rznnike.eyehealthmanager.data.storage
 
 import io.objectbox.BoxStore
 import io.objectbox.config.DebugFlags

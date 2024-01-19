@@ -31,7 +31,7 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
             getUserLanguageUseCase().process(
                 {
                     viewState.populateData(it)
-                }
+                }, ::onError
             )
         }
     }

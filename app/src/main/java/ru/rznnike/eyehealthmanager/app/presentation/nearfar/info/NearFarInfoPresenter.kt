@@ -6,7 +6,5 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 
 @InjectViewState
 class NearFarInfoPresenter : BasePresenter<NearFarInfoView>() {
-    fun startTest() {
-        viewState.routerNewRootScreen(Screens.Screen.nearFarTest())
-    }
+    fun startTest() = viewState.routerNewRootScreen(Screens.Screen.nearFarTest())
 }

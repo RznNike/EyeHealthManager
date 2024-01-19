@@ -13,9 +13,11 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import java.time.Clock
 
 @InjectViewState
 class NearFarAnswerPresenter : BasePresenter<NearFarAnswerView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -28,7 +30,7 @@ class NearFarAnswerPresenter : BasePresenter<NearFarAnswerView>() {
             val typeRightEye = NearFarAnswerType.entries[answerRightEye]
 
             val testResult = NearFarTestResult(
-                timestamp = System.currentTimeMillis(),
+                timestamp = clock.millis(),
                 resultRightEye = typeRightEye,
                 resultLeftEye = typeLeftEye
             )
