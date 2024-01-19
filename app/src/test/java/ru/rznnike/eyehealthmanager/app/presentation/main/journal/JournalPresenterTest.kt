@@ -1,6 +1,7 @@
 package ru.rznnike.eyehealthmanager.app.presentation.main.journal
 
 import android.net.Uri
+import android.os.Parcel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -28,18 +29,34 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
+import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.AcuityFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.analysis.AnalysisFlowFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.AstigmatismFlowFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.colorperception.ColorPerceptionFlowFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.contrast.ContrastFlowFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.DaltonismFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.journal.backup.ExportJournalFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.journal.restore.ImportJournalFragment
+import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.NearFarFlowFragment
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.GetTestResultsUseCase
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
+import ru.rznnike.eyehealthmanager.domain.model.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
+import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
 import java.time.Clock
 import java.util.TimeZone
 
@@ -199,62 +216,297 @@ class JournalPresenterTest : KoinTest {
 
     @Test
     fun loadNext_loadNextPage() = runTest {
-        // TODO
+        val tests = List(20) { AstigmatismTestResult() }
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(tests))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        presenter.loadNext()
+        testScheduler.advanceUntilIdle()
+
+        verify(mockView).showProgress(
+            show = true,
+            isRefresh = false,
+            isDataEmpty = false
+        )
+        verify(mockView).showErrorView(
+            show = false,
+            message = null
+        )
+        verify(mockView).populateData(
+            data = eq(tests + tests),
+            filter = any()
+        )
+        verify(mockView).showProgress(
+            show = false,
+            isRefresh = false,
+            isDataEmpty = false
+        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun openTestInfo_acuity_openAcuityFlow() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        presenter.openTestInfo(AcuityTestResult())
+
+        verify(mockView).routerStartFlow(screenMatcher(AcuityFlowFragment::class))
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun openTestInfo_astigmatism_openAstigmatismFlow() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        presenter.openTestInfo(AstigmatismTestResult())
+
+        verify(mockView).routerStartFlow(screenMatcher(AstigmatismFlowFragment::class))
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun openTestInfo_nearFar_openNearFarFlow() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        presenter.openTestInfo(
+            NearFarTestResult(
+                resultLeftEye = NearFarAnswerType.EQUAL,
+                resultRightEye = NearFarAnswerType.EQUAL
+            )
+        )
+
+        verify(mockView).routerStartFlow(screenMatcher(NearFarFlowFragment::class))
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun openTestInfo_colorPerception_openColorPerceptionFlow() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        presenter.openTestInfo(
+            ColorPerceptionTestResult(
+                recognizedColorsCount = 1,
+                allColorsCount = 1
+            )
+        )
+
+        verify(mockView).routerStartFlow(screenMatcher(ColorPerceptionFlowFragment::class))
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun openTestInfo_daltonism_openDaltonismFlow() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        presenter.openTestInfo(
+            DaltonismTestResult(
+                errorsCount = 0,
+                anomalyType = DaltonismAnomalyType.NONE
+            )
+        )
+
+        verify(mockView).routerStartFlow(screenMatcher(DaltonismFlowFragment::class))
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun openTestInfo_contrast_openContrastFlow() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        presenter.openTestInfo(
+            ContrastTestResult(
+                recognizedContrast = 1
+            )
+        )
+
+        verify(mockView).routerStartFlow(screenMatcher(ContrastFlowFragment::class))
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun openTestInfo_unknown_errorMessage() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        val customResult = object : TestResult() {
+            override fun contentEquals(other: TestResult?) = true
+            override fun exportToString() = ""
+            override fun describeContents() = 0
+            override fun writeToParcel(dest: Parcel, flags: Int) = Unit
+        }
+        presenter.openTestInfo(customResult)
+
+        verify(mockNotifier).sendMessage(R.string.unknown_error)
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun onDeleteTestResult_success_refresh() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        whenever(mockDeleteTestResultUseCase(any())).doReturn(UseCaseResult(Unit))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        val testResult = AcuityTestResult(
+            id = 42
+        )
+        clearInvocationsForAll()
+
+        presenter.onDeleteTestResult(testResult)
+        testScheduler.advanceUntilIdle()
+
+        verify(mockView).showProgress(
+            show = true,
+            isRefresh = true,
+            isDataEmpty = false
+        )
+        verify(mockDeleteTestResultUseCase)(testResult.id)
+        verify(mockView).showProgress(
+            show = true,
+            isRefresh = true,
+            isDataEmpty = true
+        )
+        verify(mockView).showErrorView(
+            show = false,
+            message = null
+        )
+        verify(mockView).populateData(
+            data = eq(emptyList()),
+            filter = any()
+        )
+        verify(mockView).showProgress(
+            show = false,
+            isRefresh = true,
+            isDataEmpty = true
+        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun onDeleteTestResult_exception_errorHandler() = runTest {
-        // TODO
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        whenever(mockDeleteTestResultUseCase(any())).doReturn(UseCaseResult(error = Exception()))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        val testResult = AcuityTestResult(
+            id = 42
+        )
+        clearInvocationsForAll()
+
+        presenter.onDeleteTestResult(testResult)
+        testScheduler.advanceUntilIdle()
+
+        verify(mockView).showProgress(
+            show = true,
+            isRefresh = true,
+            isDataEmpty = false
+        )
+        verify(mockDeleteTestResultUseCase)(testResult.id)
+        verify(mockErrorHandler).proceed(any(), any())
+        verify(mockView).showProgress(
+            show = false,
+            isRefresh = true,
+            isDataEmpty = false
+        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun onFilterChanged_refresh() = runTest {
-        // TODO
+        val tests = listOf(AstigmatismTestResult())
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(tests))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        val filter = TestResultFilter()
+        clearInvocationsForAll()
+
+        presenter.onFilterChanged(filter)
+        testScheduler.advanceUntilIdle()
+
+        verify(mockView).showProgress(
+            show = true,
+            isRefresh = true,
+            isDataEmpty = false
+        )
+        verify(mockView).showErrorView(
+            show = false,
+            message = null
+        )
+        verify(mockView).populateData(
+            data = tests,
+            filter = filter
+        )
+        verify(mockView).showProgress(
+            show = false,
+            isRefresh = true,
+            isDataEmpty = false
+        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun clearFilter_refresh() = runTest {
-        // TODO
+        val tests = listOf(AstigmatismTestResult())
+        whenever(mockGetTestResultsUseCase(any())).doReturn(UseCaseResult(tests))
+        val presenter = JournalPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
+
+        presenter.clearFilter()
+        testScheduler.advanceUntilIdle()
+
+        verify(mockView).showProgress(
+            show = true,
+            isRefresh = true,
+            isDataEmpty = false
+        )
+        verify(mockView).showErrorView(
+            show = false,
+            message = null
+        )
+        verify(mockView).populateData(
+            data = eq(tests),
+            filter = any()
+        )
+        verify(mockView).showProgress(
+            show = false,
+            isRefresh = true,
+            isDataEmpty = false
+        )
+        verifyNoMoreInteractionsForAll()
     }
 
     @Test
