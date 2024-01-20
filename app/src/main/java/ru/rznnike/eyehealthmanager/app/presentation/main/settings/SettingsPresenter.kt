@@ -11,9 +11,13 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.utils.extensions.applyTheme
 import ru.rznnike.eyehealthmanager.domain.interactor.dev.GenerateDataUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetUserLanguageUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetUserLanguageUseCase
+import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
@@ -24,17 +28,38 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
     private val eventDispatcher: EventDispatcher by inject()
     private val getUserLanguageUseCase: GetUserLanguageUseCase by inject()
     private val setUserLanguageUseCase: SetUserLanguageUseCase by inject()
+    private val getAppThemeUseCase: GetAppThemeUseCase by inject()
+    private val setAppThemeUseCase: SetAppThemeUseCase by inject()
     private val generateDataUseCase: GenerateDataUseCase by inject()
 
-    fun onResume() {
+    private var language = Language.EN
+    private var theme = AppTheme.SYSTEM
+
+    override fun onFirstViewAttach() {
+        initData()
+    }
+
+    private fun initData() {
         presenterScope.launch {
             getUserLanguageUseCase().process(
-                {
-                    viewState.populateData(it)
+                { result ->
+                    language = result
                 }, ::onError
             )
+            getAppThemeUseCase().process(
+                { result ->
+                    theme = result
+                }, ::onError
+            )
+            populateData()
         }
     }
+
+    private fun populateData() =
+        viewState.populateData(
+            language = language,
+            theme = theme
+        )
 
     fun changeLanguage(language: Language) {
         presenterScope.launch {
@@ -45,6 +70,18 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
                     viewState.updateUiLanguage()
                 }, ::onError
             )
+        }
+    }
+
+    fun changeTheme(newTheme: AppTheme) {
+        presenterScope.launch {
+            setAppThemeUseCase(newTheme).process(
+                {
+                    theme = newTheme
+                    populateData()
+                }, ::onError
+            )
+            applyTheme(newTheme)
         }
     }
 

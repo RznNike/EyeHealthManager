@@ -218,4 +218,9 @@
     <string name="generate_average_vision">Сгенерировать среднее зрение</string>
     <string name="generate_bad_vision">Сгенерировать плохое зрение</string>
     <string name="generate_other_tests">Сгенерировать другие тесты</string>
+    <string name="theme">Тема</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
+    <string name="theme_system">Системная</string>
+    <string name="choose_theme">Выберите тему</string>
 </resources>

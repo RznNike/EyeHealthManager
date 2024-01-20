@@ -242,4 +242,9 @@
     <string name="generate_average_vision">Generate average vision</string>
     <string name="generate_bad_vision">Generate bad vision</string>
     <string name="generate_other_tests">Generate other tests</string>
+    <string name="theme">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System</string>
+    <string name="choose_theme">Choose theme</string>
 </resources>

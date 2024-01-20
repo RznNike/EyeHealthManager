@@ -15,7 +15,6 @@
     <color name="colorBackgroundGray">#DCDCDC</color>
     <color name="colorButtonGray">#E6E6E6</color>
     <color name="colorButtonGrayPressed">#DCDCDC</color>
-    <color name="colorNotification">#00BFA5</color>
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorRed">#FE4C3F</color>
     <color name="colorBlack">#000000</color>
