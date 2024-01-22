@@ -23,6 +23,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.clearInvocations
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
@@ -37,8 +38,11 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.settings.testing.TestingSetti
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.dev.GenerateDataUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetUserLanguageUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetUserLanguageUseCase
+import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
@@ -52,6 +56,8 @@ class SettingsPresenterTest : KoinTest {
     private val mockEventDispatcher: EventDispatcher by inject()
     private val mockGetUserLanguageUseCase: GetUserLanguageUseCase by inject()
     private val mockSetUserLanguageUseCase: SetUserLanguageUseCase by inject()
+    private val mockGetAppThemeUseCase: GetAppThemeUseCase by inject()
+    private val mockSetAppThemeUseCase: SetAppThemeUseCase by inject()
     private val mockGenerateDataUseCase: GenerateDataUseCase by inject()
 
     private val testDispatcher = StandardTestDispatcher()
@@ -66,6 +72,8 @@ class SettingsPresenterTest : KoinTest {
                 single { mock<EventDispatcher>() }
                 single { mock<GetUserLanguageUseCase>() }
                 single { mock<SetUserLanguageUseCase>() }
+                single { mock<GetAppThemeUseCase>() }
+                single { mock<SetAppThemeUseCase>() }
                 single { mock<GenerateDataUseCase>() }
             }
         )
@@ -90,42 +98,56 @@ class SettingsPresenterTest : KoinTest {
     }
 
     @Test
-    fun onResume_success_populateLanguage() = runTest {
+    fun onFirstViewAttach_success_populateData() = runTest {
         val language = Language.RU
+        val theme = AppTheme.SYSTEM
         whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(language))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(theme))
         val presenter = SettingsPresenter()
-        presenter.attachView(mockView)
 
-        presenter.onResume()
+        presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
 
         verify(mockGetUserLanguageUseCase)()
-        verify(mockView).populateData(language)
+        verify(mockGetAppThemeUseCase)()
+        verify(mockView).populateData(
+            language = language,
+            theme = theme
+        )
         verifyNoMoreInteractionsForAll()
     }
 
     @Test
-    fun onResume_exception_errorHAndler() = runTest {
+    fun onFirstViewAttach_exception_errorHandler() = runTest {
         whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(error = Exception()))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(error = Exception()))
         val presenter = SettingsPresenter()
-        presenter.attachView(mockView)
 
-        presenter.onResume()
+        presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
 
         verify(mockGetUserLanguageUseCase)()
-        verify(mockErrorHandler).proceed(any(), any())
+        verify(mockGetAppThemeUseCase)()
+        verify(mockErrorHandler, times(2)).proceed(any(), any())
+        verify(mockView).populateData(
+            language = Language.EN,
+            theme = AppTheme.SYSTEM
+        )
         verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun changeLanguage_success_updateUI() = runTest {
-        val language = Language.RU
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         whenever(mockSetUserLanguageUseCase(any())).doReturn(UseCaseResult(Unit))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        val language = Language.RU
+        clearInvocationsForAll()
 
-        presenter.changeLanguage(Language.RU)
+        presenter.changeLanguage(language)
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
@@ -136,12 +158,16 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun changeLanguage_exception_errorHandler() = runTest {
-        val language = Language.RU
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         whenever(mockSetUserLanguageUseCase(any())).doReturn(UseCaseResult(error = Exception()))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        val language = Language.RU
+        clearInvocationsForAll()
 
-        presenter.changeLanguage(Language.RU)
+        presenter.changeLanguage(language)
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
@@ -151,9 +177,54 @@ class SettingsPresenterTest : KoinTest {
     }
 
     @Test
-    fun openTestingSettings_openTestingSettingsScreen() {
+    fun changeTheme_success_populateData() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
+        whenever(mockSetAppThemeUseCase(any())).doReturn(UseCaseResult(Unit))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        val theme = AppTheme.DARK
+        clearInvocationsForAll()
+
+        presenter.changeTheme(theme)
+        testScheduler.advanceUntilIdle()
+
+        verify(mockSetAppThemeUseCase)(theme)
+        verify(mockView).populateData(
+            language = Language.EN,
+            theme = theme
+        )
+        verifyNoMoreInteractionsForAll()
+    }
+
+    @Test
+    fun changeTheme_exception_errorHandler() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
+        whenever(mockSetAppThemeUseCase(any())).doReturn(UseCaseResult(error = Exception()))
+        val presenter = SettingsPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        val theme = AppTheme.DARK
+        clearInvocationsForAll()
+
+        presenter.changeTheme(theme)
+        testScheduler.advanceUntilIdle()
+
+        verify(mockSetAppThemeUseCase)(theme)
+        verify(mockErrorHandler).proceed(any(), any())
+        verifyNoMoreInteractionsForAll()
+    }
+
+    @Test
+    fun openTestingSettings_openTestingSettingsScreen() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
+        val presenter = SettingsPresenter()
+        presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
 
         presenter.openTestingSettings()
 
@@ -162,9 +233,13 @@ class SettingsPresenterTest : KoinTest {
     }
 
     @Test
-    fun openAnalysis_openAnalysisFlow() {
+    fun openAnalysis_openAnalysisFlow() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
 
         presenter.openAnalysis()
 
@@ -173,9 +248,13 @@ class SettingsPresenterTest : KoinTest {
     }
 
     @Test
-    fun exportData_openExportJournalScreen() {
+    fun exportData_openExportJournalScreen() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
 
         presenter.exportData()
 
@@ -184,9 +263,13 @@ class SettingsPresenterTest : KoinTest {
     }
 
     @Test
-    fun importData_openImportJournalScreen() {
+    fun importData_openImportJournalScreen() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
 
         presenter.importData()
 
@@ -195,9 +278,13 @@ class SettingsPresenterTest : KoinTest {
     }
 
     @Test
-    fun clearJournal_sendEvent() {
+    fun clearJournal_sendEvent() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
 
         presenter.clearJournal()
 
@@ -206,9 +293,13 @@ class SettingsPresenterTest : KoinTest {
     }
 
     @Test
-    fun deleteDuplicatesInJournal_sendEvent() {
+    fun deleteDuplicatesInJournal_sendEvent() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
+        clearInvocationsForAll()
 
         presenter.deleteDuplicatesInJournal()
 
@@ -217,11 +308,15 @@ class SettingsPresenterTest : KoinTest {
     }
 
     @Test
-    fun generateData() = runTest {
+    fun generateData_success() = runTest {
+        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         whenever(mockGenerateDataUseCase(any())).doReturn(UseCaseResult(Unit))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
+        testScheduler.advanceUntilIdle()
         val generationType = DataGenerationType.GOOD_VISION
+        clearInvocationsForAll()
 
         presenter.generateData(generationType)
         testScheduler.advanceUntilIdle()

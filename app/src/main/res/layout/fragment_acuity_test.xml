@@ -79,20 +79,33 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    android:layout_height="16dp" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imageViewTest"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:scaleType="fitCenter"
-                    tools:src="@drawable/ic_letters_ru_sh"/>
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/bg_rounded_8"
+                    android:backgroundTint="@color/colorBackgroundTestWhite">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageViewTest"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="16dp"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:src="@drawable/ic_letters_ru_sh"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    android:layout_height="16dp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
@@ -101,6 +114,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textSize="18sp"
+                    android:minLines="2"
                     android:text="@string/press_button_to_answer"/>
 
             </LinearLayout>
@@ -114,30 +128,50 @@
                 tools:visibility="visible">
 
                 <Space
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginHorizontal="16dp"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:text="@string/acuity_answer_selection_header"/>
+                    android:background="@drawable/bg_rounded_8"
+                    android:backgroundTint="@color/colorBackgroundTestWhite">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewAnswerVariants"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorTextInvariant"
+                        android:text="@string/acuity_answer_selection_header"
+                        app:layout_constraintBottom_toTopOf="@id/recyclerViewAnswerVariants"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewAnswerVariants"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        tools:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+                        tools:listitem="@layout/item_symbol"
+                        tools:itemCount="7"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Space
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:overScrollMode="never"
-                    tools:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-                    tools:listitem="@layout/item_symbol"
-                    tools:itemCount="7"/>
+                    android:layout_height="16dp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewTestTip"
@@ -147,6 +181,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textSize="18sp"
+                    android:minLines="2"
                     android:text="@string/acuity_info_before_symbol_show"/>
 
             </LinearLayout>

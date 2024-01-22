@@ -24,6 +24,7 @@ import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogDevMenuBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
+import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
@@ -49,11 +50,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         initOnClickListeners()
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
     private fun initViews() = binding.apply {
         listOf(
             buttonTestingSettings,
@@ -63,6 +59,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             buttonDeleteDuplicates,
             buttonClearJournal,
             buttonLanguage,
+            buttonTheme,
             buttonAboutApp,
             buttonChangelog,
             buttonDevMenu
@@ -103,11 +100,15 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         }
     }
 
-    override fun populateData(currentLanguage: Language) {
+    override fun populateData(language: Language, theme: AppTheme) {
         binding.apply {
-            textViewCurrentLanguage.text = currentLanguage.localizedName
+            textViewCurrentLanguage.text = language.localizedName
             buttonLanguage.setOnClickListener {
-                showLanguageSelectionBottomDialog(currentLanguage)
+                showLanguageSelectionBottomDialog(language)
+            }
+            textViewCurrentTheme.setText(theme.nameResId)
+            buttonTheme.setOnClickListener {
+                showThemeSelectionBottomDialog(theme)
             }
         }
     }
@@ -128,6 +129,21 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
     }
 
     override fun updateUiLanguage() = requireActivity().restartApp()
+
+    private fun showThemeSelectionBottomDialog(currentTheme: AppTheme) {
+        showBottomDialog(
+            header = getString(R.string.choose_theme),
+            actions = AppTheme.entries.map { theme ->
+                BottomDialogAction(
+                    text = getString(theme.nameResId),
+                    selected = theme == currentTheme
+                ) {
+                    it.dismiss()
+                    presenter.changeTheme(theme)
+                }
+            }
+        )
+    }
 
     private fun showClearJournalDialog() {
         showAlertDialog(

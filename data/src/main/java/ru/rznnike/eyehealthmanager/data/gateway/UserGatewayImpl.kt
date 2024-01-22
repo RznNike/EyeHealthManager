@@ -5,6 +5,7 @@ import ru.rznnike.eyehealthmanager.domain.gateway.UserGateway
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 
@@ -74,4 +75,10 @@ class UserGatewayImpl(
 
     override suspend fun setApplyDynamicCorrections(newValue: Boolean) =
         preferences.applyDynamicCorrections.set(newValue)
+
+    override suspend fun getAppTheme() =
+        AppTheme[preferences.appTheme.get()]
+
+    override suspend fun setAppTheme(appTheme: AppTheme) =
+        preferences.appTheme.set(appTheme.id)
 }

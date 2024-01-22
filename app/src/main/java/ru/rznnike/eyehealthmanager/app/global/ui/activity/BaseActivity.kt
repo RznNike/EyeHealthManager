@@ -11,7 +11,9 @@ import org.koin.android.ext.android.inject
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
+import ru.rznnike.eyehealthmanager.app.utils.extensions.applyTheme
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
+import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
 abstract class BaseActivity(@LayoutRes layoutRes: Int) : MvpAppCompatActivity(layoutRes) {
@@ -23,6 +25,7 @@ abstract class BaseActivity(@LayoutRes layoutRes: Int) : MvpAppCompatActivity(la
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setLanguage()
+        applyTheme(AppTheme[preferences.appTheme.get()])
         onBackPressedDispatcher.addCallback(this) {
             currentFragment?.onBackPressed()
         }

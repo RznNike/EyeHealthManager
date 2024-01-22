@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorText">#FFFFFF</color>
+    <color name="colorTextDark">#A4A4A4</color>
+    <color name="colorBackground">#000000</color>
+    <color name="colorBackgroundA50">#80000000</color>
+    <color name="colorBackgroundLight">#1D1D1D</color>
+    <color name="colorBackgroundLightA50">#801D1D1D</color>
+    <color name="colorBackgroundGray">#565656</color>
+    <color name="colorButtonGray">#646464</color>
+    <color name="colorButtonGrayPressed">#505050</color>
+    <color name="colorNavigationBackground">#01000000</color>
+    <color name="colorScrollbar">#565656</color>
+</resources>

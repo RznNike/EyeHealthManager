@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.app.utils.extensions
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -40,3 +41,9 @@ val Activity.deviceSize: Rect
     get() = WindowMetricsCalculator.getOrCreate()
         .computeCurrentWindowMetrics(this)
         .bounds
+
+val Context.isNightModeEnabled: Boolean
+    get() {
+        val uiModeFlag = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return uiModeFlag == Configuration.UI_MODE_NIGHT_YES
+    }

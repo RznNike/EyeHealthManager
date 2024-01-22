@@ -3,6 +3,7 @@ package ru.rznnike.eyehealthmanager.data.preference
 import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import com.fredporciuncula.flow.preferences.Preference
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 
@@ -24,6 +25,7 @@ private const val APPLY_DYNAMIC_CORRECTIONS_IN_ANALYSIS = "APPLY_DYNAMIC_CORRECT
 private const val WELCOME_DIALOG_SHOWED = "WELCOME_DIALOG_SHOWED"
 private const val DISPLAYED_CHANGELOG_VERSION = "DISPLAYED_CHANGELOG_VERSION"
 private const val NOTIFICATIONS_SOUND_ENABLED = "NOTIFICATIONS_SOUND_ENABLED"
+private const val APP_THEME = "APP_THEME"
 
 class PreferencesWrapper(private val preferences: FlowSharedPreferences) {
     val language: Preference<String>
@@ -54,4 +56,6 @@ class PreferencesWrapper(private val preferences: FlowSharedPreferences) {
         get() = preferences.getInt(DISPLAYED_CHANGELOG_VERSION, -1)
     val notificationsSoundEnabled: Preference<Boolean>
         get() = preferences.getBoolean(NOTIFICATIONS_SOUND_ENABLED, true)
+    val appTheme: Preference<Int>
+        get() = preferences.getInt(APP_THEME, AppTheme.SYSTEM.id)
 }

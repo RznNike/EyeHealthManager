@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackgroundLight">
     
     <LinearLayout
@@ -33,24 +33,27 @@
             android:textSize="18sp"
             android:text="@string/two_eyes_test_disclaimer"/>
 
-        <Space
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:minHeight="32dp" />
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_rounded_8"
+            android:backgroundTint="@color/colorBackgroundTestWhite">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imageViewTest"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/siemens_star"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewTest"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/siemens_star"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:minHeight="32dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:id="@+id/layoutControls"

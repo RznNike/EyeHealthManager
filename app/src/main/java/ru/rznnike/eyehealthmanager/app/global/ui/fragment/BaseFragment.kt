@@ -10,13 +10,16 @@ import moxy.MvpAppCompatFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import ru.rznnike.eyehealthmanager.app.navigation.FlowNavigationViewModel
 import ru.rznnike.eyehealthmanager.app.utils.extensions.hideKeyboard
+import ru.rznnike.eyehealthmanager.app.utils.extensions.isNightModeEnabled
 import java.util.*
 import kotlin.concurrent.schedule
 
 abstract class BaseFragment(@LayoutRes layoutRes: Int) : MvpAppCompatFragment(layoutRes) {
     open var isLightStatusBar: Boolean = true
+        get() = !(context?.isNightModeEnabled ?: false)
         protected set
     open var isLightNavigationBar: Boolean = true
+        get() = !(context?.isNightModeEnabled ?: false)
         protected set
     open var progressDelayMs: Long = DEFAULT_PROGRESS_DELAY_MS
         protected set
