@@ -13,6 +13,7 @@
     <color name="colorBackgroundLight">#FFFFFF</color>
     <color name="colorBackgroundLightA50">#80FFFFFF</color>
     <color name="colorBackgroundGray">#DCDCDC</color>
+    <color name="colorBackgroundTestWhite">#FFFFFF</color>
     <color name="colorButtonGray">#E6E6E6</color>
     <color name="colorButtonGrayPressed">#DCDCDC</color>
     <color name="colorTransparent">#00FFFFFF</color>
