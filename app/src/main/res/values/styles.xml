@@ -1,5 +1,5 @@
 <resources>
-    <style name="AppTheme"  parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/globalColorPrimary</item>
         <item name="colorPrimaryDark">@color/globalColorPrimaryDark</item>
         <item name="colorAccent">@color/globalColorAccent</item>
@@ -93,6 +93,11 @@
         <item name="colorAccent">@color/globalColorAccent</item>
         <item name="android:windowBackground">@drawable/bg_alert_window</item>
         <item name="android:headerDividersEnabled">true</item>
+    </style>
+
+    <style name="AppTheme.Dialog.DatePicker" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorAccent">@color/globalColorAccent</item>
+        <item name="android:windowBackground">@drawable/bg_date_picker</item>
     </style>
 
     <style name="CustomBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">

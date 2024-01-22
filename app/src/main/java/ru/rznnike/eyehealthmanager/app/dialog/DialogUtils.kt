@@ -232,7 +232,7 @@ fun Context.showDatePicker(
     val currentDate = (preselectedDate ?: currentTimeMillis()).toLocalDate()
     DatePickerDialog(
         this,
-        android.R.style.ThemeOverlay_Material_Dialog,
+        R.style.AppTheme_Dialog_DatePicker,
         { _, year, month, dayOfMonth ->
             if (enableTimePicker) {
                 showTimePicker(
@@ -276,7 +276,7 @@ fun Context.showTimePicker(
     val currentDate = (preselectedTime ?: currentTimeMillis()).toDateTime()
     TimePickerDialog(
         this,
-        android.R.style.ThemeOverlay_Material_Dialog,
+        R.style.AppTheme_Dialog_DatePicker,
         { _, hourOfDay, minute ->
             val selectedTime =  currentTimeMillis().toDateTime()
                 .withHour(hourOfDay)
