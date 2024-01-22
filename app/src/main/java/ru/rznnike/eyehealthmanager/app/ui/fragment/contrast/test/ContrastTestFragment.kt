@@ -107,7 +107,7 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
                 it.isEnabled = false
             }
 
-            layoutTest.animate()
+            layoutTestFigure.animate()
                 .alpha(0f)
                 .setStartDelay(0)
                 .setDuration(FADE_ANIMATION_MS)
@@ -122,8 +122,8 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
                     }
                     imageViewForeground.setImageResource(imageRes)
 
-                    layoutTest.setVisible()
-                    layoutTest.animate()
+                    layoutTestFigure.setVisible()
+                    layoutTestFigure.animate()
                         .alpha(1f)
                         .setStartDelay(0)
                         .setDuration(FADE_ANIMATION_MS)
