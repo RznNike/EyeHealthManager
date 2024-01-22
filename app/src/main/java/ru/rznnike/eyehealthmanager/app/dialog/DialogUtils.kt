@@ -33,6 +33,7 @@ import ru.rznnike.eyehealthmanager.app.dialog.bottom.BottomDialogParameters
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.deviceSize
+import ru.rznnike.eyehealthmanager.app.utils.extensions.isNightModeEnabled
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import ru.rznnike.eyehealthmanager.domain.utils.millis
@@ -364,6 +365,7 @@ fun Fragment.showCustomBottomDialog(
 }
 
 private fun Window.setLightNavigationBar() = when {
+    context.isNightModeEnabled -> Unit // disable for dark theme
     Build.VERSION.SDK_INT >= 30 -> {
         insetsController?.setSystemBarsAppearance(
             WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
