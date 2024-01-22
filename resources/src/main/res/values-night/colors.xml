@@ -1,39 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--TODO-->
-    <color name="globalColorPrimary">#00BFA5</color>
-    <!--TODO-->
-    <color name="globalColorPrimaryDark">#00A28C</color>
-    <!--TODO-->
-    <color name="globalColorAccent">#00BFA5</color>
-
-    <!--TODO-->
-    <color name="colorAccentPressed">#00A28C</color>
-
     <color name="colorText">#FFFFFF</color>
-
-    <!--TODO-->
-    <color name="colorTextDark">#BDBDBD</color>
-
+    <color name="colorTextDark">#A4A4A4</color>
     <color name="colorBackground">#000000</color>
     <color name="colorBackgroundA50">#80000000</color>
-    <color name="colorBackgroundLight">#1C1D20</color>
-    <color name="colorBackgroundLightA50">#801C1D20</color>
-    <color name="colorBackgroundGray">#565762</color>
-
-    <!--TODO-->
-    <color name="colorButtonGray">#E6E6E6</color>
-    <!--TODO-->
-    <color name="colorButtonGrayPressed">#DCDCDC</color>
-    <!--TODO-->
-    <color name="colorChartLeftEye">#0000FF</color>
-    <!--TODO-->
-    <color name="colorChartLeftEyeExtrapolation">#B4B4FF</color>
-    <!--TODO-->
-    <color name="colorChartRightEye">#00FF00</color>
-    <!--TODO-->
-    <color name="colorChartRightEyeExtrapolation">#B4FFB4</color>
-
+    <color name="colorBackgroundLight">#1D1D1D</color>
+    <color name="colorBackgroundLightA50">#801D1D1D</color>
+    <color name="colorBackgroundGray">#565656</color>
+    <color name="colorButtonGray">#646464</color>
+    <color name="colorButtonGrayPressed">#505050</color>
     <color name="colorNavigationBackground">#01000000</color>
-    <color name="colorScrollbar">#565762</color>
+    <color name="colorScrollbar">#565656</color>
 </resources>
