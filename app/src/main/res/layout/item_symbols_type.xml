@@ -13,9 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
+        android:tint="@color/colorText"
         android:adjustViewBounds="true"
         android:layout_gravity="center"
         tools:background="@drawable/bg_rounded_8_outline_accent"
-        tools:src="@drawable/icon"/>
+        tools:src="@drawable/ic_letters_en_f"/>
     
 </FrameLayout>
