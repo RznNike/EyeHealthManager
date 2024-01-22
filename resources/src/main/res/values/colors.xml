@@ -6,9 +6,11 @@
 
     <color name="colorAccentPressed">#00A28C</color>
     <color name="colorText">#4F4F4F</color>
+    <color name="colorTextInvariant">#4F4F4F</color>
     <color name="colorTextDark">#BDBDBD</color>
     <color name="colorTextLight">#FFFFFF</color>
     <color name="colorBackground">#F4F4F4</color>
+    <color name="colorBackgroundInvariant">#F4F4F4</color>
     <color name="colorBackgroundA50">#80F4F4F4</color>
     <color name="colorBackgroundLight">#FFFFFF</color>
     <color name="colorBackgroundLightA50">#80FFFFFF</color>

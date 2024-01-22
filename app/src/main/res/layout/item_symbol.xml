@@ -2,10 +2,10 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
+    android:layout_width="64dp"
+    android:layout_height="64dp"
     android:background="@drawable/bg_rounded_8"
-    android:backgroundTint="@color/colorBackground"
+    android:backgroundTint="@color/colorBackgroundInvariant"
     android:orientation="horizontal">
     
     <androidx.appcompat.widget.AppCompatImageView
