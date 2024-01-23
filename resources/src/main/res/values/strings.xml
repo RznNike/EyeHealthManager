@@ -28,9 +28,9 @@
     <string name="your_result">Your result</string>
     <string name="close">Close</string>
     <string name="color_perception_description">The test will help you determine how well you distinguish between shades of colors.\n\nThis test is a modified version of Diana Derval\'s test adapted for mobile devices. Go to www.dervalresearch.com to learn more.</string>
-    <string name="dichromat_message">Poor color discrimination. You probably prefer black, beige and blue clothes.\nAbout 25\\% of people fall into this category.</string>
-    <string name="trichromat_message">Average color discrimination. You can see many shades of purple/blue, green and red.\nAbout 50\\% of people fall into this category.</string>
-    <string name="tetrachromat_message">Good color discrimination! You can see many shades of purple/blue, green, red and yellow. Most likely you are irritated by yellow and do not wear clothes of this color.\nAbout 25\\% of people fall into this category.</string>
+    <string name="dichromat_message">Poor color discrimination. You probably prefer black, beige and blue clothes.\nAbout 25\% of people fall into this category.</string>
+    <string name="trichromat_message">Average color discrimination. You can see many shades of purple/blue, green and red.\nAbout 50\% of people fall into this category.</string>
+    <string name="tetrachromat_message">Good color discrimination! You can see many shades of purple/blue, green, red and yellow. Most likely you are irritated by yellow and do not wear clothes of this color.\nAbout 25\% of people fall into this category.</string>
     <string name="near_far_description">This test will help determine if you have nearsightedness or farsightedness.</string>
     <string name="near_far_description_warning"><font color="#FF3334"><b>Attention!</b></font>\nThe test is performed in turn for both eyes. First, cover one eye with your hand and look at the image. Then repeat this for the other eye. Answer the corresponding questions at the end of the test.</string>
     <string name="two_eyes_test_disclaimer">Close one eye and look at the image. Then close the other eye and repeat the actions.</string>
@@ -50,7 +50,7 @@
     <string name="contrast_message">Click on the arrow in the direction in which the circle has a cutout</string>
     <string name="contrast_result_header">Minimum visible contrast</string>
     <string name="contrast_good_result">Good result!\n<i>The lower the minimum discernible contrast, the better.</i></string>
-    <string name="contrast_perfect_result">Perfect result!\n<i>It is impossible to distinguish a contrast of 0\\% - then there would be no difference between the image and the background.</i></string>
+    <string name="contrast_perfect_result">Perfect result!\n<i>It is impossible to distinguish a contrast of 0\% - then there would be no difference between the image and the background.</i></string>
     <string name="daltonism_description">This test will help identify if you have different types of color vision abnormalities.\nThe well-known tables of prof. Rabkin E.B. are used in this test.</string>
     <string name="daltonism_description_warning"><font color="#FF3334"><b>Attention!</b></font> The accuracy of the test depends significantly on the quality of your device\'s screen. If it has low brightness/color rendering, this may introduce inaccuracy into the test results.</string>
     <string name="daltonism_message">What do you see in the image?</string>
@@ -220,7 +220,7 @@
     <string name="welcome_header">Hello</string>
     <string name="welcome_message">This application is an open source project written by one person for free. You can write about all problems and wishes to the email specified in the settings in the \"About app\" section. There you will also find a link to the source code repository.</string>
     <string name="changelog">Changelog</string>
-    <string name="changelog_text"><b>2.1.1</b>\n• Bug fixes.\n\n<b>2.1.0</b>\n• Optimization for Android 14.\n• Redesign and UI improvements.\n• Color perception test improved.\n• Bug fixes.\n• Improvement of texts.\n\n<b>2.0.2</b>\n• Bug fixes.\n\n<b>2.0.1</b>\n• Default language fixed.\n\n<b>2.0.0</b>\n• Optimization for Android 11–13.\n• Redesign and UI improvements.\n• Bug fixes.</string>
+    <string name="changelog_text"><b>2.2.0</b>\n• Dark theme added. You can choose dark/light theme from the main screen settings tab.\n• Bug fixes.\n\n<b>2.1.1</b>\n• Bug fixes.\n\n<b>2.1.0</b>\n• Optimization for Android 14.\n• Redesign and UI improvements.\n• Color perception test improved.\n• Bug fixes.\n• Improvement of texts.</string>
     <string name="error_file_not_found">File not found</string>
     <string name="notification_channel_system">System notifications</string>
     <string name="notification_channel_soundless_suffix">soundless</string>
@@ -242,4 +242,9 @@
     <string name="generate_average_vision">Generate average vision</string>
     <string name="generate_bad_vision">Generate bad vision</string>
     <string name="generate_other_tests">Generate other tests</string>
+    <string name="theme">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System</string>
+    <string name="choose_theme">Choose theme</string>
 </resources>

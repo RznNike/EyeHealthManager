@@ -79,7 +79,7 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
         presenterScope.launch {
             val currentVersionCode = BuildConfig.VERSION_CODE
             val displayedVersionCode = getDisplayedChangelogVersionUseCase().data ?: currentVersionCode
-            if (displayedVersionCode != currentVersionCode) {
+            if (displayedVersionCode < currentVersionCode) {
                 setDisplayedChangelogVersionUseCase(currentVersionCode)
                 if (displayedVersionCode > 0) {
                     viewState.showChangelogDialog()
@@ -96,7 +96,6 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
                     notifier.sendAlert(R.string.duplicates_successfully_deleted)
                 }, ::onError
             )
-
             eventDispatcher.sendEvent(AppEvent.JournalChanged)
             viewState.setProgress(false)
         }
@@ -107,10 +106,9 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
             viewState.setProgress(true)
             deleteAllTestResultsUseCase().process(
                 {
-                    notifier.sendMessage(R.string.clear_journal_success)
+                    notifier.sendAlert(R.string.clear_journal_success)
                 }, ::onError
             )
-
             eventDispatcher.sendEvent(AppEvent.JournalChanged)
             viewState.setProgress(false)
         }

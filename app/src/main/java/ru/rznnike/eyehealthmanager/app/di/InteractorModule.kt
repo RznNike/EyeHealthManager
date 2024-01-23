@@ -8,6 +8,7 @@ import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveCancelN
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveShowNotificationUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.*
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetApplyDynamicCorrectionsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetDisplayedChangelogVersionUseCase
@@ -15,6 +16,7 @@ import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseC
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetWelcomeDialogShowedUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAcuityTestingSettingsUseCase
+import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetApplyDynamicCorrectionsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetDisplayedChangelogVersionUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetTestingSettingsUseCase
@@ -33,6 +35,8 @@ val interactorModule = module {
     single { SetAcuityTestingSettingsUseCase(get(), get()) }
     single { GetApplyDynamicCorrectionsUseCase(get(), get()) }
     single { SetApplyDynamicCorrectionsUseCase(get(), get()) }
+    single { GetAppThemeUseCase(get(), get()) }
+    single { SetAppThemeUseCase(get(), get()) }
 
     single { GetTestResultsUseCase(get(), get()) }
     single { AddTestResultUseCase(get(), get()) }

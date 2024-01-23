@@ -15,6 +15,7 @@ import ru.rznnike.eyehealthmanager.app.observer.AppLifeCycleObserver
 import ru.rznnike.eyehealthmanager.device.notification.Notificator
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
 import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
+import java.time.Clock
 
 val appModule = module {
     factory { androidContext().resources }
@@ -22,10 +23,11 @@ val appModule = module {
     factory { AppLifeCycleObserver() }
     single { Notifier(get()) }
     single { ErrorHandler(get(), get()) }
-    single { EventDispatcher() }
+    single { EventDispatcher(get()) }
     single { ExternalIntentDispatcher(get()) }
     single { Notificator(androidContext()) }
     single<CrashlyticsProvider> { CrashlyticsProviderImpl() }
+    single { Clock.systemUTC() }
 
     single<CoroutineProvider> {
         object : CoroutineProvider {

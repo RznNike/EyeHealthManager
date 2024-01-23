@@ -4,17 +4,17 @@ import ru.rznnike.eyehealthmanager.domain.model.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 
 interface TestRepository {
-    suspend fun getTests(parameters: TestResultPagingParameters): List<TestResult>
+    suspend fun getList(parameters: TestResultPagingParameters): List<TestResult>
 
-    suspend fun getAllLastTests(): List<TestResult>
+    suspend fun getListDistinctByType(): List<TestResult>
 
-    suspend fun addTests(items: List<TestResult>)
+    suspend fun add(items: List<TestResult>)
 
-    suspend fun addTest(item: TestResult): Long
+    suspend fun add(item: TestResult): Long
 
-    suspend fun deleteTestById(id: Long)
+    suspend fun delete(id: Long)
 
-    suspend fun deleteAllTests()
+    suspend fun deleteAll()
 
     suspend fun deleteDuplicates()
 }

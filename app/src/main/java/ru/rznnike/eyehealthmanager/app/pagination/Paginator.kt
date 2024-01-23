@@ -34,7 +34,7 @@ class Paginator<T : Any>(
     fun refresh(forceRefresh: Boolean = false) {
         if (forceRefresh || (state != State.LOADING)) {
             load(
-                limit = if (data.isEmpty()) limit else data.size.coerceAtLeast(DEFAULT_PAGE_LIMIT),
+                limit = if (data.isEmpty()) limit else data.size.coerceAtLeast(limit),
                 isRefresh = true
             )
         }

@@ -16,9 +16,11 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.toFloatOrNullSmart
+import java.time.Clock
 
 @InjectViewState
 class AcuityDoctorResultPresenter : BasePresenter<AcuityDoctorResultView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -61,7 +63,7 @@ class AcuityDoctorResultPresenter : BasePresenter<AcuityDoctorResultView>() {
                 else -> {
                     viewState.setProgress(true)
                     val testResult = AcuityTestResult(
-                        timestamp = date ?: System.currentTimeMillis(),
+                        timestamp = date ?: clock.millis(),
                         symbolsType = AcuityTestSymbolsType.LETTERS_RU,
                         testEyesType = when {
                             leftEyeFloat == null -> TestEyesType.RIGHT

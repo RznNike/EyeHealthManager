@@ -74,16 +74,16 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
 
     private fun initOnClickListeners() = binding.apply {
         buttonUp.setOnClickListener {
-            presenter.onAnswer(Direction.UP)
+            presenter.answer(Direction.UP)
         }
         buttonDown.setOnClickListener {
-            presenter.onAnswer(Direction.DOWN)
+            presenter.answer(Direction.DOWN)
         }
         buttonLeft.setOnClickListener {
-            presenter.onAnswer(Direction.LEFT)
+            presenter.answer(Direction.LEFT)
         }
         buttonRight.setOnClickListener {
-            presenter.onAnswer(Direction.RIGHT)
+            presenter.answer(Direction.RIGHT)
         }
     }
 
@@ -107,7 +107,7 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
                 it.isEnabled = false
             }
 
-            layoutTest.animate()
+            layoutTestFigure.animate()
                 .alpha(0f)
                 .setStartDelay(0)
                 .setDuration(FADE_ANIMATION_MS)
@@ -122,8 +122,8 @@ class ContrastTestFragment : BaseFragment(R.layout.fragment_contrast_test), Cont
                     }
                     imageViewForeground.setImageResource(imageRes)
 
-                    layoutTest.setVisible()
-                    layoutTest.animate()
+                    layoutTestFigure.setVisible()
+                    layoutTestFigure.animate()
                         .alpha(1f)
                         .setStartDelay(0)
                         .setDuration(FADE_ANIMATION_MS)

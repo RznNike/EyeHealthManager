@@ -28,6 +28,7 @@ In addition to this, other useful features are also available:
 * analysis of collected data (for visual acuity test);
 * import and export of the journal to a file;
 * setting the correct image scaling during tests;
+* light and dark themes with auto/manual selection;
 * support for Russian and English languages.
 ## Screenshots
 <img src="/readme_files/en/screenshot_1.png" alt="icon" width="250"/> <img src="/readme_files/en/screenshot_2.png" alt="icon" width="250"/> <img src="/readme_files/en/screenshot_3.png" alt="icon" width="250"/>
@@ -54,4 +55,4 @@ This project uses:
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) (charts)
 * [ViewBindingPropertyDelegate](https://github.com/kirich1409/ViewBindingPropertyDelegate) (view binding)
 * [ObjectBox](https://github.com/objectbox/objectbox-java) (database)
-* [JUnit 5](https://junit.org/junit5/) (testing)
+* [JUnit 5](https://github.com/junit-team/junit5) + [Mockito](https://github.com/mockito/mockito) (testing)

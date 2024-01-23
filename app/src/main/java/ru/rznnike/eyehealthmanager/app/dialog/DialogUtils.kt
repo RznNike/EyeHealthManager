@@ -4,7 +4,11 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Build
-import android.view.*
+import android.view.Gravity
+import android.view.View
+import android.view.Window
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -29,8 +33,12 @@ import ru.rznnike.eyehealthmanager.app.dialog.bottom.BottomDialogParameters
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.deviceSize
+import ru.rznnike.eyehealthmanager.app.utils.extensions.isNightModeEnabled
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
-import java.util.*
+import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
+import ru.rznnike.eyehealthmanager.domain.utils.millis
+import ru.rznnike.eyehealthmanager.domain.utils.toDateTime
+import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
 
 fun Context.showAlertDialog(
     parameters: AlertDialogParameters,
@@ -222,43 +230,37 @@ fun Context.showDatePicker(
     onCancel: (() -> Unit)? = null,
     onSuccess: (date: Long) -> Unit
 ) {
-    val currentCalendar = Calendar.getInstance().apply {
-        timeInMillis = preselectedDate ?: System.currentTimeMillis()
-    }
+    val currentDate = (preselectedDate ?: currentTimeMillis()).toLocalDate()
     DatePickerDialog(
         this,
-        android.R.style.ThemeOverlay_Material_Dialog,
+        R.style.AppTheme_Dialog_DatePicker,
         { _, year, month, dayOfMonth ->
             if (enableTimePicker) {
                 showTimePicker(
                     preselectedTime = preselectedDate,
                     onCancel = onCancel,
-                    onSuccess = { time ->
-                        val selectedTime = Calendar.getInstance().apply {
-                            timeInMillis = time
-                            set(Calendar.YEAR, year)
-                            set(Calendar.MONTH, month)
-                            set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                        }.timeInMillis
+                    onSuccess = { timestamp ->
+                        val selectedTime = timestamp.toDateTime()
+                            .withYear(year)
+                            .withMonth(month + 1)
+                            .withDayOfMonth(dayOfMonth)
+                            .millis()
                         onSuccess(selectedTime)
                     }
                 )
             } else {
-                val selectedTime = Calendar.getInstance().apply {
-                    set(Calendar.YEAR, year)
-                    set(Calendar.MONTH, month)
-                    set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    set(Calendar.HOUR_OF_DAY, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                }.timeInMillis
+                val selectedTime = currentTimeMillis().toDateTime().toLocalDate()
+                    .withYear(year)
+                    .withMonth(month + 1)
+                    .withDayOfMonth(dayOfMonth)
+                    .atStartOfDay()
+                    .millis()
                 onSuccess(selectedTime)
             }
         },
-        currentCalendar.get(Calendar.YEAR),
-        currentCalendar.get(Calendar.MONTH),
-        currentCalendar.get(Calendar.DAY_OF_MONTH)
+        currentDate.year,
+        currentDate.monthValue - 1,
+        currentDate.dayOfMonth
     ).apply {
         maxDate?.let { datePicker.maxDate = it }
         minDate?.let { datePicker.minDate = it }
@@ -270,25 +272,23 @@ fun Context.showDatePicker(
 fun Context.showTimePicker(
     preselectedTime: Long? = null,
     onCancel: (() -> Unit)? = null,
-    onSuccess: (date: Long) -> Unit
+    onSuccess: (timestamp: Long) -> Unit
 ) {
-    val currentCalendar = Calendar.getInstance().apply {
-        timeInMillis = preselectedTime ?: System.currentTimeMillis()
-    }
+    val currentDate = (preselectedTime ?: currentTimeMillis()).toDateTime()
     TimePickerDialog(
         this,
-        android.R.style.ThemeOverlay_Material_Dialog,
+        R.style.AppTheme_Dialog_DatePicker,
         { _, hourOfDay, minute ->
-            val selectedTime = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, hourOfDay)
-                set(Calendar.MINUTE, minute)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }.timeInMillis
+            val selectedTime =  currentTimeMillis().toDateTime()
+                .withHour(hourOfDay)
+                .withMinute(minute)
+                .withSecond(0)
+                .withNano(0)
+                .millis()
             onSuccess(selectedTime)
         },
-        currentCalendar.get(Calendar.HOUR_OF_DAY),
-        currentCalendar.get(Calendar.MINUTE),
+        currentDate.hour,
+        currentDate.minute,
         true
     ).apply {
         setOnCancelListener { onCancel?.invoke() }
@@ -365,6 +365,7 @@ fun Fragment.showCustomBottomDialog(
 }
 
 private fun Window.setLightNavigationBar() = when {
+    context.isNightModeEnabled -> Unit // disable for dark theme
     Build.VERSION.SDK_INT >= 30 -> {
         insetsController?.setSystemBarsAppearance(
             WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,

@@ -13,6 +13,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
+import java.time.Clock
 import kotlin.random.Random
 
 private const val START_VALUE = 100
@@ -25,6 +26,7 @@ private const val MAX_ANSWERS = 3
 
 @InjectViewState
 class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -38,9 +40,9 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
     private var maxBaseSteps = 0
     private var currentBaseStep = 0
 
-    init {
+    override fun onFirstViewAttach() {
         initData()
-        goToNextStep()
+        nextStep()
     }
 
     private fun initData() {
@@ -52,15 +54,15 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
         }
     }
 
-    fun onAnswer(direction: Direction) {
+    fun answer(direction: Direction) {
         answersCount++
         if (direction == currentDirection) {
             correctAnswersCount++
         }
-        goToNextStep()
+        nextStep()
     }
 
-    private fun goToNextStep() = when {
+    private fun nextStep() = when {
         correctAnswersCount >= MIN_CORRECT_ANSWERS -> {
             recognizedDelta = currentDelta
             if (recognizedDelta <= END_VALUE) {
@@ -101,7 +103,7 @@ class ContrastTestPresenter : BasePresenter<ContrastTestView>() {
         presenterScope.launch {
             viewState.setProgress(true)
             val testResult = ContrastTestResult(
-                timestamp = System.currentTimeMillis(),
+                timestamp = clock.millis(),
                 recognizedContrast = recognizedDelta
             )
             addTestResultUseCase(testResult).process(

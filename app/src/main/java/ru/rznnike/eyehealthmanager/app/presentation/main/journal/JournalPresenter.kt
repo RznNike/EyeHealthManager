@@ -14,13 +14,23 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.pagination.Paginator
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.GetTestResultsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.*
+import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
+import ru.rznnike.eyehealthmanager.domain.model.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
-import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
-import java.util.*
+import ru.rznnike.eyehealthmanager.domain.utils.millis
+import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
+import java.time.Clock
 
 @InjectViewState
 class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventListener {
+    private val clock: Clock by inject()
     private val eventDispatcher: EventDispatcher by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
@@ -153,11 +163,10 @@ class JournalPresenter : BasePresenter<JournalView>(), EventDispatcher.EventList
     }
 
     private fun setDefaultFilter() {
+        val dateNow = clock.millis().toLocalDate()
         filter = TestResultFilter(
-            dateFrom = getTodayCalendar().apply {
-                add(Calendar.MONTH, -1)
-            }.timeInMillis,
-            dateTo = Calendar.getInstance().atEndOfDay().timeInMillis
+            dateFrom = dateNow.minusMonths(1).atStartOfDay().millis(),
+            dateTo = dateNow.atEndOfDay().millis()
         )
     }
 

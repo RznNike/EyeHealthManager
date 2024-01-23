@@ -23,7 +23,7 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
     @ProvidePresenter
     fun providePresenter() = DaltonismResultPresenter(
         errorsCount = getIntArg(ERRORS_COUNT),
-        resultType = DaltonismAnomalyType[getStringArg(RESULT_TYPE)] ?: DaltonismAnomalyType.NONE
+        resultType = getParcelableArg(RESULT_TYPE) ?: DaltonismAnomalyType.NONE
     )
 
     private val binding by viewBinding(FragmentDaltonismResultBinding::bind)

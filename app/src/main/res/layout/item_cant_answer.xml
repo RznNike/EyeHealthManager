@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_rounded_8"
-    android:backgroundTint="@color/colorBackground"
+    android:backgroundTint="@color/colorBackgroundInvariant"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -16,6 +16,7 @@
         android:padding="12dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textColor="@color/colorTextInvariant"
         android:text="@string/cant_answer"
         tools:background="@drawable/bg_rounded_8_outline_accent"/>
     

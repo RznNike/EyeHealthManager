@@ -2,6 +2,7 @@ package ru.rznnike.eyehealthmanager.domain.gateway
 
 import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
 interface UserGateway {
@@ -28,4 +29,8 @@ interface UserGateway {
     suspend fun getApplyDynamicCorrections(): Boolean
 
     suspend fun setApplyDynamicCorrections(newValue: Boolean)
+
+    suspend fun getAppTheme(): AppTheme
+
+    suspend fun setAppTheme(appTheme: AppTheme)
 }

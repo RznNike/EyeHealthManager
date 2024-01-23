@@ -6,16 +6,18 @@
 
     <color name="colorAccentPressed">#00A28C</color>
     <color name="colorText">#4F4F4F</color>
+    <color name="colorTextInvariant">#4F4F4F</color>
     <color name="colorTextDark">#BDBDBD</color>
     <color name="colorTextLight">#FFFFFF</color>
     <color name="colorBackground">#F4F4F4</color>
+    <color name="colorBackgroundInvariant">#F4F4F4</color>
     <color name="colorBackgroundA50">#80F4F4F4</color>
     <color name="colorBackgroundLight">#FFFFFF</color>
     <color name="colorBackgroundLightA50">#80FFFFFF</color>
     <color name="colorBackgroundGray">#DCDCDC</color>
+    <color name="colorBackgroundTestWhite">#FFFFFF</color>
     <color name="colorButtonGray">#E6E6E6</color>
     <color name="colorButtonGrayPressed">#DCDCDC</color>
-    <color name="colorNotification">#00BFA5</color>
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorRed">#FE4C3F</color>
     <color name="colorBlack">#000000</color>

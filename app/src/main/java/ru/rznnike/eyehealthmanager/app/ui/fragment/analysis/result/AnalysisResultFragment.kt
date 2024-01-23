@@ -217,6 +217,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
             color = context.getColor(baseColorResId)
             setCircleColor(context.getColor(R.color.colorTransparent))
             circleHoleColor = context.getColor(baseColorResId)
+            valueTextColor = context.getColor(R.color.colorText)
         }
         chartVisionDynamic.data.addDataSet(baseDataSet)
 
@@ -240,6 +241,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
                 color = context.getColor(extrapolationColorResId)
                 setCircleColor(context.getColor(R.color.colorTransparent))
                 circleHoleColor = context.getColor(extrapolationColorResId)
+                valueTextColor = context.getColor(R.color.colorText)
             }
             chartVisionDynamic.data.addDataSet(extrapolationDataSet)
 
@@ -258,6 +260,7 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
         axisLeft.apply {
             axisMinimum = 0f
             axisMaximum = yAxisMaximum + 0.05f
+            textColor = context.getColor(R.color.colorTextDark)
         }
         xAxis.apply {
             axisMinimum = xAxisMinimum
@@ -270,8 +273,12 @@ class AnalysisResultFragment : BaseFragment(R.layout.fragment_analysis_result), 
                     return value.toLong().toDate()
                 }
             }
+            textColor = context.getColor(R.color.colorTextDark)
         }
-        legend.isWordWrapEnabled = true
+        legend.apply {
+            isWordWrapEnabled = true
+            textColor = context.getColor(R.color.colorText)
+        }
     }
 
     companion object {

@@ -6,7 +6,5 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 
 @InjectViewState
 class SplashPresenter : BasePresenter<SplashView>() {
-    fun onAnimationEnd() {
-        viewState.routerNewRootFlow(Screens.Flow.main())
-    }
+    fun onAnimationEnd() = viewState.routerNewRootFlow(Screens.Flow.main())
 }

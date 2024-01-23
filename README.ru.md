@@ -28,6 +28,7 @@
 * анализ собранных данных (для теста остроты зрения);
 * импорт и экспорт журнала в файл;
 * настройка правильного масштабирования изображения во время тестов;
+* светлая и темная темы с авто/ручным выбором;
 * поддержка русского и английского языков.
 ## Скриншоты
 <img src="/readme_files/ru/screenshot_1.png" alt="icon" width="250"/> <img src="/readme_files/ru/screenshot_2.png" alt="icon" width="250"/> <img src="/readme_files/ru/screenshot_3.png" alt="icon" width="250"/>
@@ -54,4 +55,4 @@
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) (графики)
 * [ViewBindingPropertyDelegate](https://github.com/kirich1409/ViewBindingPropertyDelegate) (view binding)
 * [ObjectBox](https://github.com/objectbox/objectbox-java) (база данных)
-* [JUnit 5](https://junit.org/junit5/) (тестирование)
+* [JUnit 5](https://github.com/junit-team/junit5) + [Mockito](https://github.com/mockito/mockito) (тестирование)

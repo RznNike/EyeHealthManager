@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.text.ParseException
-import java.util.Calendar
 import java.util.TimeZone
 
 class DateUtilsTest {
@@ -41,17 +40,6 @@ class DateUtilsTest {
         assertThrows<IllegalArgumentException> {
             timestamp.toDate("qwerty")
         }
-    }
-
-    @Test
-    fun longToLocalDate_success() {
-        val timestamp = 1704124202000L
-
-        val result = timestamp.toLocalDate()
-
-        assertEquals(2024, result.year)
-        assertEquals(1, result.monthValue)
-        assertEquals(1, result.dayOfMonth)
     }
 
     @Test
@@ -103,12 +91,46 @@ class DateUtilsTest {
     }
 
     @Test
-    fun longToCalendar_success() {
+    fun longToDateTime_utc_success() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
         val timestamp = 1704124202000L
 
-        val result = timestamp.toCalendar()
+        val result = timestamp.toDateTime()
 
-        assertEquals(timestamp, result.timeInMillis)
+        assertEquals(2024, result.year)
+        assertEquals(1, result.monthValue)
+        assertEquals(1, result.dayOfMonth)
+        assertEquals(15, result.hour)
+        assertEquals(50, result.minute)
+        assertEquals(2, result.second)
+        assertEquals(0, result.nano)
+    }
+
+    @Test
+    fun longToDateTime_timeZoneWithOffset_success() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+3"))
+        val timestamp = 1704124202000L
+
+        val result = timestamp.toDateTime()
+
+        assertEquals(2024, result.year)
+        assertEquals(1, result.monthValue)
+        assertEquals(1, result.dayOfMonth)
+        assertEquals(18, result.hour)
+        assertEquals(50, result.minute)
+        assertEquals(2, result.second)
+        assertEquals(0, result.nano)
+    }
+
+    @Test
+    fun longToLocalDate_success() {
+        val timestamp = 1704124202000L
+
+        val result = timestamp.toLocalDate()
+
+        assertEquals(2024, result.year)
+        assertEquals(1, result.monthValue)
+        assertEquals(1, result.dayOfMonth)
     }
 
     @Test
@@ -122,72 +144,30 @@ class DateUtilsTest {
     }
 
     @Test
-    fun getTodayCalendar_success() {
-        val expectedTimestamp = Calendar.getInstance()
-            .apply {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-            .timeInMillis
+    fun zonedDateTimeMillis_success() {
+        val timestamp = 1704124202001L
 
-        val result = getTodayCalendar().timeInMillis
+        val result = timestamp.toDateTime().millis()
 
-        assertEquals(expectedTimestamp, result)
+        assertEquals(timestamp, result)
     }
 
     @Test
-    fun atStartOfDay_success() {
-        val result = Calendar.getInstance().atStartOfDay()
+    fun localDateTimeMillis_success() {
+        val timestamp = 1704124202001L
 
-        assertEquals(0, result.get(Calendar.HOUR_OF_DAY))
-        assertEquals(0, result.get(Calendar.MINUTE))
-        assertEquals(0, result.get(Calendar.SECOND))
-        assertEquals(0, result.get(Calendar.MILLISECOND))
+        val result = timestamp.toDateTime().toLocalDateTime().millis()
+
+        assertEquals(timestamp, result)
     }
 
     @Test
-    fun atEndOfDay_success() {
-        val result = Calendar.getInstance().atEndOfDay()
+    fun localDateAtEndOfDay_success() {
+        val timestamp = 1704124202000L
+        val expectedResult = 1704153599999L
 
-        assertEquals(23, result.get(Calendar.HOUR_OF_DAY))
-        assertEquals(59, result.get(Calendar.MINUTE))
-        assertEquals(59, result.get(Calendar.SECOND))
-        assertEquals(999, result.get(Calendar.MILLISECOND))
-    }
+        val result = timestamp.toDateTime().toLocalDate().atEndOfDay().millis()
 
-    @Test
-    fun atStartOfMonth_success() {
-        val defaultCalendar = Calendar.getInstance()
-
-        val result = Calendar.getInstance()
-            .apply { timeInMillis = defaultCalendar.timeInMillis }
-            .atStartOfMonth()
-
-        assertEquals(defaultCalendar.get(Calendar.YEAR), result.get(Calendar.YEAR))
-        assertEquals(defaultCalendar.get(Calendar.MONTH), result.get(Calendar.MONTH))
-        assertEquals(1, result.get(Calendar.DAY_OF_MONTH))
-        assertEquals(0, result.get(Calendar.HOUR_OF_DAY))
-        assertEquals(0, result.get(Calendar.MINUTE))
-        assertEquals(0, result.get(Calendar.SECOND))
-        assertEquals(0, result.get(Calendar.MILLISECOND))
-    }
-
-    @Test
-    fun atEndOfMonth_success() {
-        val defaultCalendar = Calendar.getInstance().apply { timeInMillis = 0 }
-
-        val result = Calendar.getInstance()
-            .apply { timeInMillis = defaultCalendar.timeInMillis }
-            .atEndOfMonth()
-
-        assertEquals(defaultCalendar.get(Calendar.YEAR), result.get(Calendar.YEAR))
-        assertEquals(defaultCalendar.get(Calendar.MONTH), result.get(Calendar.MONTH))
-        assertEquals(31, result.get(Calendar.DAY_OF_MONTH))
-        assertEquals(0, result.get(Calendar.HOUR_OF_DAY))
-        assertEquals(0, result.get(Calendar.MINUTE))
-        assertEquals(0, result.get(Calendar.SECOND))
-        assertEquals(0, result.get(Calendar.MILLISECOND))
+        assertEquals(expectedResult, result)
     }
 }

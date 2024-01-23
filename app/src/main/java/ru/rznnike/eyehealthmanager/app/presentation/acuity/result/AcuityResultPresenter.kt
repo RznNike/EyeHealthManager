@@ -19,13 +19,15 @@ import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
-import ru.rznnike.eyehealthmanager.domain.utils.getTodayCalendar
-import java.util.Calendar
+import ru.rznnike.eyehealthmanager.domain.utils.millis
+import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
+import java.time.Clock
 
 @InjectViewState
 class AcuityResultPresenter(
     private val testResult: AcuityTestResult
 ) : BasePresenter<AcuityResultView>() {
+    private val clock: Clock by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
@@ -40,11 +42,10 @@ class AcuityResultPresenter(
         presenterScope.launch {
             viewState.setProgress(true)
             applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data ?: false
+            val dateNow = clock.millis().toLocalDate()
             val parameters = AnalysisParameters(
-                dateFrom = getTodayCalendar().apply {
-                    add(Calendar.MONTH, -1)
-                }.timeInMillis,
-                dateTo = Calendar.getInstance().atEndOfDay().timeInMillis,
+                dateFrom = dateNow.minusMonths(1).atStartOfDay().millis(),
+                dateTo = dateNow.atEndOfDay().millis(),
                 applyDynamicCorrections = applyDynamicCorrections,
                 analysisType = AnalysisType.ACUITY_ONLY
             )
@@ -57,8 +58,8 @@ class AcuityResultPresenter(
                         if (error !is NotEnoughDataException) {
                             notifier.sendMessage(it)
                         }
-                        populateData()
                     }
+                    populateData()
                 }
             )
             viewState.setProgress(false)
