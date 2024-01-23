@@ -28,6 +28,7 @@ In addition to this, other useful features are also available:
 * analysis of collected data (for visual acuity test);
 * import and export of the journal to a file;
 * setting the correct image scaling during tests;
+* light and dark themes with auto/manual selection;
 * support for Russian and English languages.
 ## Screenshots
 <img src="/readme_files/en/screenshot_1.png" alt="icon" width="250"/> <img src="/readme_files/en/screenshot_2.png" alt="icon" width="250"/> <img src="/readme_files/en/screenshot_3.png" alt="icon" width="250"/>
