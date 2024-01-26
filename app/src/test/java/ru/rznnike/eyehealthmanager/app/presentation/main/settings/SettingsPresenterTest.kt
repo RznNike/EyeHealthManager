@@ -22,8 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.clearInvocations
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
@@ -42,7 +42,6 @@ import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 
 @ExtendWith(MockitoExtension::class)
 class SettingsPresenterTest : KoinTest {
@@ -52,8 +51,6 @@ class SettingsPresenterTest : KoinTest {
     private val mockErrorHandler: ErrorHandler by inject()
     private val mockNotifier: Notifier by inject()
     private val mockEventDispatcher: EventDispatcher by inject()
-    private val mockGetUserLanguageUseCase: GetUserLanguageUseCase by inject()
-    private val mockSetUserLanguageUseCase: SetUserLanguageUseCase by inject()
     private val mockGetAppThemeUseCase: GetAppThemeUseCase by inject()
     private val mockSetAppThemeUseCase: SetAppThemeUseCase by inject()
     private val mockGenerateDataUseCase: GenerateDataUseCase by inject()
@@ -68,8 +65,6 @@ class SettingsPresenterTest : KoinTest {
                 single { mock<ErrorHandler>() }
                 single { mock<Notifier>() }
                 single { mock<EventDispatcher>() }
-                single { mock<GetUserLanguageUseCase>() }
-                single { mock<SetUserLanguageUseCase>() }
                 single { mock<GetAppThemeUseCase>() }
                 single { mock<SetAppThemeUseCase>() }
                 single { mock<GenerateDataUseCase>() }
@@ -97,86 +92,58 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun onFirstViewAttach_success_populateData() = runTest {
-        val language = Language.RU
         val theme = AppTheme.SYSTEM
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(language))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(theme))
         val presenter = SettingsPresenter()
 
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
 
-        verify(mockGetUserLanguageUseCase)()
         verify(mockGetAppThemeUseCase)()
         verify(mockView).populateData(
-            language = language,
-            theme = theme
+            language = any(),
+            theme = eq(theme)
         )
         verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun onFirstViewAttach_exception_errorHandler() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(error = Exception()))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(error = Exception()))
         val presenter = SettingsPresenter()
 
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
 
-        verify(mockGetUserLanguageUseCase)()
         verify(mockGetAppThemeUseCase)()
-        verify(mockErrorHandler, times(2)).proceed(any(), any())
+        verify(mockErrorHandler).proceed(any(), any())
         verify(mockView).populateData(
-            language = Language.EN,
-            theme = AppTheme.SYSTEM
+            language = any(),
+            theme = eq(AppTheme.SYSTEM)
         )
         verifyNoMoreInteractionsForAll()
     }
 
     @Test
-    fun changeLanguage_success_updateUI() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
-        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
-        whenever(mockSetUserLanguageUseCase(any())).doReturn(UseCaseResult(Unit))
+    fun onResume_populateData() = runTest {
+        val theme = AppTheme.SYSTEM
+        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(theme))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
         testScheduler.advanceUntilIdle()
-        val language = Language.RU
         clearInvocationsForAll()
 
-        presenter.changeLanguage(language)
-        testScheduler.advanceUntilIdle()
+        presenter.onResume()
 
-        verify(mockView).setProgress(show = true, immediately = true)
-        verify(mockSetUserLanguageUseCase)(language)
-        verify(mockView).updateUiLanguage()
-        verifyNoMoreInteractionsForAll()
-    }
-
-    @Test
-    fun changeLanguage_exception_errorHandler() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
-        whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
-        whenever(mockSetUserLanguageUseCase(any())).doReturn(UseCaseResult(error = Exception()))
-        val presenter = SettingsPresenter()
-        presenter.attachView(mockView)
-        testScheduler.advanceUntilIdle()
-        val language = Language.RU
-        clearInvocationsForAll()
-
-        presenter.changeLanguage(language)
-        testScheduler.advanceUntilIdle()
-
-        verify(mockView).setProgress(show = true, immediately = true)
-        verify(mockSetUserLanguageUseCase)(language)
-        verify(mockErrorHandler).proceed(any(), any())
+        verify(mockView).populateData(
+            language = any(),
+            theme = eq(theme)
+        )
         verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun changeTheme_success_populateData() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         whenever(mockSetAppThemeUseCase(any())).doReturn(UseCaseResult(Unit))
         val presenter = SettingsPresenter()
@@ -190,15 +157,14 @@ class SettingsPresenterTest : KoinTest {
 
         verify(mockSetAppThemeUseCase)(theme)
         verify(mockView).populateData(
-            language = Language.EN,
-            theme = theme
+            language = any(),
+            theme = eq(theme)
         )
         verifyNoMoreInteractionsForAll()
     }
 
     @Test
     fun changeTheme_exception_errorHandler() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         whenever(mockSetAppThemeUseCase(any())).doReturn(UseCaseResult(error = Exception()))
         val presenter = SettingsPresenter()
@@ -217,7 +183,6 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun openTestingSettings_openTestingSettingsScreen() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
@@ -232,7 +197,6 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun openAnalysis_openAnalysisFlow() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
@@ -247,7 +211,6 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun exportData_openExportJournalScreen() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
@@ -262,7 +225,6 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun importData_openImportJournalScreen() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
@@ -277,7 +239,6 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun clearJournal_sendEvent() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
@@ -292,7 +253,6 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun deleteDuplicatesInJournal_sendEvent() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         val presenter = SettingsPresenter()
         presenter.attachView(mockView)
@@ -307,7 +267,6 @@ class SettingsPresenterTest : KoinTest {
 
     @Test
     fun generateData_success() = runTest {
-        whenever(mockGetUserLanguageUseCase()).doReturn(UseCaseResult(Language.EN))
         whenever(mockGetAppThemeUseCase()).doReturn(UseCaseResult(AppTheme.SYSTEM))
         whenever(mockGenerateDataUseCase(any())).doReturn(UseCaseResult(Unit))
         val presenter = SettingsPresenter()
@@ -332,8 +291,6 @@ class SettingsPresenterTest : KoinTest {
             mockErrorHandler,
             mockNotifier,
             mockEventDispatcher,
-            mockGetUserLanguageUseCase,
-            mockSetUserLanguageUseCase,
             mockGenerateDataUseCase
         )
     }
