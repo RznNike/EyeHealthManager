@@ -7,7 +7,6 @@ import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 
-private const val LANGUAGE = "LANGUAGE"
 private const val ACUITY_SYMBOLS_TYPE = "ACUITY_SYMBOLS_TYPE_1"
 private const val TEST_EYES_TYPE = "TEST_EYES_TYPE_1"
 private const val DOTS_PER_MILLIMETER = "DOTS_PER_MILLIMETER"
@@ -28,8 +27,6 @@ private const val NOTIFICATIONS_SOUND_ENABLED = "NOTIFICATIONS_SOUND_ENABLED"
 private const val APP_THEME = "APP_THEME"
 
 class PreferencesWrapper(private val preferences: FlowSharedPreferences) {
-    val language: Preference<String>
-        get() = preferences.getString(LANGUAGE, Language.EN.tag)
     val acuitySymbolsType: Preference<Int>
         get() = preferences.getInt(ACUITY_SYMBOLS_TYPE, AcuityTestSymbolsType.LETTERS_RU.id)
     val testEyesType: Preference<Int>

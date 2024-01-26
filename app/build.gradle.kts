@@ -38,6 +38,7 @@ android {
         targetSdk = rootProject.extra["TARGET_SDK"] as Int
         versionCode = rootProject.extra["VERSION_CODE"] as Int
         versionName = rootProject.extra["VERSION_NAME"] as String
+        resourceConfigurations += setOf("en", "ru")
     }
 
     buildTypes {
@@ -181,10 +182,6 @@ dependencies {
     // Image loader
     // https://github.com/coil-kt/coil
     implementation("io.coil-kt:coil:2.5.0")
-
-    // Language
-    // https://github.com/YarikSOffice/lingver
-    implementation("com.github.YarikSOffice:lingver:1.3.0")
 
     // MPAndroidChart
     // https://github.com/PhilJay/MPAndroidChart

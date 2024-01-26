@@ -1,6 +1,5 @@
 package ru.rznnike.eyehealthmanager.app.presentation.main.settings
 
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import moxy.InjectViewState
 import moxy.presenterScope
@@ -12,11 +11,11 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.utils.extensions.applyTheme
+import ru.rznnike.eyehealthmanager.app.utils.extensions.getSelectedLanguage
+import ru.rznnike.eyehealthmanager.app.utils.extensions.setSelectedLanguage
 import ru.rznnike.eyehealthmanager.domain.interactor.dev.GenerateDataUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAppThemeUseCase
-import ru.rznnike.eyehealthmanager.domain.interactor.user.GetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAppThemeUseCase
-import ru.rznnike.eyehealthmanager.domain.interactor.user.SetUserLanguageUseCase
 import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.enums.Language
@@ -26,26 +25,24 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
-    private val getUserLanguageUseCase: GetUserLanguageUseCase by inject()
-    private val setUserLanguageUseCase: SetUserLanguageUseCase by inject()
     private val getAppThemeUseCase: GetAppThemeUseCase by inject()
     private val setAppThemeUseCase: SetAppThemeUseCase by inject()
     private val generateDataUseCase: GenerateDataUseCase by inject()
 
-    private var language = Language.EN
+    private var language = getSelectedLanguage()
     private var theme = AppTheme.SYSTEM
 
     override fun onFirstViewAttach() {
         initData()
     }
 
+    fun onResume() {
+        language = getSelectedLanguage()
+        populateData()
+    }
+
     private fun initData() {
         presenterScope.launch {
-            getUserLanguageUseCase().process(
-                { result ->
-                    language = result
-                }, ::onError
-            )
             getAppThemeUseCase().process(
                 { result ->
                     theme = result
@@ -61,17 +58,7 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
             theme = theme
         )
 
-    fun changeLanguage(language: Language) {
-        presenterScope.launch {
-            viewState.setProgress(true)
-            setUserLanguageUseCase(language).process(
-                {
-                    delay(500)
-                    viewState.updateUiLanguage()
-                }, ::onError
-            )
-        }
-    }
+    fun changeLanguage(language: Language) = setSelectedLanguage(language)
 
     fun changeTheme(newTheme: AppTheme) {
         presenterScope.launch {

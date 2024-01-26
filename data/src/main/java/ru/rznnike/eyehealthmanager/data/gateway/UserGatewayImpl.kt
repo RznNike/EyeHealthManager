@@ -6,7 +6,6 @@ import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
-import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 
 class UserGatewayImpl(
@@ -23,12 +22,6 @@ class UserGatewayImpl(
 
     override suspend fun setDisplayedChangelogVersion(newValue: Int) =
         preferences.displayedChangelogVersion.set(newValue)
-
-    override suspend fun getLanguage() =
-        Language[preferences.language.get()]
-
-    override suspend fun setLanguage(newValue: Language) =
-        preferences.language.set(newValue.tag)
 
     override suspend fun getTestingSettings() =
         preferences.run {
