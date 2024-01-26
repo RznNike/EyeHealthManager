@@ -3,7 +3,10 @@ package ru.rznnike.eyehealthmanager.app.utils.extensions
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.enums.Language
+import java.util.Locale
 import kotlin.system.exitProcess
 
 fun Activity.restartApp() {
@@ -21,3 +24,11 @@ fun applyTheme(theme: AppTheme) {
     }
     AppCompatDelegate.setDefaultNightMode(flag)
 }
+
+fun getSelectedLanguage() = Language[
+    (AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault()).language
+]
+
+fun setSelectedLanguage(language: Language) = AppCompatDelegate.setApplicationLocales(
+    LocaleListCompat.forLanguageTags(language.tag)
+)

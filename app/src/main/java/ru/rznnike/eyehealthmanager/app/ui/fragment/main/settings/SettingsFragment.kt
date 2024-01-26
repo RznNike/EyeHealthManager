@@ -17,7 +17,6 @@ import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
-import ru.rznnike.eyehealthmanager.app.utils.extensions.restartApp
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
@@ -48,6 +47,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
         }
         initViews()
         initOnClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
     }
 
     private fun initViews() = binding.apply {
@@ -127,8 +131,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             }
         )
     }
-
-    override fun updateUiLanguage() = requireActivity().restartApp()
 
     private fun showThemeSelectionBottomDialog(currentTheme: AppTheme) {
         showBottomDialog(
