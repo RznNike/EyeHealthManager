@@ -3,7 +3,6 @@ package ru.rznnike.eyehealthmanager.app
 import android.app.Application
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.firebase.FirebaseApp
-import com.yariksoffice.lingver.Lingver
 import io.objectbox.BoxStore
 import io.objectbox.android.Admin
 import org.koin.android.ext.android.inject
@@ -28,7 +27,6 @@ class App : Application() {
         initFirebase()
         initKoin()
         initLifecycleObserver()
-        initLanguage()
         initObjectBoxBrowser()
     }
 
@@ -50,10 +48,6 @@ class App : Application() {
             .get()
             .lifecycle
             .addObserver(appLifecycleObserver)
-    }
-
-    private fun initLanguage() {
-        Lingver.init(this, preferences.language.get())
     }
 
     private fun initObjectBoxBrowser() {

@@ -12,7 +12,4 @@ interface SettingsView : NavigationMvpView {
 
     @AddToEndSingle
     fun populateData(language: Language, theme: AppTheme)
-
-    @OneExecution
-    fun updateUiLanguage()
 }
