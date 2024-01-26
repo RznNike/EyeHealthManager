@@ -4,7 +4,6 @@ import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import com.fredporciuncula.flow.preferences.Preference
 import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
-import ru.rznnike.eyehealthmanager.domain.model.enums.Language
 import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
 
 private const val ACUITY_SYMBOLS_TYPE = "ACUITY_SYMBOLS_TYPE_1"
