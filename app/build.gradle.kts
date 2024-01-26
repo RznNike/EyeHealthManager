@@ -149,7 +149,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
 
     // Firebase
-    implementation("com.google.firebase:firebase-crashlytics-ktx:18.6.0")
+    implementation("com.google.firebase:firebase-crashlytics-ktx:18.6.1")
     implementation("com.google.firebase:firebase-messaging:23.4.0")
 
     // Koin
