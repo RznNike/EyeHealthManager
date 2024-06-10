@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.device.notification
+package ru.rznnike.eyehealthmanager.app.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -14,8 +14,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import ru.rznnike.eyehealthmanager.R
+import ru.rznnike.eyehealthmanager.app.model.notification.NotificationChannelTypeVM
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
-import ru.rznnike.eyehealthmanager.device.R
 import ru.rznnike.eyehealthmanager.domain.model.notification.CancelNotification
 import ru.rznnike.eyehealthmanager.domain.model.notification.Notification
 import ru.rznnike.eyehealthmanager.domain.model.notification.NotificationChannelType
@@ -32,12 +33,13 @@ class Notificator : KoinComponent {
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannelType.entries.forEach {
+                val typeVM = NotificationChannelTypeVM[it]
                 createIfNotExistNotificationChannel(
                     channelId = getChannelId(
                         notificationChannelType = it,
                         soundEnabled = true
                     ),
-                    channelName = context.getString(it.nameResId),
+                    channelName = context.getString(typeVM.nameResId),
                     soundEnabled = true
                 )
                 createIfNotExistNotificationChannel(
@@ -46,7 +48,7 @@ class Notificator : KoinComponent {
                         soundEnabled = false
                     ),
                     channelName = "%s (%s)".format(
-                        context.getString(it.nameResId),
+                        context.getString(typeVM.nameResId),
                         context.getString(R.string.notification_channel_soundless_suffix)
                     ),
                     soundEnabled = false

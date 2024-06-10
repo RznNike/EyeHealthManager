@@ -36,7 +36,7 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.colorperception.result.ColorP
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.test.colorperception.ColorPerceptionTestData
+import ru.rznnike.eyehealthmanager.app.model.test.colorperception.ColorPerceptionTestData
 import ru.rznnike.eyehealthmanager.domain.model.test.colorperception.ColorPerceptionTestResult
 import java.time.Clock
 import java.time.Instant

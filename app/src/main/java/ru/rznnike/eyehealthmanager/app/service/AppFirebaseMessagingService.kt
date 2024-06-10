@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.device.service
+package ru.rznnike.eyehealthmanager.app.service
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage

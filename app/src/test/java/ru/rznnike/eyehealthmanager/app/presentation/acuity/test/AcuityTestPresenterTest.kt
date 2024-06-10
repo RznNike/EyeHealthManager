@@ -34,10 +34,9 @@ import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.EmptyAcuitySymbol
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.IAcuitySymbol
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.EmptyAcuitySymbol
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.IAcuitySymbol
 import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuitySymbolLetterEn
 import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType

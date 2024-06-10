@@ -1,15 +1,11 @@
 package ru.rznnike.eyehealthmanager.domain.model.test
 
-import androidx.annotation.StringRes
-import ru.rznnike.eyehealthmanager.domain.R
-
 enum class TestEyesType(
-    val id: Int,
-    @StringRes val nameResId: Int
+    val id: Int
 ) {
-    BOTH(1, R.string.eyes_type_both),
-    LEFT(2, R.string.eyes_type_left),
-    RIGHT(3, R.string.eyes_type_right);
+    BOTH(1),
+    LEFT(2),
+    RIGHT(3);
 
     companion object {
         operator fun get(id: Int?) = entries.find { it.id == id } ?: BOTH

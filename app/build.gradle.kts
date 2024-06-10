@@ -124,7 +124,6 @@ android {
 dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":device"))
     implementation(project(":resources"))
 
     // Desugaring

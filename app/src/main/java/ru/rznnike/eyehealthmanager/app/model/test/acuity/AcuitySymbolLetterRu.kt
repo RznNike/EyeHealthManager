@@ -1,8 +1,7 @@
-package ru.rznnike.eyehealthmanager.domain.model.test.acuity
+package ru.rznnike.eyehealthmanager.app.model.test.acuity
 
 import androidx.annotation.DrawableRes
-import ru.rznnike.eyehealthmanager.domain.R
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.IAcuitySymbol
+import ru.rznnike.eyehealthmanager.R
 
 enum class AcuitySymbolLetterRu(
     @DrawableRes val iconResId: Int

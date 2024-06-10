@@ -1,17 +1,17 @@
 package ru.rznnike.eyehealthmanager.domain.model.notification
 
 import android.os.Parcelable
-import androidx.annotation.StringRes
 import kotlinx.parcelize.Parcelize
-import ru.rznnike.eyehealthmanager.domain.R
 
 @Parcelize
 enum class NotificationChannelType(
     val id: Int,
-    val channelId: String,
-    @StringRes val nameResId: Int
+    val channelId: String
 ) : Parcelable {
-    SYSTEM(0, "system_channel", R.string.notification_channel_system);
+    SYSTEM(
+        id = 0,
+        channelId = "system_channel"
+    );
 
     companion object {
         operator fun get(id: Int?) = entries.find { it.id == id } ?: SYSTEM

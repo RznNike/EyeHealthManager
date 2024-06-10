@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.domain.model.test.colorperception
+package ru.rznnike.eyehealthmanager.app.model.test.colorperception
 
 import androidx.annotation.ColorInt
 

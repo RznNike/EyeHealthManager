@@ -8,6 +8,7 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
+import ru.rznnike.eyehealthmanager.app.model.test.daltonism.DaltonismAnomalyTypeVM
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.result.DaltonismResultPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.result.DaltonismResultView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
@@ -58,7 +59,7 @@ class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result)
             textViewResult.text = "%s %s\n%s".format(
                 errorsCount,
                 resources.getQuantityString(R.plurals.errors, errorsCount),
-                getString(resultType.nameResId)
+                getString(DaltonismAnomalyTypeVM[resultType].nameResId)
             )
             if (resultType == DaltonismAnomalyType.NONE) {
                 textViewResult.setTextColorRes(R.color.colorAccent)

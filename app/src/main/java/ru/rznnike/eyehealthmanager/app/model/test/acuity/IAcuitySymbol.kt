@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.domain.model.test.acuity
+package ru.rznnike.eyehealthmanager.app.model.test.acuity
 
 import androidx.annotation.DrawableRes
 

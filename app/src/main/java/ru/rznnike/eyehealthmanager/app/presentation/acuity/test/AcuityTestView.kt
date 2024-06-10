@@ -5,7 +5,7 @@ import moxy.viewstate.strategy.AddToEndSingleTagStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import moxy.viewstate.strategy.alias.AddToEndSingle
 import ru.rznnike.eyehealthmanager.app.global.presentation.NavigationMvpView
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.IAcuitySymbol
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.IAcuitySymbol
 import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 

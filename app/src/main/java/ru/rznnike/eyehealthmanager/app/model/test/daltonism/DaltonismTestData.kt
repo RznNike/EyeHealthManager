@@ -1,6 +1,7 @@
-package ru.rznnike.eyehealthmanager.domain.model.test.daltonism
+package ru.rznnike.eyehealthmanager.app.model.test.daltonism
 
-import ru.rznnike.eyehealthmanager.domain.R
+import ru.rznnike.eyehealthmanager.R
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
 
 object DaltonismTestData {
     val questions: List<DaltonismTestQuestion> = listOf(

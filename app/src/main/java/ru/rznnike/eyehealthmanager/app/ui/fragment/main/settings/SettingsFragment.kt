@@ -14,6 +14,7 @@ import ru.rznnike.eyehealthmanager.app.dialog.bottom.BottomDialogAction
 import ru.rznnike.eyehealthmanager.app.dialog.showAlertDialog
 import ru.rznnike.eyehealthmanager.app.dialog.showBottomDialog
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
+import ru.rznnike.eyehealthmanager.app.model.common.AppThemeVM
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsView
 import ru.rznnike.eyehealthmanager.app.utils.AppConstants
@@ -110,7 +111,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             buttonLanguage.setOnClickListener {
                 showLanguageSelectionBottomDialog(language)
             }
-            textViewCurrentTheme.setText(theme.nameResId)
+            textViewCurrentTheme.setText(AppThemeVM[theme].nameResId)
             buttonTheme.setOnClickListener {
                 showThemeSelectionBottomDialog(theme)
             }
@@ -137,7 +138,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             header = getString(R.string.choose_theme),
             actions = AppTheme.entries.map { theme ->
                 BottomDialogAction(
-                    text = getString(theme.nameResId),
+                    text = getString(AppThemeVM[theme].nameResId),
                     selected = theme == currentTheme
                 ) {
                     it.dismiss()

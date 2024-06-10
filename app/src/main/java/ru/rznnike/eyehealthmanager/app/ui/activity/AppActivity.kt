@@ -39,7 +39,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.ActivityBinding
 import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarBottomBinding
 import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarTopBinding
-import ru.rznnike.eyehealthmanager.device.notification.Notificator
+import ru.rznnike.eyehealthmanager.app.notification.Notificator
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.model.notification.Notification
 import ru.rznnike.eyehealthmanager.domain.model.notification.toNotification
@@ -96,7 +96,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
     override fun onStart() {
         super.onStart()
         notificationsJob?.cancel()
-        notificationsJob = coroutineScopeProvider.scopeMainImmediate.launch {
+        notificationsJob = coroutineScopeProvider.ui.launch {
             notifier.subscribe().collect(::onNextMessageNotify)
         }
     }

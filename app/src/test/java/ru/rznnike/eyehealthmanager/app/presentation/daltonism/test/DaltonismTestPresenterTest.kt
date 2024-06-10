@@ -37,7 +37,7 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.result.DaltonismRes
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestData
+import ru.rznnike.eyehealthmanager.app.model.test.daltonism.DaltonismTestData
 import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
 import java.time.Clock

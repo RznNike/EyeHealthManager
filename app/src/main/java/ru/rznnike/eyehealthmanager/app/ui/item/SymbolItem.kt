@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
 import ru.rznnike.eyehealthmanager.databinding.ItemSymbolBinding
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.IAcuitySymbol
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.IAcuitySymbol
 
 class SymbolItem(
     val symbol: IAcuitySymbol

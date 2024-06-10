@@ -1,27 +1,15 @@
 package ru.rznnike.eyehealthmanager.domain.model.test.nearfar
 
 import android.os.Parcelable
-import androidx.annotation.StringRes
 import kotlinx.parcelize.Parcelize
-import ru.rznnike.eyehealthmanager.domain.R
 
 @Parcelize
 enum class NearFarAnswerType(
-    val id: Int,
-    @StringRes val nameResId: Int
+    val id: Int
 ) : Parcelable {
-    RED_BETTER(
-        id = 1,
-        nameResId = R.string.possible_myopia
-    ),
-    GREEN_BETTER(
-        id = 2,
-        nameResId = R.string.possible_farsightedness
-    ),
-    EQUAL(
-        id = 0,
-        nameResId = R.string.normal_condition
-    );
+    EQUAL(0),
+    RED_BETTER(1),
+    GREEN_BETTER(2);
 
     companion object {
         operator fun get(id: Int?) = entries.find { it.id == id } ?: EQUAL

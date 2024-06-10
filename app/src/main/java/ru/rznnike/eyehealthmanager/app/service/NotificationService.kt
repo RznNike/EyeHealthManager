@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.device.service
+package ru.rznnike.eyehealthmanager.app.service
 
 import android.app.job.JobInfo
 import android.app.job.JobParameters
@@ -11,7 +11,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import ru.rznnike.eyehealthmanager.device.notification.Notificator
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveCancelNotificationUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveShowNotificationUseCase
@@ -20,7 +19,7 @@ class NotificationService : JobService() {
     private val coroutineScopeProvider: CoroutineScopeProvider by inject()
     private val observeShowNotificationUseCase: ObserveShowNotificationUseCase by inject()
     private val observeCancelNotificationUseCase: ObserveCancelNotificationUseCase by inject()
-    private val notificator: Notificator by inject()
+    private val notificator: ru.rznnike.eyehealthmanager.app.notification.Notificator by inject()
 
     private var notificationShowJob: Job? = null
     private var notificationCancelJob: Job? = null

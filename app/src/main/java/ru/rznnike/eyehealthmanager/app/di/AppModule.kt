@@ -12,7 +12,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.external.ExternalIntentDispatc
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.observer.AppLifeCycleObserver
-import ru.rznnike.eyehealthmanager.device.notification.Notificator
+import ru.rznnike.eyehealthmanager.app.notification.Notificator
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import java.time.Clock

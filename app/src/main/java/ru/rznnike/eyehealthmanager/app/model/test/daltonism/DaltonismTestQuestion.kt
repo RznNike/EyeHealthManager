@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.domain.model.test.daltonism
+package ru.rznnike.eyehealthmanager.app.model.test.daltonism
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
