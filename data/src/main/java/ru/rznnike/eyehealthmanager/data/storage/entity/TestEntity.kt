@@ -4,7 +4,7 @@ import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import ru.rznnike.eyehealthmanager.data.storage.converter.TestTypeConverter
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 @Entity
 data class TestEntity(

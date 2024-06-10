@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.storage.AbstractObjectBoxTest
 import ru.rznnike.eyehealthmanager.data.storage.entity.TestEntity
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 
 class TestDAOTest : AbstractObjectBoxTest() {

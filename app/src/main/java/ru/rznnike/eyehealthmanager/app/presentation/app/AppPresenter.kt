@@ -4,7 +4,7 @@ import moxy.InjectViewState
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.app.dispatcher.external.ExternalIntentDispatcher
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
-import ru.rznnike.eyehealthmanager.domain.model.Notification
+import ru.rznnike.eyehealthmanager.domain.model.notification.Notification
 
 @InjectViewState
 class AppPresenter : BasePresenter<AppView>() {

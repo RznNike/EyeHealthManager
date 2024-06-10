@@ -6,8 +6,8 @@ import ru.rznnike.eyehealthmanager.data.storage.entity.TestEntity
 import ru.rznnike.eyehealthmanager.data.storage.entity.TestEntity_
 import ru.rznnike.eyehealthmanager.data.storage.global.BaseDAO
 import ru.rznnike.eyehealthmanager.data.storage.global.ITestDAO
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 class TestDAO(
     boxStore: BoxStore

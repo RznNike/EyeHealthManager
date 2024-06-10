@@ -6,7 +6,7 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setImageTint
 import ru.rznnike.eyehealthmanager.databinding.ItemTestTypeIndicatorBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 class TestTypeIndicatorItem(
     private val testType: TestType,

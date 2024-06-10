@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
 import ru.rznnike.eyehealthmanager.databinding.ItemEyesTypeBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 
 class EyesTypeItem(
     val eyesType: TestEyesType

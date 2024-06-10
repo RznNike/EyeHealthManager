@@ -11,8 +11,8 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetApplyDynamicCorrectionsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetApplyDynamicCorrectionsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisParameters
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay

@@ -16,13 +16,14 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 import ru.rznnike.eyehealthmanager.device.R
-import ru.rznnike.eyehealthmanager.domain.model.CancelNotification
-import ru.rznnike.eyehealthmanager.domain.model.Notification
-import ru.rznnike.eyehealthmanager.domain.model.enums.NotificationChannelType
+import ru.rznnike.eyehealthmanager.domain.model.notification.CancelNotification
+import ru.rznnike.eyehealthmanager.domain.model.notification.Notification
+import ru.rznnike.eyehealthmanager.domain.model.notification.NotificationChannelType
 
 private const val NOTIFICATION_CHANNEL_ID_SOUNDLESS_SUFFIX = "_soundless"
 
-class Notificator(val context: Context) : KoinComponent {
+class Notificator : KoinComponent {
+    private val context: Context by inject()
     private val preferencesWrapper: PreferencesWrapper by inject()
 
     private val notificationManager: NotificationManager =

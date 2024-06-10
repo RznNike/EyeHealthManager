@@ -12,7 +12,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.astigmatism.result.Astigmati
 import ru.rznnike.eyehealthmanager.app.presentation.astigmatism.result.AstigmatismResultView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentAstigmatismResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
 
 class AstigmatismResultFragment : BaseFragment(R.layout.fragment_astigmatism_result),
     AstigmatismResultView {

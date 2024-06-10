@@ -9,15 +9,15 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.resources
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.databinding.ItemTestResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.colorperception.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 

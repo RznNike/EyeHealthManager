@@ -40,9 +40,9 @@ import ru.rznnike.eyehealthmanager.databinding.ActivityBinding
 import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarBottomBinding
 import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarTopBinding
 import ru.rznnike.eyehealthmanager.device.notification.Notificator
-import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
-import ru.rznnike.eyehealthmanager.domain.model.Notification
-import ru.rznnike.eyehealthmanager.domain.model.toNotification
+import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
+import ru.rznnike.eyehealthmanager.domain.model.notification.Notification
+import ru.rznnike.eyehealthmanager.domain.model.notification.toNotification
 
 private const val TOP_BAR_TIME_MS = 10_000
 
@@ -54,7 +54,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
 
     private val navigatorHolder: NavigatorHolder by inject()
     private val notifier: Notifier by inject()
-    private val coroutineProvider: CoroutineProvider by inject()
+    private val coroutineScopeProvider: CoroutineScopeProvider by inject()
     private val router: AppRouter by inject()
 
     private val navigator: Navigator = object : SupportAppNavigation(this, notifier, R.id.container) {}
@@ -96,7 +96,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
     override fun onStart() {
         super.onStart()
         notificationsJob?.cancel()
-        notificationsJob = coroutineProvider.scopeMainImmediate.launch {
+        notificationsJob = coroutineScopeProvider.scopeMainImmediate.launch {
             notifier.subscribe().collect(::onNextMessageNotify)
         }
     }

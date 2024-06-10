@@ -6,7 +6,7 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.databinding.ItemTestTypeBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 class TestTypeItem(
     val testType: TestType

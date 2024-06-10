@@ -1,10 +1,10 @@
 package ru.rznnike.eyehealthmanager.domain.gateway
 
 import android.net.Uri
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 interface TestGateway {
     suspend fun getTestResults(parameters: TestResultPagingParameters): List<TestResult>

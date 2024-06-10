@@ -12,12 +12,12 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import ru.rznnike.eyehealthmanager.device.notification.Notificator
-import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
+import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveCancelNotificationUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.notification.ObserveShowNotificationUseCase
 
 class NotificationService : JobService() {
-    private val coroutineProvider: CoroutineProvider by inject()
+    private val coroutineScopeProvider: CoroutineScopeProvider by inject()
     private val observeShowNotificationUseCase: ObserveShowNotificationUseCase by inject()
     private val observeCancelNotificationUseCase: ObserveCancelNotificationUseCase by inject()
     private val notificator: Notificator by inject()
@@ -49,7 +49,7 @@ class NotificationService : JobService() {
     private fun observeShowNotification() {
         if (notificationShowJob?.isActive == true) return
 
-        notificationShowJob = coroutineProvider.scopeMain.launch {
+        notificationShowJob = coroutineScopeProvider.ui.launch {
             observeShowNotificationUseCase().cancellable().collect { notification ->
                 if (!notification.showed) {
                     notificator.show(notification)
@@ -62,7 +62,7 @@ class NotificationService : JobService() {
     private fun observeCancelNotification() {
         if (notificationCancelJob?.isActive == true) return
 
-        notificationCancelJob = coroutineProvider.scopeMain.launch {
+        notificationCancelJob = coroutineScopeProvider.ui.launch {
             observeCancelNotificationUseCase().collect { notification ->
                 notificator.cancel(notification)
             }

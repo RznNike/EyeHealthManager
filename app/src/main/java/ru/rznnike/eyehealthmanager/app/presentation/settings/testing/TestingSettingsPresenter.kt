@@ -9,10 +9,10 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
+import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetTestingSettingsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
 
@@ -20,7 +20,7 @@ import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
 class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
-    private val coroutineProvider: CoroutineProvider by inject()
+    private val coroutineScopeProvider: CoroutineScopeProvider by inject()
     private val eventDispatcher: EventDispatcher by inject()
     private val getTestingSettingsUseCase: GetTestingSettingsUseCase by inject()
     private val setTestingSettingsUseCase: SetTestingSettingsUseCase by inject()
@@ -32,7 +32,7 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
     }
 
     fun onPause() {
-        coroutineProvider.scopeIo.launch {
+        coroutineScopeProvider.io.launch {
             setTestingSettingsUseCase(settings).process(
                 {
                     eventDispatcher.sendEvent(AppEvent.TestingSettingsChanged)

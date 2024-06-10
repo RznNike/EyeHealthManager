@@ -4,10 +4,10 @@ import androidx.annotation.StringRes
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
+import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 
 class Notifier(
-    private val coroutineProvider: CoroutineProvider
+    private val coroutineScopeProvider: CoroutineScopeProvider
 ) {
     private val notifierFlow = MutableSharedFlow<SystemMessage>()
 
@@ -86,7 +86,7 @@ class Notifier(
     )
 
     private fun emitMessage(message: SystemMessage) {
-        coroutineProvider.scopeIo.launch {
+        coroutineScopeProvider.io.launch {
             notifierFlow.emit(message)
         }
     }

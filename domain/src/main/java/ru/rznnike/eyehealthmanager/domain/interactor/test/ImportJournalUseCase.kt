@@ -8,7 +8,7 @@ import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseWithParams
 class ImportJournalUseCase(
     private val testGateway: TestGateway,
     dispatcherProvider: DispatcherProvider
-) : UseCaseWithParams<Uri, Unit>(dispatcherProvider.io) {
+) : UseCaseWithParams<Uri, Unit>(dispatcherProvider) {
     override suspend fun execute(parameters: Uri) =
         testGateway.importJournal(parameters)
 }

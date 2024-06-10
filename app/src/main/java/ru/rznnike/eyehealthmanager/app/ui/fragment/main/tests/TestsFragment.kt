@@ -17,7 +17,7 @@ import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.databinding.FragmentTestsBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 class TestsFragment : BaseFragment(R.layout.fragment_tests), TestsView {
     @InjectPresenter

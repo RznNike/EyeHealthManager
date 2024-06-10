@@ -38,7 +38,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.GetAvailableImportTypesUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ImportJournalUseCase
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 @ExtendWith(MockitoExtension::class)
 class ImportJournalPresenterTest : KoinTest {

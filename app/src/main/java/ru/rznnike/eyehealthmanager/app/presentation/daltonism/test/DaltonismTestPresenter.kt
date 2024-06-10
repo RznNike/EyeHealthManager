@@ -11,9 +11,9 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestData
-import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestData
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
 import java.time.Clock
 
 private const val NORMAL_BORDER = 2
@@ -66,7 +66,8 @@ class DaltonismTestPresenter : BasePresenter<DaltonismTestView>() {
             viewState.setProgress(true)
             DaltonismTestData.questions.forEachIndexed { index, question ->
                 if (userAnswers[index] > 0) {
-                    answerDeltas[DaltonismAnomalyType.NONE] = answerDeltas.getOrDefault(DaltonismAnomalyType.NONE, 0) + 1
+                    answerDeltas[DaltonismAnomalyType.NONE] = answerDeltas.getOrDefault(
+                        DaltonismAnomalyType.NONE, 0) + 1
                 }
                 question.answerVariantsMap.forEach { (type, variants) ->
                     if (!variants.contains(userAnswers[index])) {

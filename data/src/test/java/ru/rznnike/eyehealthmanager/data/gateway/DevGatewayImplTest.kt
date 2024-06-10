@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import java.time.Clock
 import java.util.TimeZone

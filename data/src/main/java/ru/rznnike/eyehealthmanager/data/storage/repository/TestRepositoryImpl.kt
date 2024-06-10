@@ -15,15 +15,15 @@ import ru.rznnike.eyehealthmanager.data.storage.entity.toColorPerceptionTestEnti
 import ru.rznnike.eyehealthmanager.data.storage.entity.toContrastTestEntity
 import ru.rznnike.eyehealthmanager.data.storage.entity.toDaltonismTestEntity
 import ru.rznnike.eyehealthmanager.data.storage.entity.toNearFarTestEntity
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.colorperception.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 
 class TestRepositoryImpl(

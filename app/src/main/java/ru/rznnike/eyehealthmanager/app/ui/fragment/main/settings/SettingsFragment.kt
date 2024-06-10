@@ -23,9 +23,9 @@ import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogDevMenuBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
-import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.model.enums.Language
+import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.model.common.Language
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView {

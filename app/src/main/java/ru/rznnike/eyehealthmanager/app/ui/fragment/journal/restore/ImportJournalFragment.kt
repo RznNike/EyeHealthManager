@@ -20,7 +20,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPa
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.FragmentImportJournalBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), ImportJournalView {
     @InjectPresenter

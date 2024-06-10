@@ -12,7 +12,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.nearfar.result.NearFarResult
 import ru.rznnike.eyehealthmanager.app.presentation.nearfar.result.NearFarResultView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentNearFarResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 
 class NearFarResultFragment : BaseFragment(R.layout.fragment_near_far_result), NearFarResultView {
     @InjectPresenter

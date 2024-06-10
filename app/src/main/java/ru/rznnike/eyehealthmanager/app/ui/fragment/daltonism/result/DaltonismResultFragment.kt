@@ -12,8 +12,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.daltonism.result.DaltonismRe
 import ru.rznnike.eyehealthmanager.app.presentation.daltonism.result.DaltonismResultView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentDaltonismResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
-import java.util.*
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
 
 class DaltonismResultFragment : BaseFragment(R.layout.fragment_daltonism_result),
     DaltonismResultView {

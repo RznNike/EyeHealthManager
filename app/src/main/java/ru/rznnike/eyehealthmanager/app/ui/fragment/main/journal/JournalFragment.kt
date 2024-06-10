@@ -32,9 +32,9 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.BottomDialogJournalFiltersBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentJournalBinding
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.millis

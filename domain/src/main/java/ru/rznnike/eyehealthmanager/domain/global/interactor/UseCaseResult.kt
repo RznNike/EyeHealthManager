@@ -12,9 +12,6 @@ class UseCaseResult<out R>(
         }
     }
 
-    val isSuccessful : Boolean
-        get() = (error == null) && (data != null)
-
     suspend fun process(
         onSuccessCallback: suspend (R) -> Unit,
         onErrorCallback: (suspend (Exception) -> Unit)? = null

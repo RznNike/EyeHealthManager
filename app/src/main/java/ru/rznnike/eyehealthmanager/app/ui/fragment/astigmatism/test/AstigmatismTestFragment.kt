@@ -16,7 +16,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPa
 import ru.rznnike.eyehealthmanager.app.utils.extensions.context
 import ru.rznnike.eyehealthmanager.app.utils.extensions.convertMmToPx
 import ru.rznnike.eyehealthmanager.databinding.FragmentAstigmatismTestBinding
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
 
 private const val BASIC_HEIGHT_MM = 100f
 private const val BASIC_DISTANCE_MM = 5000f

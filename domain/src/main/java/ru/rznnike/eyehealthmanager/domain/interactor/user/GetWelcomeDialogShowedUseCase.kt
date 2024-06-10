@@ -7,7 +7,7 @@ import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCase
 class GetWelcomeDialogShowedUseCase(
     private val userGateway: UserGateway,
     dispatcherProvider: DispatcherProvider
-) : UseCase<Boolean>(dispatcherProvider.io) {
+) : UseCase<Boolean>(dispatcherProvider) {
     override suspend fun execute() =
         userGateway.getWelcomeDialogShowed()
 }

@@ -15,7 +15,7 @@ import ru.rznnike.eyehealthmanager.app.presentation.settings.testing.TestingSett
 import ru.rznnike.eyehealthmanager.app.presentation.settings.testing.TestingSettingsView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsTestingBinding
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import java.util.*

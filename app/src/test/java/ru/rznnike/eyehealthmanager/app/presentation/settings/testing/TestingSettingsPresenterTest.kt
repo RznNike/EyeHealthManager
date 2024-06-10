@@ -36,7 +36,7 @@ import ru.rznnike.eyehealthmanager.app.utils.createTestCoroutineProvider
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetTestingSettingsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import java.util.TimeZone
 import kotlin.math.abs

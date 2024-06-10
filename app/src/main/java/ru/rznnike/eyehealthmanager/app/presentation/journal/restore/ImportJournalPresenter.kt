@@ -14,7 +14,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.GetAvailableImportTypesUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ImportJournalUseCase
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 @InjectViewState
 class ImportJournalPresenter : BasePresenter<ImportJournalView>() {

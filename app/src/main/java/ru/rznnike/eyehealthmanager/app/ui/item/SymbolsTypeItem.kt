@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
 import ru.rznnike.eyehealthmanager.databinding.ItemSymbolsTypeBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
 
 class SymbolsTypeItem(
     val symbolsType: AcuityTestSymbolsType

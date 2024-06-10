@@ -16,9 +16,9 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setSelectedLanguage
 import ru.rznnike.eyehealthmanager.domain.interactor.dev.GenerateDataUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAppThemeUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetAppThemeUseCase
-import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
-import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.model.enums.Language
+import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.model.common.Language
 
 @InjectViewState
 class SettingsPresenter : BasePresenter<SettingsView>() {

@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismTestResult
 import java.util.TimeZone
 
 class AstigmatismTestResultTest {

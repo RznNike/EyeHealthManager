@@ -2,7 +2,7 @@ package ru.rznnike.eyehealthmanager.app.presentation.nearfar.result
 
 import moxy.InjectViewState
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 
 @InjectViewState
 class NearFarResultPresenter(

@@ -45,17 +45,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":resources"))
-
     // Desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-
-    // Android
-    api("androidx.core:core-ktx:1.13.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:" + rootProject.extra["desugaringVersion"])
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + rootProject.extra["coroutinesVersion"])
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:" + rootProject.extra["coroutinesVersion"])
 
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter:" + rootProject.extra["junitVersion"])

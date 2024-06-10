@@ -7,7 +7,7 @@ import org.koin.core.component.inject
 import ru.rznnike.eyehealthmanager.app.Screens
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
 
 @InjectViewState
 class AstigmatismTestPresenter : BasePresenter<AstigmatismTestView>() {

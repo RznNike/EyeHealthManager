@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.app.utils.createTestCoroutineProvider
-import ru.rznnike.eyehealthmanager.domain.model.ExternalIntentData
+import ru.rznnike.eyehealthmanager.domain.model.common.ExternalIntentData
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExternalIntentDispatcherTest {

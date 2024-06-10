@@ -5,15 +5,15 @@ import kotlinx.coroutines.CoroutineScope
 import org.mockito.ArgumentMatchers.floatThat
 import org.mockito.kotlin.argThat
 import ru.rznnike.eyehealthmanager.app.navigation.FragmentScreenWithArguments
-import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
+import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import kotlin.math.abs
 import kotlin.reflect.KClass
 
-fun CoroutineScope.createTestCoroutineProvider() = object : CoroutineProvider {
-    override val scopeIo = this@createTestCoroutineProvider
-    override val scopeMain = this@createTestCoroutineProvider
+fun CoroutineScope.createTestCoroutineProvider() = object : CoroutineScopeProvider {
+    override val io = this@createTestCoroutineProvider
+    override val ui = this@createTestCoroutineProvider
     override val scopeMainImmediate = this@createTestCoroutineProvider
-    override val scopeUnconfined = this@createTestCoroutineProvider
+    override val unconfined = this@createTestCoroutineProvider
 }
 
 fun screenMatcher(

@@ -2,7 +2,7 @@ package ru.rznnike.eyehealthmanager.data.storage.entity
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
 
 @Entity
 data class ContrastTestEntity(

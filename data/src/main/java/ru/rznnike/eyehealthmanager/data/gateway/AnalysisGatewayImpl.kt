@@ -2,9 +2,24 @@ package ru.rznnike.eyehealthmanager.data.gateway
 
 import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import ru.rznnike.eyehealthmanager.domain.gateway.AnalysisGateway
-import ru.rznnike.eyehealthmanager.domain.model.*
-import ru.rznnike.eyehealthmanager.domain.model.enums.*
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisParameters
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisStatistics
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisType
+import ru.rznnike.eyehealthmanager.domain.model.analysis.DynamicCorrectionsData
+import ru.rznnike.eyehealthmanager.domain.model.analysis.EyeChartPoint
+import ru.rznnike.eyehealthmanager.domain.model.analysis.FunctionPoint
+import ru.rznnike.eyehealthmanager.domain.model.analysis.LinearFunction
+import ru.rznnike.eyehealthmanager.domain.model.analysis.SingleEyeAnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.VisionDynamicType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResultGroup
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import java.time.Clock
 import kotlin.math.abs

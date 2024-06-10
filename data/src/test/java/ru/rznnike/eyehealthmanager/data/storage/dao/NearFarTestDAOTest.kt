@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.storage.AbstractObjectBoxTest
 import ru.rznnike.eyehealthmanager.data.storage.entity.NearFarTestEntity
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 
 class NearFarTestDAOTest : AbstractObjectBoxTest() {
     @Test

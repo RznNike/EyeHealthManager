@@ -3,8 +3,8 @@ package ru.rznnike.eyehealthmanager.data.gateway
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import ru.rznnike.eyehealthmanager.domain.gateway.NotificationGateway
-import ru.rznnike.eyehealthmanager.domain.model.CancelNotification
-import ru.rznnike.eyehealthmanager.domain.model.Notification
+import ru.rznnike.eyehealthmanager.domain.model.notification.CancelNotification
+import ru.rznnike.eyehealthmanager.domain.model.notification.Notification
 
 class NotificationGatewayImpl : NotificationGateway {
     private val notificationFlow = MutableSharedFlow<Notification>()

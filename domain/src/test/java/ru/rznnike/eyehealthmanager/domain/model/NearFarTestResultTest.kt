@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
 import java.util.TimeZone
 
 class NearFarTestResultTest {

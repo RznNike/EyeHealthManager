@@ -14,7 +14,7 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.contrast.ContrastFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.DaltonismFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.NearFarFlowFragment
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import kotlin.reflect.KClass
 
 @ExtendWith(MockitoExtension::class)

@@ -2,11 +2,11 @@ package ru.rznnike.eyehealthmanager.data.gateway
 
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 import ru.rznnike.eyehealthmanager.domain.gateway.UserGateway
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 
 class UserGatewayImpl(
     private val preferences: PreferencesWrapper

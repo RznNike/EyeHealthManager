@@ -3,7 +3,7 @@ package ru.rznnike.eyehealthmanager.app.presentation.main.tests
 import moxy.InjectViewState
 import ru.rznnike.eyehealthmanager.app.Screens
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 @InjectViewState
 class TestsPresenter : BasePresenter<TestsView>() {

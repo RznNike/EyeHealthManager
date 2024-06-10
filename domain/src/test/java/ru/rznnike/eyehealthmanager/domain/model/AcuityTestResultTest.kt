@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
 import java.util.TimeZone
 
 class AcuityTestResultTest {

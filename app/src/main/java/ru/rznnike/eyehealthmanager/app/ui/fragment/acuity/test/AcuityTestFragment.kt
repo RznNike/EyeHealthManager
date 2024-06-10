@@ -32,14 +32,14 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setGone
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.app.utils.extensions.withDelay
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityTestBinding
-import ru.rznnike.eyehealthmanager.domain.model.EmptyAcuitySymbol
-import ru.rznnike.eyehealthmanager.domain.model.IAcuitySymbol
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterEn
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterRu
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolSquare
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolTriangle
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.EmptyAcuitySymbol
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.IAcuitySymbol
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuitySymbolLetterEn
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuitySymbolLetterRu
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuitySymbolSquare
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuitySymbolTriangle
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 
 private const val BASIC_HEIGHT_MM = 7f
 private const val BASIC_DISTANCE_MM = 5000f

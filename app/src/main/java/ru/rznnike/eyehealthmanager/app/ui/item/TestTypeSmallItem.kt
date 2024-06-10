@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
 import ru.rznnike.eyehealthmanager.databinding.ItemTestTypeSmallBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 class TestTypeSmallItem(
     val testType: TestType

@@ -16,7 +16,7 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPa
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.app.utils.extensions.withEndActionSafe
 import ru.rznnike.eyehealthmanager.databinding.FragmentContrastTestBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
+import ru.rznnike.eyehealthmanager.domain.model.common.Direction
 
 private const val FADE_ANIMATION_MS = 250L
 
