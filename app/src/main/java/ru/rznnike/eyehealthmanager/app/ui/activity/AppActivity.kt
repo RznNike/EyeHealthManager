@@ -13,6 +13,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import moxy.presenter.InjectPresenter
 import org.koin.android.ext.android.inject
@@ -58,7 +59,7 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
 
     private val navigator: Navigator = object : SupportAppNavigation(this, notifier, R.id.container) {}
 
-    private var subscribedToNotifications = false
+    private var notificationsJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +95,15 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
 
     override fun onStart() {
         super.onStart()
-        subscribeOnSystemMessages()
+        notificationsJob?.cancel()
+        notificationsJob = coroutineProvider.scopeMainImmediate.launch {
+            notifier.subscribe().collect(::onNextMessageNotify)
+        }
+    }
+
+    override fun onStop() {
+        notificationsJob?.cancel()
+        super.onStop()
     }
 
     override fun onResumeFragments() {
@@ -113,15 +122,6 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
-    }
-
-    private fun subscribeOnSystemMessages() {
-        if (subscribedToNotifications) return
-
-        subscribedToNotifications = true
-        coroutineProvider.scopeMainImmediate.launch {
-            notifier.subscribe().collect(::onNextMessageNotify)
-        }
     }
 
     private fun initWindowFlags() {
