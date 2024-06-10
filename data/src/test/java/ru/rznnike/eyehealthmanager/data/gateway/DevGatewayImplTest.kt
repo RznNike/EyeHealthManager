@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
 import java.time.Clock
 import java.util.TimeZone
 import kotlin.math.abs
@@ -37,8 +37,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
+        assertEquals(DataConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
+        assertEquals(DataConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
         assertTrue(delta > 10)
     }
 
@@ -60,8 +60,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
+        assertEquals(DataConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
+        assertEquals(DataConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
         assertTrue(abs(delta) < 7)
     }
 
@@ -83,8 +83,8 @@ class DevGatewayImplTest {
         val filteredTests = tests.filterIsInstance<AcuityTestResult>()
         val delta = (filteredTests.last().resultLeftEye ?: 0) - (filteredTests.first().resultLeftEye ?: 0)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
+        assertEquals(DataConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
+        assertEquals(DataConstants.ANALYSIS_MAX_RANGE_DAYS, filteredTests.size.toLong())
         assertTrue(delta < -10)
     }
 

@@ -13,14 +13,14 @@ import ru.rznnike.eyehealthmanager.data.storage.dao.ContrastTestDAO
 import ru.rznnike.eyehealthmanager.data.storage.dao.DaltonismTestDAO
 import ru.rznnike.eyehealthmanager.data.storage.dao.NearFarTestDAO
 import ru.rznnike.eyehealthmanager.data.storage.dao.TestDAO
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
+import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
-import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
 import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import java.time.Clock
 
@@ -67,7 +67,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
 
         val tests = repository.getList(parameters)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
+        assertEquals(DataConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
     }
 
     @Test
@@ -121,7 +121,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = false,
-                dateFrom = currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
+                dateFrom = currentTimeMillis() - 10 * DataConstants.DAY_MS,
                 dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
@@ -175,7 +175,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = true,
-                dateFrom = currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
+                dateFrom = currentTimeMillis() - 10 * DataConstants.DAY_MS,
                 dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf(TestType.ACUITY)
             )

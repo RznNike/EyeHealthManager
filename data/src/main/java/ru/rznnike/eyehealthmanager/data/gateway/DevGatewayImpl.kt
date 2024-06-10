@@ -1,23 +1,23 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.gateway.DevGateway
+import ru.rznnike.eyehealthmanager.domain.model.analysis.LinearFunction
+import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismTestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.colorperception.ColorPerceptionTestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.analysis.LinearFunction
-import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
-import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
 import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
-import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
-import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
 import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
 import java.time.Clock
@@ -49,9 +49,9 @@ class DevGatewayImpl(
         leftEyeTrend: LinearFunction,
         rightEyeTrend: LinearFunction
     ) {
-        var dateTime = clock.millis().toLocalDate().minusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS).atStartOfDay()
+        var dateTime = clock.millis().toLocalDate().minusDays(DataConstants.ANALYSIS_MAX_RANGE_DAYS).atStartOfDay()
         val tests = mutableListOf<TestResult>()
-        for (day in 0 until GlobalConstants.ANALYSIS_MAX_RANGE_DAYS) {
+        for (day in 0 until DataConstants.ANALYSIS_MAX_RANGE_DAYS) {
             tests.add(
                 AcuityTestResult(
                     timestamp = dateTime.millis() + Random.nextInt(30_000_000), // nearly first 8 hours of day

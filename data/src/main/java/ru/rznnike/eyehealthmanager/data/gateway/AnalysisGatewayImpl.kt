@@ -1,6 +1,6 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
-import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.gateway.AnalysisGateway
 import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisParameters
 import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisResult
@@ -20,7 +20,7 @@ import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResultGroup
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import java.time.Clock
 import kotlin.math.abs
 import kotlin.math.max
@@ -30,12 +30,12 @@ import kotlin.math.roundToLong
 private const val WARNING_VISION_DIFFERENCE_THRESHOLD = 20
 private const val VISION_DYNAMIC_TYPE_THRESHOLD = 5
 private const val NOISE_MIN_POINTS_COUNT = 5
-private const val NOISE_MIN_DATE_DELTA_MS = 5 * GlobalConstants.DAY_MS
-private const val NOISE_MAX_DATE_DELTA_MS = 10 * GlobalConstants.DAY_MS
+private const val NOISE_MIN_DATE_DELTA_MS = 5 * DataConstants.DAY_MS
+private const val NOISE_MAX_DATE_DELTA_MS = 10 * DataConstants.DAY_MS
 private const val NOISE_FILTER_THRESHOLD = 30
-private const val EXTRAPOLATION_MAX_DATE_DELTA_MS = 90 * GlobalConstants.DAY_MS
+private const val EXTRAPOLATION_MAX_DATE_DELTA_MS = 90 * DataConstants.DAY_MS
 private const val EXTRAPOLATION_RESULT_DATE_DIVIDER = 3
-private const val CORRECTIONS_DATE_DELTA_MS = 7 * GlobalConstants.DAY_MS
+private const val CORRECTIONS_DATE_DELTA_MS = 7 * DataConstants.DAY_MS
 
 class AnalysisGatewayImpl(
     private val testRepository: TestRepository,
@@ -56,7 +56,7 @@ class AnalysisGatewayImpl(
 
         val acuityResults = testRepository.getList(acuitySearchParameters)
 
-        if (acuityResults.size < GlobalConstants.ANALYSIS_MIN_RESULTS_COUNT) {
+        if (acuityResults.size < DataConstants.ANALYSIS_MIN_RESULTS_COUNT) {
             throw NotEnoughDataException()
         }
 
@@ -323,9 +323,9 @@ class AnalysisGatewayImpl(
             )
             currentGroup?.run {
                 values.add(item)
-                val groupIsFilled = ((values.size >= GlobalConstants.ANALYSIS_GROUPING_MIN_SIZE)
-                        && ((item.timestamp - dateFrom) >= GlobalConstants.ANALYSIS_GROUPING_MIN_RANGE_MS))
-                        || ((item.timestamp - dateFrom) > GlobalConstants.ANALYSIS_GROUPING_MAX_RANGE_MS)
+                val groupIsFilled = ((values.size >= DataConstants.ANALYSIS_GROUPING_MIN_SIZE)
+                        && ((item.timestamp - dateFrom) >= DataConstants.ANALYSIS_GROUPING_MIN_RANGE_MS))
+                        || ((item.timestamp - dateFrom) > DataConstants.ANALYSIS_GROUPING_MAX_RANGE_MS)
                 if (groupIsFilled) {
                     groups.add(this)
                     currentGroup = null
@@ -339,7 +339,7 @@ class AnalysisGatewayImpl(
         var index = 0
         while (index < groups.size) {
             val group = groups[index]
-            if ((group.values.size < GlobalConstants.ANALYSIS_GROUPING_MIN_SIZE) && (groups.size > 1)) {
+            if ((group.values.size < DataConstants.ANALYSIS_GROUPING_MIN_SIZE) && (groups.size > 1)) {
                 val previousGroup = groups.getOrNull(index - 1)
                 val nextGroup = groups.getOrNull(index + 1)
                 when {
@@ -360,7 +360,7 @@ class AnalysisGatewayImpl(
             }
         }
 
-        if (groups.size < GlobalConstants.ANALYSIS_MIN_GROUPS_COUNT) {
+        if (groups.size < DataConstants.ANALYSIS_MIN_GROUPS_COUNT) {
             throw NotEnoughDataException()
         }
         return groups
@@ -432,7 +432,7 @@ class AnalysisGatewayImpl(
             else -> {
                 val lastTimestamp = groupedResults.last().dateTo
                 val lastGroups = groupedResults.filter {
-                    (lastTimestamp - it.dateFrom) < GlobalConstants.ANALYSIS_MAX_RANGE_MS
+                    (lastTimestamp - it.dateFrom) < DataConstants.ANALYSIS_MAX_RANGE_MS
                 }
 
                 val averageValue = chartData

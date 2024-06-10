@@ -37,10 +37,10 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
@@ -126,7 +126,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -161,7 +161,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -196,7 +196,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes == listOf(selectedType))
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -232,7 +232,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -267,7 +267,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -302,7 +302,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -337,7 +337,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -372,7 +372,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705795199999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -407,7 +407,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705363199999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -442,7 +442,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1701907199999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }

@@ -27,15 +27,15 @@ import ru.rznnike.eyehealthmanager.app.presentation.main.journal.JournalView
 import ru.rznnike.eyehealthmanager.app.ui.item.TestResultItem
 import ru.rznnike.eyehealthmanager.app.ui.item.TestTypeSmallItem
 import ru.rznnike.eyehealthmanager.app.ui.view.EmptyDividerDecoration
+import ru.rznnike.eyehealthmanager.app.utils.AppConstants
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.BottomDialogJournalFiltersBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentJournalBinding
-import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
@@ -71,7 +71,7 @@ class JournalFragment : BaseFragment(R.layout.fragment_journal), JournalView {
         adapter = createFastAdapter(itemAdapter, footerAdapter)
         adapter.setHasStableIds(true)
 
-        val preloadItemPosition = GlobalConstants.PRELOAD_ITEM_POSITION
+        val preloadItemPosition = AppConstants.PRELOAD_ITEM_POSITION
         adapter.onBindViewHolderListener = object : OnBindViewHolderListenerImpl<IItem<*>>() {
             override fun onBindViewHolder(
                 viewHolder: RecyclerView.ViewHolder,

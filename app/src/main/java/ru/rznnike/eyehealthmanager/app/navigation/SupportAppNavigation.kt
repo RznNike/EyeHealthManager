@@ -9,7 +9,7 @@ import androidx.transition.Fade
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.app.utils.AppConstants
 
 open class SupportAppNavigation(
     appActivity: AppCompatActivity,
@@ -39,7 +39,7 @@ open class SupportAppNavigation(
         notifier.sendMessage(R.string.double_back_to_exit)
         Handler(Looper.getMainLooper()).postDelayed(
             { doubleBackToExitPressedOnce = false },
-            GlobalConstants.APP_EXIT_DURATION_MS
+            AppConstants.APP_EXIT_DURATION_MS
         )
     }
 }

@@ -15,6 +15,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType
@@ -90,7 +91,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private fun populateData() {
         val savedUri = getSavedExportFolder()
         val folderPath = savedUri?.let {
-            "${savedUri.lastPathSegment}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}"
+            "${savedUri.lastPathSegment}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}"
         }
         viewState.populateData(filter, folderPath)
     }
@@ -149,8 +150,8 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
 
         getSavedExportFolder()?.let { uri ->
             DocumentFile.fromTreeUri(context, uri)
-                ?.findOrCreateDocumentFolder(GlobalConstants.APP_DIR)
-                ?.findOrCreateDocumentFolder(GlobalConstants.EXPORT_DIR)
+                ?.findOrCreateDocumentFolder(DataConstants.APP_DIR)
+                ?.findOrCreateDocumentFolder(DataConstants.EXPORT_DIR)
                 ?.let { exportFolder ->
                     viewState.routerStartFlow(Screens.Common.actionOpenFolder(exportFolder.uri))
                 }

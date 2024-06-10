@@ -9,11 +9,11 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.getDayTime
 
 @InjectViewState
@@ -102,12 +102,12 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
             val middle = if (settings.timeToDayMiddle >= settings.timeToDayBeginning) {
                 settings.timeToDayMiddle
             } else {
-                settings.timeToDayMiddle + GlobalConstants.DAY_MS
+                settings.timeToDayMiddle + DataConstants.DAY_MS
             }
             val end = if (settings.timeToDayEnd >= settings.timeToDayBeginning) {
                 settings.timeToDayEnd
             } else {
-                settings.timeToDayEnd + GlobalConstants.DAY_MS
+                settings.timeToDayEnd + DataConstants.DAY_MS
             }
 
             return (middle > settings.timeToDayBeginning) && (end > middle)
@@ -116,21 +116,21 @@ class TestingSettingsPresenter : BasePresenter<TestingSettingsView>() {
         if (!isTimeOrderCorrect(settings)) {
             when (period) {
                 TimePeriod.BEGINNING -> {
-                    settings.timeToDayBeginning = settings.timeToDayEnd + GlobalConstants.MINUTE_MS
-                    if (settings.timeToDayBeginning >= GlobalConstants.DAY_MS) {
-                        settings.timeToDayBeginning -= GlobalConstants.DAY_MS
+                    settings.timeToDayBeginning = settings.timeToDayEnd + DataConstants.MINUTE_MS
+                    if (settings.timeToDayBeginning >= DataConstants.DAY_MS) {
+                        settings.timeToDayBeginning -= DataConstants.DAY_MS
                     }
                 }
                 TimePeriod.MIDDLE -> {
-                    settings.timeToDayMiddle = settings.timeToDayBeginning + GlobalConstants.MINUTE_MS
-                    if (settings.timeToDayMiddle >= GlobalConstants.DAY_MS) {
-                        settings.timeToDayMiddle -= GlobalConstants.DAY_MS
+                    settings.timeToDayMiddle = settings.timeToDayBeginning + DataConstants.MINUTE_MS
+                    if (settings.timeToDayMiddle >= DataConstants.DAY_MS) {
+                        settings.timeToDayMiddle -= DataConstants.DAY_MS
                     }
                 }
                 TimePeriod.END -> {
-                    settings.timeToDayEnd = settings.timeToDayMiddle + GlobalConstants.MINUTE_MS
-                    if (settings.timeToDayEnd >= GlobalConstants.DAY_MS) {
-                        settings.timeToDayEnd -= GlobalConstants.DAY_MS
+                    settings.timeToDayEnd = settings.timeToDayMiddle + DataConstants.MINUTE_MS
+                    if (settings.timeToDayEnd >= DataConstants.DAY_MS) {
+                        settings.timeToDayEnd -= DataConstants.DAY_MS
                     }
                 }
             }

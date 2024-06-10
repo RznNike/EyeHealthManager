@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 import ru.rznnike.eyehealthmanager.domain.gateway.TestGateway
 import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
@@ -57,8 +58,8 @@ class TestGatewayImpl(
             .firstOrNull()
             ?.uri
             ?.let { DocumentFile.fromTreeUri(context, it) }
-            ?.findOrCreateDocumentFolder(GlobalConstants.APP_DIR)
-            ?.findOrCreateDocumentFolder(GlobalConstants.EXPORT_DIR)
+            ?.findOrCreateDocumentFolder(DataConstants.APP_DIR)
+            ?.findOrCreateDocumentFolder(DataConstants.EXPORT_DIR)
             ?.findOrCreateDocumentFolder(
                 clock.millis().toDate(GlobalConstants.DATE_PATTERN_FULL_FOR_PATH)
             )
@@ -93,7 +94,7 @@ class TestGatewayImpl(
                             exportEntryCounters = exportEntryCounters
                         )
                         dataCounter += page
-                    } while (page == GlobalConstants.EXPORT_PAGE_SIZE)
+                    } while (page == DataConstants.EXPORT_PAGE_SIZE)
                 } finally {
                     exportFileWriters.forEach {
                         try {
@@ -118,7 +119,7 @@ class TestGatewayImpl(
     ): Int {
         val data = testRepository.getList(
             TestResultPagingParameters(
-                limit = GlobalConstants.EXPORT_PAGE_SIZE,
+                limit = DataConstants.EXPORT_PAGE_SIZE,
                 offset = pageOffset,
                 filter = filter
             )
@@ -188,7 +189,7 @@ class TestGatewayImpl(
                             }
                             .forEach {
                                 resultsBuffer.add(it)
-                                if (resultsBuffer.size >= GlobalConstants.IMPORT_PAGE_SIZE) {
+                                if (resultsBuffer.size >= DataConstants.IMPORT_PAGE_SIZE) {
                                     testRepository.add(resultsBuffer)
                                     resultsBuffer.clear()
                                 }

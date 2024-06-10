@@ -16,6 +16,7 @@ import ru.rznnike.eyehealthmanager.app.dialog.showBottomDialog
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsView
+import ru.rznnike.eyehealthmanager.app.utils.AppConstants
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
@@ -26,7 +27,6 @@ import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
 import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
 import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.common.Language
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView {
     @InjectPresenter
@@ -175,7 +175,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
                 dialog.dismiss()
                 routerStartFlow(
                     Screens.Common.actionMailTo(
-                        email = GlobalConstants.FEEDBACK_EMAIL_ADDRESS,
+                        email = AppConstants.FEEDBACK_EMAIL_ADDRESS,
                         subject = getString(R.string.app_name)
                     )
                 )
@@ -183,7 +183,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             buttonDialogSourceCode.setOnClickListener {
                 dialog.dismiss()
                 routerStartFlow(
-                    Screens.Common.actionOpenLink(GlobalConstants.REPOSITORY_LINK)
+                    Screens.Common.actionOpenLink(AppConstants.REPOSITORY_LINK)
                 )
             }
 

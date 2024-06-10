@@ -43,7 +43,7 @@ fun Long.toDateTime(): ZonedDateTime = Instant.ofEpochMilli(this)
 
 fun Long.toLocalDate(): LocalDate = toDateTime().toLocalDate()
 
-fun Long.getDayTime() = toDateTime().toLocalTime().toNanoOfDay() / 1000_000L
+fun Long.getDayTime() = toDateTime().toLocalTime().toNanoOfDay() / 1_000_000L
 
 fun ZonedDateTime.millis() = toInstant().toEpochMilli()
 
