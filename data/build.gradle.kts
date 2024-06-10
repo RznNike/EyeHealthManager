@@ -53,7 +53,7 @@ dependencies {
     val stagingApi by configurations
 
     // Desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:" + rootProject.extra["desugaringVersion"])
 
     // AndroidX
     implementation("androidx.documentfile:documentfile:1.0.1")

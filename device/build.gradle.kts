@@ -41,11 +41,11 @@ dependencies {
     implementation(project(":domain"))
 
     // Desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:" + rootProject.extra["desugaringVersion"])
 
     // Firebase
     api("com.google.firebase:firebase-core:21.1.1")
-    api("com.google.firebase:firebase-messaging:23.4.0")
+    api("com.google.firebase:firebase-messaging:24.0.0")
 
     // Koin
     api("io.insert-koin:koin-android:" + rootProject.extra["koinVersion"])

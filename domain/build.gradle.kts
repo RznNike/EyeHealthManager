@@ -51,7 +51,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
     // Android
-    api("androidx.core:core-ktx:1.12.0")
+    api("androidx.core:core-ktx:1.13.1")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + rootProject.extra["coroutinesVersion"])
