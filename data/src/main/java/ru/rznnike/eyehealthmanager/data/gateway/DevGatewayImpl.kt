@@ -1,7 +1,9 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
+import kotlinx.coroutines.withContext
 import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.gateway.DevGateway
+import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.model.analysis.LinearFunction
 import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
@@ -24,10 +26,11 @@ import java.time.Clock
 import kotlin.random.Random
 
 class DevGatewayImpl(
+    private val dispatcherProvider: DispatcherProvider,
     private val testRepository: TestRepository,
     private val clock: Clock
 ) : DevGateway {
-    override suspend fun generateData(type: DataGenerationType) {
+    override suspend fun generateData(type: DataGenerationType) = withContext(dispatcherProvider.io) {
         when (type) {
             DataGenerationType.GOOD_VISION -> generateAcuityTests(
                 leftEyeTrend = LinearFunction(0.002, 0.7),

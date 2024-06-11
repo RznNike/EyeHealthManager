@@ -13,9 +13,9 @@ import ru.rznnike.eyehealthmanager.domain.gateway.TestGateway
 import ru.rznnike.eyehealthmanager.domain.gateway.UserGateway
 
 val gatewayModule = module {
-    single<UserGateway> { UserGatewayImpl(get()) }
-    single<NotificationGateway> { NotificationGatewayImpl() }
+    single<UserGateway> { UserGatewayImpl(get(), get()) }
+    single<NotificationGateway> { NotificationGatewayImpl(get()) }
     single<TestGateway> { TestGatewayImpl(get(), get(), get()) }
-    single<AnalysisGateway> { AnalysisGatewayImpl(get(), get()) }
-    single<DevGateway> { DevGatewayImpl(get(), get()) }
+    single<AnalysisGateway> { AnalysisGatewayImpl(get(), get(), get()) }
+    single<DevGateway> { DevGatewayImpl(get(), get(), get()) }
 }

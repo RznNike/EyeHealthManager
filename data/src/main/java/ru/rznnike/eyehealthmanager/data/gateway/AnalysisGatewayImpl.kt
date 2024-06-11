@@ -1,7 +1,9 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
+import kotlinx.coroutines.withContext
 import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.gateway.AnalysisGateway
+import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisParameters
 import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisResult
 import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisStatistics
@@ -38,10 +40,11 @@ private const val EXTRAPOLATION_RESULT_DATE_DIVIDER = 3
 private const val CORRECTIONS_DATE_DELTA_MS = 7 * DataConstants.DAY_MS
 
 class AnalysisGatewayImpl(
+    private val dispatcherProvider: DispatcherProvider,
     private val testRepository: TestRepository,
     private val clock: Clock
 ) : AnalysisGateway {
-    override suspend fun getAnalysisResult(parameters: AnalysisParameters): AnalysisResult {
+    override suspend fun getAnalysisResult(parameters: AnalysisParameters): AnalysisResult = withContext(dispatcherProvider.io) {
         val acuitySearchParameters = TestResultPagingParameters(
             offset = 0,
             limit = Int.MAX_VALUE,
@@ -111,7 +114,7 @@ class AnalysisGatewayImpl(
             rightEyeData = rightEyeAnalysisResult.statistics
         )
 
-        return AnalysisResult(
+        AnalysisResult(
             testResults = allLastResults,
             leftEyeAnalysisResult = leftEyeAnalysisResult,
             rightEyeAnalysisResult = rightEyeAnalysisResult,

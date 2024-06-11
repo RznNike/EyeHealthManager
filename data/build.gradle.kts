@@ -48,7 +48,6 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":resources"))
 
     val stagingApi by configurations
 

@@ -20,7 +20,7 @@ buildscript {
         maven(url = "https://jitpack.io")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.4.1")
+        classpath("com.android.tools.build:gradle:8.4.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.extra["kotlinVersion"]}")
         classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.1")
         classpath("com.google.gms:google-services:4.4.2")

@@ -33,7 +33,7 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
 
     private val folderPicker = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
         uri?.let {
-            presenter.onFolderSelected(uri)
+            presenter.onFolderSelected(uri = uri, context = requireContext())
         }
     }
 
@@ -97,7 +97,7 @@ class ImportJournalFragment : BaseFragment(R.layout.fragment_import_journal), Im
             presenter.openImportFolder()
         }
         buttonStartImport.setOnClickListener {
-            presenter.importFiles()
+            presenter.importFiles(context = requireContext())
         }
     }
 

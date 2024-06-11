@@ -15,11 +15,11 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.utils.JournalExportManagerImpl
 import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
@@ -117,17 +117,22 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
 
     fun startExport() {
         getSavedExportFolder()?.let {
-            exportDatabase()
+            exportDatabase(context)
         } ?: run {
             startExportAutomatically = true
             viewState.selectExportFolder()
         }
     }
 
-    private fun exportDatabase() {
+    private fun exportDatabase(context: Context) {
         presenterScope.launch {
             viewState.setProgress(true)
-            exportJournalUseCase(filter).process(
+            exportJournalUseCase(
+                ExportJournalUseCase.Parameters(
+                    filter = filter,
+                    manager = JournalExportManagerImpl(context)
+                )
+            ).process(
                 { result ->
                     result.exportFolderUri?.let {
                         eventDispatcher.sendEvent(
