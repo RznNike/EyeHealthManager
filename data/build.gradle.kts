@@ -54,9 +54,6 @@ dependencies {
     // Desugaring
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:" + rootProject.extra["desugaringVersion"])
 
-    // AndroidX
-    implementation("androidx.documentfile:documentfile:1.0.1")
-
     // Shared preferences
     // https://github.com/tfcporciuncula/flow-preferences
     api("com.fredporciuncula:flow-preferences:1.9.1")
