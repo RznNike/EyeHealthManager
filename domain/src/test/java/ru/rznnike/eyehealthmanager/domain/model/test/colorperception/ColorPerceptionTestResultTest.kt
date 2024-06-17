@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.domain.model
+package ru.rznnike.eyehealthmanager.domain.model.test.colorperception
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -6,16 +6,14 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
-import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
 import java.util.TimeZone
 
-class NearFarTestResultTest {
-    private val testResult1 = NearFarTestResult(
+class ColorPerceptionTestResultTest {
+    private val testResult1 = ColorPerceptionTestResult(
         id = 1,
         timestamp = 1704029085000,
-        resultLeftEye = NearFarAnswerType.EQUAL,
-        resultRightEye = NearFarAnswerType.EQUAL
+        recognizedColorsCount = 35,
+        allColorsCount = 39
     )
 
     @BeforeEach
@@ -25,7 +23,7 @@ class NearFarTestResultTest {
 
     @Test
     fun exportToString_data_success() {
-        val expectedResult = "31.12.2023 13:24:45\tEQUAL\tEQUAL"
+        val expectedResult = "31.12.2023 13:24:45\t35\t39"
 
         val exportString = testResult1.exportToString()
 
@@ -34,9 +32,9 @@ class NearFarTestResultTest {
 
     @Test
     fun importFromString_correctData_success() {
-        val string = "31.12.2023 13:24:45\tEQUAL\tEQUAL"
+        val string = "31.12.2023 13:24:45\t35\t39"
 
-        val testResult = NearFarTestResult.importFromString(string)
+        val testResult = ColorPerceptionTestResult.importFromString(string)
 
         assertTrue(testResult1.contentEquals(testResult))
     }
@@ -45,23 +43,23 @@ class NearFarTestResultTest {
     fun importFromString_badData_null() {
         val string = "qwerty"
 
-        val testResult = NearFarTestResult.importFromString(string)
+        val testResult = ColorPerceptionTestResult.importFromString(string)
 
         assertNull(testResult)
     }
 
     @Test
     fun contentEquals_sameData_true() {
-        val otherTest = NearFarTestResult.importFromString(testResult1.exportToString())
+        val otherTest = ColorPerceptionTestResult.importFromString(testResult1.exportToString())
 
         assertTrue(testResult1.contentEquals(otherTest))
     }
 
     @Test
     fun contentEquals_differentData_false() {
-        val string = "31.12.2023 13:24:45\tEQUAL\tRED_BETTER"
+        val string = "31.12.2023 13:24:45\t36\t39"
 
-        val otherTest = NearFarTestResult.importFromString(string)
+        val otherTest = ColorPerceptionTestResult.importFromString(string)
 
         assertFalse(testResult1.contentEquals(otherTest))
     }

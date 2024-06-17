@@ -1,4 +1,4 @@
-package ru.rznnike.eyehealthmanager.domain.model
+package ru.rznnike.eyehealthmanager.domain.model.test.astigmatism
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -6,16 +6,14 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
-import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
 import java.util.TimeZone
 
-class DaltonismTestResultTest {
-    private val testResult1 = DaltonismTestResult(
+class AstigmatismTestResultTest {
+    private val testResult1 = AstigmatismTestResult(
         id = 1,
         timestamp = 1704029085000,
-        errorsCount = 5,
-        anomalyType = DaltonismAnomalyType.DEITERANOMALY_A
+        resultLeftEye = AstigmatismAnswerType.OK,
+        resultRightEye = AstigmatismAnswerType.ANOMALY
     )
 
     @BeforeEach
@@ -25,7 +23,7 @@ class DaltonismTestResultTest {
 
     @Test
     fun exportToString_data_success() {
-        val expectedResult = "31.12.2023 13:24:45\t5\tDEITERANOMALY_A"
+        val expectedResult = "31.12.2023 13:24:45\tOK\tANOMALY"
 
         val exportString = testResult1.exportToString()
 
@@ -34,9 +32,9 @@ class DaltonismTestResultTest {
 
     @Test
     fun importFromString_correctData_success() {
-        val string = "31.12.2023 13:24:45\t5\tDEITERANOMALY_A"
+        val string = "31.12.2023 13:24:45\tOK\tANOMALY"
 
-        val testResult = DaltonismTestResult.importFromString(string)
+        val testResult = AstigmatismTestResult.importFromString(string)
 
         assertTrue(testResult1.contentEquals(testResult))
     }
@@ -45,23 +43,23 @@ class DaltonismTestResultTest {
     fun importFromString_badData_null() {
         val string = "qwerty"
 
-        val testResult = DaltonismTestResult.importFromString(string)
+        val testResult = AstigmatismTestResult.importFromString(string)
 
         assertNull(testResult)
     }
 
     @Test
     fun contentEquals_sameData_true() {
-        val otherTest = DaltonismTestResult.importFromString(testResult1.exportToString())
+        val otherTest = AstigmatismTestResult.importFromString(testResult1.exportToString())
 
         assertTrue(testResult1.contentEquals(otherTest))
     }
 
     @Test
     fun contentEquals_differentData_false() {
-        val string = "31.12.2023 13:24:45\t6\tDEITERANOMALY_A"
+        val string = "31.12.2023 13:24:45\tOK\tOK"
 
-        val otherTest = DaltonismTestResult.importFromString(string)
+        val otherTest = AstigmatismTestResult.importFromString(string)
 
         assertFalse(testResult1.contentEquals(otherTest))
     }
