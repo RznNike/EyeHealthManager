@@ -1,11 +1,18 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.utils.DataConstants
+import ru.rznnike.eyehealthmanager.data.utils.createTestDispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
@@ -14,9 +21,20 @@ import java.util.TimeZone
 import kotlin.math.abs
 
 class DevGatewayImplTest {
+    private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcherProvider = testDispatcher.createTestDispatcherProvider()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     @BeforeEach
     fun beforeEach() {
+        Dispatchers.setMain(testDispatcher)
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @AfterEach
+    fun afterEach() {
+        Dispatchers.resetMain()
     }
 
     @Test
@@ -28,6 +46,7 @@ class DevGatewayImplTest {
             filter = null
         )
         val gateway = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -51,6 +70,7 @@ class DevGatewayImplTest {
             filter = null
         )
         val gateway = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -74,6 +94,7 @@ class DevGatewayImplTest {
             filter = null
         )
         val gateway = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -97,6 +118,7 @@ class DevGatewayImplTest {
             filter = null
         )
         val gateway = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )

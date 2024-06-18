@@ -1,6 +1,12 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -9,28 +15,41 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
+import ru.rznnike.eyehealthmanager.data.utils.createTestDispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisParameters
-import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
 import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import java.time.Clock
 import java.util.TimeZone
 
 class AnalysisGatewayImplTest {
+    private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcherProvider = testDispatcher.createTestDispatcherProvider()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     @BeforeEach
     fun beforeEach() {
+        Dispatchers.setMain(testDispatcher)
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @AfterEach
+    fun afterEach() {
+        Dispatchers.resetMain()
     }
 
     @Test
     fun getAnalysisResult_noData_exception() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -53,6 +72,7 @@ class AnalysisGatewayImplTest {
             AcuityTestResult()
         )
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -72,11 +92,13 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_positiveData_noWarning() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -96,11 +118,13 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_neutralData_noWarning() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.AVERAGE_VISION)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -120,11 +144,13 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_negativeData_warning() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.BAD_VISION)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -144,6 +170,7 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_withNoise_detected() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -157,6 +184,7 @@ class AnalysisGatewayImplTest {
             resultRightEye = 10
         )
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -179,12 +207,14 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_consolidated_withAllTests() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -205,12 +235,14 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_acuityOnly_withoutAllTests() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.GOOD_VISION)
         generator.generateData(DataGenerationType.OTHER_TESTS)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -230,17 +262,19 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_smallData_twoGroups() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         val lastTime = fakeTestRepository.tests.maxOf { it.timestamp }
         val parameters = AnalysisParameters(
-            dateFrom = lastTime - 10 * GlobalConstants.DAY_MS,
+            dateFrom = lastTime - 10 * DataConstants.DAY_MS,
             dateTo = currentTimeMillis(),
             analysisType = AnalysisType.CONSOLIDATED_REPORT,
             applyDynamicCorrections = true
@@ -256,11 +290,13 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_bigData_manyGroups() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -281,11 +317,13 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_actualData_withExtrapolation() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -306,11 +344,13 @@ class AnalysisGatewayImplTest {
     fun getAnalysisResult_oldData_withoutExtrapolation() = runTest {
         val fakeTestRepository = FakeTestRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
         generator.generateData(DataGenerationType.GOOD_VISION)
         val gateway = AnalysisGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = fakeTestRepository,
             clock = Clock.systemUTC()
         )
@@ -321,7 +361,7 @@ class AnalysisGatewayImplTest {
             applyDynamicCorrections = true
         )
 
-        val timeOffset = 100 * GlobalConstants.DAY_MS
+        val timeOffset = 100 * DataConstants.DAY_MS
         fakeTestRepository.tests.forEach {
             it.timestamp -= timeOffset
         }
