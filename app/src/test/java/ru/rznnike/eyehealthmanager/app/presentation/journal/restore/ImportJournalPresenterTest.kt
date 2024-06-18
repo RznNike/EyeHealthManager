@@ -38,7 +38,6 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
 import ru.rznnike.eyehealthmanager.app.utils.createTestDispatcherProvider
-import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ImportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType

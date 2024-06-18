@@ -31,7 +31,6 @@ import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
 import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
 import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import java.time.Clock
-import java.util.TimeZone
 
 class TestRepositoryImplTest : AbstractObjectBoxTest() {
     private val testDispatcher = StandardTestDispatcher()
