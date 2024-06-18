@@ -5,7 +5,7 @@ import ru.rznnike.eyehealthmanager.domain.gateway.TestGateway
 import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseWithParams
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
-import ru.rznnike.eyehealthmanager.domain.utils.JournalExportManager
+import ru.rznnike.eyehealthmanager.domain.utils.JournalBackupManager
 
 class ExportJournalUseCase(
     private val testGateway: TestGateway,
@@ -21,7 +21,7 @@ class ExportJournalUseCase(
 
     data class Parameters(
         val filter: TestResultFilter,
-        val manager: JournalExportManager
+        val manager: JournalBackupManager
     )
 
     data class Result(

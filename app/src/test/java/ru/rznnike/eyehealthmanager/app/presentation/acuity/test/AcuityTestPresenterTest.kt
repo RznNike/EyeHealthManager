@@ -29,6 +29,7 @@ import org.mockito.kotlin.whenever
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.AcuitySymbolLetterEn
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettingsUseCase

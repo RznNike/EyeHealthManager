@@ -10,9 +10,9 @@ import kotlin.math.abs
 import kotlin.reflect.KClass
 
 fun CoroutineScope.createTestCoroutineProvider() = object : CoroutineScopeProvider {
-    override val io = this@createTestCoroutineProvider
     override val ui = this@createTestCoroutineProvider
-    override val scopeMainImmediate = this@createTestCoroutineProvider
+    override val default = this@createTestCoroutineProvider
+    override val io = this@createTestCoroutineProvider
     override val unconfined = this@createTestCoroutineProvider
 }
 

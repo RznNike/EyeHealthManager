@@ -15,7 +15,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.app.utils.JournalExportManagerImpl
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
 import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
@@ -32,6 +32,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
     private val context: Context by inject()
+    private val journalBackupManager: JournalBackupManagerAndroid by inject()
     private val exportJournalUseCase: ExportJournalUseCase by inject()
 
     private lateinit var filter: TestResultFilter
@@ -127,10 +128,11 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private fun exportDatabase(context: Context) {
         presenterScope.launch {
             viewState.setProgress(true)
+            journalBackupManager.context = context
             exportJournalUseCase(
                 ExportJournalUseCase.Parameters(
                     filter = filter,
-                    manager = JournalExportManagerImpl(context)
+                    manager = journalBackupManager
                 )
             ).process(
                 { result ->
@@ -146,6 +148,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
                     }
                 }
             )
+            journalBackupManager.context = null
             viewState.setProgress(false)
         }
     }

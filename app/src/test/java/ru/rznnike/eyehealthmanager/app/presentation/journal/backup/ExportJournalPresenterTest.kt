@@ -37,6 +37,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
 import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
@@ -61,6 +62,7 @@ class ExportJournalPresenterTest : KoinTest {
     private val mockNotifier: Notifier by inject()
     private val mockEventDispatcher: EventDispatcher by inject()
     private val mockContext: Context by inject()
+    private val mockJournalBackupManagerAndroid: JournalBackupManagerAndroid by inject()
     private val mockExportJournalUseCase: ExportJournalUseCase by inject()
 
     private val testDispatcher = StandardTestDispatcher()
@@ -75,6 +77,7 @@ class ExportJournalPresenterTest : KoinTest {
                 single { mock<Notifier>() }
                 single { mock<EventDispatcher>() }
                 single { mock<Context>() }
+                single { mock<JournalBackupManagerAndroid>() }
                 single { mock<ExportJournalUseCase>() }
             }
         )
@@ -470,7 +473,9 @@ class ExportJournalPresenterTest : KoinTest {
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
+        verify(mockJournalBackupManagerAndroid).context = mockContext
         verify(mockExportJournalUseCase)(any())
+        verify(mockJournalBackupManagerAndroid).context = null
         verify(mockEventDispatcher).sendEvent(
             argThat {
                 (this is AppEvent.JournalExported)
@@ -503,8 +508,10 @@ class ExportJournalPresenterTest : KoinTest {
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
+        verify(mockJournalBackupManagerAndroid).context = mockContext
         verify(mockExportJournalUseCase)(any())
         verify(mockErrorHandler).proceed(any(), any())
+        verify(mockJournalBackupManagerAndroid).context = null
         verify(mockView).setProgress(show = false, immediately = true)
         verifyNoMoreInteractionsForAll()
     }
@@ -538,6 +545,7 @@ class ExportJournalPresenterTest : KoinTest {
             mockNotifier,
             mockEventDispatcher,
             mockContext,
+            mockJournalBackupManagerAndroid,
             mockExportJournalUseCase
         )
     }

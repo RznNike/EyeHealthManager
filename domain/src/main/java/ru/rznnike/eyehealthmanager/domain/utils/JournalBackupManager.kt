@@ -5,7 +5,7 @@ import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
 import java.time.Clock
 
-interface JournalExportManager {
+interface JournalBackupManager {
     suspend fun exportJournal(
         filter: TestResultFilter,
         clock: Clock,

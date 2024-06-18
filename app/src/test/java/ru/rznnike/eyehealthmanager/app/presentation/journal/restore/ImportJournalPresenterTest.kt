@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.presentation.journal.restore
 
+import android.content.Context
 import android.net.Uri
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ImportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType
@@ -47,8 +49,9 @@ class ImportJournalPresenterTest : KoinTest {
     private val mockErrorHandler: ErrorHandler by inject()
     private val mockNotifier: Notifier by inject()
     private val mockEventDispatcher: EventDispatcher by inject()
-    private val mockGetAvailableImportTypesUseCase: GetAvailableImportTypesUseCase by inject()
+    private val mockJournalBackupManagerAndroid: JournalBackupManagerAndroid by inject()
     private val mockImportJournalUseCase: ImportJournalUseCase by inject()
+    private val mockContext: Context by inject()
 
     private val testDispatcher = StandardTestDispatcher()
 
@@ -60,8 +63,9 @@ class ImportJournalPresenterTest : KoinTest {
                 single { mock<ErrorHandler>() }
                 single { mock<Notifier>() }
                 single { mock<EventDispatcher>() }
-                single { mock<GetAvailableImportTypesUseCase>() }
+                single { mock<JournalBackupManagerAndroid>() }
                 single { mock<ImportJournalUseCase>() }
+                single { mock<Context>() }
             }
         )
     }
@@ -296,8 +300,9 @@ class ImportJournalPresenterTest : KoinTest {
             mockErrorHandler,
             mockNotifier,
             mockEventDispatcher,
-            mockGetAvailableImportTypesUseCase,
-            mockImportJournalUseCase
+            mockJournalBackupManagerAndroid,
+            mockImportJournalUseCase,
+            mockContext
         )
     }
 

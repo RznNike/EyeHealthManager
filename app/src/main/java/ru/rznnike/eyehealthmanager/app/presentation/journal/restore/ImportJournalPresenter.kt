@@ -14,7 +14,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.app.utils.JournalExportManagerImpl
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
 import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ImportJournalUseCase
 import ru.rznnike.eyehealthmanager.domain.model.test.TestType
@@ -25,6 +25,7 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
     private val dispatcherProvider: DispatcherProvider by inject()
+    private val journalBackupManager: JournalBackupManagerAndroid by inject()
     private val importJournalUseCase: ImportJournalUseCase by inject()
 
     private var importFolderUri: Uri? = null
@@ -46,8 +47,9 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
 
             viewState.setProgress(true)
             withContext(dispatcherProvider.io) {
-                val manager = JournalExportManagerImpl(context)
-                availableImportTypes = manager.getAvailableImportTypes(uri)
+                journalBackupManager.context = context
+                availableImportTypes = journalBackupManager.getAvailableImportTypes(uri)
+                journalBackupManager.context = null
             }
             populateData()
             if (startImportAutomatically) {
@@ -71,10 +73,11 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
                 else -> {
                     viewState.setProgress(true)
                     importFolderUri?.let { importFolderUri ->
+                        journalBackupManager.context = context
                         importJournalUseCase(
                             ImportJournalUseCase.Parameters(
                                 importFolderUri = importFolderUri,
-                                manager = JournalExportManagerImpl(context)
+                                manager = journalBackupManager
                             )
                         ).process(
                             {
@@ -82,6 +85,7 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
                                 viewState.routerExit()
                             }, ::onError
                         )
+                        journalBackupManager.context = null
                     }
                     viewState.setProgress(false)
                 }

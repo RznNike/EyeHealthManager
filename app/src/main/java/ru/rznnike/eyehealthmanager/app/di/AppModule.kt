@@ -13,6 +13,8 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.observer.AppLifeCycleObserver
 import ru.rznnike.eyehealthmanager.app.notification.Notificator
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroidImpl
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import java.time.Clock
@@ -28,6 +30,7 @@ val appModule = module {
     single { Notificator() }
     single<CrashlyticsProvider> { CrashlyticsProviderImpl() }
     single { Clock.systemUTC() }
+    factory<JournalBackupManagerAndroid> { JournalBackupManagerAndroidImpl() }
 
     single<CoroutineScopeProvider> {
         object : CoroutineScopeProvider {

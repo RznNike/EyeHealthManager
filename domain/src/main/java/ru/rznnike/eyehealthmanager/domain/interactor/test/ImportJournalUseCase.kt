@@ -4,7 +4,7 @@ import android.net.Uri
 import ru.rznnike.eyehealthmanager.domain.gateway.TestGateway
 import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseWithParams
-import ru.rznnike.eyehealthmanager.domain.utils.JournalExportManager
+import ru.rznnike.eyehealthmanager.domain.utils.JournalBackupManager
 
 class ImportJournalUseCase(
     private val testGateway: TestGateway,
@@ -18,6 +18,6 @@ class ImportJournalUseCase(
 
     data class Parameters(
         val importFolderUri: Uri,
-        val manager: JournalExportManager
+        val manager: JournalBackupManager
     )
 }

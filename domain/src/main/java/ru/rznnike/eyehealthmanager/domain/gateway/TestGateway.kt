@@ -4,8 +4,7 @@ import android.net.Uri
 import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
-import ru.rznnike.eyehealthmanager.domain.model.test.TestType
-import ru.rznnike.eyehealthmanager.domain.utils.JournalExportManager
+import ru.rznnike.eyehealthmanager.domain.utils.JournalBackupManager
 
 interface TestGateway {
     suspend fun getTestResults(parameters: TestResultPagingParameters): List<TestResult>
@@ -18,7 +17,7 @@ interface TestGateway {
 
     suspend fun deleteDuplicates()
 
-    suspend fun exportJournal(filter: TestResultFilter, manager: JournalExportManager): Uri?
+    suspend fun exportJournal(filter: TestResultFilter, manager: JournalBackupManager): Uri?
 
-    suspend fun importJournal(importFolderUri: Uri, manager: JournalExportManager)
+    suspend fun importJournal(importFolderUri: Uri, manager: JournalBackupManager)
 }

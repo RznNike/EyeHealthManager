@@ -10,7 +10,7 @@ import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
 import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
 import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
-import ru.rznnike.eyehealthmanager.domain.utils.JournalExportManager
+import ru.rznnike.eyehealthmanager.domain.utils.JournalBackupManager
 import java.time.Clock
 
 class TestGatewayImpl(
@@ -39,7 +39,7 @@ class TestGatewayImpl(
     }
 
     @SuppressLint("Recycle")
-    override suspend fun exportJournal(filter: TestResultFilter, manager: JournalExportManager): Uri? = withContext(dispatcherProvider.io) {
+    override suspend fun exportJournal(filter: TestResultFilter, manager: JournalBackupManager): Uri? = withContext(dispatcherProvider.io) {
         manager.exportJournal(
             filter = filter,
             clock = clock
@@ -55,7 +55,7 @@ class TestGatewayImpl(
     }
 
     @SuppressLint("Recycle")
-    override suspend fun importJournal(importFolderUri: Uri, manager: JournalExportManager) = withContext(dispatcherProvider.io) {
+    override suspend fun importJournal(importFolderUri: Uri, manager: JournalBackupManager) = withContext(dispatcherProvider.io) {
         manager.importJournal(importFolderUri) { results ->
             testRepository.add(results)
         }
