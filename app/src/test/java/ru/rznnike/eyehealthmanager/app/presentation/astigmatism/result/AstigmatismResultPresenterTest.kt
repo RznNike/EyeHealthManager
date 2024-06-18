@@ -6,7 +6,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.only
 import org.mockito.kotlin.verify
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
 
 @ExtendWith(MockitoExtension::class)
 class AstigmatismResultPresenterTest {

@@ -1,8 +1,15 @@
 package ru.rznnike.eyehealthmanager.data.storage.repository
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.gateway.DevGatewayImpl
 import ru.rznnike.eyehealthmanager.data.storage.AbstractObjectBoxTest
@@ -13,18 +20,36 @@ import ru.rznnike.eyehealthmanager.data.storage.dao.ContrastTestDAO
 import ru.rznnike.eyehealthmanager.data.storage.dao.DaltonismTestDAO
 import ru.rznnike.eyehealthmanager.data.storage.dao.NearFarTestDAO
 import ru.rznnike.eyehealthmanager.data.storage.dao.TestDAO
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
+import ru.rznnike.eyehealthmanager.data.utils.createTestDispatcherProvider
+import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
 import ru.rznnike.eyehealthmanager.domain.utils.currentTimeMillis
 import java.time.Clock
 
 class TestRepositoryImplTest : AbstractObjectBoxTest() {
+    private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcherProvider = testDispatcher.createTestDispatcherProvider()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @BeforeEach
+    override fun beforeEach() {
+        super.beforeEach()
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @AfterEach
+    override fun afterEach() {
+        super.afterEach()
+        Dispatchers.resetMain()
+    }
+
     @Test
     fun getList_empty_success() = runTest {
         val repository = createRepository()
@@ -49,6 +74,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     fun getList_withData_success() = runTest {
         val repository = createRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = repository,
             clock = Clock.systemUTC()
         )
@@ -67,7 +93,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
 
         val tests = repository.getList(parameters)
 
-        assertEquals(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
+        assertEquals(DataConstants.ANALYSIS_MAX_RANGE_DAYS, tests.size.toLong())
     }
 
     @Test
@@ -111,6 +137,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     fun getList_filterByDate_success() = runTest {
         val repository = createRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = repository,
             clock = Clock.systemUTC()
         )
@@ -121,7 +148,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = false,
-                dateFrom = currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
+                dateFrom = currentTimeMillis() - 10 * DataConstants.DAY_MS,
                 dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf()
             )
@@ -137,6 +164,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     fun getList_filterByType_success() = runTest {
         val repository = createRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = repository,
             clock = Clock.systemUTC()
         )
@@ -164,6 +192,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     fun getList_allFilters_success() = runTest {
         val repository = createRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = repository,
             clock = Clock.systemUTC()
         )
@@ -175,7 +204,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
             filter = TestResultFilter(
                 filterByDate = true,
                 filterByType = true,
-                dateFrom = currentTimeMillis() - 10 * GlobalConstants.DAY_MS,
+                dateFrom = currentTimeMillis() - 10 * DataConstants.DAY_MS,
                 dateTo = currentTimeMillis(),
                 selectedTestTypes = mutableListOf(TestType.ACUITY)
             )
@@ -201,6 +230,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     fun getListDistinctByType_acuityOnly_success() = runTest {
         val repository = createRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = repository,
             clock = Clock.systemUTC()
         )
@@ -216,6 +246,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     fun getListDistinctByType_allTests_success() = runTest {
         val repository = createRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = repository,
             clock = Clock.systemUTC()
         )
@@ -393,6 +424,7 @@ class TestRepositoryImplTest : AbstractObjectBoxTest() {
     fun deleteAll_withData_success() = runTest {
         val repository = createRepository()
         val generator = DevGatewayImpl(
+            dispatcherProvider = testDispatcherProvider,
             testRepository = repository,
             clock = Clock.systemUTC()
         )

@@ -2,7 +2,7 @@ package ru.rznnike.eyehealthmanager.app.presentation.contrast.test
 
 import moxy.viewstate.strategy.alias.AddToEndSingle
 import ru.rznnike.eyehealthmanager.app.global.presentation.NavigationMvpView
-import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
+import ru.rznnike.eyehealthmanager.domain.model.common.Direction
 
 interface ContrastTestView : NavigationMvpView {
     @AddToEndSingle

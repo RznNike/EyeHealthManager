@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
+import ru.rznnike.eyehealthmanager.app.model.test.TestTypeVM
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setImageTint
 import ru.rznnike.eyehealthmanager.databinding.ItemTestTypeIndicatorBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 class TestTypeIndicatorItem(
     private val testType: TestType,
@@ -20,8 +21,9 @@ class TestTypeIndicatorItem(
         ItemTestTypeIndicatorBinding.inflate(inflater, parent, false)
 
     override fun ItemTestTypeIndicatorBinding.bindView() {
-        textViewName.setText(testType.nameResId)
-        imageViewIcon.setImageResource(testType.iconResId)
+        val testTypeVM = TestTypeVM[testType]
+        textViewName.setText(testTypeVM.nameResId)
+        imageViewIcon.setImageResource(testTypeVM.iconResId)
         if (available) {
             imageViewIndicator.setImageResource(R.drawable.ic_check)
             imageViewIndicator.setImageTint(R.color.colorAccent)

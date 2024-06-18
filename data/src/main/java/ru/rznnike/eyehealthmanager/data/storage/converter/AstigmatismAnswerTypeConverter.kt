@@ -1,7 +1,7 @@
 package ru.rznnike.eyehealthmanager.data.storage.converter
 
 import io.objectbox.converter.PropertyConverter
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
 
 class AstigmatismAnswerTypeConverter : PropertyConverter<AstigmatismAnswerType, Int> {
     override fun convertToDatabaseValue(entityProperty: AstigmatismAnswerType?) =

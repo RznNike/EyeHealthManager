@@ -12,7 +12,7 @@ open class AbstractObjectBoxTest {
         private set
 
     @BeforeEach
-    fun beforeEach() {
+    open fun beforeEach() {
         BoxStore.deleteAllFiles(TEST_DIRECTORY)
         store = MyObjectBox.builder()
             .directory(TEST_DIRECTORY)
@@ -21,7 +21,7 @@ open class AbstractObjectBoxTest {
     }
 
     @AfterEach
-    fun afterEach() {
+    open fun afterEach() {
         store?.close()
         BoxStore.deleteAllFiles(TEST_DIRECTORY)
     }

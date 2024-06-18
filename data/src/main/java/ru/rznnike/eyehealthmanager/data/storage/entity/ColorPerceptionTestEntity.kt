@@ -2,7 +2,7 @@ package ru.rznnike.eyehealthmanager.data.storage.entity
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
-import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.colorperception.ColorPerceptionTestResult
 
 @Entity
 data class ColorPerceptionTestEntity(

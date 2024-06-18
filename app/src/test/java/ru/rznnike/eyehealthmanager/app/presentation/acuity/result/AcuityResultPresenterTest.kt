@@ -38,11 +38,11 @@ import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetApplyDynamicCorrectionsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
-import ru.rznnike.eyehealthmanager.domain.model.SingleEyeAnalysisResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.SingleEyeAnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
 import java.time.Clock
 import java.time.Instant

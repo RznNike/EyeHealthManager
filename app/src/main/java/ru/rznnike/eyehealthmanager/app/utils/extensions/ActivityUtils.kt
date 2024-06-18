@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
-import ru.rznnike.eyehealthmanager.domain.model.enums.Language
+import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.common.Language
 import java.util.Locale
 import kotlin.system.exitProcess
 

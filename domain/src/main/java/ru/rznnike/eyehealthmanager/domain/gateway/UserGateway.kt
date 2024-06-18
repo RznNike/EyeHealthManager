@@ -1,8 +1,8 @@
 package ru.rznnike.eyehealthmanager.domain.gateway
 
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
 
 interface UserGateway {
     suspend fun getWelcomeDialogShowed(): Boolean

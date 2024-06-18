@@ -48,15 +48,11 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":resources"))
 
     val stagingApi by configurations
 
     // Desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-
-    // AndroidX
-    implementation("androidx.documentfile:documentfile:1.0.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:" + rootProject.extra["desugaringVersion"])
 
     // Shared preferences
     // https://github.com/tfcporciuncula/flow-preferences

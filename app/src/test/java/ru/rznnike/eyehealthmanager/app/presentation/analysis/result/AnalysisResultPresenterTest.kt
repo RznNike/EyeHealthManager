@@ -6,8 +6,8 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
-import ru.rznnike.eyehealthmanager.domain.model.SingleEyeAnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.SingleEyeAnalysisResult
 
 @ExtendWith(MockitoExtension::class)
 class AnalysisResultPresenterTest {

@@ -11,7 +11,7 @@ import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
 import ru.rznnike.eyehealthmanager.app.utils.extensions.applyTheme
 import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
-import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
 
 abstract class BaseActivity(@LayoutRes layoutRes: Int) : MvpAppCompatActivity(layoutRes) {
     private val preferences: PreferencesWrapper by inject()

@@ -11,11 +11,11 @@ import ru.rznnike.eyehealthmanager.app.presentation.acuity.result.AcuityResultPr
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.result.AcuityResultView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
-import ru.rznnike.eyehealthmanager.domain.model.SingleEyeAnalysisResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.SingleEyeAnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 
 class AcuityResultFragment : BaseFragment(R.layout.fragment_acuity_result), AcuityResultView {
     @InjectPresenter

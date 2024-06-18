@@ -7,7 +7,7 @@ import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCase
 class DeleteDuplicatesUseCase(
     private val testGateway: TestGateway,
     dispatcherProvider: DispatcherProvider
-) : UseCase<Unit>(dispatcherProvider.io) {
+) : UseCase<Unit>(dispatcherProvider) {
     override suspend fun execute() =
         testGateway.deleteDuplicates()
 }

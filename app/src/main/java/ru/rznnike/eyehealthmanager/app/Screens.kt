@@ -44,12 +44,12 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.test.NearFarTestFragm
 import ru.rznnike.eyehealthmanager.app.ui.fragment.settings.testing.TestingSettingsFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFlowFragment
 import ru.rznnike.eyehealthmanager.app.ui.fragment.splash.SplashFragment
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 
 object Screens {
     object Flow {

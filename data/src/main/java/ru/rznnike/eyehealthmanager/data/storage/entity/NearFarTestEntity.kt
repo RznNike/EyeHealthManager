@@ -4,8 +4,8 @@ import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import ru.rznnike.eyehealthmanager.data.storage.converter.NearFarAnswerTypeConverter
-import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 
 @Entity
 data class NearFarTestEntity(

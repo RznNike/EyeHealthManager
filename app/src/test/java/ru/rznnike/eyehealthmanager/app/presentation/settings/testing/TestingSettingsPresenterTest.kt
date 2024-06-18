@@ -33,11 +33,11 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.app.utils.createTestCoroutineProvider
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetTestingSettingsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
 import java.util.TimeZone
 import kotlin.math.abs
 
@@ -223,8 +223,8 @@ class TestingSettingsPresenterTest : KoinTest {
         verify(mockView).populateData(
             argThat {
                 (timeToDayBeginning == newValue)
-                        && (timeToDayMiddle == newValue + GlobalConstants.MINUTE_MS)
-                        && (timeToDayEnd == newValue + 2 * GlobalConstants.MINUTE_MS)
+                        && (timeToDayMiddle == newValue + DataConstants.MINUTE_MS)
+                        && (timeToDayEnd == newValue + 2 * DataConstants.MINUTE_MS)
             }
         )
         verifyNoMoreInteractionsForAll()
@@ -274,9 +274,9 @@ class TestingSettingsPresenterTest : KoinTest {
 
         verify(mockView).populateData(
             argThat {
-                (timeToDayBeginning == newValue + 2 * GlobalConstants.MINUTE_MS)
+                (timeToDayBeginning == newValue + 2 * DataConstants.MINUTE_MS)
                         && (timeToDayMiddle == newValue)
-                        && (timeToDayEnd == newValue + GlobalConstants.MINUTE_MS)
+                        && (timeToDayEnd == newValue + DataConstants.MINUTE_MS)
             }
         )
         verifyNoMoreInteractionsForAll()
@@ -326,8 +326,8 @@ class TestingSettingsPresenterTest : KoinTest {
 
         verify(mockView).populateData(
             argThat {
-                (timeToDayBeginning == newValue + GlobalConstants.MINUTE_MS)
-                        && (timeToDayMiddle == newValue + 2 * GlobalConstants.MINUTE_MS)
+                (timeToDayBeginning == newValue + DataConstants.MINUTE_MS)
+                        && (timeToDayMiddle == newValue + 2 * DataConstants.MINUTE_MS)
                         && (timeToDayEnd == newValue)
             }
         )

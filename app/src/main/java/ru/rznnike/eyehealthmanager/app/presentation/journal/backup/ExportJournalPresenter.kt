@@ -15,10 +15,11 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
-import ru.rznnike.eyehealthmanager.domain.model.TestResultFilter
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultFilter
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
@@ -31,6 +32,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
     private val context: Context by inject()
+    private val journalBackupManager: JournalBackupManagerAndroid by inject()
     private val exportJournalUseCase: ExportJournalUseCase by inject()
 
     private lateinit var filter: TestResultFilter
@@ -90,7 +92,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
     private fun populateData() {
         val savedUri = getSavedExportFolder()
         val folderPath = savedUri?.let {
-            "${savedUri.lastPathSegment}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}"
+            "${savedUri.lastPathSegment}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}"
         }
         viewState.populateData(filter, folderPath)
     }
@@ -116,17 +118,23 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
 
     fun startExport() {
         getSavedExportFolder()?.let {
-            exportDatabase()
+            exportDatabase(context)
         } ?: run {
             startExportAutomatically = true
             viewState.selectExportFolder()
         }
     }
 
-    private fun exportDatabase() {
+    private fun exportDatabase(context: Context) {
         presenterScope.launch {
             viewState.setProgress(true)
-            exportJournalUseCase(filter).process(
+            journalBackupManager.context = context
+            exportJournalUseCase(
+                ExportJournalUseCase.Parameters(
+                    filter = filter,
+                    manager = journalBackupManager
+                )
+            ).process(
                 { result ->
                     result.exportFolderUri?.let {
                         eventDispatcher.sendEvent(
@@ -140,6 +148,7 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
                     }
                 }
             )
+            journalBackupManager.context = null
             viewState.setProgress(false)
         }
     }
@@ -149,8 +158,8 @@ class ExportJournalPresenter : BasePresenter<ExportJournalView>() {
 
         getSavedExportFolder()?.let { uri ->
             DocumentFile.fromTreeUri(context, uri)
-                ?.findOrCreateDocumentFolder(GlobalConstants.APP_DIR)
-                ?.findOrCreateDocumentFolder(GlobalConstants.EXPORT_DIR)
+                ?.findOrCreateDocumentFolder(DataConstants.APP_DIR)
+                ?.findOrCreateDocumentFolder(DataConstants.EXPORT_DIR)
                 ?.let { exportFolder ->
                     viewState.routerStartFlow(Screens.Common.actionOpenFolder(exportFolder.uri))
                 }

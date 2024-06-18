@@ -36,8 +36,8 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.result.Astigmatis
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset

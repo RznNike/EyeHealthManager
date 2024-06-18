@@ -11,10 +11,10 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.toFloatOrNullSmart
 import java.time.Clock
 

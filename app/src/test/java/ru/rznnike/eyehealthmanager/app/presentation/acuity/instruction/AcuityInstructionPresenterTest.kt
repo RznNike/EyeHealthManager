@@ -8,7 +8,7 @@ import org.mockito.kotlin.only
 import org.mockito.kotlin.verify
 import ru.rznnike.eyehealthmanager.app.ui.fragment.acuity.test.AcuityTestFragment
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
 
 @ExtendWith(MockitoExtension::class)
 class AcuityInstructionPresenterTest {

@@ -29,18 +29,18 @@ import org.mockito.kotlin.whenever
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.AcuitySymbolLetterEn
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetAcuityTestingSettingsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.EmptyAcuitySymbol
-import ru.rznnike.eyehealthmanager.domain.model.IAcuitySymbol
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterEn
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestingSettings
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.EmptyAcuitySymbol
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.IAcuitySymbol
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 import java.time.Clock
 
 @ExtendWith(MockitoExtension::class)

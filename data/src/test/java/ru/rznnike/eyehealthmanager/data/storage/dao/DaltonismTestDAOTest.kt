@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.storage.AbstractObjectBoxTest
 import ru.rznnike.eyehealthmanager.data.storage.entity.DaltonismTestEntity
-import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
 
 class DaltonismTestDAOTest : AbstractObjectBoxTest() {
     @Test

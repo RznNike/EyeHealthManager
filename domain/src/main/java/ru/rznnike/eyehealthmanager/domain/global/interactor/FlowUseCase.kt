@@ -1,12 +1,12 @@
 package ru.rznnike.eyehealthmanager.domain.global.interactor
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 
-abstract class FlowUseCase<R>(private val coroutineDispatcher: CoroutineDispatcher) {
+abstract class FlowUseCase<R>(private val dispatcherProvider: DispatcherProvider) {
     suspend operator fun invoke(): Flow<R> {
-        return execute().flowOn(coroutineDispatcher)
+        return execute().flowOn(dispatcherProvider.default)
     }
 
     @Throws(RuntimeException::class)

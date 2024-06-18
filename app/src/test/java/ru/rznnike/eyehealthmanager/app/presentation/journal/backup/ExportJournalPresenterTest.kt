@@ -37,10 +37,11 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ExportJournalUseCase
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
@@ -61,6 +62,7 @@ class ExportJournalPresenterTest : KoinTest {
     private val mockNotifier: Notifier by inject()
     private val mockEventDispatcher: EventDispatcher by inject()
     private val mockContext: Context by inject()
+    private val mockJournalBackupManagerAndroid: JournalBackupManagerAndroid by inject()
     private val mockExportJournalUseCase: ExportJournalUseCase by inject()
 
     private val testDispatcher = StandardTestDispatcher()
@@ -75,6 +77,7 @@ class ExportJournalPresenterTest : KoinTest {
                 single { mock<Notifier>() }
                 single { mock<EventDispatcher>() }
                 single { mock<Context>() }
+                single { mock<JournalBackupManagerAndroid>() }
                 single { mock<ExportJournalUseCase>() }
             }
         )
@@ -126,7 +129,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -161,7 +164,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -196,7 +199,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes == listOf(selectedType))
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -232,7 +235,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -267,7 +270,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -302,7 +305,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -337,7 +340,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705622399999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -372,7 +375,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705795199999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -407,7 +410,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1705363199999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -442,7 +445,7 @@ class ExportJournalPresenterTest : KoinTest {
                         && (filter.dateTo == 1701907199999L)
                         && (filter.selectedTestTypes.isEmpty())
             },
-            folderPath = eq("${testUrl}/${GlobalConstants.APP_DIR}/${GlobalConstants.EXPORT_DIR}")
+            folderPath = eq("${testUrl}/${DataConstants.APP_DIR}/${DataConstants.EXPORT_DIR}")
         )
         verifyNoMoreInteractionsForAll()
     }
@@ -470,7 +473,9 @@ class ExportJournalPresenterTest : KoinTest {
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
+        verify(mockJournalBackupManagerAndroid).context = mockContext
         verify(mockExportJournalUseCase)(any())
+        verify(mockJournalBackupManagerAndroid).context = null
         verify(mockEventDispatcher).sendEvent(
             argThat {
                 (this is AppEvent.JournalExported)
@@ -503,8 +508,10 @@ class ExportJournalPresenterTest : KoinTest {
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(show = true, immediately = true)
+        verify(mockJournalBackupManagerAndroid).context = mockContext
         verify(mockExportJournalUseCase)(any())
         verify(mockErrorHandler).proceed(any(), any())
+        verify(mockJournalBackupManagerAndroid).context = null
         verify(mockView).setProgress(show = false, immediately = true)
         verifyNoMoreInteractionsForAll()
     }
@@ -538,6 +545,7 @@ class ExportJournalPresenterTest : KoinTest {
             mockNotifier,
             mockEventDispatcher,
             mockContext,
+            mockJournalBackupManagerAndroid,
             mockExportJournalUseCase
         )
     }

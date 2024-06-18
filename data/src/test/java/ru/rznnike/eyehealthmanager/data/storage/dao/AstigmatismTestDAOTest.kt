@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import ru.rznnike.eyehealthmanager.data.storage.AbstractObjectBoxTest
 import ru.rznnike.eyehealthmanager.data.storage.entity.AstigmatismTestEntity
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
 
 class AstigmatismTestDAOTest : AbstractObjectBoxTest() {
     @Test

@@ -6,10 +6,10 @@ import io.objectbox.annotation.Id
 import ru.rznnike.eyehealthmanager.data.storage.converter.AcuityTestSymbolsTypeConverter
 import ru.rznnike.eyehealthmanager.data.storage.converter.DayPartConverter
 import ru.rznnike.eyehealthmanager.data.storage.converter.TestEyesTypeConverter
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 
 @Entity
 data class AcuityTestEntity(

@@ -30,7 +30,7 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.answer.Astigmatis
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetTestingSettingsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.TestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.TestingSettings
 
 @ExtendWith(MockitoExtension::class)
 class AstigmatismTestPresenterTest : KoinTest {

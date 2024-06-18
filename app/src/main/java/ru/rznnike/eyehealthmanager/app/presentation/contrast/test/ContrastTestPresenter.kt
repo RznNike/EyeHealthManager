@@ -11,8 +11,8 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.common.Direction
 import java.time.Clock
 import kotlin.random.Random
 

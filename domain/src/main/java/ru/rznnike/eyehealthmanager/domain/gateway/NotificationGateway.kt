@@ -1,8 +1,8 @@
 package ru.rznnike.eyehealthmanager.domain.gateway
 
 import kotlinx.coroutines.flow.Flow
-import ru.rznnike.eyehealthmanager.domain.model.CancelNotification
-import ru.rznnike.eyehealthmanager.domain.model.Notification
+import ru.rznnike.eyehealthmanager.domain.model.notification.CancelNotification
+import ru.rznnike.eyehealthmanager.domain.model.notification.Notification
 
 interface NotificationGateway {
     suspend fun emitShowNotification(notification: Notification)
