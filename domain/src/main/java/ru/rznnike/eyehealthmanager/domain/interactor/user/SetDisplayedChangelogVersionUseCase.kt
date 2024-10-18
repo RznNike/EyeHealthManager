@@ -7,7 +7,7 @@ import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseWithParams
 class SetDisplayedChangelogVersionUseCase(
     private val userGateway: UserGateway,
     dispatcherProvider: DispatcherProvider
-) : UseCaseWithParams<Int, Unit>(dispatcherProvider.io) {
+) : UseCaseWithParams<Int, Unit>(dispatcherProvider) {
     override suspend fun execute(parameters: Int) =
         userGateway.setDisplayedChangelogVersion(parameters)
 }

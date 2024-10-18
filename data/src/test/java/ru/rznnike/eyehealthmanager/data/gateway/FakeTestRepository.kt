@@ -1,8 +1,8 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResultPagingParameters
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.journal.TestResultPagingParameters
 import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
 
 class FakeTestRepository : TestRepository {
@@ -13,7 +13,7 @@ class FakeTestRepository : TestRepository {
             parameters.filter?.let { filter ->
                 ((!filter.filterByDate) || LongRange(filter.dateFrom, filter.dateTo).contains(testResult.timestamp))
                         && ((!filter.filterByType) || (testResult is AcuityTestResult))
-            } ?: true
+            } != false
         }
 
     override suspend fun getListDistinctByType() = tests

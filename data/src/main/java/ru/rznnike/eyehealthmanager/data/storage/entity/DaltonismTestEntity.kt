@@ -4,8 +4,8 @@ import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import ru.rznnike.eyehealthmanager.data.storage.converter.DaltonismAnomalyTypeConverter
-import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
 
 @Entity
 data class DaltonismTestEntity(

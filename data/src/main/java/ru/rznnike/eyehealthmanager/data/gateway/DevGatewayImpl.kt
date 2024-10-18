@@ -1,33 +1,36 @@
 package ru.rznnike.eyehealthmanager.data.gateway
 
+import kotlinx.coroutines.withContext
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.gateway.DevGateway
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.LinearFunction
-import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.AstigmatismAnswerType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
+import ru.rznnike.eyehealthmanager.domain.model.analysis.LinearFunction
+import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.colorperception.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
 import ru.rznnike.eyehealthmanager.domain.storage.repository.TestRepository
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
 import java.time.Clock
 import kotlin.random.Random
 
 class DevGatewayImpl(
+    private val dispatcherProvider: DispatcherProvider,
     private val testRepository: TestRepository,
     private val clock: Clock
 ) : DevGateway {
-    override suspend fun generateData(type: DataGenerationType) {
+    override suspend fun generateData(type: DataGenerationType) = withContext(dispatcherProvider.io) {
         when (type) {
             DataGenerationType.GOOD_VISION -> generateAcuityTests(
                 leftEyeTrend = LinearFunction(0.002, 0.7),
@@ -49,9 +52,9 @@ class DevGatewayImpl(
         leftEyeTrend: LinearFunction,
         rightEyeTrend: LinearFunction
     ) {
-        var dateTime = clock.millis().toLocalDate().minusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS).atStartOfDay()
+        var dateTime = clock.millis().toLocalDate().minusDays(DataConstants.ANALYSIS_MAX_RANGE_DAYS).atStartOfDay()
         val tests = mutableListOf<TestResult>()
-        for (day in 0 until GlobalConstants.ANALYSIS_MAX_RANGE_DAYS) {
+        for (day in 0 until DataConstants.ANALYSIS_MAX_RANGE_DAYS) {
             tests.add(
                 AcuityTestResult(
                     timestamp = dateTime.millis() + Random.nextInt(30_000_000), // nearly first 8 hours of day

@@ -1,7 +1,7 @@
 package ru.rznnike.eyehealthmanager.data.storage.converter
 
 import io.objectbox.converter.PropertyConverter
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 
 class NearFarAnswerTypeConverter : PropertyConverter<NearFarAnswerType, Int> {
     override fun convertToDatabaseValue(entityProperty: NearFarAnswerType?) =

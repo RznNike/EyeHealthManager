@@ -39,8 +39,8 @@ import ru.rznnike.eyehealthmanager.app.utils.floatEquals
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.Direction
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.common.Direction
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset

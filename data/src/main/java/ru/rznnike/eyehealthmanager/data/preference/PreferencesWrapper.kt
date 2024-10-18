@@ -2,10 +2,9 @@ package ru.rznnike.eyehealthmanager.data.preference
 
 import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import com.fredporciuncula.flow.preferences.Preference
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
-import ru.rznnike.eyehealthmanager.domain.model.enums.Language
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 
 private const val ACUITY_SYMBOLS_TYPE = "ACUITY_SYMBOLS_TYPE_1"
 private const val TEST_EYES_TYPE = "TEST_EYES_TYPE_1"

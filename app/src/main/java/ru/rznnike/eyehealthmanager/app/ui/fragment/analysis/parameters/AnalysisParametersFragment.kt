@@ -15,8 +15,8 @@ import ru.rznnike.eyehealthmanager.app.presentation.analysis.parameters.Analysis
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.databinding.FragmentAnalysisParametersBinding
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisParameters
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 
 class AnalysisParametersFragment : BaseFragment(R.layout.fragment_analysis_parameters), AnalysisParametersView {

@@ -36,8 +36,8 @@ import ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.result.NearFarResultF
 import ru.rznnike.eyehealthmanager.app.utils.screenMatcher
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
 import ru.rznnike.eyehealthmanager.domain.interactor.test.AddTestResultUseCase
-import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset

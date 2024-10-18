@@ -8,13 +8,13 @@ import ru.rznnike.eyehealthmanager.app.Screens
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.data.utils.DataConstants
 import ru.rznnike.eyehealthmanager.domain.interactor.analysis.GetAnalysisResultUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetApplyDynamicCorrectionsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.SetApplyDynamicCorrectionsUseCase
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisParameters
-import ru.rznnike.eyehealthmanager.domain.model.enums.AnalysisType
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisParameters
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisType
 import ru.rznnike.eyehealthmanager.domain.model.exception.NotEnoughDataException
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.atEndOfDay
 import ru.rznnike.eyehealthmanager.domain.utils.millis
 import ru.rznnike.eyehealthmanager.domain.utils.toLocalDate
@@ -40,9 +40,9 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
         presenterScope.launch {
             val dateNow = clock.millis().toLocalDate()
             parameters.apply {
-                dateFrom = dateNow.minusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1).atStartOfDay().millis()
+                dateFrom = dateNow.minusDays(DataConstants.ANALYSIS_MAX_RANGE_DAYS - 1).atStartOfDay().millis()
                 dateTo = dateNow.atEndOfDay().millis()
-                applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data ?: false
+                applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data == true
             }
             viewState.populateData(parameters)
         }
@@ -52,15 +52,15 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
         parameters.dateFrom = newValue.toLocalDate().atStartOfDay().millis()
         val deltaDays = ChronoUnit.DAYS.between(parameters.dateFrom.toLocalDate(), parameters.dateTo.toLocalDate())
         when {
-            deltaDays < (GlobalConstants.ANALYSIS_MIN_RANGE_DAYS - 1) -> {
+            deltaDays < (DataConstants.ANALYSIS_MIN_RANGE_DAYS - 1) -> {
                 parameters.dateTo = newValue.toLocalDate()
-                    .plusDays(GlobalConstants.ANALYSIS_MIN_RANGE_DAYS - 1)
+                    .plusDays(DataConstants.ANALYSIS_MIN_RANGE_DAYS - 1)
                     .atEndOfDay()
                     .millis()
             }
-            deltaDays > (GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1) -> {
+            deltaDays > (DataConstants.ANALYSIS_MAX_RANGE_DAYS - 1) -> {
                 parameters.dateTo = newValue.toLocalDate()
-                    .plusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1)
+                    .plusDays(DataConstants.ANALYSIS_MAX_RANGE_DAYS - 1)
                     .atEndOfDay()
                     .millis()
             }
@@ -72,15 +72,15 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
         parameters.dateTo = newValue.toLocalDate().atEndOfDay().millis()
         val deltaDays = ChronoUnit.DAYS.between(parameters.dateFrom.toLocalDate(), parameters.dateTo.toLocalDate())
         when {
-            deltaDays < (GlobalConstants.ANALYSIS_MIN_RANGE_DAYS - 1) -> {
+            deltaDays < (DataConstants.ANALYSIS_MIN_RANGE_DAYS - 1) -> {
                 parameters.dateFrom = newValue.toLocalDate()
-                    .minusDays(GlobalConstants.ANALYSIS_MIN_RANGE_DAYS - 1)
+                    .minusDays(DataConstants.ANALYSIS_MIN_RANGE_DAYS - 1)
                     .atStartOfDay()
                     .millis()
             }
-            deltaDays > (GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1) -> {
+            deltaDays > (DataConstants.ANALYSIS_MAX_RANGE_DAYS - 1) -> {
                 parameters.dateFrom = newValue.toLocalDate()
-                    .minusDays(GlobalConstants.ANALYSIS_MAX_RANGE_DAYS - 1)
+                    .minusDays(DataConstants.ANALYSIS_MAX_RANGE_DAYS - 1)
                     .atStartOfDay()
                     .millis()
             }

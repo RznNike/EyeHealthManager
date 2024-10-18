@@ -30,10 +30,10 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.getString
 import ru.rznnike.eyehealthmanager.app.utils.extensions.resources
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.databinding.FragmentAnalysisResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisResult
-import ru.rznnike.eyehealthmanager.domain.model.AnalysisStatistics
-import ru.rznnike.eyehealthmanager.domain.model.SingleEyeAnalysisResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.analysis.AnalysisStatistics
+import ru.rznnike.eyehealthmanager.domain.model.analysis.SingleEyeAnalysisResult
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 import kotlin.math.abs
 import kotlin.math.max

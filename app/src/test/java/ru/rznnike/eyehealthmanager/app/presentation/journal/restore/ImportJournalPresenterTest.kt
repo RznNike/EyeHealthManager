@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.presentation.journal.restore
 
+import android.content.Context
 import android.net.Uri
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import kotlinx.coroutines.Dispatchers
@@ -35,10 +36,11 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.AppEvent
 import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
+import ru.rznnike.eyehealthmanager.app.utils.createTestDispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseResult
-import ru.rznnike.eyehealthmanager.domain.interactor.test.GetAvailableImportTypesUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ImportJournalUseCase
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 @ExtendWith(MockitoExtension::class)
 class ImportJournalPresenterTest : KoinTest {
@@ -48,10 +50,12 @@ class ImportJournalPresenterTest : KoinTest {
     private val mockErrorHandler: ErrorHandler by inject()
     private val mockNotifier: Notifier by inject()
     private val mockEventDispatcher: EventDispatcher by inject()
-    private val mockGetAvailableImportTypesUseCase: GetAvailableImportTypesUseCase by inject()
+    private val mockJournalBackupManagerAndroid: JournalBackupManagerAndroid by inject()
     private val mockImportJournalUseCase: ImportJournalUseCase by inject()
+    private val mockContext: Context by inject()
 
     private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcherProvider = testDispatcher.createTestDispatcherProvider()
 
     @JvmField
     @RegisterExtension
@@ -61,8 +65,10 @@ class ImportJournalPresenterTest : KoinTest {
                 single { mock<ErrorHandler>() }
                 single { mock<Notifier>() }
                 single { mock<EventDispatcher>() }
-                single { mock<GetAvailableImportTypesUseCase>() }
+                single { mock<JournalBackupManagerAndroid>() }
                 single { mock<ImportJournalUseCase>() }
+                single { mock<Context>() }
+                single { testDispatcherProvider }
             }
         )
     }
@@ -100,7 +106,7 @@ class ImportJournalPresenterTest : KoinTest {
     @Test
     fun onFolderSelected_success_checkAvailableData() = runTest {
         val availableTypes = listOf(TestType.ACUITY)
-        whenever(mockGetAvailableImportTypesUseCase(any())).doReturn(UseCaseResult(availableTypes))
+        whenever(mockJournalBackupManagerAndroid.getAvailableImportTypes(any())).doReturn(availableTypes)
         val presenter = ImportJournalPresenter()
         presenter.attachView(mockView)
         val url = "test"
@@ -109,11 +115,13 @@ class ImportJournalPresenterTest : KoinTest {
         }
         clearInvocationsForAll()
 
-        presenter.onFolderSelected(mockUri)
+        presenter.onFolderSelected(mockUri, mockContext)
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(true)
-        verify(mockGetAvailableImportTypesUseCase)(mockUri)
+        verify(mockJournalBackupManagerAndroid).context = mockContext
+        verify(mockJournalBackupManagerAndroid).getAvailableImportTypes(mockUri)
+        verify(mockJournalBackupManagerAndroid).context = null
         verify(mockView).populateData(
             availableImportTypes = availableTypes,
             folderPath = url
@@ -125,7 +133,7 @@ class ImportJournalPresenterTest : KoinTest {
     @Test
     fun onFolderSelected_startImportAutomatically_importFiles() = runTest {
         val availableTypes = listOf(TestType.ACUITY)
-        whenever(mockGetAvailableImportTypesUseCase(any())).doReturn(UseCaseResult(availableTypes))
+        whenever(mockJournalBackupManagerAndroid.getAvailableImportTypes(any())).doReturn(availableTypes)
         whenever(mockImportJournalUseCase(any())).doReturn(UseCaseResult(Unit))
         val presenter = ImportJournalPresenter()
         presenter.attachView(mockView)
@@ -133,42 +141,31 @@ class ImportJournalPresenterTest : KoinTest {
         val mockUri = mock<Uri> {
             on { lastPathSegment } doReturn url
         }
-        presenter.importFiles()
+        presenter.importFiles(mockContext)
         testScheduler.advanceUntilIdle()
         clearInvocationsForAll()
 
-        presenter.onFolderSelected(mockUri)
+        presenter.onFolderSelected(mockUri, mockContext)
         testScheduler.advanceUntilIdle()
 
         verify(mockView, times(2)).setProgress(true)
-        verify(mockGetAvailableImportTypesUseCase)(mockUri)
+        verify(mockJournalBackupManagerAndroid, times(2)).context = mockContext
+        verify(mockJournalBackupManagerAndroid).getAvailableImportTypes(mockUri)
+        verify(mockJournalBackupManagerAndroid, times(2)).context = null
         verify(mockView).populateData(
             availableImportTypes = availableTypes,
             folderPath = url
         )
         verify(mockView, times(2)).setProgress(false)
         // import part
-        verify(mockImportJournalUseCase)(mockUri)
+        verify(mockImportJournalUseCase)(
+            argThat<ImportJournalUseCase.Parameters> {
+                (importFolderUri == mockUri)
+                        && (manager == mockJournalBackupManagerAndroid)
+            }
+        )
         verify(mockEventDispatcher).sendEvent(AppEvent.JournalImported(mockUri))
         verify(mockView).routerExit()
-        verifyNoMoreInteractionsForAll()
-    }
-
-    @Test
-    fun onFolderSelected_exception_errorHandler() = runTest {
-        whenever(mockGetAvailableImportTypesUseCase(any())).doReturn(UseCaseResult(error = Exception()))
-        val presenter = ImportJournalPresenter()
-        presenter.attachView(mockView)
-        val mockUri = mock<Uri>()
-        clearInvocationsForAll()
-
-        presenter.onFolderSelected(mockUri)
-        testScheduler.advanceUntilIdle()
-
-        verify(mockView).setProgress(true)
-        verify(mockGetAvailableImportTypesUseCase)(mockUri)
-        verify(mockErrorHandler).proceed(any(), any())
-        verify(mockView).setProgress(false)
         verifyNoMoreInteractionsForAll()
     }
 
@@ -178,7 +175,7 @@ class ImportJournalPresenterTest : KoinTest {
         presenter.attachView(mockView)
         clearInvocationsForAll()
 
-        presenter.importFiles()
+        presenter.importFiles(mockContext)
         testScheduler.advanceUntilIdle()
 
         verify(mockView).selectImportFolder()
@@ -187,18 +184,18 @@ class ImportJournalPresenterTest : KoinTest {
 
     @Test
     fun importFiles_noData_showMessage() = runTest {
-        whenever(mockGetAvailableImportTypesUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        whenever(mockJournalBackupManagerAndroid.getAvailableImportTypes(any())).doReturn(emptyList())
         val presenter = ImportJournalPresenter()
         presenter.attachView(mockView)
         val url = "test"
         val mockUri = mock<Uri> {
             on { lastPathSegment } doReturn url
         }
-        presenter.onFolderSelected(mockUri)
+        presenter.onFolderSelected(mockUri, mockContext)
         testScheduler.advanceUntilIdle()
         clearInvocationsForAll()
 
-        presenter.importFiles()
+        presenter.importFiles(mockContext)
         testScheduler.advanceUntilIdle()
 
         verify(mockNotifier).sendMessage(R.string.error_no_backup_in_folder)
@@ -208,7 +205,7 @@ class ImportJournalPresenterTest : KoinTest {
     @Test
     fun importFiles_withDataAndSuccess_closeScreen() = runTest {
         val availableTypes = listOf(TestType.ACUITY)
-        whenever(mockGetAvailableImportTypesUseCase(any())).doReturn(UseCaseResult(availableTypes))
+        whenever(mockJournalBackupManagerAndroid.getAvailableImportTypes(any())).doReturn(availableTypes)
         whenever(mockImportJournalUseCase(any())).doReturn(UseCaseResult(Unit))
         val presenter = ImportJournalPresenter()
         presenter.attachView(mockView)
@@ -216,15 +213,22 @@ class ImportJournalPresenterTest : KoinTest {
         val mockUri = mock<Uri> {
             on { lastPathSegment } doReturn url
         }
-        presenter.onFolderSelected(mockUri)
+        presenter.onFolderSelected(mockUri, mockContext)
         testScheduler.advanceUntilIdle()
         clearInvocationsForAll()
 
-        presenter.importFiles()
+        presenter.importFiles(mockContext)
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(true)
-        verify(mockImportJournalUseCase)(mockUri)
+        verify(mockJournalBackupManagerAndroid).context = mockContext
+        verify(mockImportJournalUseCase)(
+            argThat<ImportJournalUseCase.Parameters> {
+                (importFolderUri == mockUri)
+                        && (manager == mockJournalBackupManagerAndroid)
+            }
+        )
+        verify(mockJournalBackupManagerAndroid).context = null
         verify(mockEventDispatcher).sendEvent(AppEvent.JournalImported(mockUri))
         verify(mockView).routerExit()
         verify(mockView).setProgress(false)
@@ -234,7 +238,7 @@ class ImportJournalPresenterTest : KoinTest {
     @Test
     fun importFiles_withDataAndException_errorHandler() = runTest {
         val availableTypes = listOf(TestType.ACUITY)
-        whenever(mockGetAvailableImportTypesUseCase(any())).doReturn(UseCaseResult(availableTypes))
+        whenever(mockJournalBackupManagerAndroid.getAvailableImportTypes(any())).doReturn(availableTypes)
         whenever(mockImportJournalUseCase(any())).doReturn(UseCaseResult(error = Exception()))
         val presenter = ImportJournalPresenter()
         presenter.attachView(mockView)
@@ -242,15 +246,22 @@ class ImportJournalPresenterTest : KoinTest {
         val mockUri = mock<Uri> {
             on { lastPathSegment } doReturn url
         }
-        presenter.onFolderSelected(mockUri)
+        presenter.onFolderSelected(mockUri, mockContext)
         testScheduler.advanceUntilIdle()
         clearInvocationsForAll()
 
-        presenter.importFiles()
+        presenter.importFiles(mockContext)
         testScheduler.advanceUntilIdle()
 
         verify(mockView).setProgress(true)
-        verify(mockImportJournalUseCase)(mockUri)
+        verify(mockJournalBackupManagerAndroid).context = mockContext
+        verify(mockImportJournalUseCase)(
+            argThat<ImportJournalUseCase.Parameters> {
+                (importFolderUri == mockUri)
+                        && (manager == mockJournalBackupManagerAndroid)
+            }
+        )
+        verify(mockJournalBackupManagerAndroid).context = null
         verify(mockErrorHandler).proceed(any(), any())
         verify(mockView).setProgress(false)
         verifyNoMoreInteractionsForAll()
@@ -269,14 +280,14 @@ class ImportJournalPresenterTest : KoinTest {
 
     @Test
     fun openImportFolder_folderSelected_openFolderFlow() = runTest {
-        whenever(mockGetAvailableImportTypesUseCase(any())).doReturn(UseCaseResult(emptyList()))
+        whenever(mockJournalBackupManagerAndroid.getAvailableImportTypes(any())).doReturn(emptyList())
         val presenter = ImportJournalPresenter()
         presenter.attachView(mockView)
         val url = "test"
         val mockUri = mock<Uri> {
             on { lastPathSegment } doReturn url
         }
-        presenter.onFolderSelected(mockUri)
+        presenter.onFolderSelected(mockUri, mockContext)
         testScheduler.advanceUntilIdle()
         clearInvocationsForAll()
 
@@ -297,8 +308,9 @@ class ImportJournalPresenterTest : KoinTest {
             mockErrorHandler,
             mockNotifier,
             mockEventDispatcher,
-            mockGetAvailableImportTypesUseCase,
-            mockImportJournalUseCase
+            mockJournalBackupManagerAndroid,
+            mockImportJournalUseCase,
+            mockContext
         )
     }
 

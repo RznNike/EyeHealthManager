@@ -14,11 +14,9 @@ import org.koin.core.logger.Level
 import ru.rznnike.eyehealthmanager.BuildConfig
 import ru.rznnike.eyehealthmanager.app.di.appComponent
 import ru.rznnike.eyehealthmanager.app.observer.AppLifeCycleObserver
-import ru.rznnike.eyehealthmanager.data.preference.PreferencesWrapper
 
 class App : Application() {
     private val appLifecycleObserver: AppLifeCycleObserver by inject()
-    private val preferences: PreferencesWrapper by inject()
     private val boxStore: BoxStore by inject()
 
     override fun onCreate() {

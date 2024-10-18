@@ -21,10 +21,10 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPa
 import ru.rznnike.eyehealthmanager.app.utils.extensions.createFastAdapter
 import ru.rznnike.eyehealthmanager.databinding.DialogDayPartSelectionBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityInfoBinding
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestingSettings
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.DayPart
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestingSettings
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 
 class AcuityInfoFragment : BaseFragment(R.layout.fragment_acuity_info), AcuityInfoView {
     @InjectPresenter

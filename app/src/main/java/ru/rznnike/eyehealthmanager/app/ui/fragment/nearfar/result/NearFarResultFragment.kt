@@ -8,11 +8,12 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
+import ru.rznnike.eyehealthmanager.app.model.test.nearfar.NearFarAnswerTypeVM
 import ru.rznnike.eyehealthmanager.app.presentation.nearfar.result.NearFarResultPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.nearfar.result.NearFarResultView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.*
 import ru.rznnike.eyehealthmanager.databinding.FragmentNearFarResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 
 class NearFarResultFragment : BaseFragment(R.layout.fragment_near_far_result), NearFarResultView {
     @InjectPresenter
@@ -59,14 +60,14 @@ class NearFarResultFragment : BaseFragment(R.layout.fragment_near_far_result), N
                 NearFarAnswerType.GREEN_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
                 NearFarAnswerType.EQUAL -> "%s"
             }.format(
-                getString(answerLeftEye.nameResId)
+                getString(NearFarAnswerTypeVM[answerLeftEye].nameResId)
             )
             val rightEyeStatus = when (answerRightEye) {
                 NearFarAnswerType.RED_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
                 NearFarAnswerType.GREEN_BETTER -> "<font color=\"#FE4C3F\">%s</font>"
                 NearFarAnswerType.EQUAL -> "%s"
             }.format(
-                getString(answerRightEye.nameResId)
+                getString(NearFarAnswerTypeVM[answerRightEye].nameResId)
             )
             textViewResult.text = "%s - %s<br>%s - %s".format(
                 getString(R.string.left_eye),

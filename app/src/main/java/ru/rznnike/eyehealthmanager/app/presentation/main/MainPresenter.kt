@@ -11,7 +11,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.domain.global.CoroutineProvider
+import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteAllTestResultsUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.test.DeleteDuplicatesUseCase
 import ru.rznnike.eyehealthmanager.domain.interactor.user.GetDisplayedChangelogVersionUseCase
@@ -24,7 +24,7 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
     private val eventDispatcher: EventDispatcher by inject()
     private val notifier: Notifier by inject()
     private val errorHandler: ErrorHandler by inject()
-    private val coroutineProvider: CoroutineProvider by inject()
+    private val coroutineScopeProvider: CoroutineScopeProvider by inject()
     private val getWelcomeDialogShowedUseCase: GetWelcomeDialogShowedUseCase by inject()
     private val setWelcomeDialogShowedUseCase: SetWelcomeDialogShowedUseCase by inject()
     private val getDisplayedChangelogVersionUseCase: GetDisplayedChangelogVersionUseCase by inject()
@@ -67,7 +67,7 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
 
     private fun checkWelcomeDialog() {
         presenterScope.launch {
-            val showed = getWelcomeDialogShowedUseCase().data ?: false
+            val showed = getWelcomeDialogShowedUseCase().data == true
             if (!showed) {
                 viewState.showWelcomeDialog()
                 setWelcomeDialogShowedUseCase(true)
@@ -89,7 +89,7 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
     }
 
     fun deleteDuplicatesInJournal() {
-        coroutineProvider.scopeIo.launch {
+        coroutineScopeProvider.io.launch {
             viewState.setProgress(true)
             deleteDuplicatesUseCase().process(
                 {
@@ -102,7 +102,7 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
     }
 
     private fun deleteJournal() {
-        coroutineProvider.scopeIo.launch {
+        coroutineScopeProvider.io.launch {
             viewState.setProgress(true)
             deleteAllTestResultsUseCase().process(
                 {

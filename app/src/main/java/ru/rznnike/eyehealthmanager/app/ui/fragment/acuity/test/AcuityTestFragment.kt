@@ -18,6 +18,10 @@ import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogAction
 import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogParameters
 import ru.rznnike.eyehealthmanager.app.dialog.showAlertDialog
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.AcuitySymbolLetterEn
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.AcuitySymbolLetterRu
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.AcuitySymbolSquare
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.AcuitySymbolTriangle
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.test.AcuityTestPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.acuity.test.AcuityTestView
 import ru.rznnike.eyehealthmanager.app.ui.item.CantAnswerItem
@@ -32,14 +36,10 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setGone
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.app.utils.extensions.withDelay
 import ru.rznnike.eyehealthmanager.databinding.FragmentAcuityTestBinding
-import ru.rznnike.eyehealthmanager.domain.model.EmptyAcuitySymbol
-import ru.rznnike.eyehealthmanager.domain.model.IAcuitySymbol
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterEn
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolLetterRu
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolSquare
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuitySymbolTriangle
-import ru.rznnike.eyehealthmanager.domain.model.enums.AcuityTestSymbolsType
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.EmptyAcuitySymbol
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.IAcuitySymbol
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestSymbolsType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
 
 private const val BASIC_HEIGHT_MM = 7f
 private const val BASIC_DISTANCE_MM = 5000f

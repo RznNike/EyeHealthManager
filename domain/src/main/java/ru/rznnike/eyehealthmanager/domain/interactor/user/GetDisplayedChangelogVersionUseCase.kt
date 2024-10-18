@@ -7,7 +7,7 @@ import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCase
 class GetDisplayedChangelogVersionUseCase(
     private val userGateway: UserGateway,
     dispatcherProvider: DispatcherProvider
-) : UseCase<Int>(dispatcherProvider.io) {
+) : UseCase<Int>(dispatcherProvider) {
     override suspend fun execute() =
         userGateway.getDisplayedChangelogVersion()
 }

@@ -2,7 +2,7 @@ package ru.rznnike.eyehealthmanager.app.presentation.nearfar.result
 
 import moxy.viewstate.strategy.alias.AddToEndSingle
 import ru.rznnike.eyehealthmanager.app.global.presentation.NavigationMvpView
-import ru.rznnike.eyehealthmanager.domain.model.enums.NearFarAnswerType
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
 
 interface NearFarResultView : NavigationMvpView {
     @AddToEndSingle

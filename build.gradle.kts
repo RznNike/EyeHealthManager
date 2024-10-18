@@ -1,16 +1,17 @@
 buildscript {
     extra.apply {
-        set("VERSION_CODE", 17)
-        set("VERSION_NAME", "2.2.1.${extra["VERSION_CODE"]}")
+        set("VERSION_CODE", 18)
+        set("VERSION_NAME", "2.3.0.${extra["VERSION_CODE"]}")
         set("APK_NAME", "Eye Health Manager")
         set("MIN_SDK", 24)
-        set("TARGET_SDK", 34)
+        set("TARGET_SDK", 35)
 
-        set("kotlinVersion", "1.9.22")
-        set("coroutinesVersion", "1.7.3")
-        set("objectboxVersion", "3.7.1")
-        set("koinVersion", "3.5.3")
-        set("junitVersion", "5.10.1")
+        set("kotlinVersion", "2.0.21")
+        set("coroutinesVersion", "1.9.0")
+        set("objectboxVersion", "4.0.2")
+        set("koinVersion", "4.0.0")
+        set("junitVersion", "5.11.2")
+        set("desugaringVersion", "2.1.2")
     }
 
     repositories {
@@ -19,10 +20,10 @@ buildscript {
         maven(url = "https://jitpack.io")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.2.2")
+        classpath("com.android.tools.build:gradle:8.7.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.extra["kotlinVersion"]}")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
-        classpath("com.google.gms:google-services:4.4.0")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.2")
+        classpath("com.google.gms:google-services:4.4.2")
         classpath("io.objectbox:objectbox-gradle-plugin:${rootProject.extra["objectboxVersion"]}")
     }
 }

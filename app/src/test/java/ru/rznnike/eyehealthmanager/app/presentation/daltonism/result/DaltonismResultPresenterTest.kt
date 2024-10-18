@@ -6,7 +6,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.only
 import org.mockito.kotlin.verify
-import ru.rznnike.eyehealthmanager.domain.model.enums.DaltonismAnomalyType
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
 
 @ExtendWith(MockitoExtension::class)
 class DaltonismResultPresenterTest {

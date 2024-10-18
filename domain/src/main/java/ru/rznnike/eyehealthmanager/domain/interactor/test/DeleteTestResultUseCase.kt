@@ -7,7 +7,7 @@ import ru.rznnike.eyehealthmanager.domain.global.interactor.UseCaseWithParams
 class DeleteTestResultUseCase(
     private val testGateway: TestGateway,
     dispatcherProvider: DispatcherProvider
-) : UseCaseWithParams<Long, Unit>(dispatcherProvider.io) {
+) : UseCaseWithParams<Long, Unit>(dispatcherProvider) {
     override suspend fun execute(parameters: Long) =
         testGateway.deleteTestResultById(parameters)
 }

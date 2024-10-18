@@ -4,20 +4,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.global.BaseBindingItem
+import ru.rznnike.eyehealthmanager.app.model.test.TestTypeVM
+import ru.rznnike.eyehealthmanager.app.model.test.acuity.AcuityTestSymbolsTypeVM
+import ru.rznnike.eyehealthmanager.app.model.test.astigmatism.AstigmatismAnswerTypeVM
+import ru.rznnike.eyehealthmanager.app.model.test.daltonism.DaltonismAnomalyTypeVM
+import ru.rznnike.eyehealthmanager.app.model.test.nearfar.NearFarAnswerTypeVM
 import ru.rznnike.eyehealthmanager.app.utils.extensions.getString
 import ru.rznnike.eyehealthmanager.app.utils.extensions.resources
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.databinding.ItemTestResultBinding
-import ru.rznnike.eyehealthmanager.domain.model.AcuityTestResult
-import ru.rznnike.eyehealthmanager.domain.model.AstigmatismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ColorPerceptionTestResult
-import ru.rznnike.eyehealthmanager.domain.model.ContrastTestResult
-import ru.rznnike.eyehealthmanager.domain.model.DaltonismTestResult
-import ru.rznnike.eyehealthmanager.domain.model.NearFarTestResult
-import ru.rznnike.eyehealthmanager.domain.model.TestResult
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestEyesType
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.acuity.AcuityTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.colorperception.ColorPerceptionTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.contrast.ContrastTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarTestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.TestResult
+import ru.rznnike.eyehealthmanager.domain.model.test.TestEyesType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
 import ru.rznnike.eyehealthmanager.domain.utils.toDate
 
@@ -66,9 +71,10 @@ class TestResultItem(
             }
         }
 
-        textViewName.setText(testType.nameResId)
+        val testTypeVM = TestTypeVM[testType]
+        textViewName.setText(testTypeVM.nameResId)
         textViewDetails.text = details.replace("\n", "<br>").toHtmlSpanned()
-        imageViewIcon.setImageResource(testType.iconResId)
+        imageViewIcon.setImageResource(testTypeVM.iconResId)
 
         textViewDate.text = testResult.timestamp.toDate(GlobalConstants.DATE_PATTERN_SIMPLE_WITH_TIME)
 
@@ -83,7 +89,7 @@ class TestResultItem(
         } else {
             "%s: %s".format(
                 getString(R.string.symbols_set),
-                getString(testResult.symbolsType.nameResId)
+                getString(AcuityTestSymbolsTypeVM[testResult.symbolsType].nameResId)
             )
         }
         val eyesPart = when (testResult.testEyesType) {
@@ -109,8 +115,16 @@ class TestResultItem(
     }
 
     private fun ItemTestResultBinding.getAstigmatismTestDetails(testResult: AstigmatismTestResult): String {
-        val leftEyeStatus = testResult.resultLeftEye?.nameResId?.let { getString(it) } ?: "-"
-        val rightEyeStatus = testResult.resultRightEye?.nameResId?.let { getString(it) } ?: "-"
+        val leftEyeStatus = testResult.resultLeftEye
+            ?.let { AstigmatismAnswerTypeVM[it] }
+            ?.nameResId
+            ?.let { getString(it) }
+            ?: "-"
+        val rightEyeStatus = testResult.resultRightEye
+            ?.let { AstigmatismAnswerTypeVM[it] }
+            ?.nameResId
+            ?.let { getString(it) }
+            ?: "-"
         return "%s: %s\n%s: %s".format(
             getString(R.string.left_eye),
             leftEyeStatus,
@@ -120,8 +134,8 @@ class TestResultItem(
     }
 
     private fun ItemTestResultBinding.getNearFarTestDetails(testResult: NearFarTestResult): String {
-        val leftEyeStatus = getString(testResult.resultLeftEye.nameResId)
-        val rightEyeStatus = getString(testResult.resultRightEye.nameResId)
+        val leftEyeStatus = getString(NearFarAnswerTypeVM[testResult.resultLeftEye].nameResId)
+        val rightEyeStatus = getString(NearFarAnswerTypeVM[testResult.resultRightEye].nameResId)
         return "%s: %s\n%s: %s".format(
             getString(R.string.left_eye),
             leftEyeStatus,
@@ -141,7 +155,7 @@ class TestResultItem(
         "%s %s\n%s".format(
             testResult.errorsCount,
             resources.getQuantityString(R.plurals.errors, testResult.errorsCount),
-            getString(testResult.anomalyType.nameResId)
+            getString(DaltonismAnomalyTypeVM[testResult.anomalyType].nameResId)
         )
 
     private fun ItemTestResultBinding.getContrastTestDetails(testResult: ContrastTestResult) =

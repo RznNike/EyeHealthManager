@@ -14,8 +14,10 @@ import ru.rznnike.eyehealthmanager.app.dialog.bottom.BottomDialogAction
 import ru.rznnike.eyehealthmanager.app.dialog.showAlertDialog
 import ru.rznnike.eyehealthmanager.app.dialog.showBottomDialog
 import ru.rznnike.eyehealthmanager.app.global.ui.fragment.BaseFragment
+import ru.rznnike.eyehealthmanager.app.model.common.AppThemeVM
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.main.settings.SettingsView
+import ru.rznnike.eyehealthmanager.app.utils.AppConstants
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToPadding
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setScaleOnTouch
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
@@ -23,10 +25,9 @@ import ru.rznnike.eyehealthmanager.databinding.DialogAboutAppBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogChangelogBinding
 import ru.rznnike.eyehealthmanager.databinding.DialogDevMenuBinding
 import ru.rznnike.eyehealthmanager.databinding.FragmentSettingsBinding
-import ru.rznnike.eyehealthmanager.domain.model.enums.AppTheme
-import ru.rznnike.eyehealthmanager.domain.model.enums.DataGenerationType
-import ru.rznnike.eyehealthmanager.domain.model.enums.Language
-import ru.rznnike.eyehealthmanager.domain.utils.GlobalConstants
+import ru.rznnike.eyehealthmanager.domain.model.common.AppTheme
+import ru.rznnike.eyehealthmanager.domain.model.common.DataGenerationType
+import ru.rznnike.eyehealthmanager.domain.model.common.Language
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView {
     @InjectPresenter
@@ -110,7 +111,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             buttonLanguage.setOnClickListener {
                 showLanguageSelectionBottomDialog(language)
             }
-            textViewCurrentTheme.setText(theme.nameResId)
+            textViewCurrentTheme.setText(AppThemeVM[theme].nameResId)
             buttonTheme.setOnClickListener {
                 showThemeSelectionBottomDialog(theme)
             }
@@ -137,7 +138,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             header = getString(R.string.choose_theme),
             actions = AppTheme.entries.map { theme ->
                 BottomDialogAction(
-                    text = getString(theme.nameResId),
+                    text = getString(AppThemeVM[theme].nameResId),
                     selected = theme == currentTheme
                 ) {
                     it.dismiss()
@@ -175,7 +176,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
                 dialog.dismiss()
                 routerStartFlow(
                     Screens.Common.actionMailTo(
-                        email = GlobalConstants.FEEDBACK_EMAIL_ADDRESS,
+                        email = AppConstants.FEEDBACK_EMAIL_ADDRESS,
                         subject = getString(R.string.app_name)
                     )
                 )
@@ -183,7 +184,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings), SettingsView 
             buttonDialogSourceCode.setOnClickListener {
                 dialog.dismiss()
                 routerStartFlow(
-                    Screens.Common.actionOpenLink(GlobalConstants.REPOSITORY_LINK)
+                    Screens.Common.actionOpenLink(AppConstants.REPOSITORY_LINK)
                 )
             }
 

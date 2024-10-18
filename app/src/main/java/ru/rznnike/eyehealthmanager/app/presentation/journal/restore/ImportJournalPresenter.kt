@@ -1,7 +1,9 @@
 package ru.rznnike.eyehealthmanager.app.presentation.journal.restore
 
+import android.content.Context
 import android.net.Uri
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import moxy.InjectViewState
 import moxy.presenterScope
 import org.koin.core.component.inject
@@ -12,16 +14,18 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.event.EventDispatcher
 import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.Notifier
 import ru.rznnike.eyehealthmanager.app.global.presentation.BasePresenter
 import ru.rznnike.eyehealthmanager.app.global.presentation.ErrorHandler
-import ru.rznnike.eyehealthmanager.domain.interactor.test.GetAvailableImportTypesUseCase
+import ru.rznnike.eyehealthmanager.app.utils.JournalBackupManagerAndroid
+import ru.rznnike.eyehealthmanager.domain.global.DispatcherProvider
 import ru.rznnike.eyehealthmanager.domain.interactor.test.ImportJournalUseCase
-import ru.rznnike.eyehealthmanager.domain.model.enums.TestType
+import ru.rznnike.eyehealthmanager.domain.model.test.TestType
 
 @InjectViewState
 class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
     private val eventDispatcher: EventDispatcher by inject()
-    private val getAvailableImportTypesUseCase: GetAvailableImportTypesUseCase by inject()
+    private val dispatcherProvider: DispatcherProvider by inject()
+    private val journalBackupManager: JournalBackupManagerAndroid by inject()
     private val importJournalUseCase: ImportJournalUseCase by inject()
 
     private var importFolderUri: Uri? = null
@@ -37,26 +41,26 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
         folderPath = importFolderUri?.lastPathSegment
     )
 
-    fun onFolderSelected(uri: Uri) {
+    fun onFolderSelected(uri: Uri, context: Context) {
         presenterScope.launch {
             importFolderUri = uri
 
             viewState.setProgress(true)
-            getAvailableImportTypesUseCase(uri).process(
-                { result ->
-                    availableImportTypes = result
-                    populateData()
-                    if (startImportAutomatically) {
-                        startImportAutomatically = false
-                        importFiles()
-                    }
-                }, ::onError
-            )
+            withContext(dispatcherProvider.io) {
+                journalBackupManager.context = context
+                availableImportTypes = journalBackupManager.getAvailableImportTypes(uri)
+                journalBackupManager.context = null
+            }
+            populateData()
+            if (startImportAutomatically) {
+                startImportAutomatically = false
+                importFiles(context)
+            }
             viewState.setProgress(false)
         }
     }
 
-    fun importFiles() {
+    fun importFiles(context: Context) {
         presenterScope.launch {
             when {
                 importFolderUri == null -> {
@@ -69,12 +73,19 @@ class ImportJournalPresenter : BasePresenter<ImportJournalView>() {
                 else -> {
                     viewState.setProgress(true)
                     importFolderUri?.let { importFolderUri ->
-                        importJournalUseCase(importFolderUri).process(
+                        journalBackupManager.context = context
+                        importJournalUseCase(
+                            ImportJournalUseCase.Parameters(
+                                importFolderUri = importFolderUri,
+                                manager = journalBackupManager
+                            )
+                        ).process(
                             {
                                 eventDispatcher.sendEvent(AppEvent.JournalImported(importFolderUri))
                                 viewState.routerExit()
                             }, ::onError
                         )
+                        journalBackupManager.context = null
                     }
                     viewState.setProgress(false)
                 }

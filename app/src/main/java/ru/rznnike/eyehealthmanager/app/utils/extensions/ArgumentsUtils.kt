@@ -19,7 +19,7 @@ inline fun <reified T: Parcelable> Fragment.getParcelableListArg(key: String): L
     arguments?.getParcelableArrayList(key)
 } ?: emptyList()
 
-fun Fragment.getBooleanArg(key: String): Boolean = arguments?.getBoolean(key) ?: false
+fun Fragment.getBooleanArg(key: String): Boolean = arguments?.getBoolean(key) == true
 
 fun Fragment.getStringArg(key: String): String? = arguments?.getString(key)
 
