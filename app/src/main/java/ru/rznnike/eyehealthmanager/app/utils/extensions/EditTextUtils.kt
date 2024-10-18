@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.utils.extensions
 
+import android.annotation.SuppressLint
 import android.text.style.UnderlineSpan
 import android.widget.EditText
 
@@ -10,6 +11,7 @@ fun EditText.syncWithValue(value: String?) {
     }
 }
 
+@SuppressLint("SetTextI18n")
 fun EditText.syncWithValue(value: Double?) = value?.let {
     val editTextValue = text.toString().toDoubleOrNull() ?: 0.0
     if (editTextValue != it) {
@@ -21,6 +23,7 @@ fun EditText.syncWithValue(value: Double?) = value?.let {
     }
 }
 
+@SuppressLint("SetTextI18n")
 fun EditText.syncWithValue(value: Int?) = value?.let {
     val editTextValue = text.toString().toIntOrNull() ?: 0
     if (editTextValue != it) {

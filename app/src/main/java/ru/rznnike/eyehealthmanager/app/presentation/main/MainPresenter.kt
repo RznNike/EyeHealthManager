@@ -67,7 +67,7 @@ class MainPresenter : BasePresenter<MainView>(), EventDispatcher.EventListener {
 
     private fun checkWelcomeDialog() {
         presenterScope.launch {
-            val showed = getWelcomeDialogShowedUseCase().data ?: false
+            val showed = getWelcomeDialogShowedUseCase().data == true
             if (!showed) {
                 viewState.showWelcomeDialog()
                 setWelcomeDialogShowedUseCase(true)

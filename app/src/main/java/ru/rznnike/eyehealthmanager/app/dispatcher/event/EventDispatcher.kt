@@ -36,13 +36,13 @@ class EventDispatcher(
     }
 
     fun removeEventListener(listener: EventListener) = eventListeners
-        .filter { it.value.size > 0 }
+        .filter { it.value.isNotEmpty() }
         .forEach { it.value.remove(listener) }
 
     fun sendEvent(appEvent: AppEvent) {
         val key = appEvent::class.java.name
         eventListeners
-            .filter { it.key == key && it.value.size > 0 }
+            .filter { it.key == key && it.value.isNotEmpty() }
             .forEach {
                 it.value.forEach { listener ->
                     coroutineScopeProvider.ui.launch {

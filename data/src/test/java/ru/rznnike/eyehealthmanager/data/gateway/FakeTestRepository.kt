@@ -13,7 +13,7 @@ class FakeTestRepository : TestRepository {
             parameters.filter?.let { filter ->
                 ((!filter.filterByDate) || LongRange(filter.dateFrom, filter.dateTo).contains(testResult.timestamp))
                         && ((!filter.filterByType) || (testResult is AcuityTestResult))
-            } ?: true
+            } != false
         }
 
     override suspend fun getListDistinctByType() = tests

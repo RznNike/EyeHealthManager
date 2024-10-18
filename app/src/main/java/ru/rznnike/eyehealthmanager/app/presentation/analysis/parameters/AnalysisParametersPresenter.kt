@@ -42,7 +42,7 @@ class AnalysisParametersPresenter : BasePresenter<AnalysisParametersView>() {
             parameters.apply {
                 dateFrom = dateNow.minusDays(DataConstants.ANALYSIS_MAX_RANGE_DAYS - 1).atStartOfDay().millis()
                 dateTo = dateNow.atEndOfDay().millis()
-                applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data ?: false
+                applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data == true
             }
             viewState.populateData(parameters)
         }

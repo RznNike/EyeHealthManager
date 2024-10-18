@@ -81,11 +81,9 @@ class AppActivity : BaseActivity(R.layout.activity), AppView {
                 ?.associate { it to (intent.getStringExtra(it) ?: "") }
                 ?.toNotification()
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        intent?.let {
-            presenter.processNotificationIntent(getNotificationFromIntent(intent))
-        }
+        presenter.processNotificationIntent(getNotificationFromIntent(intent))
     }
 
     override fun onPause() {

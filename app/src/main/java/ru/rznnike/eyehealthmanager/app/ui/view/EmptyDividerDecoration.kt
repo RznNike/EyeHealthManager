@@ -43,7 +43,7 @@ class EmptyDividerDecoration(
         if (displayMode == -1) {
             displayMode = resolveDisplayMode(layoutManager)
         }
-        val reverseLayout = (layoutManager as? LinearLayoutManager)?.reverseLayout ?: false
+        val reverseLayout = (layoutManager as? LinearLayoutManager)?.reverseLayout == true
 
         when (displayMode) {
             HORIZONTAL -> {

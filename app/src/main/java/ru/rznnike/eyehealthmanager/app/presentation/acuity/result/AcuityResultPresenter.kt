@@ -41,7 +41,7 @@ class AcuityResultPresenter(
     override fun onFirstViewAttach() {
         presenterScope.launch {
             viewState.setProgress(true)
-            applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data ?: false
+            applyDynamicCorrections = getApplyDynamicCorrectionsUseCase().data == true
             val dateNow = clock.millis().toLocalDate()
             val parameters = AnalysisParameters(
                 dateFrom = dateNow.minusMonths(1).atStartOfDay().millis(),

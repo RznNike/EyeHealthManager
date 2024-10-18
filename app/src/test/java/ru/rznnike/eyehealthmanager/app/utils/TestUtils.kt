@@ -30,7 +30,7 @@ fun screenMatcher(
     fragmentClass: KClass<out Fragment>,
     argumentsValidation: ((Map<String, Any?>) -> Boolean)? = null
 ) = argThat<FragmentScreenWithArguments> {
-    (screenKey == fragmentClass.java.name) && (argumentsValidation?.invoke(arguments) ?: true)
+    (screenKey == fragmentClass.java.name) && (argumentsValidation?.invoke(arguments) != false)
 }
 
 fun floatEquals(value: Float, precision: Float = 1e-4f) = floatThat { abs((it ?: 0f) - value) < precision }

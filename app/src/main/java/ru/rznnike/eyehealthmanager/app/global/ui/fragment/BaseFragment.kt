@@ -16,10 +16,10 @@ import kotlin.concurrent.schedule
 
 abstract class BaseFragment(@LayoutRes layoutRes: Int) : MvpAppCompatFragment(layoutRes) {
     open var isLightStatusBar: Boolean = true
-        get() = !(context?.isNightModeEnabled ?: false)
+        get() = context?.isNightModeEnabled != true
         protected set
     open var isLightNavigationBar: Boolean = true
-        get() = !(context?.isNightModeEnabled ?: false)
+        get() = context?.isNightModeEnabled != true
         protected set
     open var progressDelayMs: Long = DEFAULT_PROGRESS_DELAY_MS
         protected set

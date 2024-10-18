@@ -112,7 +112,7 @@ class AcuityResultFragment : BaseFragment(R.layout.fragment_acuity_result), Acui
 
             layoutNoiseProcessing.setVisible(analysisResult?.lastResultRecognizedAsNoise == true)
             checkBoxApplyDynamicCorrections.isChecked = applyDynamicCorrections
-            textViewMessage.setVisible(analysisResult?.showWarningAboutVision ?: false)
+            textViewMessage.setVisible(analysisResult?.showWarningAboutVision == true)
         }
     }
 

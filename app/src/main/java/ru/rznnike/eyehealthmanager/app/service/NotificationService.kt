@@ -86,12 +86,12 @@ class NotificationService : JobService() {
             val jobInfo = JobInfo.Builder(JOB_ID, serviceName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .build()
-            val scheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            val scheduler = context.getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
             scheduler.schedule(jobInfo)
         }
 
         fun stopAsJob(ctx: Context) {
-            val scheduler = ctx.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            val scheduler = ctx.getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
             scheduler.cancel(JOB_ID)
         }
     }
