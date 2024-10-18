@@ -1,4 +1,4 @@
-import org.gradle.configurationcache.extensions.capitalized
+import org.gradle.internal.extensions.stdlib.capitalized
 import java.util.Properties
 
 plugins {
@@ -14,7 +14,7 @@ android {
     namespace = "ru.rznnike.eyehealthmanager"
 
     compileSdk = rootProject.extra["TARGET_SDK"] as Int
-    buildToolsVersion = "34.0.0"
+    buildToolsVersion = "35.0.0"
 
     signingConfigs {
         create("config") {
@@ -108,7 +108,6 @@ android {
         viewBinding = true
         buildConfig = true
     }
-    @Suppress("UnstableApiUsage")
     bundle {
         abi.enableSplit = false
         language.enableSplit = false
@@ -127,19 +126,20 @@ dependencies {
     implementation(project(":resources"))
 
     // Desugaring
+    // https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:" + rootProject.extra["desugaringVersion"])
 
     // AndroidX
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    val lifecycleVersion = "2.8.2"
+    val lifecycleVersion = "2.8.6"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-process:$lifecycleVersion")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
-    implementation("androidx.annotation:annotation:1.8.0")
-    implementation("androidx.fragment:fragment-ktx:1.8.0")
+    implementation("androidx.annotation:annotation:1.9.0")
+    implementation("androidx.fragment:fragment-ktx:1.8.4")
     implementation("androidx.window:window:1.3.0")
 
     // Coroutines
@@ -151,8 +151,8 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
 
     // Firebase
-    implementation("com.google.firebase:firebase-crashlytics-ktx:19.0.1")
-    implementation("com.google.firebase:firebase-messaging:24.0.0")
+    implementation("com.google.firebase:firebase-crashlytics-ktx:19.2.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.2")
 
     // Koin
     // https://github.com/InsertKoinIO/koin
@@ -183,7 +183,7 @@ dependencies {
 
     // Image loader
     // https://github.com/coil-kt/coil
-    implementation("io.coil-kt:coil:2.6.0")
+    implementation("io.coil-kt:coil:2.7.0")
 
     // MPAndroidChart
     // https://github.com/PhilJay/MPAndroidChart
@@ -206,9 +206,9 @@ dependencies {
 
     // Mocks for testing
     // https://github.com/mockito/mockito
-    val mockitoVersion = "5.12.0"
+    val mockitoVersion = "5.14.2"
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
     testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
     // https://github.com/mockito/mockito-kotlin
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.3.1")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
