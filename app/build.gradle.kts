@@ -40,6 +40,7 @@ android {
         targetSdk = rootProject.extra["TARGET_SDK"] as Int
         versionCode = rootProject.extra["VERSION_CODE"] as Int
         versionName = rootProject.extra["VERSION_NAME"] as String
+        @Suppress("DEPRECATION")
         resourceConfigurations += setOf("en", "ru")
     }
 
@@ -108,11 +109,11 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    @Suppress("UnstableApiUsage")
     bundle {
         abi.enableSplit = false
         language.enableSplit = false
     }
-    @Suppress("UnstableApiUsage")
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()
@@ -131,15 +132,15 @@ dependencies {
 
     // AndroidX
     implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    val lifecycleVersion = "2.8.6"
+    val lifecycleVersion = "2.8.7"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-process:$lifecycleVersion")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
-    implementation("androidx.annotation:annotation:1.9.0")
-    implementation("androidx.fragment:fragment-ktx:1.8.4")
+    implementation("androidx.annotation:annotation:1.9.1")
+    implementation("androidx.fragment:fragment-ktx:1.8.6")
     implementation("androidx.window:window:1.3.0")
 
     // Coroutines
@@ -151,8 +152,8 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
 
     // Firebase
-    implementation("com.google.firebase:firebase-crashlytics-ktx:19.2.0")
-    implementation("com.google.firebase:firebase-messaging:24.0.2")
+    implementation("com.google.firebase:firebase-crashlytics-ktx:19.4.2")
+    implementation("com.google.firebase:firebase-messaging:24.1.1")
 
     // Koin
     // https://github.com/InsertKoinIO/koin
@@ -183,7 +184,7 @@ dependencies {
 
     // Image loader
     // https://github.com/coil-kt/coil
-    implementation("io.coil-kt:coil:2.7.0")
+    implementation("io.coil-kt.coil3:coil:3.1.0")
 
     // MPAndroidChart
     // https://github.com/PhilJay/MPAndroidChart
@@ -194,7 +195,7 @@ dependencies {
 
     // ViewBinding
     // https://github.com/kirich1409/ViewBindingPropertyDelegate
-    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
+    implementation("dev.androidbroadcast.vbpd:vbpd:2.0.4")
 
     // FlexboxLayoutManager
     // https://github.com/google/flexbox-layout
@@ -206,7 +207,7 @@ dependencies {
 
     // Mocks for testing
     // https://github.com/mockito/mockito
-    val mockitoVersion = "5.14.2"
+    val mockitoVersion = "5.16.1"
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
     testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
     // https://github.com/mockito/mockito-kotlin

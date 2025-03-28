@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.updatePadding
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.google.android.material.snackbar.Snackbar
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import moxy.presenter.InjectPresenter
@@ -27,6 +27,7 @@ import ru.rznnike.eyehealthmanager.app.dispatcher.notifier.SystemMessage
 import ru.rznnike.eyehealthmanager.app.global.ui.activity.BaseActivity
 import ru.rznnike.eyehealthmanager.app.navigation.AppRouter
 import ru.rznnike.eyehealthmanager.app.navigation.SupportAppNavigation
+import ru.rznnike.eyehealthmanager.app.notification.Notificator
 import ru.rznnike.eyehealthmanager.app.presentation.app.AppPresenter
 import ru.rznnike.eyehealthmanager.app.presentation.app.AppView
 import ru.rznnike.eyehealthmanager.app.utils.extensions.addSystemWindowInsetToMargin
@@ -39,7 +40,6 @@ import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.ActivityBinding
 import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarBottomBinding
 import ru.rznnike.eyehealthmanager.databinding.ViewSnackbarTopBinding
-import ru.rznnike.eyehealthmanager.app.notification.Notificator
 import ru.rznnike.eyehealthmanager.domain.global.CoroutineScopeProvider
 import ru.rznnike.eyehealthmanager.domain.model.notification.Notification
 import ru.rznnike.eyehealthmanager.domain.model.notification.toNotification
