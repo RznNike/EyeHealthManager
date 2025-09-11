@@ -1,7 +1,7 @@
 buildscript {
     extra.apply {
-        set("VERSION_CODE", 18)
-        set("VERSION_NAME", "2.3.0.${extra["VERSION_CODE"]}")
+        set("VERSION_CODE", 19)
+        set("VERSION_NAME", "2.4.0.${extra["VERSION_CODE"]}")
         set("APK_NAME", "Eye Health Manager")
         set("MIN_SDK", 24)
         set("TARGET_SDK", 36)
