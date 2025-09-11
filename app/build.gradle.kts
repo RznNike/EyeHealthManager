@@ -14,7 +14,7 @@ android {
     namespace = "ru.rznnike.eyehealthmanager"
 
     compileSdk = rootProject.extra["TARGET_SDK"] as Int
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "36.0.0"
 
     signingConfigs {
         create("config") {
@@ -109,7 +109,6 @@ android {
         viewBinding = true
         buildConfig = true
     }
-    @Suppress("UnstableApiUsage")
     bundle {
         abi.enableSplit = false
         language.enableSplit = false
@@ -131,17 +130,18 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:" + rootProject.extra["desugaringVersion"])
 
     // AndroidX
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    val lifecycleVersion = "2.8.7"
+    val lifecycleVersion = "2.9.3"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-process:$lifecycleVersion")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
     implementation("androidx.annotation:annotation:1.9.1")
-    implementation("androidx.fragment:fragment-ktx:1.8.6")
-    implementation("androidx.window:window:1.3.0")
+    implementation("androidx.fragment:fragment-ktx:1.8.9")
+    implementation("androidx.window:window:1.4.0")
+    implementation("androidx.documentfile:documentfile:1.1.0")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + rootProject.extra["coroutinesVersion"])
@@ -149,11 +149,11 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:" + rootProject.extra["coroutinesVersion"])
 
     // Material
-    implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.android.material:material:1.13.0")
 
     // Firebase
-    implementation("com.google.firebase:firebase-crashlytics-ktx:19.4.2")
-    implementation("com.google.firebase:firebase-messaging:24.1.1")
+    implementation("com.google.firebase:firebase-crashlytics-ktx:19.4.4")
+    implementation("com.google.firebase:firebase-messaging:25.0.0")
 
     // Koin
     // https://github.com/InsertKoinIO/koin
@@ -184,7 +184,7 @@ dependencies {
 
     // Image loader
     // https://github.com/coil-kt/coil
-    implementation("io.coil-kt.coil3:coil:3.1.0")
+    implementation("io.coil-kt.coil3:coil:3.3.0")
 
     // MPAndroidChart
     // https://github.com/PhilJay/MPAndroidChart
@@ -207,9 +207,9 @@ dependencies {
 
     // Mocks for testing
     // https://github.com/mockito/mockito
-    val mockitoVersion = "5.16.1"
+    val mockitoVersion = "5.19.0"
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
     testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
     // https://github.com/mockito/mockito-kotlin
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.0.0")
 }
