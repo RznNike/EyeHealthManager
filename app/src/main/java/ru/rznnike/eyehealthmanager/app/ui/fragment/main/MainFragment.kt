@@ -1,5 +1,6 @@
 package ru.rznnike.eyehealthmanager.app.ui.fragment.main
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
@@ -146,6 +147,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), MainView {
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     override fun showSuccessfulExportDialog(uri: Uri) {
         val message = "%s\n<i>%s</i>".format(
             getString(R.string.successful_export),

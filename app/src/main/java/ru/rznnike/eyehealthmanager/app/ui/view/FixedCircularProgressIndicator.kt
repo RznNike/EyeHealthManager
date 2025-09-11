@@ -10,6 +10,7 @@ import androidx.core.view.updateLayoutParams
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.databinding.ViewFixedCircularProgressIndicatorBinding
 import kotlin.math.min
+import androidx.core.content.withStyledAttributes
 
 class FixedCircularProgressIndicator @JvmOverloads constructor(
     context: Context,
@@ -33,13 +34,12 @@ class FixedCircularProgressIndicator @JvmOverloads constructor(
     private fun initAttributes(context: Context, attrs: AttributeSet?) {
         if (attrs == null) return
 
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.FixedCircularProgressIndicator)
-
-        progressColor = attributes.getColor(
-            R.styleable.FixedCircularProgressIndicator_fcpi_progress_color,
-            ContextCompat.getColor(context, R.color.colorAccent)
-        )
-        attributes.recycle()
+        context.withStyledAttributes(attrs, R.styleable.FixedCircularProgressIndicator) {
+            progressColor = getColor(
+                R.styleable.FixedCircularProgressIndicator_fcpi_progress_color,
+                ContextCompat.getColor(context, R.color.colorAccent)
+            )
+        }
 
         binding.apply {
             circularProgressIndicator.viewTreeObserver.addOnGlobalLayoutListener {

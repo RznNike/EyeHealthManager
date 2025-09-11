@@ -50,6 +50,7 @@ import ru.rznnike.eyehealthmanager.domain.model.test.astigmatism.AstigmatismAnsw
 import ru.rznnike.eyehealthmanager.domain.model.test.daltonism.DaltonismAnomalyType
 import ru.rznnike.eyehealthmanager.domain.model.common.DayPart
 import ru.rznnike.eyehealthmanager.domain.model.test.nearfar.NearFarAnswerType
+import androidx.core.net.toUri
 
 object Screens {
     object Flow {
@@ -182,7 +183,7 @@ object Screens {
         fun actionAppSettings() = ActivityScreen("actionAppSettings") { context ->
             Intent(
                 Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:" + context.packageName)
+                ("package:" + context.packageName).toUri()
             ).apply {
                 addCategory(Intent.CATEGORY_DEFAULT)
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -197,7 +198,7 @@ object Screens {
             Intent(
                 Intent.ACTION_VIEW
             ).apply {
-                data = Uri.parse(link)
+                data = link.toUri()
                 setPackage(specificPackage)
             }
         }
@@ -222,7 +223,7 @@ object Screens {
                 Intent(
                     Intent.ACTION_SENDTO
                 ).apply {
-                    data = Uri.parse("mailto:")
+                    data = "mailto:".toUri()
                     putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
                     putExtra(Intent.EXTRA_SUBJECT, subject)
                 },
