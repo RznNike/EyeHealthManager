@@ -9,6 +9,7 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setImageTint
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setTextColorRes
 import ru.rznnike.eyehealthmanager.databinding.ViewNavbarItemBinding
+import androidx.core.content.withStyledAttributes
 
 class NavbarItemView @JvmOverloads constructor(
     context: Context,
@@ -43,11 +44,11 @@ class NavbarItemView @JvmOverloads constructor(
     private fun initAttributes(context: Context, attrs: AttributeSet?) {
         if (attrs == null) return
 
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.NavbarItemView)
-        title = attributes.getString(R.styleable.NavbarItemView_niv_title) ?: ""
-        iconResId = attributes.getResourceId(R.styleable.NavbarItemView_niv_icon, R.drawable.icon)
-        selection = attributes.getBoolean(R.styleable.NavbarItemView_niv_selection, false)
-        attributes.recycle()
+        context.withStyledAttributes(attrs, R.styleable.NavbarItemView) {
+            title = getString(R.styleable.NavbarItemView_niv_title) ?: ""
+            iconResId = getResourceId(R.styleable.NavbarItemView_niv_icon, R.drawable.icon)
+            selection = getBoolean(R.styleable.NavbarItemView_niv_selection, false)
+        }
     }
 
     private fun updateText() = binding.textViewTitle.apply {

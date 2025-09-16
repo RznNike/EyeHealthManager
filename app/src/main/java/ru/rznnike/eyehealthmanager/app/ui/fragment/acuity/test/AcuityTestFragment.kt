@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.core.view.updateLayoutParams
-import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.androidbroadcast.vbpd.viewBinding
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent

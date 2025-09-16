@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.withStyledAttributes
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.databinding.ViewProgressBinding
@@ -29,23 +30,23 @@ class ProgressView @JvmOverloads constructor(
 
     init {
         attrs?.let {
-            val style = context.obtainStyledAttributes(attrs, R.styleable.ProgressView)
-            val text = style.getString(R.styleable.ProgressView_pv_text)
-            val textColor = style.getColor(
-                R.styleable.ProgressView_pv_text_color,
-                ContextCompat.getColor(context, R.color.colorAccent)
-            )
-            val progressColor = style.getColor(
-                R.styleable.ProgressView_pv_progress_color,
-                ContextCompat.getColor(context, R.color.colorAccent)
-            )
-            val backgroundColor = style.getColor(R.styleable.ProgressView_pv_background, 0)
-            style.recycle()
+            context.withStyledAttributes(attrs, R.styleable.ProgressView) {
+                val text = getString(R.styleable.ProgressView_pv_text)
+                val textColor = getColor(
+                    R.styleable.ProgressView_pv_text_color,
+                    ContextCompat.getColor(context, R.color.colorAccent)
+                )
+                val progressColor = getColor(
+                    R.styleable.ProgressView_pv_progress_color,
+                    ContextCompat.getColor(context, R.color.colorAccent)
+                )
+                val backgroundColor = getColor(R.styleable.ProgressView_pv_background, 0)
 
-            setProgressText(text)
-            setProgressTextColor(textColor)
-            setProgressColor(progressColor)
-            setProgressBackground(backgroundColor)
+                setProgressText(text)
+                setProgressTextColor(textColor)
+                setProgressColor(progressColor)
+                setProgressBackground(backgroundColor)
+            }
         }
 
         binding.layoutContent.visibility = visibility

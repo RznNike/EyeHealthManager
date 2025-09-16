@@ -3,8 +3,9 @@ package ru.rznnike.eyehealthmanager.app.ui.fragment.daltonism.test
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes
-import by.kirich1409.viewbindingdelegate.viewBinding
-import coil.load
+import coil3.load
+import coil3.request.transformations
+import dev.androidbroadcast.vbpd.viewBinding
 import moxy.presenter.InjectPresenter
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogAction

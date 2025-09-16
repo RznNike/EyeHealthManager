@@ -2,7 +2,7 @@ package ru.rznnike.eyehealthmanager.app.ui.fragment.nearfar.test
 
 import android.os.Bundle
 import android.view.View
-import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.androidbroadcast.vbpd.viewBinding
 import moxy.presenter.InjectPresenter
 import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.dialog.alert.AlertDialogAction

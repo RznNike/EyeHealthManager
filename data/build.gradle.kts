@@ -38,7 +38,6 @@ android {
     kotlin {
         jvmToolchain(17)
     }
-    @Suppress("UnstableApiUsage")
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()

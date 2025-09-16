@@ -3,7 +3,7 @@ package ru.rznnike.eyehealthmanager.app.ui.fragment.astigmatism.result
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.androidbroadcast.vbpd.viewBinding
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.rznnike.eyehealthmanager.R

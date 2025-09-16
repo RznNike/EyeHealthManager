@@ -3,7 +3,7 @@ package ru.rznnike.eyehealthmanager.app.ui.fragment.main.settings
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.androidbroadcast.vbpd.viewBinding
 import moxy.presenter.InjectPresenter
 import ru.rznnike.eyehealthmanager.BuildConfig
 import ru.rznnike.eyehealthmanager.R

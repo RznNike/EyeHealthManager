@@ -9,6 +9,7 @@ import ru.rznnike.eyehealthmanager.R
 import ru.rznnike.eyehealthmanager.app.utils.extensions.setVisible
 import ru.rznnike.eyehealthmanager.app.utils.extensions.toHtmlSpanned
 import ru.rznnike.eyehealthmanager.databinding.ViewZeroBinding
+import androidx.core.content.withStyledAttributes
 
 class ZeroView @JvmOverloads constructor(
     context: Context,
@@ -44,11 +45,11 @@ class ZeroView @JvmOverloads constructor(
     private fun initAttributes(context: Context, attrs: AttributeSet?) {
         if (attrs == null) return
 
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.ZeroView)
-        messageText = attributes.getString(R.styleable.ZeroView_zv_message_text) ?: ""
-        actionText = attributes.getString(R.styleable.ZeroView_zv_action_text) ?: ""
-        iconRes = attributes.getResourceId(R.styleable.ZeroView_zv_icon, 0)
-        attributes.recycle()
+        context.withStyledAttributes(attrs, R.styleable.ZeroView) {
+            messageText = getString(R.styleable.ZeroView_zv_message_text) ?: ""
+            actionText = getString(R.styleable.ZeroView_zv_action_text) ?: ""
+            iconRes = getResourceId(R.styleable.ZeroView_zv_icon, 0)
+        }
 
         binding.buttonAction.setOnClickListener {
             actionCallback?.invoke()

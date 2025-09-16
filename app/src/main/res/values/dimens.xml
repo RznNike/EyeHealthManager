@@ -2,5 +2,4 @@
 <resources>
     <dimen name="baseline_grid_4">4dp</dimen>
     <dimen name="baseline_grid_8">8dp</dimen>
-    <dimen name="baseline_grid_16">16dp</dimen>
 </resources>
